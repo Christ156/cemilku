@@ -36,8 +36,7 @@
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="{{ $item->name }}" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/'.$item->image) }}" alt="{{ $item->name }}" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -70,16 +69,14 @@
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
                                             <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -101,18 +98,16 @@
                 @foreach ($ramadhan as $item)
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
+                            <a href="{{ asset('assets/collections/' . $item->image) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
                                             <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -137,16 +132,14 @@
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
                                             <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -170,16 +163,14 @@
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
                                             <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -204,16 +195,15 @@
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
                                 <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
+                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
                                     <h4 class="card-title pe-2">{{ $item->name }}</h4>
                                     <p class="card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
                                             <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -223,5 +213,6 @@
                 @endforeach
             </div>
         </div>
+
     </div>
 @endsection

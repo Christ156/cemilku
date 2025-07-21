@@ -9,9 +9,8 @@
 {{-- JavaScript khusus halaman ini, dimuat di akhir <body> melalui @yield('script') di layouts/app.blade.php --}}
 @section('script')
     <script>
-        // Pastikan CURRENT_USER_ID didefinisikan dari data otentikasi Laravel
-        // Jika pengguna tidak login, ini akan menjadi 'null'
-        const CURRENT_USER_ID = {{ Auth::check() ? Auth::id() : 'null' }};
+
+        const CURRENT_USER_ID = @json(Auth::check() ? Auth::id() : null);
 
         // --- DEBUGGING: Log URL aset ke konsol (opsional, bisa dihapus setelah berhasil) ---
         console.log("DEBUGGING ASSET PATHS:");
@@ -22,9 +21,13 @@
         console.log("assets/arrow_back.png URL:", "{{ asset('assets/arrow_back.png') }}");
         console.log("assets/cny_Tower1.png URL:", "{{ asset('assets/cny_Tower1.png') }}");
         // --- END DEBUGGING ---
+
+        // PERUBAHAN PENTING: Meneruskan data cartItems yang sudah diproses dari Controller
+        const initialCartItems = @json($cartItems);
+        console.log("DEBUG: Initial cart items from Blade:", initialCartItems);
     </script>
     <script src="{{ asset('js/address.js') }}"></script>
-    <script src="{{ asset('js/cart.js') }}"></script> {{-- Pastikan cart.js dimuat setelah address.js jika ada dependensi --}}
+    <script src="{{ asset('js/cart.js') }}"></script> {{-- Pastikan cart.js dimuat setelah initialCartItems didefinisikan --}}
 @endsection
 
 @section('content')
@@ -52,35 +55,28 @@
             </div>
 
             <div class="product-list mt-3" id="cart-product-list">
-                {{-- PENTING: HAPUS SEMUA DIV product-item YANG HARDCODED DI SINI --}}
-                {{-- Contoh: Hapus blok seperti ini:
-                <div class="product-item d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="product-checkbox me-2"
-                               data-name="Snack Tower Custom" data-price="50000">
-                        <img src="{{ asset('assets/arrow_back.png') }}" alt="Snack Tower" class="product-img">
-                        <div class="ms-2">
-                            <h6 class="fw-bold mb-0">Snack Tower Custom</h6>
-                            <small>Layer: 3</small>
+                @if(empty($cartItems)) {{-- Menggunakan empty() karena $cartItems sekarang array PHP --}}
+                    <p>Keranjang Anda kosong.</p> {{-- Pesan default jika keranjang kosong --}}
+                @else
+                    @foreach($cartItems as $cartItem)
+                        <div class="product-item d-flex justify-content-between align-items-center mb-3">
+                            <div class="d-flex align-items-center">
+                                <input type="checkbox" class="product-checkbox me-2"
+                                    data-name="{{ $cartItem['name'] }}" data-price="{{ $cartItem['price'] }}">
+                                {{-- PERBAIKAN: Menggunakan gambar dari koleksi produk --}}
+                                <img src="{{ $cartItem['image'] }}" alt="{{ $cartItem['name'] }}" class="product-img">
+                                <div class="ms-2">
+                                    <h6 class="fw-bold mb-0">{{ $cartItem['name'] }}</h6>
+                                    <small>{{ $cartItem['quantity'] }} pcs</small>
+                                </div>
+                            </div>
+                            <p class="mb-0 me-3">Rp {{ number_format($cartItem['total_price'], 0, ',', '.') }}</p>
                         </div>
-                    </div>
-                    <p class="mb-0 me-3">Rp 50.000</p>
-                </div>
-                <div class="product-item d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="product-checkbox me-2"
-                               data-name="Mystery Box" data-price="50000">
-                        <img src="{{ asset('assets/cny_Tower1.png') }}" alt="Mystery Box" class="product-img">
-                        <div class="ms-2">
-                            <h6 class="fw-bold mb-0">Mystery Box</h6>
-                            <small>Mood: Romantis</small>
-                        </div>
-                    </div>
-                    <p class="mb-0 me-3">Rp 50.000</p>
-                </div>
-                --}}
-                <p>Keranjang Anda kosong.</p> {{-- Pesan default jika keranjang kosong, akan diganti oleh JS --}}
+                    @endforeach
+                @endif
             </div>
+
+
         </div>
 
         <div class="col-md-4">
@@ -97,11 +93,12 @@
                 </div>
 
                 <h6 class="mt-3 mb-1">Products</h6>
-                <div id="product-list"><em>No product selected</em></div>
+                {{-- PERBAIKAN: Mengubah ID agar unik --}}
+                <div id="summary-product-list"><em>No product selected</em></div>
 
                 <hr style="border-top:2px solid #52282A;">
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex justify-content: flex-end; align-items-center mb-3">
                     <h5 class="fw-bold" style="font-size:20px;">Total</h5>
                     <p id="total" class="fw-bold mb-0" style="font-size:20px;">Rp 9.500</p>
                 </div>
@@ -112,7 +109,6 @@
                 </div>
             </div>
         </div>
-    </div>
 {{-- START: HTML Modals (Address & Add Form) - Disesuaikan untuk tampilan baru --}}
 <div id="addressModal" class="modal" style="display: none; z-index: 1050;">
     {{-- Modal Content (Bagian yang di dalam border gelap) --}}

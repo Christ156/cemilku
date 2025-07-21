@@ -10,7 +10,8 @@ class CartItem extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['cart_id', 'collection_id', 'customize_id', 'qunatity', 'price', 'total_price'];
+    // PERBAIKAN: 'qunatity' diubah menjadi 'quantity'
+    protected $fillable = ['cart_id', 'collection_id', 'customize_id', 'quantity', 'price', 'total_price'];
 
     public function cart()
     {

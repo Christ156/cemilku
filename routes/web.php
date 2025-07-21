@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -78,11 +79,15 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('s', [UserController::class, 'show'])->name('profile');
 
 
+    // ROUTE UNTUK MENAMBAHKAN ITEM KE KERANJANG
+    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
+    // ROUTE BARU UNTUK MEMPERBARUI KUANTITAS ITEM DI KERANJANG
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    // ROUTE BARU UNTUK MENGHAPUS ITEM DARI KERANJANG
+    Route::post('/cart/remove-items', [CartController::class, 'removeItems'])->name('cart.remove-items');
 
 
-    Route::get('/cart', function () {
-        return view('cart');
-    })->name('cart');
+    Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart');
     // START MODIFIKASI: Rute API Alamat
     // Grup ini TIDAK perlu middleware 'auth' karena sudah di dalam grup middleware 'auth' di atasnya.
     // Namun, validasi Auth::id() di controller tetap PENTING!

@@ -21,7 +21,8 @@
         rel="stylesheet">
 
     {{-- Style --}}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     @yield('style')
 
     <!-- Scripts -->
@@ -34,7 +35,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar fixed-top navbar-expand-sm navbar-light" style="height: 70px">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light color_primary" style="height: 70px">
             <div class="container-fluid px-3 flex-wrap align-items-center justify-content-between">
 
                 {{-- Toggler Kiri --}}
@@ -45,12 +46,15 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
+
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
                         <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
+
                 </div>
+
 
                 {{-- Desktop Logo --}}
                 <a class="navbar-brand d-none d-sm-block m-4 p-2" href="#">
@@ -58,11 +62,13 @@
                         class="d-inline-block align-text-top" />
                 </a>
 
+
+
                 <!-- Menu NAVBAR Desktop -->
                 <div class="collapse navbar-collapse d-none d-sm-flex" id="collapsibleNavId">
                     <ul class="navbar-nav fs-5 flex-row gap-1">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                            <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
                                 href="{{ route('home') }}">Home</a>
                         </li>
                         {{-- <li class="nav-item">
@@ -70,18 +76,16 @@
                                 href="{{ route('custom') }}">Custom</a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('collections.index') ? 'active' : '' }}"
+                            <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
                                 href="{{ route('collections.index') }}">Collections</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs() ? 'active' : '' }}" href="">Order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
-                                href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">Profile</a>
+                            <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
+                                href="order">Order</a>
                         </li>
                     </ul>
                 </div>
+
 
                 {{-- Burger Content --}}
                 <div class="offcanvas offcanvas-start sidebar d-block d-sm-none" tabindex="-1" id="offcanvasNav"
@@ -95,31 +99,26 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60"
-                                height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60" height="45" />
                         </div>
 
                         <!-- Menu -->
                         <ul class="navbar-nav fs-5 flex-column gap-2">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
-                                    href="homepage">Home</a>
+                                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                    href="{{ route('home') }}">Home</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
-                                    href="custom">Custom</a>
-                            </li>
+                                    href="{{ route('custom') }}">Custom</a>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                    href="collections">Collections</a>
+                                    href="{{ route('collections.index') }}">Collections</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
                                     href="order">Order</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
-                                    href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">Profile</a>
                             </li>
 
                             <!-- Language (Mobile) -->
@@ -141,12 +140,9 @@
                             </li>
 
                             <li class="nav-item">
-                                <form action="{{route('logout')}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="nav-link" style="color: red">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Log out
-                                    </button>
-                                </form>
+                                <a class="nav-link" href="logout" style="color: red">
+                                    <i class="bi bi-box-arrow-right me-1"></i>Log out
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -166,26 +162,27 @@
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <!-- BARU DITAMBAHKAN / DIPINDAHKAN: Ikon Keranjang untuk Desktop -->
-                    <a class="nav-link d-none d-sm-block" href="{{ route('cart') }}">
-                        <i class="bi bi-cart3 fs-1" style="color: #341c02;"></i>
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
-
-                    <!-- DIPINDAHKAN: Dropdown Bahasa untuk Desktop -->
-                    <div class="dropdown d-none d-sm-block">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                                class="rounded-circle" width="30" height="30" />
+                    {{-- PROFILE BUAT DESKTOP --}}
+                    <div class="dropdown d-none d-sm-block ms-3">
+                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
-                        </ul>
-                    </div>
-
-                    {{-- PROFILE BUAT DESKTOP (posisinya tetap di dalam grup, setelah bahasa) --}}
-                    <div class="dropdown d-none d-sm-block ms-3">
-                        <!-- ... kode profil desktop ... -->
+                            <li><a class="dropdown-item" href="#">
+                                    <i class="bi bi-gear me-2"></i>Settings
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Log out
+                                </a>
+                            </li>
                     </div>
 
                     <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
@@ -197,13 +194,16 @@
                     <div class="d-block d-sm-none ms-3">
                         <!-- ... kode profil mobile ... -->
                     </div>
+
+
+
                 </div>
 
 
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-1">
             @yield('content')
         </main>
     </div>
