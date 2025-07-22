@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CumiCumiController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MysteryBoxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -201,6 +203,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
+
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
 });
 
 // Route::get('/mysterybox', function () {

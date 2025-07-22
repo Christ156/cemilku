@@ -69,77 +69,77 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!productListSummary) console.error("ERROR: productListSummary (id='summary-product-list') not found!");
         if (!totalSpan) console.error("ERROR: totalSpan (id='total') not found!");
 
-        function renderCartItems() {
-            console.log("DEBUG: renderCartItems called. Cart length:", cart.length);
-            if (!cartProductList) {
-                console.error("ERROR: cartProductList is null in renderCartItems. Cannot render.");
-                return;
-            }
-            cartProductList.innerHTML = '';
+        // function renderCartItems() {
+        //     console.log("DEBUG: renderCartItems called. Cart length:", cart.length);
+        //     if (!cartProductList) {
+        //         console.error("ERROR: cartProductList is null in renderCartItems. Cannot render.");
+        //         return;
+        //     }
+        //     cartProductList.innerHTML = '';
 
-            if (cart.length === 0) {
-                cartProductList.innerHTML = '<p>Keranjang Anda kosong.</p>';
-                if (removeBtn) removeBtn.classList.add('d-none');
-            } else {
-                if (removeBtn) removeBtn.classList.remove('d-none');
-                cart.forEach((item, index) => {
-                    console.log("DEBUG: Rendering item:", item.name, "at index:", index);
-                    const productItemDiv = document.createElement('div');
-                    productItemDiv.className = 'product-item d-flex justify-content-between align-items-center mb-3';
-                    productItemDiv.dataset.index = index;
-                    productItemDiv.dataset.price = item.price;
-                    productItemDiv.dataset.name = item.name;
+        //     if (cart.length === 0) {
+        //         cartProductList.innerHTML = '<p>Keranjang Anda kosong.</p>';
+        //         if (removeBtn) removeBtn.classList.add('d-none');
+        //     } else {
+        //         if (removeBtn) removeBtn.classList.remove('d-none');
+        //         cart.forEach((item, index) => {
+        //             console.log("DEBUG: Rendering item:", item.name, "at index:", index);
+        //             const productItemDiv = document.createElement('div');
+        //             productItemDiv.className = 'product-item d-flex justify-content-between align-items-center mb-3';
+        //             productItemDiv.dataset.index = index;
+        //             productItemDiv.dataset.price = item.price;
+        //             productItemDiv.dataset.name = item.name;
 
-                    const isChecked = (item.selected === undefined || item.selected === true) ? 'checked' : '';
+        //             const isChecked = (item.selected === undefined || item.selected === true) ? 'checked' : '';
 
-                    productItemDiv.innerHTML = `
-                        <div class="d-flex align-items-center">
-                            <input type="checkbox" class="product-checkbox me-2" ${isChecked}>
-                            <img src="${item.image}" alt="${item.name}" class="product-img" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/80x80/E2D2B0/52282A?text=No+Image';">
-                            <div class="ms-2">
-                                <h6 class="fw-bold mb-0">${item.name}</h6>
-                                <small>${item.type || ''}</small> <!-- Menampilkan tipe -->
-                                <div class="quantity-controls mt-1">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary minus-quantity" data-index="${index}">-</button>
-                                    <span class="mx-2">${item.quantity || 1}</span>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary plus-quantity" data-index="${index}">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mb-0 me-3">Rp ${(item.price * (item.quantity || 1)).toLocaleString('id-ID')}</p>
-                    `;
-                    cartProductList.appendChild(productItemDiv);
+        //             productItemDiv.innerHTML = `
+        //                 <div class="d-flex align-items-center">
+        //                     <input type="checkbox" class="product-checkbox me-2" ${isChecked}>
+        //                     <img src="${item.image}" alt="${item.name}" class="product-img" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;"
+        //                             onerror="this.onerror=null;this.src='https://placehold.co/80x80/E2D2B0/52282A?text=No+Image';">
+        //                     <div class="ms-2">
+        //                         <h6 class="fw-bold mb-0">${item.name}</h6>
+        //                         <small>${item.type || ''}</small> <!-- Menampilkan tipe -->
+        //                         <div class="quantity-controls mt-1">
+        //                             <button type="button" class="btn btn-sm btn-outline-secondary minus-quantity" data-index="${index}">-</button>
+        //                             <span class="mx-2">${item.quantity || 1}</span>
+        //                             <button type="button" class="btn btn-sm btn-outline-secondary plus-quantity" data-index="${index}">+</button>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //                 <p class="mb-0 me-3">Rp ${(item.price * (item.quantity || 1)).toLocaleString('id-ID')}</p>
+        //             `;
+        //             cartProductList.appendChild(productItemDiv);
 
-                    const checkbox = productItemDiv.querySelector('.product-checkbox');
-                    checkbox.addEventListener('change', (event) => {
-                        cart[index].selected = event.target.checked;
-                        updateCartSummary();
-                        updateRemoveButtonVisibility();
-                    });
+        //             const checkbox = productItemDiv.querySelector('.product-checkbox');
+        //             checkbox.addEventListener('change', (event) => {
+        //                 cart[index].selected = event.target.checked;
+        //                 updateCartSummary();
+        //                 updateRemoveButtonVisibility();
+        //             });
 
-                    productItemDiv.querySelector('.minus-quantity').addEventListener('click', () => {
-                        if (cart[index].quantity > 1) {
-                            cart[index].quantity--;
-                            updateQuantityInDatabase(item.id, cart[index].quantity);
-                            renderCartItems();
-                        }
-                    });
-                    productItemDiv.querySelector('.plus-quantity').addEventListener('click', () => {
-                        // Validasi stok di sisi klien sebelum mengirim ke server
-                        if (item.stock && cart[index].quantity < item.stock) { // Memeriksa jika ada stok dan kuantitas saat ini kurang dari stok
-                            cart[index].quantity = (cart[index].quantity || 1) + 1;
-                            updateQuantityInDatabase(item.id, cart[index].quantity);
-                            renderCartItems();
-                        } else if (item.stock && cart[index].quantity >= item.stock) {
-                            alert(`Oops! Stok ${item.name} hanya tersedia ${item.stock}.`);
-                        }
-                    });
-                });
-            }
-            updateCartSummary();
-            updateRemoveButtonVisibility();
-        }
+        //             productItemDiv.querySelector('.minus-quantity').addEventListener('click', () => {
+        //                 if (cart[index].quantity > 1) {
+        //                     cart[index].quantity--;
+        //                     updateQuantityInDatabase(item.id, cart[index].quantity);
+        //                     renderCartItems();
+        //                 }
+        //             });
+        //             productItemDiv.querySelector('.plus-quantity').addEventListener('click', () => {
+        //                 // Validasi stok di sisi klien sebelum mengirim ke server
+        //                 if (item.stock && cart[index].quantity < item.stock) { // Memeriksa jika ada stok dan kuantitas saat ini kurang dari stok
+        //                     cart[index].quantity = (cart[index].quantity || 1) + 1;
+        //                     updateQuantityInDatabase(item.id, cart[index].quantity);
+        //                     renderCartItems();
+        //                 } else if (item.stock && cart[index].quantity >= item.stock) {
+        //                     alert(`Oops! Stok ${item.name} hanya tersedia ${item.stock}.`);
+        //                 }
+        //             });
+        //         });
+        //     }
+        //     updateCartSummary();
+        //     updateRemoveButtonVisibility();
+        // }
 
         function updateQuantityInDatabase(itemId, newQuantity) {
             fetch('/cart/update-quantity', {
