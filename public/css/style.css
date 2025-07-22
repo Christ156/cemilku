@@ -1,10 +1,18 @@
-.color-primary {
-    background-color: #fdc607;
+/* Warna utama */
+.color_primary {
+    background-color: #fdc307;
 }
 
+/* Navbar */
+.navbar {
+    height: 70px;
+    min-height: 70px;
+    transition: height 0.3s ease;
+}
+
+/* Navbar link */
 .nav-link {
     position: relative;
-    /* font-family: 'poppins';  */
     font-style: semi-bold;
 }
 
@@ -14,23 +22,85 @@
 }
 
 .nav-link:hover {
-    /* border-bottom:3px solid #52282a; */
     text-decoration: 5px underline #52282a;
 }
 
-.navbar {
-    min-height: 70px;
-    height: 70px;
-    transition: height 0.3s ease;
-    background: #fdc607;
+/* Burger sidebar */
+.offcanvas-start.sidebar {
+    width: 50%;
+    background-color: #fdc307;
 }
 
-#app{
-    background-color: #fffbef;
-    text-align: justify;
-    font-family: 'poppins';
+.offcanvas-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: background-color 0.3s ease;
 }
 
-main{
-    margin-top: 70px;
+/* Logo */
+.logo-burger img,
+.navbar-brand img {
+    display: block;
+    position: relative;
+    top: 7px;
+}
+
+/* Active link */
+.nav-link.active {
+    border: 2px solid #52282a;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #fdc307;
+    color: #52282A !important;
+}
+
+/* Language flag icon */
+#flag-icon {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+/* Cart & Profile icon */
+.bi-cart3,
+.bi-person-circle {
+    color: #52282A;
+}
+
+/* Responsive adjustment */
+@media (max-width: 576px) {
+    .navbar {
+        height: auto !important;
+    }
+
+    .navbar-collapse {
+        display: block;
+        width: 100%;
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1rem;
+        padding-bottom: 1rem;
+        color: #52282A;
+    }
+
+    .logo-cemilku {
+        width: 250px;
+        position: relative;
+        top: 7px;
+    }
+
+    .nav-link:hover {
+        text-decoration: none;
+    }
+
+    .nav-link.active {
+        border: 2px solid #52282a;
+        border-radius: 10px;
+        padding: 5px 10px;
+        background-color: #fdc307;
+        color: #52282A !important;
+    }
 }

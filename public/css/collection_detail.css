@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
 
-/* body {
-    font-family: 'Poppins', sans-serif;
-    margin-top: 10.5vh;
-} */
-
 .back-button {
     padding-top: 15px;
     padding-left: 5vh;
@@ -31,7 +26,7 @@
 }
 
 .subtitle {
-    padding-top: 20px;
+    padding-top: 25px;
     padding-bottom: 0.5vh;
     color: #747474;
     font-size: 1.3rem;
@@ -52,7 +47,7 @@
     height: 40px;
     line-height: 35px;
     font-size: 25px;
-    font-weight: 700;
+    font-weight: bold;
     margin-bottom: 1vh;
     border: 1.5px solid #522;
 }
@@ -78,7 +73,8 @@
     align-items: center;
     color: #52282A;
     gap: 20px;
-    padding-top: 9vh;
+    padding-top: 10vh;
+    margin-bottom: 3vh;
 }
 
 .quantity-label {
@@ -123,28 +119,40 @@ input::-webkit-inner-spin-button {
 }
 
 .button-container {
+    margin-top: 4.5vh;
     align-items: center;
     gap: 40px;
-    padding-top: 6px;
+}
+
+#alertBox {
+    display: none;
+}
+
+#topAlertContainer {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(500%);
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 16px;
+    z-index: 9999;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease-in-out;
+}
+
+#topAlertContainer.show {
+    transform: translateX(-50%) translateY(0);
 }
 
 .btn {
     width: 250px;
     height: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-#alertBox {
-    min-height: 50px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    color: #ff0019;
-}
-
-#alertBox.active {
-    opacity: 1;
-    visibility: visible;
 }
 
 /* RESPONSIVE SETTINGS */
@@ -218,6 +226,7 @@ input::-webkit-inner-spin-button {
     .counter-container {
         flex-direction: row;
         padding-top: 10px;
+        margin-bottom: 1.5vh;
     }
 
     .counter-box {
@@ -247,14 +256,16 @@ input::-webkit-inner-spin-button {
         font-size: 0.9rem;
     }
 
-    #alertBox {
-        display: none !important;
+    #topAlertContainer {
+        font-size: 12px;
+        bottom: 80px;
+        white-space: nowrap;
     }
 }
 
 .toast-alert {
     position: fixed;
-    bottom: -100px;
+    bottom: -200px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #dc3545;

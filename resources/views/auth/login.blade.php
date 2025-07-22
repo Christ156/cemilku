@@ -28,8 +28,8 @@
                         class="w-100 h-100 rounded-start-4">
                 </div>
 
-                <div class="col-lg-6 col-12 d-flex flex-column justify-content-center px-lg-5 px-3 h-100">
-                    <div class="h-100 w-100 overflow-scroll d-flex justify-content-center">
+                <div class="hide-scrollbar col-lg-6 col-12 d-flex flex-column justify-content-center px-lg-5 px-3 h-100">
+                    <div class="hide-scrollbar h-100 w-100 overflow-scroll d-flex justify-content-center">
                         <form method="POST" action="{{ route('login') }}"
                             class="my-3">
                             @csrf

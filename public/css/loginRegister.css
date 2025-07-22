@@ -43,3 +43,7 @@ body{
     color: #FFFBEF;
     text-decoration: none;
 }
+
+.hide-scrollbar::-webkit-scrollbar{
+    display: none;
+}

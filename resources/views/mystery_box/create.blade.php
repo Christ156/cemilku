@@ -5,11 +5,15 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('js/mysterybox.js') }}" defer></script>
+    <script src="{{ asset('js/mysterybox.js') }}"></script>
 @endsection
 
 @section('content')
-    <div class="container-fluid min-vh-100 d-flex flex-column flex-md-row mt-5" data-mode="{{ $mode }}">
+
+    <div class="container-fluid min-vh-100 d-flex flex-column flex-md-row mt-5" id="mysteryboxContainer" data-mode="{{ $mode }}">
+
+    <div class="container-fluid d-flex flex-column flex-md-row" data-mode="{{ $mode }}">
+
         {{-- LEFT SIDE --}}
         <div class="left-section col-12 col-md-6 p-4 d-flex flex-column">
             {{-- Header --}}
@@ -64,12 +68,8 @@
                 <div class="text-center mysterybox-wrapper">
                     <img
                         id="mysteryBoxImage"
-                        class="mystery_box img-fluid"
-                        src="{{
-                            $mode == 'Done'
-                                ? asset('Asset/mysterybox/mysterybox_open.png')
-                                : asset('assets/mystery_box/mysterybox_hitam.png')
-                        }}"
+                        class="mystery_box"
+                        src= "{{ asset('assets/mystery_box/mysterybox_hitam.png') }}"
                         alt="Mystery Box"
                     />
                 </div>
@@ -133,7 +133,7 @@
                         @endforeach
                     </div>
                     <input type="hidden" name="budget" id="selectedBudget" required>
-                    <div class="mobile-button-wrapper position-absolute bottom-0 end-0 p-4">
+                    <div class="mobile-button-wrapper position-absolute bottom-0 end-0 p-">
                         <button type="submit" class="next_button">Next</button>
                     </div>
                 </form>
@@ -222,4 +222,5 @@
             </div>
         </div>
     </div>
+
 @endsection

@@ -1,9 +1,13 @@
 // Tambahkan flag global untuk memastikan script hanya diinisialisasi sekali
 if (window.collectionDetailJsInitialized) {
-    console.log("DEBUG: collection_detail.js already initialized. Skipping re-initialization.");
+    console.log(
+        "DEBUG: collection_detail.js already initialized. Skipping re-initialization."
+    );
 } else {
     window.collectionDetailJsInitialized = true;
-    console.log("DEBUG: collection_detail.js loaded and initializing for the first time.");
+    console.log(
+        "DEBUG: collection_detail.js loaded and initializing for the first time."
+    );
 
     document.addEventListener("DOMContentLoaded", function () {
         console.log("DEBUG: DOMContentLoaded fired for collection_detail.js.");
@@ -14,8 +18,10 @@ if (window.collectionDetailJsInitialized) {
         const stockInput = document.getElementById("stock");
         const stock = stockInput ? parseInt(stockInput.value) : 9999;
 
-        const alertBox = document.getElementById("alertBox");
-        const alertMessage = document.getElementById("alertMessage");
+        // Elemen alert BARU Bootstrap
+        const topAlertContainer = document.getElementById("topAlertContainer");
+        const topAlertMessage = document.getElementById("topAlertMessage");
+
         const toast = document.getElementById("toastAlert");
         const toastMessage = document.getElementById("toastMessage");
 
@@ -26,6 +32,9 @@ if (window.collectionDetailJsInitialized) {
         console.log("DEBUG: AddToCart button found:", !!addToCartDetailBtn);
         console.log("DEBUG: Value input found:", !!valueInput);
         console.log("DEBUG: Stock input found:", !!stockInput, "Stock value:", stock);
+        console.log("DEBUG: TopAlertContainer element found:", !!topAlertContainer);
+        console.log("DEBUG: TopAlertMessage element found:", !!topAlertMessage);
+        console.log("DEBUG: Toast element found:", !!toast);
 
         // BAGIAN INI TELAH DIUBAH: Menggunakan fetch API untuk mengirim data ke server
         if (addToCartDetailBtn) {
@@ -42,7 +51,7 @@ if (window.collectionDetailJsInitialized) {
                 }
 
                 if (currentValue > stock) {
-                    showAlert("Oops! Maximum stock limit reached.");
+                    showAlert(`Oops! Only ${stock} items left in stock.`);
                     valueInput.value = stock;
                     return;
                 }
@@ -52,6 +61,23 @@ if (window.collectionDetailJsInitialized) {
                 // URL API untuk menambah item ke keranjang
                 // PERUBAHAN PENTING DI SINI: UBAH DARI '/api/cart/add' MENJADI '/cart/add'
                 const apiUrl = '/cart/add'; // SESUAIKAN DENGAN ROUTE WEB LARAVEL ANDA
+                // const itemId = document.querySelector('input[name="collection_id"]').value;
+                const itemPrice = parseInt(document.querySelector('input[name="price"]').value);
+                const itemNameElement = document.querySelector(".title");
+                const itemName = itemNameElement ? itemNameElement.textContent : "Unknown Item";
+                const itemImageElement = document.querySelector(".collections_img img");
+                const itemImage = itemImageElement ? itemImageElement.getAttribute("src") : "";
+                const itemDescriptionElement = document.querySelector(".description p");
+                const itemDescription = itemDescriptionElement ? itemDescriptionElement.textContent : "";
+
+                const itemToAdd = {
+                    id: itemId,
+                    name: itemName,
+                    price: itemPrice,
+                    image: itemImage,
+                    description: itemDescription,
+                    quantity: currentValue,
+                };
 
                 // Lakukan panggilan ke server dengan fetch API
                 fetch(apiUrl, {
@@ -111,27 +137,30 @@ if (window.collectionDetailJsInitialized) {
         }
 
         function showToast(message) {
-            toastMessage.textContent = message;
-            toast.classList.add("show");
-
-            clearTimeout(alertTimeout);
-            alertTimeout = setTimeout(() => {
-                toast.classList.remove("show");
-            }, 3000);
-        }
-
-        function showAlert(message) {
-            if (isMobileView()) {
-                showToast(message);
-            } else {
-                alertMessage.textContent = message;
-                alertBox.classList.add("active");
+            if (toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.add("show");
 
                 clearTimeout(alertTimeout);
                 alertTimeout = setTimeout(() => {
-                    alertBox.classList.remove("active");
-                    alertBox.style.display = 'none';
-                }, 5000);
+                    toast.classList.remove("show");
+                }, 3000);
+            } else {
+                console.error("DEBUG: Toast elements (toast or toastMessage) not found.");
+            }
+        }
+
+        function showAlert(message) {
+            const alertContainer = document.getElementById("topAlertContainer");
+            const alertMessage = document.getElementById("topAlertMessage");
+
+            if (alertContainer && alertMessage) {
+                alertMessage.textContent = message;
+                alertContainer.classList.add("show");
+
+                setTimeout(() => {
+                    alertContainer.classList.remove("show");
+                }, 3000);
             }
         }
 
@@ -139,19 +168,19 @@ if (window.collectionDetailJsInitialized) {
             let currentQuantity = parseInt(valueInput.value);
 
             function updateQuantityDisplay() {
-                valueInput.value = currentQuantity;
-                if (currentQuantity > stock) {
-                    showAlert(`Oops! Stok hanya tersedia ${stock}.`);
-                    valueInput.value = stock;
-                    currentQuantity = stock;
-                } else if (currentQuantity < 1) {
-                    showAlert("Kuantitas minimal adalah 1!");
-                    valueInput.value = 1;
+                let inputVal = parseInt(valueInput.value);
+
+                if (isNaN(inputVal) || inputVal < 1) {
                     currentQuantity = 1;
+                    showAlert("Minimum quantity is 1!");
+                } else if (inputVal > stock) {
+                    currentQuantity = stock;
+                    showAlert(`Oops! Only ${stock} items left in stock.`);
                 } else {
-                    alertBox.classList.remove("active");
-                    alertBox.style.display = 'none';
+                    currentQuantity = inputVal;
                 }
+
+                valueInput.value = currentQuantity;
             }
 
             if (minusBtn) {
@@ -160,7 +189,7 @@ if (window.collectionDetailJsInitialized) {
                         currentQuantity--;
                         updateQuantityDisplay();
                     } else {
-                        showAlert("Kuantitas minimal adalah 1!");
+                        showAlert("Minimum quantity is 1!");
                     }
                 };
             }
@@ -171,27 +200,25 @@ if (window.collectionDetailJsInitialized) {
                         currentQuantity++;
                         updateQuantityDisplay();
                     } else {
-                        showAlert(`Oops! Stok hanya tersedia ${stock}.`);
+                        showAlert(`Oops! Only ${stock} items left in stock.`);
                     }
                 };
             }
 
             valueInput.addEventListener("input", function () {
-                let value = parseInt(valueInput.value);
-                if (isNaN(value) || value < 1) {
-                    currentQuantity = 1;
-                } else if (value > stock) {
-                    currentQuantity = stock;
-                } else {
-                    currentQuantity = value;
-                }
                 updateQuantityDisplay();
             });
 
             valueInput.addEventListener("blur", function () {
-                if (valueInput.value === "" || isNaN(parseInt(valueInput.value)) || parseInt(valueInput.value) < 1) {
-                    valueInput.value = 1;
+                if (
+                    valueInput.value === "" ||
+                    isNaN(parseInt(valueInput.value)) ||
+                    parseInt(valueInput.value) < 1
+                ) {
                     currentQuantity = 1;
+                    valueInput.value = 1;
+                    showAlert("Minimum quantity is 1!");
+                } else {
                     updateQuantityDisplay();
                 }
             });
@@ -210,4 +237,16 @@ if (window.collectionDetailJsInitialized) {
             console.error("ERROR: Quantity counter elements (valueInput, stockInput) not found!");
         }
     });
+
+    window.showTopAlert = function (message, duration = 3000) {
+        const alertContainer = document.getElementById("topAlertContainer");
+        const alertMessage = document.getElementById("topAlertMessage");
+
+        alertMessage.textContent = message;
+        alertContainer.classList.add("show");
+
+        setTimeout(() => {
+            alertContainer.classList.remove("show");
+        }, duration);
+    };
 }
