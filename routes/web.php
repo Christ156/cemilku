@@ -68,10 +68,6 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('customize-tower-bouquet', CustomizeTowerBouquetController::class);
 
-    Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');
-    Route::post('/set-budget', [MysteryBoxController::class, 'setBudget'])->name('set-budget');
-    Route::post('/set-mood', [MysteryBoxController::class, 'setMood'])->name('set-mood');
-    Route::post('/reset-session', [MysteryBoxController::class, 'reset'])->name('reset-session');
 });
 
 Auth::routes(['verify' => true]);
@@ -83,8 +79,11 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('s', [UserController::class, 'show'])->name('profile');
 
-
-
+    // Mystery Box
+    Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');
+    Route::post('/set-budget', [MysteryBoxController::class, 'setBudget'])->name('set-budget');
+    Route::post('/set-mood', [MysteryBoxController::class, 'setMood'])->name('set-mood');
+    Route::post('/reset-session', [MysteryBoxController::class, 'reset'])->name('reset-session');
 
     Route::get('/cart', function () {
         return view('cart');
