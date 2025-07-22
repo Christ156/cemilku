@@ -13,7 +13,7 @@
     {{-- Alert --}}
     <div id="topAlertContainer">
         <span id="topAlertMessage"></span>
-</div>
+    </div>
 
     <div id="alertBox" class="alert-text mt-2" role="alert" style="margin-top: 100px;">
         <span id="alertMessage">Oops! Maximum stock limit reached.</span>

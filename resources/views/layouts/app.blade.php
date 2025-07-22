@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
-        body, html {
+        body,
+        html {
             font-family: 'Poppins', sans-serif !important;
         }
     </style>
@@ -105,7 +106,8 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60" height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60"
+                                height="45" />
                         </div>
 
                         <!-- Menu -->
@@ -138,17 +140,19 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#"
                                             onclick="setLanguage('id')">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('eng')">English</a>
+                                    <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a>
                                     </li>
                                 </ul>
                                 <hr style="border-top: 2px solid #341c02;">
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="logout" style="color: red">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Log out
-                                </a>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button class="nav-link" type="submit" style="color: red">
+                                        <i class="bi bi-box-arrow-right me-1"></i>Log out
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -213,7 +217,7 @@
             @yield('content')
         </main>
     </div>
-     <!-- Global JavaScript -->
+    <!-- Global JavaScript -->
     <script src="{{ asset('javascript/languange_swithcer.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">

@@ -1,23 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
 
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     font-family: 'Poppins', sans-serif;
     background-color: #fffbef !important;
 }
 
-.left-section, .right-section {
+body.modal-open {
+    overflow: hidden !important;
+    padding-right: 0px !important;
+}
+
+/* ----------------- Main Container ----------------- */
+#mysteryboxContainer {
+    height: 100vh;
+    overflow: hidden;
+    margin-top: 0 !important;
+    padding-top: 50px;
+}
+
+/* ----------------- Section Styling ----------------- */
+.left-section,
+.right-section {
     padding: 2rem;
     background-color: #fffbef;
+    display: flex;
+    flex-direction: column;
 }
 
+/* ----------------- Mystery Box Image ----------------- */
 .mystery_box {
-    width: 100%;
-    max-width: 350px;
     margin: 0 auto;
+    max-width: 100%;
+    height: auto;
 }
 
+/* ----------------- Main Content Area (Form Container) ----------------- */
+.main-content-area {
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
 
-/* ----------------- Mood Box ----------------- */
+/* ------------- Mood Box / Budget Box -------------- */
 .mood_box {
     width: 250px;
     height: 50px;
@@ -29,31 +61,35 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: 600;
-    margin: auto;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
-/* Budget Option */
 .budget_box:hover,
-.budget_box.selected { background-color: #fdc607; }
+.budget_box.selected {
+    background-color: #fdc607;
+    border-color: #52282A;
+}
 
-/* Mood Option */
+/* ---------- Mood Option Hover/Selected ----------- */
 .mood_box[data-img*="pink"]:hover,
-.mood_box[data-img*="pink"].selected { background-color: #FD6FF3; }
+.mood_box[data-img*="pink"].selected { background-color: #FD6FF3; border-color: #52282A;}
 
 .mood_box[data-img*="biru"]:hover,
-.mood_box[data-img*="biru"].selected { background-color: #6FF3FD; }
+.mood_box[data-img*="biru"].selected { background-color: #6FF3FD; border-color: #52282A;}
 
 .mood_box[data-img*="hijau"]:hover,
-.mood_box[data-img*="hijau"].selected { background-color: #6FFD87; }
+.mood_box[data-img*="hijau"].selected { background-color: #6FFD87; border-color: #52282A;}
 
 .mood_box[data-img*="ungu"]:hover,
-.mood_box[data-img*="ungu"].selected { background-color: #C96FFD; }
+.mood_box[data-img*="ungu"].selected { background-color: #C96FFD; border-color: #52282A;}
 
 .mood_box[data-img*="merah"]:hover,
-.mood_box[data-img*="merah"].selected { background-color: #FD6F6F; }
+.mood_box[data-img*="merah"].selected { background-color: #FD6F6F; border-color: #52282A;}
 
 .mood_box[data-img*="kuning"]:hover,
-.mood_box[data-img*="kuning"].selected { background-color: #F3FD6F; }
+.mood_box[data-img*="kuning"].selected { background-color: #F3FD6F; border-color: #52282A;}
 
 /* ----------------- Next Button ----------------- */
 .next_button {
@@ -66,6 +102,15 @@ body {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.next-button-wrapper {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    width: auto;
 }
 
 /* ----------------- Progress Bar ----------------- */
@@ -104,11 +149,7 @@ body {
     background-color: #ccc;
 }
 
-/* ----------------- Section Styling ----------------- */
-.right-section {
-    background-color: #fffbef;
-}
-
+/* ----------------- Right Section Text Styling ----------------- */
 .right-section h5 {
     font-size: 1.8rem;
     font-weight: 700;
@@ -135,33 +176,79 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
     margin-top: 40px;
+    max-width: 550px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ----------------- Responsive (Desktop) ----------------- */
 @media (min-width: 768px) {
     .mystery_box {
-        max-width: 350px;
+        max-width: 475px;
+        width: 100%;
     }
 
     .left-section, .right-section {
         height: 100vh;
+        height: calc(100vh - 50px);
         overflow-y: auto;
-        background-color: #fffbef;
+        padding-bottom: 80px;
+        padding-right: 40px;
+        box-sizing: border-box;
     }
 
     .left-section {
         border-right: 2px solid #727272;
     }
+
+    .next-button-wrapper {
+        bottom: 40px;
+        right: 40px;
+    }
 }
 
-/* ----------------- Responsive (Mobile Only) ----------------- */
+/* ----------------- Responsive (Mobile) ----------------- */
 @media (max-width: 767.98px) {
+    html, body {
+        overflow-y: auto;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .right-section.col-12.p-4 {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    .col-12 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #mysteryboxContainer {
+        height: auto;
+        overflow: visible;
+        padding-top: 40px;
+    }
+
     .mystery_box {
         max-width: 300px;
+        width: 100%;
+        margin-bottom: 0 !important;
     }
 
     .left-section {
         border-bottom: 1px solid #fffbef;
+    }
+
+    .right-section {
+        padding-top: 2rem;
+        padding-bottom: 20px;
+        height: auto;
+        overflow-y: visible;
+        box-sizing: border-box;
     }
 
     .right-section h5 {
@@ -172,8 +259,14 @@ body {
     .mood-wrapper {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 0.5rem;
         margin-top: 30px;
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .mood_box {
@@ -197,32 +290,20 @@ body {
         margin-bottom: 0.5rem;
     }
 
-    .mobile-button-wrapper {
-        position: static !important;
-        padding: 0 !important;
-        margin-top: 2rem;
-        width: 104%;
-        display: flex;
-        justify-content: flex-end;
-    }
-
     .progress-bar-mobile {
         margin-top: 10px;
     }
-
     .progress-bar-mobile .circle {
         width: 24px;
         height: 24px;
         font-size: 14px;
         line-height: 24px;
     }
-
     .progress-bar-mobile .label {
         font-size: 12px;
         margin-top: 2px;
         white-space: nowrap;
     }
-
     .progress-bar-mobile .line_completed,
     .progress-bar-mobile .line_pending {
         height: 3px;
@@ -234,53 +315,43 @@ body {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
-
     .mystery_box {
         margin-bottom: 0 !important;
     }
 
-    .mood-wrapper {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-    }
-
-    .warning-icon {
+    .warning-icon, .success-icon {
         width: 64px;
         height: 64px;
     }
-
-    .success-icon {
-        width: 64px;
-        height: 64px;
+    .warning-icon svg, .success-icon svg {
+        width: 48px !important;
+        height: 48px !important;
+        margin-top: 10px;
     }
-
-    .mobile-mood-header {
-        margin-top: -100px !important;
-    }
-
     .modal-content {
         padding: 20px !important;
         transform: scale(0.9);
     }
-
     .modal-content h4 {
         font-size: 1.1rem !important;
     }
-
     .modal-content p {
         font-size: 0.9rem !important;
     }
-
     .modal-content .btn {
         padding: 6px 16px !important;
         font-size: 0.9rem !important;
     }
 
-    .warning-icon svg,
-    .success-icon svg {
-        width: 48px !important;
-        height: 48px !important;
-        margin-top: 10px;
+    .next-button-wrapper {
+        position: static;
+        margin-top: 2rem;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding-left: 20px;
+        padding-right: 12px;
+        box-sizing: border-box;
     }
 }
 
@@ -296,6 +367,6 @@ body {
 
 .budget_box.selected,
 .mood_box.selected {
-    border-color: #007bff;
-    background-color: #e6f0ff;
+    border-color: #52282A;
+    background-color: #FDC607;
 }

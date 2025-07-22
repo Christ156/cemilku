@@ -10,7 +10,7 @@ class CartItem extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['cart_id', 'collection_id', 'customize_id', 'qunatity', 'price', 'total_price'];
+    protected $fillable = ['cart_id', 'collection_id', 'customize_id', 'mysterybox_id', 'quantity', 'price', 'total_price'];
 
     public function cart()
     {
@@ -25,5 +25,10 @@ class CartItem extends Model
     public function customize()
     {
         return $this->belongsTo(Customize::class);
+    }
+
+    public function mysteryBox()
+    {
+        return $this->belongsTo(MysteryBox::class, 'mysterybox_id');
     }
 }
