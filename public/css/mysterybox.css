@@ -284,3 +284,18 @@ body {
     }
 }
 
+.budget_box,
+.mood_box {
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.budget_box.selected,
+.mood_box.selected {
+    border-color: #007bff;
+    background-color: #e6f0ff;
+}
