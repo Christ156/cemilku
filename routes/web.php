@@ -10,6 +10,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CumiCumiController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MysteryBoxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -79,15 +82,21 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('s', [UserController::class, 'show'])->name('profile');
 
+
+    // ROUTE UNTUK MENAMBAHKAN ITEM KE KERANJANG
+    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
+    // ROUTE BARU UNTUK MEMPERBARUI KUANTITAS ITEM DI KERANJANG
+    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
+    // ROUTE BARU UNTUK MENGHAPUS ITEM DARI KERANJANG
+    Route::post('/cart/remove-items', [CartController::class, 'removeItems'])->name('cart.remove-items');
+
     // Mystery Box
     Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');
     Route::post('/set-budget', [MysteryBoxController::class, 'setBudget'])->name('set-budget');
     Route::post('/set-mood', [MysteryBoxController::class, 'setMood'])->name('set-mood');
     Route::post('/reset-session', [MysteryBoxController::class, 'reset'])->name('reset-session');
 
-    Route::get('/cart', function () {
-        return view('cart');
-    })->name('cart');
+    Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart');
     // START MODIFIKASI: Rute API Alamat
     // Grup ini TIDAK perlu middleware 'auth' karena sudah di dalam grup middleware 'auth' di atasnya.
     // Namun, validasi Auth::id() di controller tetap PENTING!
@@ -194,6 +203,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
+
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
 });
 
 // Route::get('/mysterybox', function () {

@@ -10,10 +10,8 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $status = $request->input('status');
-        // $userId = Auth::id() ?? 2; // default sementara jika belum login
         $userId = Auth::user()->id;
 
-        // Siapkan query builder
         $query = Order::with([
             'orderDetails.collection',
             'orderDetails.customize',
@@ -23,6 +21,21 @@ class OrderController extends Controller
         // Filter status jika ada
         if ($status && $status !== 'all') {
             $query->where('status', $status);
+        }
+
+        // Filter berdasarkan keyword pencarian
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                    ->orWhereHas('orderDetails.collection', function ($q2) use ($search) {
+                        $q2->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('orderDetails.customize', function ($q3) use ($search) {
+                        $q3->where('name', 'like', "%{$search}%");
+                    });
+            });
         }
 
         // Eksekusi query
@@ -38,7 +51,7 @@ class OrderController extends Controller
         }
 
         // Update status jadi "paid"
-        $order->status         = 'paid';
+        $order->status = 'paid';
         $order->save();
 
         return redirect()->route('orders.index')->with('success', 'Pembayaran berhasil diproses.');

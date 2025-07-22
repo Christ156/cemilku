@@ -1,3 +1,4 @@
+// Tambahkan flag global untuk memastikan script hanya diinisialisasi sekali
 if (window.collectionDetailJsInitialized) {
     console.log(
         "DEBUG: collection_detail.js already initialized. Skipping re-initialization."
@@ -35,6 +36,7 @@ if (window.collectionDetailJsInitialized) {
         console.log("DEBUG: TopAlertMessage element found:", !!topAlertMessage);
         console.log("DEBUG: Toast element found:", !!toast);
 
+        // BAGIAN INI TELAH DIUBAH: Menggunakan fetch API untuk mengirim data ke server
         if (addToCartDetailBtn) {
             addToCartDetailBtn.addEventListener("click", function (e) {
                 e.preventDefault();
@@ -54,7 +56,12 @@ if (window.collectionDetailJsInitialized) {
                     return;
                 }
 
-                const itemId = document.querySelector('input[name="collection_id"]').value;
+                const itemId = document.getElementById('item-id').value;
+
+                // URL API untuk menambah item ke keranjang
+                // PERUBAHAN PENTING DI SINI: UBAH DARI '/api/cart/add' MENJADI '/cart/add'
+                const apiUrl = '/cart/add'; // SESUAIKAN DENGAN ROUTE WEB LARAVEL ANDA
+                // const itemId = document.querySelector('input[name="collection_id"]').value;
                 const itemPrice = parseInt(document.querySelector('input[name="price"]').value);
                 const itemNameElement = document.querySelector(".title");
                 const itemName = itemNameElement ? itemNameElement.textContent : "Unknown Item";
@@ -72,26 +79,58 @@ if (window.collectionDetailJsInitialized) {
                     quantity: currentValue,
                 };
 
-                console.log("DEBUG: Item to add to cart:", itemToAdd);
+                // Lakukan panggilan ke server dengan fetch API
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        collection_id: itemId,
+                        quantity: currentValue
+                    })
+                })
+                    .then(response => {
+                        // Cek apakah respons adalah HTML (misalnya dari halaman error)
+                        const contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            return response.json();
+                        } else {
+                            // Jika bukan JSON, berarti ada error di server (misal 404, 500)
+                            // Ini akan menangkap error jika server mengembalikan HTML (seperti halaman 404)
+                            return response.text().then(text => {
+                                throw new Error(`Server returned non-JSON response (status: ${response.status}): ${text.substring(0, 100)}...`);
+                            });
+                        }
+                    })
+                    .then(data => {
+                        // JIKA RESPON DARI SERVER SUKSES, BARU TAMPILKAN MODAL
+                        console.log("DEBUG: Item successfully added via API:", data);
+                        const doneModalElement = document.getElementById('doneModal');
+                        if (doneModalElement) {
+                            var doneModal = new bootstrap.Modal(doneModalElement);
+                            doneModal.show();
+                        } else {
+                            console.error("DEBUG: Modal 'doneModal' not found.");
+                        }
 
-                if (window.addToCart) {
-                    window.addToCart(itemToAdd);
-
-                    const doneModalElement = document.getElementById("doneModal");
-                    if (doneModalElement) {
-                        var doneModal = new bootstrap.Modal(doneModalElement);
-                        doneModal.show();
-                    } else {
-                        console.error("DEBUG: Modal 'doneModal' not found.");
-                    }
-                } else {
-                    console.error("Error: window.addToCart function not found. Make sure cart.js is loaded correctly.");
-                    alert("Gagal menambahkan ke keranjang. Fungsi keranjang tidak tersedia.");
-                }
+                        // Tambahkan logika untuk memperbarui tampilan keranjang jika ada (dari cart.js)
+                        if (window.updateCartDisplay) {
+                            window.updateCartDisplay();
+                        }
+                    })
+                    .catch(error => {
+                        // TANGANI ERROR JIKA ADA MASALAH DENGAN PANGGILAN API ATAU SERVER
+                        console.error('Error:', error);
+                        alert("Terjadi kesalahan: " + error.message);
+                    });
             });
         } else {
             console.error("ERROR: AddToCart button with ID 'add-to-cart-detail-btn' not found!");
         }
+
+        // --- Fungsi-fungsi lain untuk Quantity Counter dan Alert tetap sama seperti sebelumnya ---
 
         function isMobileView() {
             return window.matchMedia("(max-width: 430px)").matches;
@@ -187,7 +226,6 @@ if (window.collectionDetailJsInitialized) {
             valueInput.addEventListener("keydown", function (e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    updateQuantityDisplay();
                     if (addToCartDetailBtn) {
                         addToCartDetailBtn.click();
                     }
