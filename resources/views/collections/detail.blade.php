@@ -9,8 +9,7 @@
 @endsection
 
 @section('content')
-
-    {{-- Alert --}}
+    {{-- ALERT --}}
     <div id="topAlertContainer">
         <span id="topAlertMessage"></span>
     </div>
@@ -77,7 +76,8 @@
                             <i class="bi bi-cart"></i>
                             <div class="ms-2" style="font-size: 16px">Add To Cart</div>
                         </button>
-                        <a href="#" class="btn btn-warning d-flex align-items-center justify-content-center"
+                        {{-- UBAH BAGIAN INI --}}
+                        <a href="/orders" class="btn btn-warning d-flex align-items-center justify-content-center"
                             style="color: #52282A; border: 1px solid #000000;">
                             <div style="font-size: 16px">Buy Now</div>
                         </a>
