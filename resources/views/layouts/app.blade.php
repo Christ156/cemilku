@@ -21,7 +21,7 @@
         rel="stylesheet">
 
     {{-- Style --}}
-    <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     @yield('style')
 
@@ -30,12 +30,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @yield('script')
+    <!-- Global JavaScript -->
+    <script src="{{ asset('javascript/languange_swithcer.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+    </script>
+
+    {{-- PENTING: cart.js tetap dimuat secara global karena window.addToCart perlu diakses dari halaman lain --}}
+    <script src="{{ asset('js/cart.js') }}"></script>
+    {{-- DIHAPUS DARI SINI: <script src="{{ asset('js/collection_detail.js') }}"></script> --}}
+
+    @yield('script') {{-- Ini adalah tempat JavaScript spesifik halaman akan diinjeksikan --}}
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar fixed-top navbar-expand-sm navbar-light color_primary" style="height: 70px">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light color_primary">
             <div class="container-fluid px-3 flex-wrap align-items-center justify-content-between">
 
                 {{-- Toggler Kiri --}}
@@ -46,23 +56,18 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
                         <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
-
                 </div>
 
-
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="#">
-                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="65" height="50"
+                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{route('home')}}">
+                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
                         class="d-inline-block align-text-top" />
                 </a>
-
-
 
                 <!-- Menu NAVBAR Desktop -->
                 <div class="collapse navbar-collapse d-none d-sm-flex" id="collapsibleNavId">
@@ -99,7 +104,8 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60" height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60"
+                                height="45" />
                         </div>
 
                         <!-- Menu -->
@@ -162,16 +168,17 @@
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('cart') }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
                     {{-- PROFILE BUAT DESKTOP --}}
-                    <div class="dropdown d-none d-sm-block ms-3">
-                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                    <div class="dropdown d-lg-block d-none ms-3">
+                        <a href="" class="nav-link" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item"
+                                    href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                                     <i class="bi bi-gear me-2"></i>Settings
                                 </a>
                             </li>
@@ -186,7 +193,7 @@
                     </div>
 
                     <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                    <a class="nav-link d-block d-sm-none" href="{{ route('cart') }}">
+                    <a class="nav-link d-lg-none d-block" href="{{ route('cart') }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
 
@@ -194,31 +201,15 @@
                     <div class="d-block d-sm-none ms-3">
                         <!-- ... kode profil mobile ... -->
                     </div>
-
-
-
                 </div>
-
-
             </div>
         </nav>
 
-        <main class="py-1">
+        <main class="content-box">
             @yield('content')
         </main>
     </div>
-     <!-- Global JavaScript -->
-    <script src="{{ asset('javascript/languange_swithcer.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
-    </script>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    {{-- PENTING: cart.js tetap dimuat secara global karena window.addToCart perlu diakses dari halaman lain --}}
-    <script src="{{ asset('js/cart.js') }}"></script>
-    {{-- DIHAPUS DARI SINI: <script src="{{ asset('js/collection_detail.js') }}"></script> --}}
-
-    @yield('script') {{-- Ini adalah tempat JavaScript spesifik halaman akan diinjeksikan --}}
 </body>
 
 </html>

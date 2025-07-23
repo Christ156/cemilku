@@ -75,10 +75,7 @@ Route::get('/auth-google-callback', [RegisterController::class, 'google_callback
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('s', [UserController::class, 'show'])->name('profile');
-
-
-
+    Route::get('{id}/{slug}/profile', [UserController::class, 'show'])->name('profile');
 
     Route::get('/cart', function () {
         return view('cart');

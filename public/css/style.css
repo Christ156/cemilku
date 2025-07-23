@@ -66,6 +66,10 @@
     color: #52282A;
 }
 
+.content-box{
+    padding-top: 60px !important;
+}
+
 /* Responsive adjustment */
 @media (max-width: 576px) {
     .navbar {
