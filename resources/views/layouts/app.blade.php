@@ -23,6 +23,13 @@
     {{-- Style --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        body,
+        html {
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
+
     @yield('style')
 
     <!-- Scripts -->
@@ -138,17 +145,19 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#"
                                             onclick="setLanguage('id')">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('eng')">English</a>
+                                    <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a>
                                     </li>
                                 </ul>
                                 <hr style="border-top: 2px solid #341c02;">
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="logout" style="color: red">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Log out
-                                </a>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button class="nav-link" type="submit" style="color: red">
+                                        <i class="bi bi-box-arrow-right me-1"></i>Log out
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -209,7 +218,5 @@
             @yield('content')
         </main>
     </div>
-
 </body>
-
 </html>

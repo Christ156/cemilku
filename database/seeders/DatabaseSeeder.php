@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             AddressSeeder::class,
             LayerSnackSeeder::class,
             CartSeeder::class,
-            CartItemSeeder::class
+            CartItemSeeder::class,
+            MysteryBoxSeeder::class
         ]);
     }
 }
