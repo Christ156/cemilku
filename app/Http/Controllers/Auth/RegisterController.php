@@ -89,7 +89,7 @@ class RegisterController extends Controller
                 'name' => $googleUser->name,
                 'email' => $googleUser->email,
                 'date_of_birth' => now(),
-                'profile_picture' => $googleUser->avatar,
+                'profile_image' => $googleUser->avatar,
                 'password' => Hash::make($googleUser->id),
                 'created_at' => now(),
             ]);

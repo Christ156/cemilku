@@ -39,6 +39,8 @@
     transition: background-color 0.3s ease, font-weight 0.3s ease;
     padding: 10px 20px;
     border-radius: 10px;
+    border: 0px;
+    background-color: #fff2cc;
     width: 100%;
     text-decoration: none;
 }
@@ -86,7 +88,7 @@
 
 .info-user {
     font-size: 1rem;
-    width: 50%;
+    width: 100%;
     color: #000000;
 }
 
@@ -208,7 +210,7 @@
     }
     .info-user-atas {
         font-size: 1rem;
-        width: 50%;
+        width: 20%;
         color: #000000;
     }
     .gambar-profile-container {
@@ -222,6 +224,7 @@
     }
 
     .nama_badge {
+        width: auto;
         align-items: center;
     }
 
@@ -236,6 +239,19 @@
 }
 
 @media (max-width: 565px) {
+    .gambar-profile-container {
+        width: 20% !important;
+        position: relative;
+    }
+
+    .gambar-profile {
+        width: 65%;
+        height: 100%;
+    }
+
+    .nama-user {
+        font-size: medium;
+    }
 
     .container-info-user {
         margin-right: 5px;
@@ -255,18 +271,24 @@
         justify-content: center;
     }
 
-    #info-container{
+    #info-container {
         justify-content: center;
     }
 
-    .info-user{
+    .info-user {
         margin-top: 0px;
+        font-size: small;
     }
 
     .no-telepon {
-    width: auto;
-}
+        width: auto;
+    }
 
+    .info-user-atas {
+        font-size: 1rem;
+        width: 30%;
+        color: #000000;
+    }
 }
 
 .modal-1-dalem {
