@@ -31,6 +31,24 @@ class CollectionController extends Controller
 
             return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
         }
+
+
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        if (Auth::user()->role == "user") {
+            $cny = Collection::where('category', 'Chinese New Year')->where('name', 'like', '%' . $search . '%')->get();
+            $ramadhan = Collection::where('category', 'Ramadhan')->where('name', 'like', '%' . $search . '%')->get();
+            $valentine = Collection::where('category', 'Valentine')->where('name', 'like', '%' . $search . '%')->get();
+            $christmas = Collection::where('category', 'Christmas')->where('name', 'like', '%' . $search . '%')->get();
+            $birthday = Collection::where('category', 'Birthday')->where('name', 'like', '%' . $search . '%')->get();
+            $graduation = Collection::where('category', 'Graduation')->where('name', 'like', '%' . $search . '%')->get();
+
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+        }
     }
 
     /**

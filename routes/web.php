@@ -151,6 +151,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/customize-tower-bouquet/{type}/store', [CustomizeTowerBouquetController::class, 'store'])->name('customer-tower-bouquet.store');
 
     Route::resource('collections', CollectionController::class);
+    Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
+
 
     // baru dibuat ni bang -jason
     Route::get('/checkout', function () {

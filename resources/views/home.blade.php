@@ -227,14 +227,14 @@
                     <div class="col-4 ps-3 ">
                         <p class="text-justify subtitle-about-us mb-1">Customizable</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-blue probar-custom " role="progressbar" style="width: 95%;"
+                            <div class="progress-bars probar-custom bg-pink" role="progressbar" style="width: 95%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
 
                         <p class="text-justify subtitle-about-us  mb-1 pt-3">Affordable</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 82%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 82%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -242,7 +242,7 @@
 
                         <p class="text-justify  subtitle-about-us  mb-1 pt-3">Flexible</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 94%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 94%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -253,7 +253,7 @@
                     <div class="col-4">
                         <p class="text-justify subtitle-about-us mb-1">Easy</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 80%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 80%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -261,7 +261,7 @@
 
                         <p class="text-justify subtitle-about-us mb-1 pt-3">Unique</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-pink probar-custom" role="progressbar" style="width: 90%;"
+                            <div class="progress-bars bg-pink probar-custom" role="progressbar" style="width: 90%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -269,7 +269,7 @@
 
                         <p class="text-justify subtitle-about-us mb-1 pt-3">Creative</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 95%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 95%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -281,7 +281,7 @@
                     <div class="col-4">
                         <p class="text-justify subtitle-about-us mb-1">Personal</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 70%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 70%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -289,7 +289,7 @@
 
                         <p class="text-justify subtitle-about-us  mb-1 pt-3">Fun</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 75%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 75%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -297,7 +297,7 @@
 
                         <p class="text-justify subtitle-about-us ps-3 mb-1 pt-3">Memorable</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-pink probar-custom" role="progressbar" style="width:60%;"
+                            <div class="progress-bars bg-pink probar-custom" role="progressbar" style="width:60%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
