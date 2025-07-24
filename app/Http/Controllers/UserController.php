@@ -49,8 +49,7 @@ class UserController extends Controller
             $user->date_of_birth = Auth::user()->date_of_birth;
             $user->email = Auth::user()->email;
             $user->phone_number = Auth::user()->phone_number;
-        }
-        else{
+        } else {
             $user->name = Auth::user()->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->dateofbirth;
