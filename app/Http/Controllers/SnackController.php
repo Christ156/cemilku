@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\SnackExport;
@@ -40,14 +39,22 @@ class SnackController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
+                'name'  => 'required|string|max:255',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('image')) {
-                $validated['image'] = $request->file('image')->store('snacks', 'public');
+                $file         = $request->file('image');
+                $originalName = $file->getClientOriginalName();
+
+                // Simpan ke public/assets/snack_items
+                $destinationPath = public_path('assets/snack_items');
+                $file->move($destinationPath, $originalName);
+
+                // Simpan hanya nama file ke database
+                $validated['image'] = $originalName;
             }
 
             Snack::create($validated);
@@ -59,8 +66,9 @@ class SnackController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id) {
-        if(Auth::user()->role == "admin"){
+    public function show(string $id)
+    {
+        if (Auth::user()->role == "admin") {
             return redirect()->route('adminsnack.index');
         }
     }
@@ -82,20 +90,24 @@ class SnackController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
+                'name'  => 'required|string|max:255',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer|min:0',
                 'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('image')) {
-                // Hapus gambar lama jika ada
-                if ($snack->image && Storage::disk('public')->exists($snack->image)) {
-                    Storage::disk('public')->delete($snack->image);
+                if ($snack->image && file_exists(public_path('assets/snack_items/' . $snack->image))) {
+                    unlink(public_path('assets/snack_items/' . $snack->image));
                 }
 
-                // Simpan gambar baru
-                $validated['image'] = $request->file('image')->store('snacks', 'public');
+                $file            = $request->file('image');
+                $originalName    = $file->getClientOriginalName();
+                $destinationPath = public_path('assets/snack_items');
+                $file->move($destinationPath, $originalName);
+
+                // Hanya simpan nama file saja
+                $validated['image'] = $originalName;
             }
 
             $snack->update($validated);

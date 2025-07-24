@@ -1,10 +1,10 @@
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin_style.css') }}">
-@endsection
-
 @extends('adminlte::page')
 
 @section('title', 'Add Collection')
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/admin_style.css') }}">
+@endsection
 
 @section('content')
     <div class="content-header">
@@ -18,6 +18,17 @@
             {{-- Nama Collection --}}
             <x-adminlte-input name="name" label="Collection Name" placeholder="Enter collection name" required />
 
+            {{-- Kategori --}}
+            <x-adminlte-select name="category" label="Category" required>
+                <option value="">-- Choose Category --</option>
+                <option value="Chinese New Year">Chinese New Year</option>
+                <option value="Valentine">Valentine</option>
+                <option value="Ramadhan">Ramadhan</option>
+                <option value="Christmas">Christmas</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Graduation">Graduation</option>
+            </x-adminlte-select>
+
             {{-- Jenis Collection --}}
             <x-adminlte-select name="type" label="Type" required>
                 <option value="">-- Choose Type --</option>
@@ -25,31 +36,9 @@
                 <option value="bouquet">Bouquet</option>
             </x-adminlte-select>
 
-            {{-- Jumlah Layer --}}
-            <x-adminlte-select name="layer" label="Number of Layers" required onchange="toggleLayerInputs(this.value)">
-                <option value="">-- Choose Layers --</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </x-adminlte-select>
-
-            {{-- Snack per Layer --}}
-            @php
-                $snacks = \App\Models\Snack::all();
-            @endphp
-
-            <div id="layer-inputs">
-                @for ($i = 1; $i <= 4; $i++)
-                    <div class="layer-select layer-{{ $i }}" style="display: none;">
-                        <x-adminlte-select name="snack_id_{{ $i }}" label="Snack for Layer {{ $i }}">
-                            <option value="">-- Choose Snack --</option>
-                            @foreach ($snacks as $snack)
-                                <option value="{{ $snack->id }}">{{ $snack->name }}</option>
-                            @endforeach
-                        </x-adminlte-select>
-                    </div>
-                @endfor
-            </div>
+            {{-- Deskripsi --}}
+            <x-adminlte-textarea name="description" label="Description" rows="3"
+                placeholder="Enter description (optional)" />
 
             {{-- Harga --}}
             <x-adminlte-input name="price" label="Price (Rp)" type="number" required />
@@ -60,20 +49,42 @@
             {{-- Gambar --}}
             <x-adminlte-input name="image" label="Collection Image" type="file" accept="image/*" />
 
-            <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
-            <a href="{{ route('collections.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+            {{-- Snack per Layer --}}
+            @php
+                $snacks = \App\Models\Snack::all();
+            @endphp
+
+            <h5 class="mt-4 mb-2">Snacks for Each Layer (4 Layers)</h5>
+
+            @for ($i = 1; $i <= 4; $i++)
+                <div class="row">
+                    <div class="col-md-6">
+                        <x-adminlte-select name="snack_id_{{ $i }}" label="Snack for Layer {{ $i }}"
+                            required>
+                            <option value="">-- Choose Snack --</option>
+                            @foreach ($snacks as $snack)
+                                <option value="{{ $snack->id }}">{{ $snack->name }}</option>
+                            @endforeach
+                        </x-adminlte-select>
+                    </div>
+                </div>
+            @endfor
+
+            <div class="mt-3">
+                <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
+                <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+            </div>
         </form>
     </x-adminlte-card>
 
-    {{-- Script Dinamis --}}
-    <script>
-        function toggleLayerInputs(layer) {
-            for (let i = 1; i <= 4; i++) {
-                const el = document.querySelector('.layer-' + i);
-                if (el) {
-                    el.style.display = i <= layer ? 'block' : 'none';
-                }
-            }
-        }
-    </script>
+    {{-- Pesan Error --}}
+    @if ($errors->any())
+        <x-adminlte-alert theme="danger" title="Validation Error" class="mt-3">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </x-adminlte-alert>
+    @endif
 @endsection

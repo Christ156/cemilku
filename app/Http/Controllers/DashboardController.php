@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -9,10 +10,18 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-    }
+
+public function index()
+{
+    // Ambil 5 order terbaru berdasarkan ID
+    $latestOrders = Order::with('user')->orderBy('id', 'desc')->take(5)->get();
+
+    return view('admin.dashboard', [
+        'latestOrders' => $latestOrders,
+        // tambahkan data lain yang dibutuhkan seperti $snackCount, dll
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
