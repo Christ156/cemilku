@@ -23,7 +23,7 @@ class CheckoutController extends Controller
         // $userId = 2;
         $userId = Auth::user()->id;
 
-        $cart = Cart::where('user_id', $userId)->where('is_active', true)->first();
+        $cart = Cart::where('user_id', $userId)->where('is_active', 1)->first();
         // dd($cart);
 
 

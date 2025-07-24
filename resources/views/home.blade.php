@@ -35,36 +35,36 @@
             <div class="carousel-inner">
 
                 <div class="carousel-item active">
-                    <img src="{{asset('assets/banner/Banner1.png')}}" class="d-block w-100 img-fluid" alt="First-Slide">
+                    <img src="{{ asset('assets/banner/Banner1.png') }}" class="d-block w-100 img-fluid" alt="First-Slide">
                 </div>
 
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner2.png')}}" class="d-block w-100 img-fluid" alt="Second Slide">
+                    <img src="{{ asset('assets/banner/Banner2.png') }}" class="d-block w-100 img-fluid" alt="Second Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner3.png')}}" class="d-block w-100 img-fluid" alt="Third Slide">
+                    <img src="{{ asset('assets/banner/Banner3.png') }}" class="d-block w-100 img-fluid" alt="Third Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner4.png')}}" class="d-block w-100 img-fluid" alt="Fourth Slide">
+                    <img src="{{ asset('assets/banner/Banner4.png') }}" class="d-block w-100 img-fluid" alt="Fourth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner5.png')}}" class="d-block w-100 img-fluid" alt="Fifth Slide">
+                    <img src="{{ asset('assets/banner/Banner5.png') }}" class="d-block w-100 img-fluid" alt="Fifth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner6.png')}}" class="d-block w-100 img-fluid" alt="Sixth Slide">
+                    <img src="{{ asset('assets/banner/Banner6.png') }}" class="d-block w-100 img-fluid" alt="Sixth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner7.png')}}" class="d-block w-100 img-fluid" alt="Seventh Slide">
+                    <img src="{{ asset('assets/banner/Banner7.png') }}" class="d-block w-100 img-fluid" alt="Seventh Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{asset('assets/banner/Banner8.png')}}" class="d-block w-100 img-fluid" alt="Eighth Slide">
+                    <img src="{{ asset('assets/banner/Banner8.png') }}" class="d-block w-100 img-fluid" alt="Eighth Slide">
                 </div>
 
             </div>
@@ -75,21 +75,21 @@
     {{-- desktop view --}}
     <div class="container mt-custom d-none d-lg-block">
         <div class="row text-center">
-            <a href="{{route('mystery-box')}}" class="col-lg-4">
+            <a href="{{ route('mysterybox') }}" class="col-lg-4">
                 <div class="snack-card" onmouseover="setActive(this)">
-                    <img src="{{asset('assets/banner/bannerSM.png')}}" class="img-fluid" alt="snackMystery">
+                    <img src="{{ asset('assets/banner/bannerSM.png') }}" class="img-fluid" alt="snackMystery">
                     {{-- <button class="btn btn-primary image-button">Customize ></button> --}}
                 </div>
             </a>
-            <a href="{{route('customize-tower-bouquet.bouquet')}}" class="col-lg-4">
+            <a href="{{ route('customize-tower-bouquet.bouquet') }}" class="col-lg-4">
                 <div class="snack-card active" onmouseover="setActive(this)">
-                    <img src="{{asset('assets/banner/bannerSB.png')}}" class="img-fluid" alt="snackBouquet">
+                    <img src="{{ asset('assets/banner/bannerSB.png') }}" class="img-fluid" alt="snackBouquet">
                 </div>
             </a>
 
-            <a href="{{route('customize-tower-bouquet.tower')}}" class="col-lg-4">
+            <a href="{{ route('customize-tower-bouquet.tower') }}" class="col-lg-4">
                 <div class="snack-card" onmouseover="setActive(this)">
-                    <img src="{{asset('assets/banner/bannerST.png')}}" class="img-fluid" alt="snackTower">
+                    <img src="{{ asset('assets/banner/bannerST.png') }}" class="img-fluid" alt="snackTower">
                 </div>
             </a>
 
@@ -102,27 +102,26 @@
             style="scroll-snap-type: mandatory; scroll-padding:0 50%">
 
             {{-- card 1 --}}
-
-            <a href="{{route('mystery-box')}}">
+            <a href="{{ route('mysterybox') }}">
                 <div class="card-body flex-shrink-0 me-1"
                     style="width: 67.5vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{asset('assets/banner/bannerSM.png')}}" class="img-fluid rounded" alt="snackMystery">
+                    <img src="{{ asset('assets/banner/bannerSM.png') }}" class="img-fluid rounded" alt="snackMystery">
                 </div>
             </a>
 
 
             {{-- card 2 --}}
-            <a href="{{route('customize-tower-bouquet.bouquet')}}">
+            <a href="{{ route('customize-tower-bouquet.bouquet') }}">
                 <div class="card-body flex-shrink-0 me-1" id="second-card"
                     style="width: 70vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{asset('assets/banner/bannerSB.png')}}" class="img-fluid rounded" alt="snackBouquet">
+                    <img src="{{ asset('assets/banner/bannerSB.png') }}" class="img-fluid rounded" alt="snackBouquet">
                 </div>
             </a>
 
             {{-- card 3 --}}
-            <a href="{{route('customize-tower-bouquet.tower')}}">
+            <a href="{{ route('customize-tower-bouquet.tower') }}">
                 <div class="card-body flex-shrink-0 me-1" style="width: 67vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{asset('assets/banner/bannerST.png')}}" class="img-fluid rounded" alt="snackTower">
+                    <img src="{{ asset('assets/banner/bannerST.png') }}" class="img-fluid rounded" alt="snackTower">
                 </div>
             </a>
         </div>
@@ -134,7 +133,7 @@
     <div class="mt-5 container-lg">
         <div class="product-card-left d-flex justify-content-center align-items-center">
             <div class="product-image">
-                <img src="{{asset('assets/banner/Group19.png')}}">
+                <img src="{{ asset('assets/banner/Group19.png') }}">
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
@@ -150,13 +149,13 @@
                 <p class="product-price product-price-2">$ 100</p>
             </div>
             <div class="product-image">
-                <img src="{{asset('assets/banner/Group18bener.png')}}">
+                <img src="{{ asset('assets/banner/Group18bener.png') }}">
             </div>
         </div>
 
-         <div class="product-card-left d-flex justify-content-center align-items-center">
+        <div class="product-card-left d-flex justify-content-center align-items-center">
             <div class="product-image">
-                <img src="{{asset('assets/banner/Group19.png')}}">
+                <img src="{{ asset('assets/banner/Group19.png') }}">
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack surprise</p>
@@ -172,7 +171,7 @@
                 <p class="product-price product-price-4">$ 175</p>
             </div>
             <div class="product-image">
-                <img src="{{asset('assets/banner/Group20bener.png')}}">
+                <img src="{{ asset('assets/banner/Group20bener.png') }}">
             </div>
         </div>
     </div>
@@ -183,7 +182,7 @@
         <div class="row align-items-start">
             <div class="col-12 col-lg-4 mb-4">
                 {{-- LOGO --}}
-                <img src="{{asset('assets/logo/cemilku_est.png')}}" alt="cemilku_est"
+                <img src="{{ asset('assets/logo/cemilku_est.png') }}" alt="cemilku_est"
                     class=" logo-cemilku img-fluid justify-content-center d-block mx-auto">
 
                 {{-- ABOUT US --}}
@@ -328,7 +327,7 @@
     <section class="Footer">
         <div class="footer-container">
             <div class="footer-logo">
-                <img src="{{asset('assets/logo/logoCemilKu.png')}}" alt="Cemilku Logo">
+                <img src="{{ asset('assets/logo/logoCemilKu.png') }}" alt="Cemilku Logo">
             </div>
 
             <div class="footer-info">
@@ -339,13 +338,13 @@
 
             <div class="footer-social">
                 <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer">
-                    <img src="{{asset('assets/social_media/ig.png')}}" alt="Instagram">
+                    <img src="{{ asset('assets/social_media/ig.png') }}" alt="Instagram">
                 </a>
                 <a href="https://twitter.com/username" target="_blank" rel="noopener noreferrer">
-                    <img src="{{asset('assets/social_media/twit.png')}}" alt="Twitter">
+                    <img src="{{ asset('assets/social_media/twit.png') }}" alt="Twitter">
                 </a>
                 <a href="https://facebook.com/username" target="_blank" rel="noopener noreferrer">
-                    <img src="{{asset('assets/social_media/fb.png')}}" alt="Facebook">
+                    <img src="{{ asset('assets/social_media/fb.png') }}" alt="Facebook">
                 </a>
             </div>
         </div>

@@ -9,12 +9,12 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         <div class="row d-flex">
             <div class="col-lg-6 col-12">
                 <div class="row d-flex">
-                    <div class="col-2 d-flex align-items-center justify-content-center"><i
-                            class="bi bi-arrow-left fw-bold fs-1"></i></div>
+                    <a href="{{route('home')}}" class="col-2 d-flex align-items-center justify-content-center decoration-none"><i
+                            class="bi bi-arrow-left fw-bold fs-1"></i></a>
                     <div class="col-10 d-flex align-items-center justify-content-lg-start justify-content-end">
                         <p class="fs-lg-1 fs-4 fw-bold m-0">Kreasikan Bouquet Cemilmu!</p>
                     </div>
@@ -86,16 +86,16 @@
 
                 <div class="w-100 overflow-hidden">
                     <div class="d-flex wrapper-customize-menu" id="customize-menu">
-                        <div class="py-3" id="set-base">
+                        <div class="py-3 d-flex flex-column align-items-center" id="set-base">
                             <div class="w-100 d-flex justify-content-center">
-                                <div href="" class="bg-warning p-2 w-50 rounded text-center">
+                                <div class="bg-warning p-2 w-50 rounded text-center">
                                     <p class="fs-5 fw-bold m-0">Pilih Base</p>
                                 </div>
                             </div>
 
                             <div class="w-100 p-5 row">
                                 @for ($i = 0; $i <= 3; $i++)
-                                    <div class="col-6 p-2">
+                                    <div class="col-3 p-2">
                                         <?php $base_bouquet = ["Blue", "Black", "Red", "Purple"]; ?>
                                         <div class="card w-100 p-2" onclick="changePreview('{{ $base_bouquet[$i] }}', 0, 0, 0)">
                                             <img class="card-img-top"

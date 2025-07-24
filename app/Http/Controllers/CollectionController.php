@@ -126,9 +126,9 @@ class CollectionController extends Controller
      */
     public function show(string $id)
     {
-        if(Auth::user()->role == "admin"){
+        if (Auth::user()->role == "admin") {
             return redirect()->route('admin.collection.index');
-        }else{
+        } else {
             $detail = Collection::findOrFail($id);
             return view('collections.detail', compact('detail'));
         }

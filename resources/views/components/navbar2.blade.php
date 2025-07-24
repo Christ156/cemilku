@@ -20,7 +20,7 @@
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{route('profile')}}">Profile</a></li>
             </ul>
         </div>
     </div>
