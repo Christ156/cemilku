@@ -65,7 +65,7 @@
 
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
-                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
+                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="70" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
                 </div>
@@ -111,19 +111,18 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60"
-                                height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="100" height="60" />
                         </div>
 
                         <!-- Menu -->
                         <ul class="navbar-nav fs-5 flex-column gap-2">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                    href="{{ route('home') }}">Home</a>
+                                    href="{{ route('home') }} ">Home</a>
                             </li>
                             {{-- <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
-                                    href="{{ route('custom') }}">Custom</a>
+                                    href="custom">Custom</a>
                             </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
@@ -136,12 +135,10 @@
 
                             <!-- Language (Mobile) -->
                             <li class="nav-item dropdown d-block d-sm-none">
-
                                 <a class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown">
                                     Language
                                 </a>
-
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#"
                                             onclick="setLanguage('id')">Indonesia</a></li>
@@ -163,7 +160,7 @@
                     </div>
                 </div>
 
-                {{-- Language (Desktop)
+                {{-- Language (Desktop) --}}
                 <div class="dropdown d-none d-sm-block pe-2">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                         <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
@@ -173,7 +170,7 @@
                         <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
                         <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
                     </ul>
-                </div> --}}
+                </div>
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
@@ -194,21 +191,17 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="{{ route('cart') }}">
                                     <i class="bi bi-box-arrow-right me-2"></i>Log out
                                 </a>
                             </li>
                     </div>
 
-                    <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                    <a class="nav-link d-lg-none d-block" href="{{ route('cart') }}">
-                        <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
-                    </a>
-
-                    {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
+                    {{-- PROFILE BUAT MOBILE --}}
                     <div class="d-block d-sm-none ms-3">
-                        <!-- ... kode profil mobile ... -->
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
+                        </a>
                     </div>
                 </div>
             </div>

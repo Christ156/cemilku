@@ -84,7 +84,7 @@ Route::get('/auth-google-callback', [RegisterController::class, 'google_callback
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('{id}/{slug}/profile', [UserController::class, 'show'])->name('profile');
+    Route::get('/profile/{id}/{slug}', [UserController::class, 'show'])->name('profile');
 
     // ROUTE UNTUK MENAMBAHKAN ITEM KE KERANJANG
     Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
@@ -193,6 +193,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/customize-tower-bouquet/{type}/store', [CustomizeTowerBouquetController::class, 'store'])->name('customer-tower-bouquet.store');
 
     Route::resource('collections', CollectionController::class);
+    Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
+
 
     // baru dibuat ni bang -jason
     Route::get('/checkout', function () {
