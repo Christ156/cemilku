@@ -13,8 +13,8 @@
         <div class="row d-flex">
             <div class="col-lg-6 col-12">
                 <div class="row d-flex">
-                    <div class="d-lg-block d-none col-0 col-lg-2 d-flex align-items-center justify-content-center"><i
-                            class="bi bi-arrow-left fw-bold fs-1"></i></div>
+                    <a href="{{route('home')}}" class="d-lg-block d-none col-0 col-lg-2 d-flex align-items-center justify-content-center decoration-none"><i
+                            class="bi bi-arrow-left fw-bold fs-1"></i></a>
                     <div class="col-lg-10 col-12 d-flex align-items-center justify-content-lg-start justify-content-center">
                         <p class="fs-lg-1 fs-4 fw-bold m-0">Kreasikan Tower Cemilmu!</p>
                     </div>

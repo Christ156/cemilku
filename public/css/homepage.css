@@ -2,6 +2,37 @@
     background-color: #fdc307;
 }
 
+body {
+    background-color: #fffbef;
+    text-align: justify;
+    font-family: 'poppins';
+}
+
+
+.nav-link {
+    position: relative;
+    /* font-family: 'poppins';  */
+    font-style: semi-bold;
+}
+
+.nav-link::after {
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.nav-link:hover {
+    /* border-bottom:3px solid #52282a; */
+    text-decoration: 5px underline #52282a;
+}
+
+.navbar {
+    min-height: 70px;
+    height: 70px;
+    transition: height 0.3s ease;
+
+}
+
+
 .mt-custom {
     margin-top: 10rem;
 }
@@ -478,6 +509,8 @@
         height: auto;
         display: block;
     }
+
+
 
     .ps-5 {
         padding-left: 0 !important;

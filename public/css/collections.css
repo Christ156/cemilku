@@ -2,11 +2,11 @@
     background-color: #fdc307;
 }
 
-/* body {
+body {
     background-color: #fffbef;
     text-align: justify;
     font-family: 'poppins';
-} */
+}
 
 .mt-custom{
     margin-top: 3rem;
@@ -56,7 +56,7 @@
 
 .card-title{
     font-size: 17px;
-    color: #52282A;
+    color: #52282A !important;
     font-weight: bold;
     margin-left: 20px;
     margin-bottom: 7px;
@@ -65,7 +65,7 @@
 
 .card-subtitle{
     font-size: 15px;
-    color: #52282A;
+    color: #52282A !important;
     font-weight:normal;
     margin-left: 20px;
     margin-bottom: 10px;
@@ -126,3 +126,5 @@
     }
 
 }
+
+
