@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\DecorationExport;
@@ -40,19 +39,27 @@ class DecorationController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name' => 'required|string|max:255',
+                'name'  => 'required|string|max:255',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('image')) {
-                $validated['image'] = $request->file('image')->store('decorations', 'public');
+                $file         = $request->file('image');
+                $originalName = $file->getClientOriginalName();
+
+                // Simpan ke folder public/assets/decoration_items
+                $destinationPath = public_path('assets/decoration');
+                $file->move($destinationPath, $originalName);
+
+                // Simpan hanya nama file ke database
+                $validated['image'] = $originalName;
             }
 
             Decoration::create($validated);
 
-            return redirect()->route('admin.decoration.index')->with('success', 'Decoration ditambahkan!');
+            return redirect()->route('admindecoration.index')->with('success', 'Decoration ditambahkan!');
         }
     }
 
@@ -61,7 +68,7 @@ class DecorationController extends Controller
      */
     public function show(string $id)
     {
-        return redirect()->route('admin.decoration.index');
+        return redirect()->route('admindecoration.index');
     }
 
     /**
@@ -77,29 +84,39 @@ class DecorationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Decoration $decoration)
-    {
-        if (Auth::user()->role == "admin") {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'price' => 'required|numeric',
-                'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            ]);
+public function update(Request $request, Decoration $decoration)
+{
+    if (Auth::user()->role == "admin") {
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-            if ($request->hasFile('image')) {
-                if ($decoration->image && Storage::disk('public')->exists($decoration->image)) {
-                    Storage::disk('public')->delete($decoration->image);
-                }
-
-                $validated['image'] = $request->file('image')->store('decorations', 'public');
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($decoration->image && file_exists(public_path('assets/decoration/' . $decoration->image))) {
+                unlink(public_path('assets/decoration/' . $decoration->image));
             }
 
-            $decoration->update($validated);
+            $file = $request->file('image');
+            $originalName = $file->getClientOriginalName();
 
-            return redirect()->route('admin.decoration.index')->with('success', 'Decoration diperbarui!');
+            // Simpan gambar baru ke folder public/assets/decoration_items
+            $destinationPath = public_path('assets/decoration');
+            $file->move($destinationPath, $originalName);
+
+            // Simpan hanya nama file di database
+            $validated['image'] = $originalName;
         }
+
+        $decoration->update($validated);
+
+        return redirect()->route('admindecoration.index')->with('success', 'Decoration diperbarui!');
     }
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -109,7 +126,7 @@ class DecorationController extends Controller
         if (Auth::user()->role == "admin") {
             $decoration->delete();
 
-            return redirect()->route('admin.decoration.index')->with('success', 'Decoration dihapus!');
+            return redirect()->route('admindecoration.index')->with('success', 'Decoration dihapus!');
         }
     }
 
@@ -126,7 +143,7 @@ class DecorationController extends Controller
 
         Excel::import(new DecorationImport, $request->file('file'));
 
-        return redirect()->route('admincollection.index')->with('success', 'Data decoration berhasil diimpor!');
+        return redirect()->route('admindecoration.index')->with('success', 'Data decoration berhasil diimpor!');
     }
 
     public function trash()
@@ -139,19 +156,19 @@ class DecorationController extends Controller
     {
         $decoration = Decoration::withTrashed()->findOrFail($id);
         $decoration->restore();
-        return redirect()->route('admin.decoration.trash')->with('success', 'Decoration berhasil dipulihkan.');
+        return redirect()->route('admindecoration.trash')->with('success', 'Decoration berhasil dipulihkan.');
     }
 
     public function forceDelete($id)
     {
         $decoration = Decoration::withTrashed()->findOrFail($id);
         $decoration->forceDelete();
-        return redirect()->route('admin.decoration.trash')->with('success', 'Decoration berhasil dihapus permanen.');
+        return redirect()->route('admindecoration.trash')->with('success', 'Decoration berhasil dihapus permanen.');
     }
 
     public function restoreAll()
     {
         Decoration::onlyTrashed()->restore();
-        return redirect()->route('admin.decoration.trash')->with('success', 'Semua decoration berhasil direstore.');
+        return redirect()->route('admindecoration.trash')->with('success', 'Semua decoration berhasil direstore.');
     }
 }

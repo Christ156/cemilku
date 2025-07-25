@@ -56,7 +56,7 @@
         <!-- Grafik Penjualan 7 Hari Terakhir -->
         <div class="col-md-6">
             <x-adminlte-card title="Last 7 Days Sales" theme="info" icon="fas fa-chart-line">
-                <canvas id="salesChart" style="height: 250px;"></canvas>
+                <canvas id="salesChart"></canvas>
             </x-adminlte-card>
         </div>
     </div>

@@ -2,19 +2,17 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CustomizeTowerBouquetController;
 use App\Http\Controllers\DecorationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CumiCumiController;
-use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\MysteryBoxController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +60,12 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
 
     // Collection Force delete
     Route::delete('/collection/{id}/force-delete', [CollectionController::class, 'forceDelete'])->name('collection.force-delete');
+
+    // Order Export/Import
+    Route::get('/order/export', [OrderController::class, 'export'])->name('order.export');
+
+    // User Export/Import
+    Route::get('/user/export', [UserController::class, 'export'])->name('user.export');
 
     // Resource routes
     Route::resource('snack', SnackController::class);
@@ -119,8 +123,6 @@ Route::middleware('auth', 'verified')->group(function () {
         Route::put('/api/users/{user}/addresses/{address}/set-primary', [AddressController::class, 'setPrimary'])->name('api.users.addresses.setPrimary');
     });
     // END MODIFIKASI
-
-
 
     // Route::get('/mysterybox', function () {
     //     $mode = 'Budget';
@@ -235,4 +237,3 @@ Route::middleware('auth', 'verified')->group(function () {
 //         session(['mood' => $request->mood, 'mode' => 'Done']);
 //         return redirect()->route('mysterybox');
 //     })->name('set-mood');
-

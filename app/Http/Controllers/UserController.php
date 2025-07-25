@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,37 +10,25 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar user ke halaman admin.
      */
     public function index()
     {
-        if (Auth::user()->role == "admin") {
-            return view('admin.user.index');
+        if (Auth::user()->role === 'admin') {
+            $users = User::where('role', 'user')->get(); // Hanya user biasa
+            return view('admin.user.index', compact('users'));
         }
+
+        abort(403, 'Unauthorized'); // Untuk selain admin
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Menampilkan detail user (alamat dan lainnya).
      */
     public function show(string $id, string $slug)
     {
@@ -48,15 +37,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Mengupdate informasi user.
      */
     public function update(Request $request, string $id)
     {
@@ -72,8 +53,8 @@ class UserController extends Controller
             $user->name = Auth::user()->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->dateofbirth;
-            $user->email = $request->email;
-            $user->phone_number = $request->telepon;
+            $user->email         = $request->email;
+            $user->phone_number  = $request->telepon;
         }
 
         // if($request->profile_image != NULL){
@@ -115,10 +96,12 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Mengekspor data user ke file Excel.
      */
-    public function destroy(string $id)
+    public function export()
     {
-        //
+        return Excel::download(new UserExport, 'user.xlsx');
     }
+
+    // Metode lainnya (create, store, edit, destroy) bisa ditambahkan nanti jika dibutuhkan
 }
