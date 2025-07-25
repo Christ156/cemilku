@@ -23,6 +23,8 @@
     {{-- Style --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <style>
         body,
         html {
@@ -38,7 +40,7 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Global JavaScript -->
-    <script src="{{ asset('javascript/languange_swithcer.js') }}"></script>
+    <script src="{{ asset('js/languange_swithcer.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
@@ -65,13 +67,13 @@
 
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
-                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="70" height="42"
+                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="80" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
                 </div>
 
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{route('home')}}">
+                <a class="navbar-brand d-none d-sm-block m-4 p-2 align-items-center" href="{{ route('home') }}">
                     <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
                         class="d-inline-block align-text-top" />
                 </a>
@@ -80,8 +82,8 @@
                 <div class="collapse navbar-collapse d-none d-sm-flex" id="collapsibleNavId">
                     <ul class="navbar-nav fs-5 flex-row gap-1">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
-                                href="{{ route('home') }}">Home</a>
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">{{ __('navigation.home') }}</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
@@ -89,11 +91,11 @@
                         </li> --}}
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                href="{{ route('collections.index') }}">Collections</a>
+                                href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                href="order">Order</a>
+                                href="order">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -101,7 +103,7 @@
 
                 {{-- Burger Content --}}
                 <div class="offcanvas offcanvas-start sidebar d-block d-sm-none" tabindex="-1" id="offcanvasNav"
-                    aria-labelledby="offcanvasNavLabel" style="width: 50%; background-color: #fdc307;">
+                    aria-labelledby="offcanvasNavLabel" style="width: 50%;">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
@@ -111,14 +113,15 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="100" height="60" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="100"
+                                height="60" />
                         </div>
 
                         <!-- Menu -->
                         <ul class="navbar-nav fs-5 flex-column gap-2">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                    href="{{ route('home') }} ">Home</a>
+                                    href="{{ route('home') }} ">{{ __('navigation.home') }}</a>
                             </li>
                             {{-- <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
@@ -126,7 +129,7 @@
                             </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                    href="{{ route('collections.index') }}">Collections</a>
+                                    href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
@@ -139,14 +142,20 @@
                                     data-bs-toggle="dropdown">
                                     Language
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('id')">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a>
-                                    </li>
+                                <ul class="dropdown-menu p-2" style="min-width: 150px;">
+                                    <form method="GET" action="{{ url()->current() }}">
+                                        <select name="lang" onchange="this.form.submit()"
+                                            class="form-select form-select-sm">
+                                            <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>
+                                                Indonesia</option>
+                                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>
+                                                English</option>
+                                        </select>
+                                    </form>
                                 </ul>
                                 <hr style="border-top: 2px solid #341c02;">
                             </li>
+
 
                             <li class="nav-item">
                                 <form action="{{ route('logout') }}" method="post">
@@ -162,15 +171,18 @@
 
                 {{-- Language (Desktop) --}}
                 <div class="dropdown d-none d-sm-block pe-2">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
-                    </ul>
+
+                    <form method="GET" action="{{ url()->current() }}">
+                        <select name="lang" onchange="this.form.submit()" class="form-select">
+                            <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Indonesia
+                            </option>
+                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
+                        </select>
+                    </form>
                 </div>
+
+
+
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
@@ -212,4 +224,5 @@
         </main>
     </div>
 </body>
+
 </html>

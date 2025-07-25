@@ -2,7 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/collections.css') }}">
-    {{-- <link rel="stylesheet" href="{{asset('css/collection_detail.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('css/collection_detail.css')}}">
 @endsection
 
 @section('script')
@@ -17,7 +17,6 @@
                 @csrf
                 <input class="custom_search form-control rounded-5" type="search" name="search" placeholder="Search Collection..."
                     aria-label="Search" />
-                {{-- <button></button> --}}
             </form>
         </div>
 

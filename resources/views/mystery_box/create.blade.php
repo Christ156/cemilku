@@ -23,9 +23,9 @@
                     </a>
                     <h2 class="fw-bold mb-0 text-center flex-grow-1">
                         @if ($mode == 'Budget')
-                            Choose your Budget
+                            {{__('mysterybox.chooseYourBudget')}}
                         @elseif ($mode == 'Mood')
-                            Choose your Mood
+                            {{__('mysterybox.chooseYourMood')}}
                         @else
                             Done!
                         @endif
@@ -40,17 +40,17 @@
                             <div
                                 class="circle {{ $mode == 'Budget' || $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">
                                 1</div>
-                            <div class="label">Set Budget</div>
+                            <div class="label">{{__('mysterybox.setBudget')}}</div>
                         </div>
                         <div class="line_completed"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">2</div>
-                            <div class="label">Set Mood</div>
+                            <div class="label">{{__('mysterybox.setMood')}}</div>
                         </div>
                         <div class="line_completed {{ $mode == 'Done' ? '' : 'line_pending' }}"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Done' ? 'active' : '' }}">3</div>
-                            <div class="label">Done</div>
+                            <div class="label">{{__('mysterybox.done')}}</div>
                         </div>
                     </div>
                 </div>
