@@ -31,4 +31,5 @@ return [
     'phone' => 'Telepon',
     'email' => 'Email',
     'copyright' => 'Hak Cipta Dilindungi.',
+    'logout' => 'Keluar',
 ];

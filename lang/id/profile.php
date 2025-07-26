@@ -1,0 +1,75 @@
+<?php
+
+return[
+    'editInfo' => ' Perbarui Informasi Anda',
+    'gender' => 'Jenis Kelamin',
+    'male' => 'Laki-laki',
+    'female' => 'Perempuan',
+    'dateOfBirth' => 'Tanggal Lahir',
+    'email' => 'Email',
+    'inputDOB' => 'Masukan Tanggal Lahir Anda',
+    'inputEmail' => 'Masukan Email Anda',
+    'phoneNumber' => 'Nomor Telepon',
+    'inputPhoneNumber' => 'Masukan Nomor Telepon Anda',
+    'close' => 'Tutup',
+    'saveChanges' => 'Simpan Perubahan',
+    'label' => 'Label',
+    'placeHolderAddress' => 'Contoh: Alamat Rumah/Kantor',
+    'province' => 'Provinsi',
+    'inputProvince' => 'Masukan Provinsi Anda',
+    'city' => 'Kota/Kabupate',
+    'inputCity' => 'Masukan Kota/Kabupaten Anda',
+    'district' => 'Kecamatan',
+    'inputDistrict' => 'Masukan Kecamatan Anda',
+    'village' => 'Kelurahan/Desa',
+    'inputVillage' => 'Masukan Kelurahan/Desa Anda',
+    'rt' => 'RT',
+    'inputRT' => 'Masukan RT Anda',
+    'rw' => 'RW',
+    'inputRW' => 'Masukan RW Anda',
+    'postalCode' => 'Kode Pos',
+    'inputPostalCode' => 'Masukan Kode Pos Anda',
+    'fullAddress' => 'Alamat Lengkap',
+    'inputFullAddress' => 'Masukan Alamat Lengkap Anda',
+    'editUserInfo' => 'Perbarui Info Pengguna',
+    'enterForm' => 'Masukkan konten formulir atau informasi yang ingin diedit di sini.',
+    'userName' => 'Nama Pengguna',
+    'inputUserName' => 'Masukan Nama Pengguna',
+    'profileImage' => 'Foto Profil',
+    'chooseImage' => 'Pilih gambar dari perangkat Anda.',
+    'save' => 'Simpan',
+    'userInfo' => 'Informasi Akun',
+    'address' => 'Alamat',
+    'faq' => 'FAQ',
+    'logout' => 'Keluar',
+    'edit' => 'Ubah',
+    'age' => 'Umur',
+    'addAddress' => 'Tambahkan Alamat',
+    'delete' => 'Hapus',
+    'addressEmpty' => 'Alamat masih kosong...',
+    'frequentlyAskedQuestions' => ' Pertanyaan Umum',
+    'whatIsSnackTower' => 'Apa itu Snack Tower?',
+    'whatIsSnackTowerDescription' => 'Snack Tower adalah hadiah yang dapat dikustomisasi, terdiri dari kotak-kotak bertumpuk yang berisi cemilan pilihanmu. Kamu bisa mencampur dan mencocokkan berbagai jenis snack, kemasan, dan pesan hadiah sesuai dengan momen atau acara tertentu.',
+    'howICustomizeSnackTower' => 'Bagaimana cara saya mengkustomisasi Snack Tower saya?',
+    'howICustomizeSnackTowerDescription' => 'Ketuk tombol “Kustomisasi Snack Tower” di layar utama. Kamu akan dipandu melalui langkah-langkah berikut:
+                                                <br>
+                                                1. Pilih jumlah tingkat (2–4)
+                                                <br>
+                                                2. Pilih cemilan untuk setiap tingkat
+                                                <br>
+                                                3. Pilih dekorasi untuk Snack Tower (opsional)
+                                                <br>',
+    'doYouOffer' =>'Apakah kalian menyediakan tower yang sudah jadi?',
+    'doYouOfferDescription' => 'Ya! Kamu bisa mengunjungi bagian Koleksi untuk memilih desain-desain populer yang sudah berisi cemilan pilihan atau Snack Tower yang disesuaikan dengan acara tertentu.',
+    'isThereAMinimumOrder' => 'Apakah ada jumlah pesanan minimum?',
+    'isThereAMinimumOrderDescription' => 'Tidak ada minimum! Kamu bisa membuat Snack Tower hanya dengan 2 tingkat. Harga akan diperbarui secara real-time saat kamu melakukan kustomisasi.',
+     'whatIsDifference' => 'Apa perbedaan antara Snack Tower dan Snack Bouquet?',
+     'whatIsDifferenceDescription' => '- Snack Tower: Tumpukan bertingkat berisi kotak-kotak yang diisi dengan cemilan pilihanmu. Disajikan dalam format kotak hadiah vertikal dan biasanya bertema sesuai acara atau warna.
+                                                <br>
+                                                - Snack Bouquet: Susunan cemilan yang menarik secara visual, di mana cemilan dibungkus atau ditusuk menyerupai bunga dalam sebuah buket, sering kali menggunakan wadah atau pembungkus dekoratif.
+                                                <br>',
+    'whatIsMystery' => 'Apa itu Mystery Snack Box?',
+    'whatIsMysteryDescription' => "Mystery Snack Box adalah pilihan cemilan kejutan yang dipilih oleh penjual berdasarkan anggaran, suasana hati, dan preferensi yang kamu tentukan. Kamu tidak akan tahu persis apa isi di dalamnya sampai kotaknya tiba!",
+    'canIChoose' => "Apakah saya bisa memilih sendiri isi cemilan dalam Mystery Box?",
+    'canIChooseDescription' => 'Tidak. Mystery Box sengaja dibuat secara acak untuk menjaga unsur kejutan. Jika kamu ingin memilih sendiri isinya, silakan lihat opsi Snack Tower atau Snack Bouquet kami.'
+];

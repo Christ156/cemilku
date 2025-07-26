@@ -59,14 +59,12 @@
                 @if ($mode == 'Mood')
                     <div class="d-md-none text-center mb-3 mt-1">
                         <h5 class="fw-bold">Mood</h5>
-                        <span class="mood_description text-muted small mt-2">Note : Mood akan menentukan warna dari snack di
-                            dalam mystery box</span>
+                        <span class="mood_description text-muted small mt-2">{!! __('mysterybox.descriptionMood') !!}</span>
                     </div>
                 @elseif ($mode == 'Budget')
                     <div class="d-md-none text-center mb-3 mt-1">
                         <h5 class="fw-bold">Budget</h5>
-                        <span class="mood_description text-muted small mt-2">Note : Semakin besar budget maka akan semakin
-                            banyak juga snack di dalam mystery box</span>
+                        <span class="mood_description text-muted small mt-2">{!! __('mysterybox.descriptionBudget') !!}</span>
                     </div>
                 @endif
 
@@ -88,17 +86,17 @@
                             <div
                                 class="circle {{ $mode == 'Budget' || $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">
                                 1</div>
-                            <div class="label mt-1">Set Budget</div>
+                            <div class="label mt-1">{{__('mysterybox.setBudget')}}</div>
                         </div>
                         <div class="line_completed"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">2</div>
-                            <div class="label mt-1">Set Mood</div>
+                            <div class="label mt-1">{{__('mysterybox.setMood')}}</div>
                         </div>
                         <div class="{{ $mode == 'Done' ? 'line_completed' : 'line_pending' }}"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Done' ? 'active' : '' }}">3</div>
-                            <div class="label mt-1">Done</div>
+                            <div class="label mt-1">{{__('mysterybox.done')}}</div>
                         </div>
                     </div>
 
@@ -106,14 +104,12 @@
                         @if ($mode == 'Mood')
                             <h5 class="fw-bold">Mood</h5>
                             <p class="text-muted small mt-2">
-                                Note : Mood akan menentukan warna dari snack <br />
-                                di dalam mystery box
+                                {!!  __('mysterybox.descriptionMood') !!}
                             </p>
                         @elseif ($mode == 'Budget')
                             <h5 class="fw-bold">Budget</h5>
                             <p class="text-muted small mt-2">
-                                Note : Semakin besar budget maka akan semakin <br />
-                                banyak juga snack di dalam mystery box
+                                {!!  __('mysterybox.descriptionBudget') !!}
                             </p>
                         @endif
                     </div>
@@ -147,7 +143,7 @@
                             <input type="hidden" name="budget" id="selectedBudget" required>
                         </form>
                         <div class="next-button-wrapper">
-                            <button type="submit" class="next_button" form="budgetForm">Next</button>
+                            <button type="submit" class="next_button" form="budgetForm">{{__('mysterybox.next')}}</button>
                         </div>
 
                         {{-- Step 2: Mood --}}
@@ -157,12 +153,12 @@
                             @csrf
                             @php
                                 $moods = [
-                                    ['label' => 'Romantic', 'img' => 'mysterybox_pink.png', 'id' => 1],
-                                    ['label' => 'Mysterious', 'img' => 'mysterybox_ungu.png', 'id' => 2],
-                                    ['label' => 'Funny', 'img' => 'mysterybox_biru.png', 'id' => 3],
-                                    ['label' => 'Brave', 'img' => 'mysterybox_merah.png', 'id' => 4],
-                                    ['label' => 'Calm', 'img' => 'mysterybox_hijau.png', 'id' => 5],
-                                    ['label' => 'Happy', 'img' => 'mysterybox_kuning.png', 'id' => 6],
+                                    ['label' => __('mysterybox.romantic'), 'img' => 'mysterybox_pink.png', 'id' => 1],
+                                    ['label' => __('mysterybox.mysterious'), 'img' => 'mysterybox_ungu.png', 'id' => 2],
+                                    ['label' => __('mysterybox.funny'), 'img' => 'mysterybox_biru.png', 'id' => 3],
+                                    ['label' => __('mysterybox.brave'), 'img' => 'mysterybox_merah.png', 'id' => 4],
+                                    ['label' => __('mysterybox.calm'), 'img' => 'mysterybox_hijau.png', 'id' => 5],
+                                    ['label' => __('mysterybox.happy'), 'img' => 'mysterybox_kuning.png', 'id' => 6],
                                 ];
                             @endphp
                             <div class="mood-wrapper mb-2 w-1000 d-grid"
@@ -178,7 +174,7 @@
                             <input type="hidden" name="mystery_box_id" id="selectedMysteryBoxId">
                         </form>
                         <div class="next-button-wrapper">
-                            <button type="submit" class="next_button" form="moodForm">Next</button>
+                            <button type="submit" class="next_button" form="moodForm">{{__('mysterybox.next')}}</button>
                         </div>
                     @endif
                 </div>
@@ -197,9 +193,9 @@
                             d="M20 20l24 24M44 20L20 44" />
                     </svg>
                 </div>
-                <h4 class="fw-bold mb-2">Failed</h4>
-                <p class="mb-4">Please choose an option first!</p>
-                <button type="button" class="btn btn-danger rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                <h4 class="fw-bold mb-2">{{__('mysterybox.failed')}}</h4>
+                <p class="mb-4">{{__('mysterybox.chooseOptionFirst')}}</p>
+                <button type="button" class="btn btn-danger rounded-pill px-4" data-bs-dismiss="modal">{{__('mysterybox.close')}}</button>
             </div>
         </div>
     </div>
@@ -215,11 +211,13 @@
                             d="M18 34l10 10 18-24" />
                     </svg>
                 </div>
-                <h4 class="fw-bold mb-2">Success</h4>
-                <p class="mb-4">Mystery box has been added to cart!</p>
-                <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">Confirm</button>
+                <h4 class="fw-bold mb-2">{{__('mysterybox.success')}}</h4>
+                <p class="mb-4">{{__('mysterybox.addedToCart')}}</p>
+                <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">{{__('mysterybox.confirm')}}</button>
             </div>
         </div>
     </div>
+
+    <p id="chooseBudgetText" class="d-none">{{ __('mysterybox.chooseBudgetFirst') }}</p>
 
 @endsection

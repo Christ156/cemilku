@@ -15,7 +15,7 @@
             <h1 class="titleSearch d-flex justify-content-center align-items-center">CemilKu!</h1>
             <form class="d-flex" method="POST" action="{{ route('collection.search') }}">
                 @csrf
-                <input class="custom_search form-control rounded-5" type="search" name="search" placeholder="Search Collection..."
+                <input class="custom_search form-control rounded-5" type="search" name="search" placeholder="{{__('collection.searchCollection')}}"
                     aria-label="Search" />
             </form>
         </div>
@@ -23,7 +23,7 @@
         {{-- DIVIDER CNY --}}
         <div class="d-flex align-items-center my-4">
             <hr class="flex-grow-1" style="border-color: #52282A;">
-            <span class="mx-3 fs-3" style="color: #52282A">Chinese New Year Edition</span>
+            <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.cnyEdition')}}</span>
             <hr class="flex-grow-1">
         </div>
 
@@ -58,7 +58,7 @@
                 {{-- DIVIDER VALENTINE --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Valentine Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.valEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -89,7 +89,7 @@
                 {{-- DIVIDER RAMADHAN --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Ramadhan Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.ramadhanEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -121,7 +121,7 @@
                 {{-- DIVIDER CHRISTMAS --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Christmas Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.christmasEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -152,7 +152,7 @@
                 {{-- DIVIDER BIRTHDAY --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Birthday Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.birthdayEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -184,7 +184,7 @@
                 {{-- DIVIDER GRADUATION --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Graduation Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.graduationEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 

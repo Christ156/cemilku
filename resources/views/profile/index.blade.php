@@ -158,14 +158,34 @@
                 </a>
 
                 <!-- DIPINDAHKAN: Dropdown Bahasa untuk Desktop -->
-                <div class="dropdown d-none d-sm-block">
+                <div class="dropdown d-none d-sm-block pe-2">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
+                        <img id="flag-icon"
+                            src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                            alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
+                            height="30" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="id">
+                                <button type="submit" class="dropdown-item">
+                                    Indonesia
+                                    @if (app()->getLocale() == 'id')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="en">
+                                <button type="submit" class="dropdown-item">
+                                    English
+                                    @if (app()->getLocale() == 'en')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
 
@@ -197,43 +217,43 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editBottomModalLabel">Edit Info Lengkap</h5>
+                    <h5 class="modal-title" id="editBottomModalLabel">{{ __('profile.editInfo') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
                     <div>
                         <div class="mb-3">
-                            <label for="gender" class="form-label">Gender</label>
+                            <label for="gender" class="form-label">{{ __('profile.gender') }}</label>
                             <select name="gender" class="form-select" id="gender">
                                 <option value="Laki-laki" {{ Auth::user()->gender == 'Laki-laki' ? 'selected' : '' }}>
-                                    Laki-laki
+                                    {{ __('profile.male') }}
                                 </option>
                                 <option value="Perempuan" {{ Auth::user()->gender == 'Perempuan' ? 'selected' : '' }}>
-                                    Perempuan
+                                    {{ __('profile.female') }}
                                 </option>
                             </select>
 
                         </div>
                         <div class="mb-3">
-                            <label for="dateofbirth" class="form-label">Date of Birth</label>
+                            <label for="dateofbirth" class="form-label">{{ __('profile.dateOfBirth') }}</label>
                             <input value="{{ Auth::user()->date_of_birth }}" type="date" class="form-control"
-                                name="dateofbirth" id="dateofbirth" placeholder="Masukkan Date of Birth">
+                                name="dateofbirth" id="dateofbirth" placeholder="{{ __('profile.inputDOB') }}">
                         </div>
                         <div class="mb-3">
-                            <label for="email2" class="form-label">Email</label>
+                            <label for="email2" class="form-label">{{ __('profile.email') }}</label>
                             <input type="email" value="{{ Auth::user()->email }}" class="form-control"
-                                name="email" id="email2" placeholder="Masukkan email">
+                                name="email" id="email2" placeholder="{{ __('profile.inputEmail') }}">
                         </div>
                         <div class="mb-3">
-                            <label for="telepon" class="form-label">No. Telepon</label>
+                            <label for="telepon" class="form-label">{{ __('profile.phoneNumber') }}</label>
                             <input type="number" value="{{ Auth::user()->phone_number }}" name="telepon"
-                                class="form-control" id="telepon" placeholder="Masukkan no. telepon">
+                                class="form-control" id="telepon" placeholder="{{ __('profile.inputPhoneNumber') }}">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-simpan">Simpan Perubahan</button>
+                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                    <button type="submit" class="btn btn-simpan">{{ __('profile.saveChanges') }}</button>
                 </div>
             </form>
         </div>
@@ -245,59 +265,59 @@
             <form action="{{ route('address.store') }}" method="POST" class="modal-content modal-1-dalem">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editAddressModalLabel">Edit Info Lengkap</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                    <h5 class="modal-title" id="editAddressModalLabel">{{ __('profile.editInfo') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('profile.close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="label" class="form-label">Label</label>
+                        <label for="label" class="form-label">{{ __('profile.label') }}</label>
                         <input type="text" value="" name="label" class="form-control" id="label"
-                            placeholder="Contoh: Alamat Rumah / Kantor">
+                            placeholder="{{ __('profile.placeHolderAddress') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="provinsi" class="form-label">Provinsi</label>
+                        <label for="provinsi" class="form-label">{{ __('profile.province') }}</label>
                         <input type="text" value="" name="provinsi" class="form-control" id="provinsi"
-                            placeholder="Masukkan Provinsi...">
+                            placeholder="{{ __('profile.inputProvince') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
+                        <label for="kota_kabupaten" class="form-label">{{ __('profile.city') }}</label>
                         <input type="text" value="" name="kota_kabupaten" class="form-control"
-                            id="kota_kabupaten" placeholder="Masukkan Kota atau Kabupaten...">
+                            id="kota_kabupaten" placeholder="{{ __('profile.inputCity') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kecamatan" class="form-label">Kecamatan</label>
+                        <label for="kecamatan" class="form-label">{{ __('profile.district') }}</label>
                         <input type="text" value="" name="kecamatan" class="form-control" id="kecamatan"
-                            placeholder="Masukkan Kecamatan...">
+                            placeholder="{{ __('profile.inputDistrict') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kelurahan_desa" class="form-label">Kelurahan/Desa</label>
+                        <label for="kelurahan_desa" class="form-label">{{ __('profile.village') }}</label>
                         <input type="text" value="" name="kelurahan_desa" class="form-control"
-                            id="kelurahan_desa" placeholder="Masukkan Kelurahan atau Desa...">
+                            id="kelurahan_desa" placeholder="{{ __('profile.inputVillage') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rt" class="form-label">RT</label>
+                        <label for="rt" class="form-label">{{ __('profile.rt') }}</label>
                         <input type="text" value="" name="rt" class="form-control" id="rt"
-                            placeholder="Masukkan RT...">
+                            placeholder="{{ __('profile.inputRT') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rw" class="form-label">RW</label>
+                        <label for="rw" class="form-label">{{ __('profile.rw') }}</label>
                         <input type="text" value="" name="rw" class="form-control" id="rw"
-                            placeholder="Masukkan RW...">
+                            placeholder="{{ __('profile.inputRW') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kode_pos" class="form-label">Kode Pos</label>
+                        <label for="kode_pos" class="form-label">{{ __('profile.postalCode') }}</label>
                         <input type="text" value="" name="kode_pos" class="form-control" id="kode_pos"
-                            placeholder="Masukkan Kode Pos...">
+                            placeholder="{{ __('profile.inputPostalCode') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="address" class="form-label">Alamat Lengkap</label>
-                        <textarea name="address" class="form-control" id="address" placeholder="Masukkan Alamat Lengkap..."
+                        <label for="address" class="form-label">{{ __('profile.fullAddress') }}</label>
+                        <textarea name="address" class="form-control" id="address" placeholder="{{ __('profile.inputFullAddress') }}"
                             rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-simpan">Simpan Perubahan</button>
+                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                    <button type="submit" class="btn btn-simpan">{{ __('profile.saveChanges') }}</button>
                 </div>
             </form>
         </div>
@@ -311,28 +331,28 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit User Info</h5>
+                    <h5 class="modal-title" id="editModalLabel">{{ __('profile.editUserInfo') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Masukkan konten formulir atau informasi untuk edit di sini.</p>
+                    <p>{{ __('profile.enterForm') }}</p>
                     <div>
                         <div class="mb-3">
-                            <label for="namaUser" class="form-label">Nama User</label>
+                            <label for="namaUser" class="form-label">{{ __('profile.userName') }}</label>
                             <input name="name" value="{{ Auth::user()->name }}" type="text"
-                                class="form-control" id="namaUser" placeholder="Masukkan nama...">
+                                class="form-control" id="namaUser" placeholder="{{ __('profile.inputUserName') }}">
                         </div>
                         <div class="mb-3"> {{-- Add this new div for image upload --}}
-                            <label for="imageUser" class="form-label">Profile Image</label>
+                            <label for="imageUser" class="form-label">{{ __('profile.profileImage') }}</label>
                             <input name="profile_image" type="file" class="form-control" id="imageUser"
                                 accept="image/*">
-                            <small class="form-text text-muted">Choose an image from your device.</small>
+                            <small class="form-text text-muted">{{ __('profile.chooseImage') }}</small>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-simpan">Simpan</button>
+                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                    <button type="submit" class="btn btn-simpan">{{ __('profile.save') }}</button>
                 </div>
             </form>
         </div>
@@ -346,13 +366,13 @@
                     <hr class="garis" />
                 </div>
                 <div class="container d-flex flex-column mb-5 align-items-center">
-                    <a href="#" class="side-link side-link-2 p-2 active" data-slide-to="0">User Info</a>
-                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="1">Address</a>
-                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="2">FAQ</a>
+                    <a href="#" class="side-link side-link-2 p-2 active" data-slide-to="0">{{ __('profile.userInfo') }}</a>
+                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="1">{{ __('profile.address') }}</a>
+                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="2">{{ __('profile.faq') }}</a>
                     <hr class="garis" />
                 </div>
                 <div class="container d-flex justify-content-center align-items-center">
-                    <a href="/login" class="side-link side-link-2 p-2 mb-4">Log Out</a>
+                    <a href="/login" class="side-link side-link-2 p-2 mb-4">{{ __('profile.logout') }}</a>
                 </div>
             </div>
 
@@ -374,14 +394,14 @@
                                         </div>
                                         <div class="ms-auto align-self-start" data-bs-toggle="modal"
                                             data-bs-target="#editModal">
-                                            <button class="button-edit">✏️ Edit</button>
+                                            <button class="button-edit">✏️ {{ __('profile.edit') }}</button>
                                         </div>
                                     </div>
                                     <hr class="garis" />
                                     <div class="d-flex flex-column align-items-start p-3" id="info-container">
                                         <div class="container info-luar">
                                             <div class="container-judul-info-user">
-                                                <h4 class="judul-info-user">Gender</h4>
+                                                <h4 class="judul-info-user">{{ __('profile.gender') }}</h4>
                                             </div>
                                             <div class="container-info-user">
                                                 <h4 class="info-user">{{ Auth::user()->gender }}</h4>
@@ -389,7 +409,7 @@
                                         </div>
                                         <div class="container info-luar">
                                             <div class="container-judul-info-user">
-                                                <h4 class="judul-info-user">Age</h4>
+                                                <h4 class="judul-info-user">{{ __('profile.age') }}</h4>
                                             </div>
                                             <div class="container-info-user">
                                                 <h4 class="info-user">
@@ -399,7 +419,7 @@
                                         </div>
                                         <div class="container info-luar">
                                             <div class="container-judul-info-user">
-                                                <h4 class="judul-info-user">Email</h4>
+                                                <h4 class="judul-info-user">{{ __('profile.email') }}</h4>
                                             </div>
                                             <div class="container-info-user">
                                                 <h4 class="info-user">{{ Auth::user()->email }}</h4>
@@ -408,7 +428,7 @@
                                         <div class="container info-luar">
                                             <div class="container-judul-info-user">
                                                 <div class="no-telepon">
-                                                    <h4 class="judul-info-user">Telephone Number</h4>
+                                                    <h4 class="judul-info-user">{{ __('profile.phoneNumber') }}</h4>
                                                 </div>
                                             </div>
                                             <div class="container-info-user">
@@ -438,7 +458,7 @@
                                         </div> --}}
                                         <div class="ms-auto align-self-start" id="edit-bawah">
                                             <button class="button-edit" data-bs-toggle="modal"
-                                                data-bs-target="#editBottomModal">✏️ Edit</button>
+                                                data-bs-target="#editBottomModal">✏️ {{ __('profile.edit') }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -449,13 +469,13 @@
                         <div class="carousel-item">
                             <div class="container">
                                 <div class="p-2 ms-2">
-                                    <h2>Address</h2>
+                                    <h2>{{ __('profile.address') }}</h2>
                                     <div>
                                         <div class="form-inline my-2 my-lg-0">
                                             <div class="d-flex flex-row justify-content-between">
                                                 <button type="button" class="btn bg-warning" data-bs-toggle="modal"
                                                     data-bs-target="#addAddressModal">
-                                                    + Add Address
+                                                    + {{ __('profile.addAddress') }}
                                                 </button>
                                             </div>
                                         </div>
@@ -475,14 +495,14 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">
-                                                    Delete
+                                                    {{ __('profile.delete') }}
                                                 </button>
                                             </form>
                                         </div>
 
                                     @empty
                                         <div class="container mt-2">
-                                            <h4>Address is empty...</h4>
+                                            <h4>{{ __('profile.addressEmpty') }}</h4>
                                         </div>
                                     @endforelse
                                 </div>
@@ -494,7 +514,7 @@
                         <div class="carousel-item">
                             <div class="container luar-faq">
                                 <div class="container p-2 ms-2">
-                                    <h2>Frequently Asked Questions</h2>
+                                    <h2>{{ __('profile.frequentlyAskedQuestions') }}</h2>
                                 </div>
                                 <div class="accordion p-3" id="accordionExample">
                                     <div class="accordion-item">
@@ -504,16 +524,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseOne" aria-expanded="false"
                                                 aria-controls="collapseOne">
-                                                What is a Snack Tower?
+                                                {{ __('profile.whatIsSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                A Snack Tower is a customizable gift made up of stacked boxes filled
-                                                with your chosen snacks. You can mix and match treats, packaging,
-                                                and
-                                                gift messages for any occasion.
+                                                {{ __('profile.whatIsSnackTowerDescription') }}
                                             </div>
                                         </div>
                                     </div>
@@ -524,22 +541,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseTwo" aria-expanded="false"
                                                 aria-controls="collapseTwo">
-                                                How do I customize my Snack Tower?
+                                               {{ __('profile.howICustomizeSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                Tap the “Customize Snack Tower” button on the home screen. You’ll be
-                                                guided
-                                                through steps to:
-                                                <br>
-                                                1. Select the number of level (2-4)
-                                                <br>
-                                                2. Choose snacks for each tier
-                                                <br>
-                                                3. Choose decorations for snack tower (optional)
-                                                <br>
+                                                {!! __('profile.howICustomizeSnackTowerDescription') !!}
                                             </div>
                                         </div>
                                     </div>
@@ -550,15 +558,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseThree" aria-expanded="false"
                                                 aria-controls="collapseThree">
-                                                Do you offer pre-made towers?
+                                                {{ __('profile.doYouOffer')}}
                                             </button>
                                         </h2>
                                         <div id="collapseThree" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                Yes! Visit the Collections section to choose from popular designs
-                                                with
-                                                pre-selected snacks or event-based snack tower.
+                                                {{ __('profile.doYouOfferDescription') }}
                                             </div>
                                         </div>
                                     </div>
@@ -570,14 +576,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseFour" aria-expanded="false"
                                                 aria-controls="collapseFour">
-                                                Is there a minimum order amount?
+                                                {{__('profile.isThereAMinimumOrder')}}
                                             </button>
                                         </h2>
                                         <div id="collapseFour" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                No minimum! You can build a tower with as few as 2 tiers. Pricing
-                                                updates in real time as you customize.
+                                                {{__('profile.isThereAMinimumOrderDescription')}}
                                             </div>
                                         </div>
                                     </div>
@@ -589,24 +594,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseFive" aria-expanded="false"
                                                 aria-controls="collapseFive">
-                                                What is the difference between a Snack Tower and a Snack Bouquet?
+                                                {{__('profile.whatIsDifference')}}
                                             </button>
                                         </h2>
                                         <div id="collapseFive" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                - Snack Tower: A multi-tiered stack of boxes filled with your
-                                                selected
-                                                snacks. It’s presented in a vertical, gift-box format and often
-                                                themed
-                                                by occasion or color.
-                                                <br>
-                                                - Snack Bouquet: A visually striking arrangement where snacks are
-                                                wrapped
-                                                or skewered like flowers in a bouquet, often in a decorative
-                                                container
-                                                or wrapper.
-                                                <br>
+                                                {!!__('profile.whatIsDifferenceDescription')!!}
                                             </div>
                                         </div>
                                     </div>
@@ -618,16 +612,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseSix" aria-expanded="false"
                                                 aria-controls="collapseSix">
-                                                What is a Mystery Snack Box?
+                                               {{__('profile.whatIsMystery')}}
                                             </button>
                                         </h2>
                                         <div id="collapseSix" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                A Mystery Snack Box is a surprise selection of snacks chosen by the
-                                                seller, based on your selected budget, mood, and preference. You
-                                                won’t
-                                                know exactly what’s inside until it arrives!
+                                               {{__('profile.whatIsMysteryDescription')}}
                                             </div>
                                         </div>
                                     </div>
@@ -639,15 +630,13 @@
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseSeven" aria-expanded="false"
                                                 aria-controls="collapseSeven">
-                                                Can I choose the Mystery Box's snacks by myself?
+                                                {{__('profile.canIChoose')}}
                                             </button>
                                         </h2>
                                         <div id="collapseSeven" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                No. Mystery Boxes are intentionally randomized to keep the surprise
-                                                factor. If you want to build your own, check out our Snack Tower or
-                                                Bouquet options.
+                                                {{__('profile.canIChooseDescription')}}
                                             </div>
                                         </div>
                                     </div>

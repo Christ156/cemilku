@@ -17,5 +17,5 @@ return [
     'success' => 'Berhasil',
     'collectionAdded' => 'Koleksi telah ditambahkan ke keranjang.',
     'confirm' => 'Konfirmasi',
-    
+    'searchCollection' => 'Cari Koleksi ...'
 ];

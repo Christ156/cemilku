@@ -4,7 +4,7 @@ return [
     'home' => 'Home',
     'collections' => 'Collections',
     'order' => 'Order',
-    'logout' => 'Logout',
+    'logout' => 'Log out',
     'search collection' => 'Search Collection',
     'language' => 'Language',
     'settings' => 'Settings',

@@ -41,6 +41,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Global JavaScript -->
     <script src="{{ asset('js/languange_swithcer.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
@@ -133,27 +134,42 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                    href="order">Order</a>
+                                    href="order">{{ __('navigation.order') }}</a>
                             </li>
 
                             <!-- Language (Mobile) -->
-                            <li class="nav-item dropdown d-block d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown">
-                                    Language
+                            <li class="dropdown d-block d-sm-none pe-2">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img id="flag-icon"
+                                        src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                                        alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle"
+                                        width="30" height="30" />
                                 </a>
-                                <ul class="dropdown-menu p-2" style="min-width: 150px;">
-                                    <form method="GET" action="{{ url()->current() }}">
-                                        <select name="lang" onchange="this.form.submit()"
-                                            class="form-select form-select-sm">
-                                            <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>
-                                                Indonesia</option>
-                                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>
-                                                English</option>
-                                        </select>
-                                    </form>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="id">
+                                            <button type="submit" class="dropdown-item">
+                                                Indonesia
+                                                @if (app()->getLocale() == 'id')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="en">
+                                            <button type="submit" class="dropdown-item">
+                                                English
+                                                @if (app()->getLocale() == 'en')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <hr style="border-top: 2px solid #341c02;">
+                                    </li>
                                 </ul>
-                                <hr style="border-top: 2px solid #341c02;">
                             </li>
 
 
@@ -161,7 +177,7 @@
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button class="nav-link" type="submit" style="color: red">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Log out
+                                        <i class="bi bi-box-arrow-right me-1"></i>{{ __('navigation.logout') }}
                                     </button>
                                 </form>
                             </li>
@@ -171,17 +187,35 @@
 
                 {{-- Language (Desktop) --}}
                 <div class="dropdown d-none d-sm-block pe-2">
-
-                    <form method="GET" action="{{ url()->current() }}">
-                        <select name="lang" onchange="this.form.submit()" class="form-select">
-                            <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Indonesia
-                            </option>
-                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
-                        </select>
-                    </form>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img id="flag-icon"
+                            src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                            alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
+                            height="30" />
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="id">
+                                <button type="submit" class="dropdown-item">
+                                    Indonesia
+                                    @if (app()->getLocale() == 'id')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="en">
+                                <button type="submit" class="dropdown-item">
+                                    English
+                                    @if (app()->getLocale() == 'en')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-
-
 
 
                 {{-- Cart + Profile (Always on right) --}}

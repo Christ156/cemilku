@@ -17,4 +17,5 @@ return [
     'success' => 'Success',
     'collectionAdded' => 'Collections has been added to cart!',
     'confirm' => 'Confirm',
+    'searchCollection' => 'Search Collections ...'
 ];
