@@ -105,7 +105,7 @@
             data: {
                 labels: {!! json_encode($salesChart['labels']) !!},
                 datasets: [{
-                    label: 'Jumlah Collection Terjual',
+                    label: 'Number of Collections Sold',
                     data: {!! json_encode($salesChart['data']) !!},
                     fill: true,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',

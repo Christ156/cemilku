@@ -30,7 +30,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         @if ($snack->image)
-                            <img src="{{ asset('assets/snack_items/' . $snack->image) }}" alt="Snack Image" width="60" height="60" style="object-fit: cover; border-radius: 8px;">
+                            <img src="{{ asset('assets/snack_items/' . $snack->image) }}" alt="Snack Image" width="60"
+                                height="60" style="object-fit: cover; border-radius: 8px;">
                         @else
                             <span class="text-muted">No image</span>
                         @endif
@@ -39,13 +40,15 @@
                     <td>Rp{{ number_format($snack->price, 0, ',', '.') }}</td>
                     <td>{{ $snack->stock }}</td>
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm"
-                            title="Edit" label="Edit"
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit" label="Edit"
                             onclick="location.href='{{ route('adminsnack.edit', $snack->id) }}'" />
-                        <form action="{{ route('adminsnack.destroy', $snack->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin hapus snack ini?')">
+                        <form action="{{ route('adminsnack.destroy', $snack->id) }}" method="POST"
+                            style="display:inline-block;"
+                            onsubmit="return confirm('Are you sure you want to delete this snack?')">
                             @csrf
                             @method('DELETE')
-                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus" label="Hapus" type="submit"/>
+                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus"
+                                label="Delete" type="submit" />
                         </form>
                     </td>
                 </tr>

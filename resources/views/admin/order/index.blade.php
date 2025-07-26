@@ -79,8 +79,8 @@
                             <form action="{{ route('adminorder.ship', $order->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-primary"
-                                    onclick="return confirm('Ubah status menjadi shipped?')">
-                                    <i class="fas fa-shipping-fast"></i> Kirim
+                                    onclick="return confirm('Change status to shipped?')">
+                                    <i class="fas fa-shipping-fast"></i> Ship
                                 </button>
                             </form>
                         @endif
