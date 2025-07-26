@@ -14,10 +14,17 @@
     <x-adminlte-card>
 
         {{-- Tabel --}}
-        <x-adminlte-datatable
-            id="orderTable"
-            :heads="['No.', 'Order ID', 'User Name', 'Address', 'Payment Method', 'Status', 'Total Price', 'Products', 'Action']"
-            striped hoverable bordered with-buttons>
+        <x-adminlte-datatable id="orderTable" :heads="[
+            'No.',
+            'Order ID',
+            'User Name',
+            'Address',
+            'Payment Method',
+            'Status',
+            'Total Price',
+            'Products',
+            'Action',
+        ]" striped hoverable bordered with-buttons>
 
             @foreach ($orders as $index => $order)
                 <tr>
@@ -42,12 +49,12 @@
                     </td>
                     <td>{{ $order->payment_method }}</td>
                     <td>
-                        <span class="badge
+                        <span
+                            class="badge
                             @if ($order->status === 'paid') bg-success
                             @elseif ($order->status === 'pending') bg-warning
                             @elseif ($order->status === 'completed') bg-primary
-                            @else bg-secondary
-                            @endif">
+                            @else bg-secondary @endif">
                             {{ ucfirst($order->status) }}
                         </span>
                     </td>
@@ -68,13 +75,16 @@
                         </ul>
                     </td>
                     <td>
-                        <x-adminlte-button
-                            class="btn-edit"
-                            icon="fas fa-edit"
-                            size="sm"
-                            title="Edit"
-                            label="Edit"
-                            onclick="location.href='{{ route('adminorder.edit', $order->id) }}'" />
+                        @if ($order->status === 'paid')
+                            <form action="{{ route('adminorder.ship', $order->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-primary"
+                                    onclick="return confirm('Ubah status menjadi shipped?')">
+                                    <i class="fas fa-shipping-fast"></i> Kirim
+                                </button>
+                            </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach

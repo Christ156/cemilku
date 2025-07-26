@@ -1,10 +1,10 @@
-@section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin_style.css') }}">
-@endsection
-
 @extends('adminlte::page')
 
 @section('title', 'Data User')
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/admin_style.css') }}">
+@endsection
 
 @section('content')
     <div class="content-header">
@@ -13,19 +13,41 @@
 
     <x-adminlte-card>
 
-        <x-adminlte-datatable id="userTable" :heads="['No.', 'ID', 'Name', 'Action']" striped hoverable bordered with-buttons>
+        <x-adminlte-datatable id="userTable" :heads="['No.', 'ID', 'User Name', 'Role', 'Status', 'Action']" striped hoverable bordered with-buttons>
             @foreach ($users as $index => $user)
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
+
+                    {{-- ROLE --}}
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm"
-                            title="Log" label="Log" />
-                        <form action="" method="POST" style="display:inline-block;">
+                        @if ($user->role === 'admin')
+                            <span class="badge bg-primary text-uppercase">Admin</span>
+                        @else
+                            <span class="badge bg-secondary text-uppercase">User</span>
+                        @endif
+                    </td>
+
+                    {{-- STATUS --}}
+                    <td>
+                        @if ($user->is_blocked)
+                            <span class="badge bg-danger">Blocked</span>
+                        @else
+                            <span class="badge bg-success">Active</span>
+                        @endif
+                    </td>
+
+                    {{-- ACTION --}}
+                    <td>
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Log" label="Log" />
+
+                        <form action="{{ route('adminuser.block', $user->id) }}" method="POST" style="display:inline-block;">
                             @csrf
-                            {{-- @method('DELETE') --}}
-                            <x-adminlte-button class="btn-delete" icon="fas fa-user-slash" size="sm" title="Block" label="Block" type="submit"/>
+                            <x-adminlte-button class="btn-delete" icon="fas fa-user-slash" size="sm"
+                                title="{{ $user->is_blocked ? 'Unblock' : 'Block' }}"
+                                label="{{ $user->is_blocked ? 'Unblock' : 'Block' }}" type="submit"
+                                onclick="return confirm('Yakin ingin {{ $user->is_blocked ? 'membuka blokir' : 'memblokir' }} user ini?')" />
                         </form>
                     </td>
                 </tr>

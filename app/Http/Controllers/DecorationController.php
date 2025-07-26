@@ -39,10 +39,10 @@ class DecorationController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name'  => 'required|string|max:255',
-                'price' => 'required|numeric',
+                'name'  => 'required|string|max:255|unique:decorations,name',
+                'price' => 'required|numeric|min:1',
                 'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('image')) {
@@ -84,39 +84,38 @@ class DecorationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, Decoration $decoration)
-{
-    if (Auth::user()->role == "admin") {
-        $validated = $request->validate([
-            'name'  => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    public function update(Request $request, Decoration $decoration)
+    {
+        if (Auth::user()->role == "admin") {
+            $validated = $request->validate([
+                'name'  => 'required|string|max:255',
+                'price' => 'required|numeric|min:1',
+                'stock' => 'required|integer|min:0',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
 
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($decoration->image && file_exists(public_path('assets/decoration/' . $decoration->image))) {
-                unlink(public_path('assets/decoration/' . $decoration->image));
+            if ($request->hasFile('image')) {
+                // Hapus gambar lama jika ada
+                if ($decoration->image && file_exists(public_path('assets/decoration/' . $decoration->image))) {
+                    unlink(public_path('assets/decoration/' . $decoration->image));
+                }
+
+                $file         = $request->file('image');
+                $originalName = $file->getClientOriginalName();
+
+                // Simpan gambar baru ke folder public/assets/decoration_items
+                $destinationPath = public_path('assets/decoration');
+                $file->move($destinationPath, $originalName);
+
+                // Simpan hanya nama file di database
+                $validated['image'] = $originalName;
             }
 
-            $file = $request->file('image');
-            $originalName = $file->getClientOriginalName();
+            $decoration->update($validated);
 
-            // Simpan gambar baru ke folder public/assets/decoration_items
-            $destinationPath = public_path('assets/decoration');
-            $file->move($destinationPath, $originalName);
-
-            // Simpan hanya nama file di database
-            $validated['image'] = $originalName;
+            return redirect()->route('admindecoration.index')->with('success', 'Decoration diperbarui!');
         }
-
-        $decoration->update($validated);
-
-        return redirect()->route('admindecoration.index')->with('success', 'Decoration diperbarui!');
     }
-}
-
 
     /**
      * Remove the specified resource from storage.
@@ -141,7 +140,12 @@ public function update(Request $request, Decoration $decoration)
             'file' => 'required|file|mimes:xlsx,xls,csv',
         ]);
 
-        Excel::import(new DecorationImport, $request->file('file'));
+        $import = new DecorationImport;
+        Excel::import($import, $request->file('file'));
+
+        if ($import->failures()->isNotEmpty()) {
+            return back()->withErrors($import->failures())->with('warning', 'Beberapa baris gagal diimpor.');
+        }
 
         return redirect()->route('admindecoration.index')->with('success', 'Data decoration berhasil diimpor!');
     }

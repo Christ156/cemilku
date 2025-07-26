@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\UserExport;
@@ -9,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -20,7 +18,8 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            $users = User::where('role', 'user')->get(); // Hanya user biasa
+            // $users = User::where('role', 'user')->get(); // Hanya user biasa
+            $users = User::all();
             return view('admin.user.index', compact('users'));
         }
 
@@ -44,14 +43,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($request->name) {
-            $user->name = $request->name;
-            $user->gender = Auth::user()->gender;
+            $user->name          = $request->name;
+            $user->gender        = Auth::user()->gender;
             $user->date_of_birth = Auth::user()->date_of_birth;
-            $user->email = Auth::user()->email;
-            $user->phone_number = Auth::user()->phone_number;
+            $user->email         = Auth::user()->email;
+            $user->phone_number  = Auth::user()->phone_number;
         } else {
-            $user->name = Auth::user()->name;
-            $user->gender = $request->gender;
+            $user->name          = Auth::user()->name;
+            $user->gender        = $request->gender;
             $user->date_of_birth = $request->dateofbirth;
             $user->email         = $request->email;
             $user->phone_number  = $request->telepon;
@@ -68,7 +67,7 @@ class UserController extends Controller
         // }
 
         if ($request->hasFile('profile_image')) { // Gunakan hasFile untuk memeriksa apakah ada file yang diupload
-            $oldProfileImage = $user->profile_image; // Simpan nama file lama
+            $oldProfileImage = $user->profile_image;  // Simpan nama file lama
 
             // Hapus gambar profil lama jika ada dan file-nya eksis
             if ($oldProfileImage && File::exists(public_path('assets/profile/' . $oldProfileImage))) {
@@ -86,10 +85,6 @@ class UserController extends Controller
             $user->profile_image = $profile_image_name;
         }
 
-
-
-
-
         $user->save();
 
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]);
@@ -103,5 +98,23 @@ class UserController extends Controller
         return Excel::download(new UserExport, 'user.xlsx');
     }
 
-    // Metode lainnya (create, store, edit, destroy) bisa ditambahkan nanti jika dibutuhkan
+    public function block($id)
+    {
+        $user             = User::findOrFail($id);
+        $user->is_blocked = true;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User berhasil diblokir.');
+    }
+
+    public function toggleBlock($id)
+    {
+        $user             = User::findOrFail($id);
+        $user->is_blocked = ! $user->is_blocked;
+        $user->save();
+
+        $status = $user->is_blocked ? 'diblokir' : 'diaktifkan kembali';
+        return redirect()->back()->with('success', "User berhasil $status.");
+    }
+
 }

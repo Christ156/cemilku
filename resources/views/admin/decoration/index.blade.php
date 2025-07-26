@@ -30,7 +30,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         @if ($decoration->image)
-                            <img src="{{ asset('assets/decoration/' . $decoration->image) }}" alt="Decoration Image" width="60" height="60" style="object-fit: cover; border-radius: 8px;">
+                            <img src="{{ asset('assets/decoration/' . $decoration->image) }}" alt="Decoration Image"
+                                width="60" height="60" style="object-fit: cover; border-radius: 8px;">
                         @else
                             <span class="text-muted">No image</span>
                         @endif
@@ -39,13 +40,14 @@
                     <td>Rp{{ number_format($decoration->price, 0, ',', '.') }}</td>
                     <td>{{ $decoration->stock }}</td>
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm"
-                            title="Edit" label="Edit"
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit" label="Edit"
                             onclick="location.href='{{ route('admindecoration.edit', $decoration->id) }}'" />
-                        <form action="{{ route('admindecoration.destroy', $decoration->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin hapus decoration ini?')">
+                        <form action="{{ route('admindecoration.destroy', $decoration->id) }}" method="POST"
+                            style="display:inline-block;" onsubmit="return confirm('Yakin hapus decoration ini?')">
                             @csrf
                             @method('DELETE')
-                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus" label="Hapus" type="submit"/>
+                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus"
+                                label="Hapus" type="submit" />
                         </form>
                     </td>
                 </tr>
@@ -65,6 +67,13 @@
         <input type="file" name="file" required>
         <button type="submit" class="btn btn-add">Import Excel</button>
     </form>
+
+    {{-- Menampilkan error jika file tidak sesuai --}}
+    @error('file')
+        <div class="text-danger mt-2">
+            {{ $message }}
+        </div>
+    @enderror
 
     {{-- Pesan Sukses --}}
     @if (session('success'))

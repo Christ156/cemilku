@@ -60,10 +60,17 @@
     </a>
 
     {{-- Form Impor --}}
-    <form action="{{ route('adminsnack.import') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('adminsnack.import') }}" method="POST" enctype="multipart/form-data" class="mt-3">
         @csrf
         <input type="file" name="file" required>
         <button type="submit" class="btn btn-add">Import Excel</button>
+
+        {{-- Menampilkan error jika file tidak sesuai --}}
+        @error('file')
+            <div class="text-danger mt-2">
+                {{ $message }}
+            </div>
+        @enderror
     </form>
 
     {{-- Pesan Sukses --}}
@@ -72,5 +79,4 @@
             {{ session('success') }}
         </x-adminlte-alert>
     @endif
-
 @endsection
