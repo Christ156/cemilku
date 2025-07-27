@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{asset('assets/logo/logo_cemilku.png')}}" type="image/x-icon">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,16 +39,11 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Global JavaScript -->
-    <script src="{{ asset('javascript/languange_swithcer.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
 
-    {{-- PENTING: cart.js tetap dimuat secara global karena window.addToCart perlu diakses dari halaman lain --}}
-    <script src="{{ asset('js/cart.js') }}"></script>
-    {{-- DIHAPUS DARI SINI: <script src="{{ asset('js/collection_detail.js') }}"></script> --}}
-
-    @yield('script') {{-- Ini adalah tempat JavaScript spesifik halaman akan diinjeksikan --}}
+    @yield('script')
 </head>
 
 <body>
@@ -177,7 +173,7 @@
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <a class="nav-link" href="{{ route('cart') }}">
+                    <a class="nav-link" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
                     {{-- PROFILE BUAT DESKTOP --}}
@@ -202,7 +198,7 @@
                     </div>
 
                     <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                    <a class="nav-link d-lg-none d-block" href="{{ route('cart') }}">
+                    <a class="nav-link d-lg-none d-block" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
 

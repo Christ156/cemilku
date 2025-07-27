@@ -91,13 +91,7 @@ class CollectionController extends Controller
             }
 
             // Simpan item ke cart
-            $cartItem = new CartItem();
-            $cartItem->cart_id = $cart->id;
-            $cartItem->collection_id = $request->collection_id;
-            $cartItem->quantity = $request->quantity;
-            $cartItem->price = $request->price;
-            $cartItem->total_price = $request->quantity * $request->price;
-            $cartItem->save();
+            $this->new_cart_item($cart->id, $request->collection_id, $request->quantity, $request->price, ($request->quantity * $request->price));
 
             return redirect()->route('collections.show', ['id' => $request->collection_id])->with('success', true);
         }
@@ -159,6 +153,51 @@ class CollectionController extends Controller
             $collection->delete();
             return redirect()->route('admin.collection.index')->with('success', 'Collection berhasil dihapus!');
         }
+    }
+
+    private function new_cart_item($cart_id, $collection_id, $quantity, $price, $total_price)
+    {
+        $cart_items = new CartItem();
+        $cart_items->cart_id = $cart_id;
+        $cart_items->collection_id = $collection_id;
+        $cart_items->quantity = $quantity;
+        $cart_items->price = $price;
+        $cart_items->total_price = $total_price;
+        $cart_items->created_at = now();
+        $cart_items->save();
+        return 0;
+    }
+
+    public function add_to_cart(Request $request, $collection_id, $quantity)
+    {
+        $user_id = Auth::user()->id;
+        $checkCartUser = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1);
+        $collection = Collection::findOrFail($collection_id);
+
+        if($quantity == "custom"){
+            $quantity = $request->input('quantity');
+        }
+
+        if ($checkCartUser->count() == 1) {
+            $cart_id = $checkCartUser->first()->id;
+            $sameItem = CartItem::where('collection_id', $collection_id);
+            if($sameItem->count() > 0){
+                $sameItem = $sameItem->first();
+                $sameItem->quantity = $sameItem->quantity + $quantity;
+                $sameItem->total_price = $sameItem->quantity * $sameItem->price;
+                $sameItem->updated_at = now();
+                $sameItem->save();
+            }else{
+                $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
+            }
+        } else {
+            Cart::insert(['user_id' => $user_id, 'is_active' => 1, 'created_at' => now()]);
+            $cart_id = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1)->first()->id;
+
+            $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
+        }
+
+        return \redirect()->route('collections.index');
     }
 
     public function export()

@@ -2,183 +2,125 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Collection;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
-    public function store(Request $request)
+    public function index($id_user, $slug)
     {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
-        }
+        $id_user = Auth::user()->id;
+        $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1)->first()->id;
+        $carts = CartItem::where('cart_id', $id_cart)->get();
+        $address_active = Address::where('user_id', $id_user)->where('is_primary', 1)->first();
+        $address = Address::where('user_id', $id_user)->where('is_primary', 0)->get();
 
-        $user = Auth::user();
+        return view('cart', \compact(['carts', 'address_active', 'address']));
+    }
 
-        $validated = $request->validate([
-            'collection_id' => 'required|exists:collections,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
+    private function create_new_order($id_user, $total_price)
+    {
+        $order = new Order();
+        $order->user_id = $id_user;
+        $order->total_price = $total_price;
+        $order->created_at = now();
+        $order->save();
+        return $order->id;
+    }
 
-        $collection = Collection::find($validated['collection_id']);
+    public function checkout(Request $request, $id_user, $slug)
+    {
+        $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1)->first()->id;
+        $cart_items = CartItem::where('cart_id', $id_cart);
 
-        if (!$collection) {
-            return response()->json(['message' => 'Product not found.'], 404);
-        }
+        $id_order = $this->create_new_order($id_user, $request->input('total_price'));
 
-        // Validasi stok awal saat menambahkan item baru
-        if ($collection->stock < $validated['quantity']) {
-            return response()->json(['message' => 'Requested quantity exceeds available stock.'], 400);
-        }
-
-        $cart = Cart::firstOrCreate(
-            ['user_id' => $user->id, 'is_active' => true],
-            ['user_id' => $user->id, 'is_active' => true]
-        );
-
-        $existingItem = $cart->cartItems()->where('collection_id', $collection->id)->first();
-
-        if ($existingItem) {
-            $newQuantity = $existingItem->quantity + $validated['quantity'];
-
-            // Validasi stok saat memperbarui kuantitas item yang sudah ada
-            if ($collection->stock < $newQuantity) {
-                return response()->json(['message' => 'Adding this quantity would exceed available stock.'], 400);
+        $cart_items = $cart_items->get();
+        for ($i = 0; $i < $cart_items->count(); $i++) {
+            if ($request->input('item_cart_'.$cart_items[$i]->id) == "true") {
+                $order_detail = new OrderDetail();
+                $order_detail->order_id = $id_order;
+                $order_detail->collection_id = $cart_items[$i]->collection_id;
+                $order_detail->customize_id = $cart_items[$i]->customize_id;
+                $order_detail->quantity = $cart_items[$i]->quantity;
+                $order_detail->price = $cart_items[$i]->total_price;
+                $order_detail->created_at = now();
+                $order_detail->save();
+                $cart_items[$i]->delete();
             }
-
-            $existingItem->update([
-                'quantity' => $newQuantity,
-                'total_price' => $collection->price * $newQuantity,
-            ]);
-        } else {
-            $cart->cartItems()->create([
-                'collection_id' => $collection->id,
-                'quantity' => $validated['quantity'],
-                'price' => $collection->price,
-                'total_price' => $collection->price * $validated['quantity'],
-            ]);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Item added to cart successfully!',
-            'cart_item' => $existingItem ?? $cart->cartItems()->where('collection_id', $collection->id)->first(),
-        ], 200);
+        return \redirect()->route('home');
     }
 
-    public function updateQuantity(Request $request)
+    public function destroy(Request $request, $id_user, $slug, $count_items)
     {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
+        $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1)->first()->id;
+        $carts = CartItem::where('cart_id', $id_cart)->get();
+
+        for ($i = 0; $i < $count_items; $i++) {
+            if ($request->input('cart_item_' . $carts[$i]->id)) {
+                $delete_selected = CartItem::findOrFail($carts[$i]->id);
+                $delete_selected->delete();
+            }
         }
 
-        $user = Auth::user();
-
-        $validated = $request->validate([
-            'collection_id' => 'required|exists:collections,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $cart = Cart::where('user_id', $user->id)->where('is_active', true)->first();
-
-        if (!$cart) {
-            return response()->json(['message' => 'Active cart not found for user.'], 404);
-        }
-
-        $cartItem = $cart->cartItems()->where('collection_id', $validated['collection_id'])->first();
-
-        if (!$cartItem) {
-            return response()->json(['message' => 'Cart item not found.'], 404);
-        }
-
-        $collection = Collection::find($validated['collection_id']);
-        if (!$collection) {
-            return response()->json(['message' => 'Product not found.'], 404);
-        }
-
-        // Validasi stok saat memperbarui kuantitas item
-        if ($collection->stock < $validated['quantity']) {
-            return response()->json(['message' => 'Requested quantity exceeds available stock.'], 400);
-        }
-
-        $cartItem->update([
-            'quantity' => $validated['quantity'],
-            'total_price' => $collection->price * $validated['quantity'],
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Quantity updated successfully!',
-            'cart_item' => $cartItem,
-        ]);
+        return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => Str::slug(Auth::user()->name)]);
     }
 
-    public function removeItems(Request $request)
-    {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
+    private function checkPrimaryAddress($id_user){
+        $count = Address::where('user_id', $id_user)->where('is_primary', 1)->count();
+        $exist = false;
+
+        if($count > 0){
+            $exist = true;
         }
 
-        $user = Auth::user();
-
-        $validated = $request->validate([
-            'item_ids' => 'required|array',
-            'item_ids.*' => 'exists:collections,id',
-        ]);
-
-        $cart = Cart::where('user_id', $user->id)->where('is_active', true)->first();
-
-        if (!$cart) {
-            return response()->json(['message' => 'Active cart not found for user.'], 404);
-        }
-
-        $deletedCount = $cart->cartItems()->whereIn('collection_id', $validated['item_ids'])->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => "{$deletedCount} items removed from cart successfully!",
-        ]);
+        return $exist;
     }
 
-    // Menampilkan cart yang disimpan di database
-    public function index()
-    {
-        if (!Auth::check()) {
-            return redirect('/login')->with('error', 'Please log in to view your cart.');
+    public function store_address(Request $request, $id_user, $slug){
+        $address = new Address();
+        $address->user_id = $id_user;
+        $address->receiver_name = $request->input('receiver_name');
+        $address->phone_number = $request->input('receiver_phone');
+        $address->label = $request->input('label_address');
+        $address->address = $request->input('address');
+        $address->rt = $request->input('rt');
+        $address->rw = $request->input('rw');
+        $address->kelurahan_desa = $request->input('kelurahan');
+        $address->kecamatan = $request->input('kecamatan');
+        $address->kota_kabupaten = $request->input('kabupaten');
+        $address->provinsi = $request->input('province');
+        $address->kode_pos = $request->input('pos_code');
+        if($this->checkPrimaryAddress($id_user)){
+            $address->is_primary = 1;
+        }else{
+            $address->is_primary = 0;
         }
+        $address->created_at = now();
+        $address->save();
 
-        $user = Auth::user();
+        return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => $slug]);
+    }
 
-        $cart = Cart::with('cartItems.collection')
-                    ->where('user_id', $user->id)
-                    ->where('is_active', true)
-                    ->first();
+    public function set_primary_address(Request $request, $id_user, $slug){
+        $old_primary = Address::where('user_id', $id_user)->where('is_primary', 1)->first();
+        $old_primary->is_primary = 0;
+        $old_primary->save();
 
-        // Memproses cartItems di controller untuk menyertakan 'type' dan 'stock'
-        if ($cart) {
-            $cartItems = $cart->cartItems->map(function($item) {
-                $collection = $item->collection;
-                return [
-                    'id' => $item->collection_id,
-                    'name' => $collection->name ?? 'Unknown Product',
-                    'price' => $item->price,
-                    'quantity' => $item->quantity,
-                    'total_price' => $item->total_price,
-                    'image' => asset('assets/collections/' . ($collection->image ?? 'placeholder.png')),
-                    'description' => $collection->description ?? '',
-                    'type' => $collection->type ?? '',
-                    'stock' => $collection->stock ?? 0, // <--- BARIS INI DITAMBAHKAN
-                    'selected' => true
-                ];
-            })->toArray();
-        } else {
-            $cartItems = [];
-        }
+        $id_new_primary = $request->input('set-primary-address');
+        $new_primary = Address::find($id_new_primary);
+        $new_primary->is_primary = 1;
+        $new_primary->save();
 
-        return view('cart', compact('cartItems'));
+        return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => $slug]);
     }
 }

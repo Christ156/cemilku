@@ -82,45 +82,11 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('{id}/{slug}/profile', [UserController::class, 'show'])->name('profile');
 
-    // ROUTE UNTUK MENAMBAHKAN ITEM KE KERANJANG
-    Route::post('/cart/add', [CartController::class, 'store'])->name('cart.add');
-    // ROUTE BARU UNTUK MEMPERBARUI KUANTITAS ITEM DI KERANJANG
-    Route::post('/cart/update-quantity', [CartController::class, 'updateQuantity'])->name('cart.update-quantity');
-    // ROUTE BARU UNTUK MENGHAPUS ITEM DARI KERANJANG
-    Route::post('/cart/remove-items', [CartController::class, 'removeItems'])->name('cart.remove-items');
-
     // Mystery Box
     Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');
     Route::post('/set-budget', [MysteryBoxController::class, 'setBudget'])->name('set-budget');
     Route::post('/set-mood', [MysteryBoxController::class, 'setMood'])->name('set-mood');
     Route::post('/reset-session', [MysteryBoxController::class, 'reset'])->name('reset-session');
-
-    Route::middleware('auth')->get('/cart', [CartController::class, 'index'])->name('cart');
-    // START MODIFIKASI: Rute API Alamat
-    // Grup ini TIDAK perlu middleware 'auth' karena sudah di dalam grup middleware 'auth' di atasnya.
-    // Namun, validasi Auth::id() di controller tetap PENTING!
-    Route::group([], function () {
-        // PENTING: Hapus atau komentari baris ini! Ini adalah rute lama yang tidak memfilter berdasarkan user ID.
-        // Route::get('/api/addresses', [AddressController::class, 'getAddressesApi'])->name('api.addresses.index');
-
-        // BARU DITAMBAHKAN/DIKONFIRMASI: Ini adalah rute yang benar untuk mengambil alamat berdasarkan user ID
-        Route::get('/api/users/{user}/addresses', [AddressController::class, 'getAddressesApi'])->name('api.users.addresses.index');
-
-        // POST: Menyimpan alamat baru untuk user tertentu (user_id akan diambil dari {user})
-        Route::post('/api/users/{user}/addresses', [AddressController::class, 'store'])->name('api.users.addresses.store');
-
-        // PUT: Memperbarui alamat yang sudah ada untuk user tertentu
-        Route::put('/api/users/{user}/addresses/{address}', [AddressController::class, 'update'])->name('api.users.addresses.update');
-
-        // DELETE: Menghapus alamat untuk user tertentu
-        Route::delete('/api/users/{user}/addresses/{address}', [AddressController::class, 'destroy'])->name('api.users.addresses.destroy');
-
-        // PUT: Mengatur alamat sebagai alamat utama (primary) untuk user tertentu
-        Route::put('/api/users/{user}/addresses/{address}/set-primary', [AddressController::class, 'setPrimary'])->name('api.users.addresses.setPrimary');
-    });
-    // END MODIFIKASI
-
-
 
     // Route::get('/mysterybox', function () {
     //     $mode = 'Budget';
@@ -191,6 +157,13 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/customize-tower-bouquet/{type}/store', [CustomizeTowerBouquetController::class, 'store'])->name('customer-tower-bouquet.store');
 
     Route::resource('collections', CollectionController::class);
+    Route::post('/collection/{id_collection}/add-to-cart/{quantity}', [CollectionController::class, 'add_to_cart'])->name('collection.to.cart');
+
+    Route::get('/{id_user}/{slug}/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::delete('/{id_user}/{slug}/cart/{count_items}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
+    Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
 
     // baru dibuat ni bang -jason
     Route::get('/checkout', function () {
