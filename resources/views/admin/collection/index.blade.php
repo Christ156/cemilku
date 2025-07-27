@@ -58,11 +58,11 @@
                         <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit" label="Edit"
                             onclick="location.href='{{ route('admincollection.edit', $collection->id) }}'" />
                         <form action="{{ route('admincollection.destroy', $collection->id) }}" method="POST"
-                            style="display:inline-block;" onsubmit="return confirm('Yakin hapus collection ini?')">
+                            style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this snack?')">
                             @csrf
                             @method('DELETE')
                             <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus"
-                                label="Hapus" type="submit" />
+                                label="Delete" type="submit" />
                         </form>
                     </td>
                 </tr>

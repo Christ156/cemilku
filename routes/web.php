@@ -64,8 +64,16 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     // Order Export/Import
     Route::get('/order/export', [OrderController::class, 'export'])->name('order.export');
 
+    // Order untuk update status
+    Route::post('/orders/{id}/ship', [OrderController::class, 'ship'])->name('order.ship');
+
     // User Export/Import
     Route::get('/user/export', [UserController::class, 'export'])->name('user.export');
+
+    Route::post('/users/{id}/block', [UserController::class, 'block'])->name('user.block');
+
+    Route::post('/users/{id}/toggle-block', [UserController::class, 'toggleBlock'])->name('user.block');
+
 
     // Resource routes
     Route::resource('snack', SnackController::class);

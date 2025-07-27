@@ -24,7 +24,8 @@
             @if ($snack->image)
                 <div class="mb-3">
                     <label>Current Image:</label><br>
-                    <img src="{{ asset('assets/snack_items/' . $snack->image) }}" alt="Snack Image" width="120" height="120" style="object-fit: cover; border-radius: 8px;">
+                    <img src="{{ asset('assets/snack_items/' . $snack->image) }}" alt="Snack Image" width="120"
+                        height="120" style="object-fit: cover; border-radius: 8px;">
                 </div>
             @endif
 
@@ -32,7 +33,11 @@
             <div class="mb-3">
                 <label for="image">Change Image (optional):</label>
                 <input type="file" name="image" id="image" class="form-control-file">
+                @error('image')
+                    <span class="text-danger small d-block mt-1">{{ $message }}</span>
+                @enderror
             </div>
+
 
             <x-adminlte-button type="submit" theme="success" icon="fas fa-save" label="Update" />
             <a href="{{ route('adminsnack.index') }}" class="btn btn-secondary ml-2">Cancel</a>

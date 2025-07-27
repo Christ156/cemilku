@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class SnackController extends Controller
 {
@@ -39,10 +40,10 @@ class SnackController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name'  => 'required|string|max:255',
-                'price' => 'required|numeric',
+                'name'  => 'required|string|max:255|unique:snacks,name',
+                'price' => 'required|numeric|min:1',
                 'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($request->hasFile('image')) {
@@ -88,32 +89,35 @@ class SnackController extends Controller
      */
     public function update(Request $request, Snack $snack)
     {
-        if (Auth::user()->role == "admin") {
-            $validated = $request->validate([
-                'name'  => 'required|string|max:255',
-                'price' => 'required|numeric',
-                'stock' => 'required|integer|min:0',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            ]);
+        if (Auth::user()->role !== 'admin') {
+            return abort(403);
+        }
 
-            if ($request->hasFile('image')) {
-                if ($snack->image && file_exists(public_path('assets/snack_items/' . $snack->image))) {
-                    unlink(public_path('assets/snack_items/' . $snack->image));
-                }
+        $validated = $request->validate([
+            'name'  => 'required|string|max:255',
+            'price' => 'required|numeric|min:1',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-                $file            = $request->file('image');
-                $originalName    = $file->getClientOriginalName();
-                $destinationPath = public_path('assets/snack_items');
-                $file->move($destinationPath, $originalName);
-
-                // Hanya simpan nama file saja
-                $validated['image'] = $originalName;
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($snack->image && file_exists(public_path('assets/snack_items/' . $snack->image))) {
+                unlink(public_path('assets/snack_items/' . $snack->image));
             }
 
-            $snack->update($validated);
+            // Simpan gambar baru dengan nama unik (hindari overwrite)
+            $file            = $request->file('image');
+            $filename        = Str::uuid()->toString() . '.' . $file->getClientOriginalExtension();
+            $destinationPath = public_path('assets/snack_items');
+            $file->move($destinationPath, $filename);
 
-            return redirect()->route('adminsnack.index')->with('success', 'Snack diperbarui!');
+            $validated['image'] = $filename;
         }
+
+        $snack->update($validated);
+
+        return redirect()->route('adminsnack.index')->with('success', 'Snack diperbarui!');
     }
 
     /**
@@ -128,7 +132,7 @@ class SnackController extends Controller
 
     public function export()
     {
-        return Excel::download(new SnackExport, 'snack.xlsx');
+        return Excel::download(new SnackExport, 'snack.csv');
     }
 
     public function import(Request $request)

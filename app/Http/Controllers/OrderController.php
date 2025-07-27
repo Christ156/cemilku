@@ -121,4 +121,18 @@ class OrderController extends Controller
         return Excel::download(new OrderExport, 'orders.xlsx');
     }
 
+    public function ship($id)
+    {
+        $order = Order::findOrFail($id);
+
+        if ($order->status === 'paid') {
+            $order->status = 'shipped';
+            $order->save();
+
+            return redirect()->back()->with('success', 'Status berhasil diubah menjadi shipped.');
+        }
+
+        return redirect()->back()->with('error', 'Status hanya bisa diubah dari paid ke shipped.');
+    }
+
 }

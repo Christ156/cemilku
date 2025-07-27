@@ -68,13 +68,13 @@ class CollectionController extends Controller
 
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name'        => 'required|string|max:255',
+                'name'        => 'required|string|max:255|unique:collections,name',
                 'type'        => 'required|in:tower,bouquet',
                 'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
-                'description' => 'nullable|string',
-                'price'       => 'required|numeric',
+                'description' => 'required|string',
+                'price'       => 'required|numeric|min:1',
                 'stock'       => 'required|integer|min:0',
-                'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
 
                 // Snack dan quantity untuk 4 layer
                 'snack_id_1'  => 'required|exists:snacks,id',
@@ -190,8 +190,8 @@ class CollectionController extends Controller
                 'name'        => 'required|string|max:255',
                 'type'        => 'required|in:tower,bouquet',
                 'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
-                'description' => 'nullable|string',
-                'price'       => 'required|numeric|min:0',
+                'description' => 'required|string',
+                'price'       => 'required|numeric||min:1',
                 'stock'       => 'required|integer|min:0',
                 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
