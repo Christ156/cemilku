@@ -9,30 +9,6 @@ body {
 }
 
 
-.nav-link {
-    position: relative;
-    /* font-family: 'poppins';  */
-    font-style: semi-bold;
-}
-
-.nav-link::after {
-    transition: all 0.2s;
-    opacity: 0;
-}
-
-.nav-link:hover {
-    /* border-bottom:3px solid #52282a; */
-    text-decoration: 5px underline #52282a;
-}
-
-.navbar {
-    min-height: 70px;
-    height: 70px;
-    transition: height 0.3s ease;
-
-}
-
-
 .mt-custom {
     margin-top: 10rem;
 }
@@ -314,58 +290,7 @@ body {
     }
 } */
 
-@media (min-width: 360px) and (max-width: 960px) {
-
-    .navbar {
-        height: auto !important;
-    }
-
-    .navbar-collapse {
-        display: block;
-        width: 100%;
-    }
-
-    .navbar-nav {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-left: 1rem;
-        padding-bottom: 1rem;
-        color: #52282A;
-    }
-
-
-    .offcanvas-start {
-        width: 80% !important;
-        max-width: 300px;
-    }
-
-    .offcanvas-backdrop.show {
-        background-color: rgba(0, 0, 0, 0.8);
-        transition: background-color 0.3s ease;
-    }
-
-    .sidebar {
-        background-color: #fffbef !important;
-    }
-
-    .logo-burger {
-        padding-left: 1rem;
-    }
-
-    .nav-link:hover {
-        /* border-bottom:3px solid #52282a; */
-        text-decoration: none;
-    }
-
-    .nav-link.active {
-        border: 2px solid #52282a;
-        border-radius: 10px;
-        padding: 5px 10px;
-        background-color: #fdc607;
-        color: #52282A !important;
-
-    }
+@media  (max-width: 960px) {
 
     .logo-cemilku {
         width: 250px;

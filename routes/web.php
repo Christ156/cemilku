@@ -2,19 +2,17 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CustomizeTowerBouquetController;
 use App\Http\Controllers\DecorationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CumiCumiController;
-use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\MysteryBoxController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +61,20 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     // Collection Force delete
     Route::delete('/collection/{id}/force-delete', [CollectionController::class, 'forceDelete'])->name('collection.force-delete');
 
+    // Order Export/Import
+    Route::get('/order/export', [OrderController::class, 'export'])->name('order.export');
+
+    // Order untuk update status
+    Route::post('/orders/{id}/ship', [OrderController::class, 'ship'])->name('order.ship');
+
+    // User Export/Import
+    Route::get('/user/export', [UserController::class, 'export'])->name('user.export');
+
+    Route::post('/users/{id}/block', [UserController::class, 'block'])->name('user.block');
+
+    Route::post('/users/{id}/toggle-block', [UserController::class, 'toggleBlock'])->name('user.block');
+
+
     // Resource routes
     Route::resource('snack', SnackController::class);
     Route::resource('decoration', DecorationController::class);
@@ -80,7 +92,7 @@ Route::get('/auth-google-callback', [RegisterController::class, 'google_callback
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('{id}/{slug}/profile', [UserController::class, 'show'])->name('profile');
+    Route::get('/profile/{id}/{slug}', [UserController::class, 'show'])->name('profile');
 
     // Mystery Box
     Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');
@@ -164,6 +176,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
     Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
+    Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
+
 
     // baru dibuat ni bang -jason
     Route::get('/checkout', function () {
@@ -206,4 +220,3 @@ Route::middleware('auth', 'verified')->group(function () {
 //         session(['mood' => $request->mood, 'mode' => 'Done']);
 //         return redirect()->route('mysterybox');
 //     })->name('set-mood');
-

@@ -24,6 +24,8 @@
     {{-- Style --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <style>
         body,
         html {
@@ -61,13 +63,13 @@
 
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
-                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
+                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="80" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
                 </div>
 
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{route('home')}}">
+                <a class="navbar-brand d-none d-sm-block m-4 p-2 align-items-center" href="{{ route('home') }}">
                     <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
                         class="d-inline-block align-text-top" />
                 </a>
@@ -76,8 +78,8 @@
                 <div class="collapse navbar-collapse d-none d-sm-flex" id="collapsibleNavId">
                     <ul class="navbar-nav fs-5 flex-row gap-1">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
-                                href="{{ route('home') }}">Home</a>
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}">{{ __('navigation.home') }}</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
@@ -85,11 +87,11 @@
                         </li> --}}
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                href="{{ route('collections.index') }}">Collections</a>
+                                href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                href="order">Order</a>
+                                href="order">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -97,7 +99,7 @@
 
                 {{-- Burger Content --}}
                 <div class="offcanvas offcanvas-start sidebar d-block d-sm-none" tabindex="-1" id="offcanvasNav"
-                    aria-labelledby="offcanvasNavLabel" style="width: 50%; background-color: #fdc307;">
+                    aria-labelledby="offcanvasNavLabel" style="width: 50%;">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
@@ -107,51 +109,70 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60"
-                                height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="100"
+                                height="60" />
                         </div>
 
                         <!-- Menu -->
                         <ul class="navbar-nav fs-5 flex-column gap-2">
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                    href="{{ route('home') }}">Home</a>
+                                    href="{{ route('home') }} ">{{ __('navigation.home') }}</a>
                             </li>
                             {{-- <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
-                                    href="{{ route('custom') }}">Custom</a>
+                                    href="custom">Custom</a>
                             </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                    href="{{ route('collections.index') }}">Collections</a>
+                                    href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                    href="order">Order</a>
+                                    href="order">{{ __('navigation.order') }}</a>
                             </li>
 
                             <!-- Language (Mobile) -->
-                            <li class="nav-item dropdown d-block d-sm-none">
-
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown">
-                                    Language
+                            <li class="dropdown d-block d-sm-none pe-2">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img id="flag-icon"
+                                        src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                                        alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle"
+                                        width="30" height="30" />
                                 </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('id')">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="id">
+                                            <button type="submit" class="dropdown-item">
+                                                Indonesia
+                                                @if (app()->getLocale() == 'id')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="en">
+                                            <button type="submit" class="dropdown-item">
+                                                English
+                                                @if (app()->getLocale() == 'en')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <hr style="border-top: 2px solid #341c02;">
                                     </li>
                                 </ul>
-                                <hr style="border-top: 2px solid #341c02;">
                             </li>
+
 
                             <li class="nav-item">
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button class="nav-link" type="submit" style="color: red">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Log out
+                                        <i class="bi bi-box-arrow-right me-1"></i>{{ __('navigation.logout') }}
                                     </button>
                                 </form>
                             </li>
@@ -159,17 +180,38 @@
                     </div>
                 </div>
 
-                {{-- Language (Desktop)
+                {{-- Language (Desktop) --}}
                 <div class="dropdown d-none d-sm-block pe-2">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
+                        <img id="flag-icon"
+                            src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                            alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
+                            height="30" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="id">
+                                <button type="submit" class="dropdown-item">
+                                    Indonesia
+                                    @if (app()->getLocale() == 'id')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="GET" action="{{ url()->current() }}">
+                                <input type="hidden" name="lang" value="en">
+                                <button type="submit" class="dropdown-item">
+                                    English
+                                    @if (app()->getLocale() == 'en')
+                                    @endif
+                                </button>
+                            </form>
+                        </li>
                     </ul>
-                </div> --}}
+                </div>
+
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
@@ -190,8 +232,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="{{ route('cart') }}">
                                     <i class="bi bi-box-arrow-right me-2"></i>Log out
                                 </a>
                             </li>
@@ -204,7 +245,9 @@
 
                     {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
                     <div class="d-block d-sm-none ms-3">
-                        <!-- ... kode profil mobile ... -->
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -215,4 +258,5 @@
         </main>
     </div>
 </body>
+
 </html>
