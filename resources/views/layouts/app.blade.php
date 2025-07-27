@@ -91,7 +91,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                href="order">{{ __('navigation.order') }}</a>
+                                href="{{route('orders.index')}}">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -129,7 +129,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                    href="order">{{ __('navigation.order') }}</a>
+                                    href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                             </li>
 
                             <!-- Language (Mobile) -->
@@ -232,7 +232,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('cart') }}">
+                            <li><a class="dropdown-item" href="{{ route('cart.index', ['id_user'=>Auth::user()->id, 'slug'=>Str::slug(Auth::user()->name)]) }}">
                                     <i class="bi bi-box-arrow-right me-2"></i>Log out
                                 </a>
                             </li>

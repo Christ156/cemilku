@@ -1,5 +1,6 @@
 var total_price_cart = 0;
 var total_item_check = 0;
+var total_price_with_ship = 0;
 
 var allCheck = 0;
 
@@ -39,8 +40,10 @@ function allCheckboxCheck(count, carts){
     }
 
     removeSelected(total_item_check);
+    total_price_with_ship = total_price_cart + 20000;
 
     document.getElementById("total_price_cart").innerText = total_price_cart.toLocaleString("id-ID");
+    document.getElementById("total_price_with_ship").innerText = total_price_with_ship.toLocaleString("id-ID");
     document.getElementById("product-count").innerText = total_item_check;
     document.getElementById("total_price").value = total_price_cart;
 }
@@ -58,8 +61,11 @@ function previewPrice(price, cart_item_id){
         document.getElementById("item_cart_"+cart_item_id).value = "true";
     }
 
+    total_price_with_ship = total_price_cart + 20000;
+
     document.getElementById("product-count").innerText = total_item_check;
     document.getElementById("total_price_cart").innerText = total_price_cart.toLocaleString("id-ID");
+    document.getElementById("total_price_with_ship").innerText = total_price_with_ship.toLocaleString("id-ID");
     document.getElementById("total_price").value = total_price_cart;
 }
 
@@ -96,18 +102,26 @@ function removeSelected(count_checked){
 }
 
 function checkItemSelected(count, carts){
-    var selected = 0;
+    var selectedItem = 0;
+    var selectedPayment = 0;
 
     for(var i = 0; i < count; i++){
         if(document.getElementById("item_cart_"+carts[i]["id"]).value == "true"){
-            selected = 1;
+            selectedItem = 1;
             break;
         }
     }
 
-    if(selected == 0){
-        document.getElementById("checkout_btn").disabled = true;
-    }else{
+    for(var i = 1; i <= 4;i++){
+        if(document.getElementById("payment_method_"+i).checked){
+            selectedPayment = 1;
+            break;
+        }
+    }
+
+    if(selectedItem == 1 && selectedPayment == 1){
         document.getElementById("checkout_btn").disabled = false;
+    }else{
+        document.getElementById("checkout_btn").disabled = true;
     }
 }

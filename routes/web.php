@@ -100,67 +100,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/set-mood', [MysteryBoxController::class, 'setMood'])->name('set-mood');
     Route::post('/reset-session', [MysteryBoxController::class, 'reset'])->name('reset-session');
 
-    // Route::get('/mysterybox', function () {
-    //     $mode = 'Budget';
-    //     return view('mystery_box.create', compact('mode'));
-    // })->name('mystery-box');
-
-    // Route::match(['get', 'post'], '/mysterybox', function (Request  $request) {
-    //     if ($request->isMethod('post')) {
-    //         // Jika ada POST ke /mysterybox, langsung redirect ke GET /mysterybox
-    //         return redirect()->route('mysterybox');
-    //     }
-    //     $mode = session('mode', 'Budget');
-    //     $budget = session('budget');
-    //     $mood = session('mood');
-    //     return view('mystery_box.create', compact('mode', 'budget', 'mood'));
-    // })->name('mysterybox');
-
-    // Route::post('/set-budget', function (Request $request) {
-    //     $request->validate(['budget' => 'required']);
-    //     session(['budget' => $request->budget, 'mode' => 'Mood']);
-    //     return redirect()->route('mysterybox');
-    // })->name('set-budget');
-
-    // Route::post('/set-mood', function (Request $request) {
-    //     $request->validate(['mood' => 'required']);
-    //     session(['mood' => $request->mood, 'mode' => 'Done']);
-    //     return redirect()->route('mysterybox');
-    // })->name('set-mood');
-
-//     Route::get('/mysterybox', function () {
-//         $mode = 'Budget';
-//         return view('mystery_box.create', compact('mode'));
-//     })->name('mystery-box');
-
-//     Route::match(['get', 'post'], '/mysterybox', function (Request $request) {
-//         if ($request->isMethod('post')) {
-//             // Jika ada POST ke /mysterybox, langsung redirect ke GET /mysterybox
-//             return redirect()->route('mysterybox');
-//         }
-//         $mode   = session('mode', 'Budget');
-//         $budget = session('budget');
-//         $mood   = session('mood');
-//         return view('mystery_box.create', compact('mode', 'budget', 'mood'));
-//     })->name('mysterybox');
-
-//     Route::post('/set-budget', function (Request $request) {
-//         $request->validate(['budget' => 'required']);
-//         session(['budget' => $request->budget, 'mode' => 'Mood']);
-//         return redirect()->route('mysterybox');
-//     })->name('set-budget');
-
-//     Route::post('/set-mood', function (Request $request) {
-//         $request->validate(['mood' => 'required']);
-//         session(['mood' => $request->mood, 'mode' => 'Done']);
-//         return redirect()->route('mysterybox');
-//     })->name('set-mood');
-
-//     Route::post('/reset-session', function () {
-//         session()->forget(['budget', 'mood', 'mode']);
-//         return response()->json(['status' => 'reset']);
-//     })->name('reset-session');
-
     Route::resource('user', UserController::class);
     Route::resource('address', AddressController::class);
     Route::get('/customize-tower-bouquet', [CustomizeTowerBouquetController::class, 'index'])->name('customer-tower-bouquet.index');
@@ -178,45 +117,12 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
     Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
 
-
     // baru dibuat ni bang -jason
-    Route::get('/checkout', function () {
-        return view('checkout');
-    })->name('checkout.index');
+    Route::get('/checkout/{order_id}/payment', [CheckoutController::class, 'index'])->name('checkout.index');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
-
-    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
 });
-
-// Route::get('/mysterybox', function () {
-//         $mode = 'Budget';
-//         return view('mystery_box.create', compact('mode'));
-//     })->name('mystery-box');
-
-// Route::match(['get', 'post'], '/mysterybox', function (Request  $request) {
-//         if ($request->isMethod('post')) {
-//             // Jika ada POST ke /mysterybox, langsung redirect ke GET /mysterybox
-//             return redirect()->route('mysterybox');
-//         }
-//         $mode = session('mode', 'Budget');
-//         $budget = session('budget');
-//         $mood = session('mood');
-//         return view('mystery_box.create', compact('mode', 'budget', 'mood'));
-//     })->name('mysterybox');
-
-//     Route::post('/set-budget', function (Request $request) {
-//         $request->validate(['budget' => 'required']);
-//         session(['budget' => $request->budget, 'mode' => 'Mood']);
-//         return redirect()->route('mysterybox');
-//     })->name('set-budget');
-
-//     Route::post('/set-mood', function (Request $request) {
-//         $request->validate(['mood' => 'required']);
-//         session(['mood' => $request->mood, 'mode' => 'Done']);
-//         return redirect()->route('mysterybox');
-//     })->name('set-mood');

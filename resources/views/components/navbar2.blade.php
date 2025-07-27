@@ -20,7 +20,7 @@
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{route('profile')}}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{route('profile', ['id'=>Auth::user()->id, 'slug'=>Str::slug(Auth::user()->name)])}}">Profile</a></li>
             </ul>
         </div>
     </div>

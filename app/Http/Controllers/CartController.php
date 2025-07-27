@@ -17,19 +17,31 @@ class CartController extends Controller
     public function index($id_user, $slug)
     {
         $id_user = Auth::user()->id;
-        $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1)->first()->id;
+        $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1);
+
+        if($id_cart->count() == 0){
+            Cart::insert(['user_id' => $id_user, 'is_active' => 1, 'created_at' => now()]);
+        }
+
+        $id_cart = $id_cart->first()->id;
+
         $carts = CartItem::where('cart_id', $id_cart)->get();
         $address_active = Address::where('user_id', $id_user)->where('is_primary', 1)->first();
+        $count_address_active = Address::where('user_id', $id_user)->where('is_primary', 1)->count();
         $address = Address::where('user_id', $id_user)->where('is_primary', 0)->get();
 
-        return view('cart', \compact(['carts', 'address_active', 'address']));
+        return view('cart', \compact(['carts', 'address_active', 'count_address_active', 'address']));
     }
 
-    private function create_new_order($id_user, $total_price)
+    private function create_new_order($id_user, $total_price, $payment_method)
     {
+        $address_id = Address::where('user_id', $id_user)->where('is_primary', 1)->first()->id;
+
         $order = new Order();
         $order->user_id = $id_user;
         $order->total_price = $total_price;
+        $order->payment_method = $payment_method;
+        $order->address_id = $address_id;
         $order->created_at = now();
         $order->save();
         return $order->id;
@@ -40,11 +52,11 @@ class CartController extends Controller
         $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1)->first()->id;
         $cart_items = CartItem::where('cart_id', $id_cart);
 
-        $id_order = $this->create_new_order($id_user, $request->input('total_price'));
+        $id_order = $this->create_new_order($id_user, $request->input('total_price'), $request->input('payment_method'));
 
         $cart_items = $cart_items->get();
         for ($i = 0; $i < $cart_items->count(); $i++) {
-            if ($request->input('item_cart_'.$cart_items[$i]->id) == "true") {
+            if ($request->input('item_cart_' . $cart_items[$i]->id) == "true") {
                 $order_detail = new OrderDetail();
                 $order_detail->order_id = $id_order;
                 $order_detail->collection_id = $cart_items[$i]->collection_id;
@@ -57,7 +69,7 @@ class CartController extends Controller
             }
         }
 
-        return \redirect()->route('home');
+        return \redirect()->route('checkout.index', ['order_id'=>$id_order]);
     }
 
     public function destroy(Request $request, $id_user, $slug, $count_items)
@@ -101,9 +113,9 @@ class CartController extends Controller
         $address->provinsi = $request->input('province');
         $address->kode_pos = $request->input('pos_code');
         if($this->checkPrimaryAddress($id_user)){
-            $address->is_primary = 1;
-        }else{
             $address->is_primary = 0;
+        }else{
+            $address->is_primary = 1;
         }
         $address->created_at = now();
         $address->save();
