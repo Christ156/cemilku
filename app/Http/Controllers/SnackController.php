@@ -48,7 +48,7 @@ class SnackController extends Controller
             'name'  => 'required|string|max:255|unique:snacks,name',
             'price' => 'required|numeric|min:1',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
