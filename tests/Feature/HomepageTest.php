@@ -10,11 +10,11 @@ class HomepageTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var \App\Models\User $user */
         $user = User::factory()->create([
             'role' => 'user'
         ]);
@@ -33,9 +33,7 @@ class HomepageTest extends TestCase
     public function test_customize_menu_display_and_swipe()
     {
         $response = $this->get('/');
-
         $response->assertStatus(200);
-
         $response->assertSee('snackMystery');
         $response->assertSee('snackBouquet');
         $response->assertSee('snackTower');
