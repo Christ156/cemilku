@@ -32,4 +32,12 @@ return [
     'email' => 'Email',
     'copyright' => 'Hak Cipta Dilindungi.',
     'logout' => 'Keluar',
+    'banner1' => 'Banner1_Indo.png',
+    'banner2' => 'Banner2_Indo.png',
+    'banner3' => 'Banner3_Indo.png',
+    'banner4' => 'Banner4_Indo.png',
+    'banner5' => 'Banner5_Indo.png',
+    'banner6' => 'Banner6_Indo.png',
+    'banner7' => 'Banner7_Indo.png',
+    'banner8' => 'Banner8_Indo.png'
 ];

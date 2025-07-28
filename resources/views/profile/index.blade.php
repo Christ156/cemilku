@@ -8,6 +8,10 @@
     <script src="{{ asset('js/profile.js') }}"></script>
 @endsection
 
+@section('script')
+@endsection
+
+
 @section('content')
 
     @if (session('success'))
@@ -20,7 +24,7 @@
     {{-- Ini untuk menampilkan pesan error validasi spesifik per field --}}
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <h5>Gagal menyimpan Alamat! Mohon periksa kesalahan berikut:</h5>
+            <h5>{{__('profile.failedToSave')}}</h5>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -133,14 +137,14 @@
                             rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+                        <label for="nomor_telepon" class="form-label">{{__('profile.phoneNumber')}}</label>
                         <input type="number" value="" name="nomor_telepon" class="form-control"
-                            id="nomor_telepon" placeholder="Masukkan Nomor Telepon...">
+                            id="nomor_telepon" placeholder="{{__('profile.inputPhoneNumber')}}">
                     </div>
                     <div class="mb-3">
-                        <label for="receiver_name" class="form-label">Nama Penerima</label>
+                        <label for="receiver_name" class="form-label">{{__('profile.reciepentName')}}</label>
                         <input type="text" value="" name="receiver_name" class="form-control"
-                            id="receiver_name" placeholder="Masukkan Nama Penerima...">
+                            id="receiver_name" placeholder="{{__('profile.inputReciepentName')}}">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -166,9 +170,9 @@
                     <p>{{ __('profile.enterForm') }}</p>
                     <div>
                         <div class="mb-3">
-                            <label for="namaUser" class="form-label">Nama User</label>
+                            <label for="namaUser" class="form-label">{{__('profile.userName')}}</label>
                             <input name="name" value="{{ Auth::user()->name }}" type="text" class="form-control"
-                                id="namaUser" placeholder="Masukkan nama...">
+                                id="namaUser" placeholder="{{__('profile.inputUserName')}}">
                         </div>
                         <div class="mb-3"> {{-- Add this new div for image upload --}}
                             <label for="imageUser" class="form-label">{{ __('profile.profileImage') }}</label>
@@ -194,16 +198,15 @@
                     <hr class="garis" />
                 </div>
                 <div class="container d-flex flex-column mb-5 justify-content-center align-items-center">
-                    <a href="#" class="text-center side-link side-link-2 p-2 active" data-slide-to="0">User
-                        Info</a>
-                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="1">Address</a>
-                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="2">FAQ</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 active" data-slide-to="0">{{__('profile.userInfo')}}</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="1">{{__('profile.address')}}</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="2">{{__('profile.faq')}}</a>
                     <hr class="garis" />
                 </div>
                 <form action="{{ route('logout') }}" class="container d-flex justify-content-center align-items-center"
                     method="POST">
                     @csrf
-                    <button type="submit" class="side-link side-link-2 p-2 mb-4">Log Out</a>
+                    <button type="submit" class="side-link side-link-2 p-2 mb-4">{{__('profile.logout')}}</a>
                 </form>
             </div>
 
@@ -324,12 +327,12 @@
                                                         {{ $a->is_primary ? 'Utama' : 'Non-Utama' }}
                                                     </span>
                                                 </div>
-                                                <p>Receiver Name: {{ $a->receiver_name }}</p>
-                                                <p>Description: {{ $a->address }},
+                                                <p>{{__('profile.reciepentName')}}: {{ $a->receiver_name }}</p>
+                                                <p>{{__('profile.description')}}: {{ $a->address }},
                                                     {{ $a->rt }}/{{ $a->rw }},
                                                     {{ $a->kelurahan_desa }}, {{ $a->kecamatan }},
                                                     {{ $a->kota_kabupaten }}, {{ $a->provinsi }}</p>
-                                                <p>Phone Number: {{ $a->phone_number }}</p>
+                                                <p>{{__('profile.phoneNumber')}}: {{ $a->phone_number }}</p>
                                             </div>
                                             <div class="d-flex flex-row justify-content-between">
                                                 {{-- Delete Form --}}
@@ -337,7 +340,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">
-                                                        Delete
+                                                        {{__('profile.delete')}}
                                                     </button>
                                                 </form>
                                                 @if (!$a->is_primary)
@@ -374,7 +377,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                                 aria-expanded="false" aria-controls="collapseOne">
-                                                What is a Snack Tower?
+                                                {{__('profile.whatIsSnackTower')}}
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse"
@@ -389,7 +392,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                 aria-expanded="false" aria-controls="collapseTwo">
-                                                How do I customize my Snack Tower?
+                                                {{__('profile.howICustomizeSnackTower')}}
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse"
@@ -404,7 +407,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                                 aria-expanded="false" aria-controls="collapseThree">
-                                                Do you offer pre-made towers?
+                                                {{__('profile.doYouOffer')}}
                                             </button>
                                         </h2>
                                         <div id="collapseThree" class="accordion-collapse collapse"
@@ -420,7 +423,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
                                                 aria-expanded="false" aria-controls="collapseFour">
-                                                Is there a minimum order amount?
+                                                {{__('profile.isThereAMinimumOrder')}}
                                             </button>
                                         </h2>
                                         <div id="collapseFour" class="accordion-collapse collapse"
@@ -436,7 +439,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive"
                                                 aria-expanded="false" aria-controls="collapseFive">
-                                                What is the difference between a Snack Tower and a Snack Bouquet?
+                                                {{__('profile.whatIsDifference')}}
                                             </button>
                                         </h2>
                                         <div id="collapseFive" class="accordion-collapse collapse"
@@ -452,7 +455,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix"
                                                 aria-expanded="false" aria-controls="collapseSix">
-                                                What is a Mystery Snack Box?
+                                                {{__('profile.whatIsMystery')}}
                                             </button>
                                         </h2>
                                         <div id="collapseSix" class="accordion-collapse collapse"
@@ -468,7 +471,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven"
                                                 aria-expanded="false" aria-controls="collapseSeven">
-                                                Can I choose the Mystery Box's snacks by myself?
+                                                {{__('profile.canIChoose')}}
                                             </button>
                                         </h2>
                                         <div id="collapseSeven" class="accordion-collapse collapse"
