@@ -11,11 +11,12 @@ class NavbarFooterTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user;
+    protected User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->user = User::factory()->create([
             'name' => 'User Test',
             'email' => 'user@example.com',
