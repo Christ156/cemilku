@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{{asset('assets/logo/logo_cemilku.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/logo/logo_cemilku.png') }}" type="image/x-icon">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -93,7 +93,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                href="{{route('orders.index')}}">{{ __('navigation.order') }}</a>
+                                href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
                 </div>
@@ -217,7 +217,8 @@
 
                 {{-- Cart + Profile (Always on right) --}}
                 <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <a class="nav-link" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
+                    <a class="nav-link"
+                        href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
 
@@ -236,16 +237,19 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('cart.index', ['id_user'=>Auth::user()->id, 'slug'=>Str::slug(Auth::user()->name)]) }}">
+                            <li><a class="dropdown-item"
+                                    href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                                     <i class="bi bi-box-arrow-right me-2"></i>Log out
                                 </a>
                             </li>
+                        </ul>
                     </div>
 
-                    {{-- <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                    <a class="nav-link d-lg-none d-block" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
+                    <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
+                    <a class="nav-link d-lg-none d-block"
+                        href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
-                    </a> --}}
+                    </a>
 
                     {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
                     <div class="d-block d-sm-none ms-3">
