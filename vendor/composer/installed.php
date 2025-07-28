@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '32e95cee4961b171b61412f5f3169b434ed45ffc',
+        'reference' => '5c6f6a19564d8bb74660d696dfdc24f3b34ff852',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(
@@ -444,7 +444,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '32e95cee4961b171b61412f5f3169b434ed45ffc',
+            'reference' => '5c6f6a19564d8bb74660d696dfdc24f3b34ff852',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(
@@ -747,9 +747,9 @@
             'dev_requirement' => true,
         ),
         'phpoffice/phpspreadsheet' => array(
-            'pretty_version' => '1.29.11',
-            'version' => '1.29.11.0',
-            'reference' => '05b6c4378ddf3e81b460ea645c42b46432c0db25',
+            'pretty_version' => '1.29.12',
+            'version' => '1.29.12.0',
+            'reference' => '7c06eed662cce7ecab88f6f9f7626b443f5285df',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
             'aliases' => array(),

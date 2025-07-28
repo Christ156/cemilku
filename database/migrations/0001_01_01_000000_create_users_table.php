@@ -26,6 +26,7 @@ return new class extends Migration
             // $table->foreignId('address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->string('profile_image')->nullable();
             $table->rememberToken();
+            $table->boolean('is_blocked')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -14,25 +14,26 @@
     <div class="row">
         <!-- Jumlah Snack -->
         <div class="col-md-3 mb-3">
-            <x-adminlte-small-box title="Snack Count" text="{{ $snackCount ?? 0 }}" icon="fas fa-cookie-bite" class="dashboard-box1"/>
+            <x-adminlte-small-box title="Snack Count" text="{{ $snackCount ?? 0 }}" icon="fas fa-cookie-bite"
+                class="dashboard-box1" />
         </div>
 
         <!-- Jumlah Collection -->
         <div class="col-md-3 mb-3">
             <x-adminlte-small-box title="Collection Count" text="{{ $collectionCount ?? 0 }}" icon="fas fa-gift"
-                theme="success" class="dashboard-box2"/>
+                theme="success" class="dashboard-box2" />
         </div>
 
         <!-- Jumlah Order -->
         <div class="col-md-3 mb-3">
             <x-adminlte-small-box title="Order Count" text="{{ $orderCount ?? 0 }}" icon="fas fa-shopping-cart"
-                theme="warning" class="dashboard-box3"/>
+                theme="warning" class="dashboard-box3" />
         </div>
 
         <!-- Jumlah Pelanggan -->
         <div class="col-md-3 mb-3">
-            <x-adminlte-small-box title="User Count" text="{{ $userCount ?? 0 }}" icon="fas fa-users"
-                theme="danger" class="dashboard-box4"/>
+            <x-adminlte-small-box title="User Count" text="{{ $userCount ?? 0 }}" icon="fas fa-users" theme="danger"
+                class="dashboard-box4" />
         </div>
     </div>
 
@@ -41,22 +42,23 @@
         <div class="col-md-6 dashboard-weekly">
             <x-adminlte-card title="This Week's Best Selling Collection" theme="primary" icon="fas fa-star">
                 <ul class="list-group list-group-flush">
-                    @forelse ($topCollections as $collection)
+                    @forelse ($topCollections->filter(fn($c) => $c->total_sold > 0) as $collection)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{ $collection->name }}
-                            <span class="badge badge-primary badge-pill">{{ $collection->total_sold ?? 0 }} sold</span>
+                            <span class="badge badge-primary badge-pill">{{ $collection->total_sold }} sold</span>
                         </li>
                     @empty
                         <li class="list-group-item">There are no sales this week</li>
                     @endforelse
                 </ul>
+
             </x-adminlte-card>
         </div>
 
         <!-- Grafik Penjualan 7 Hari Terakhir -->
         <div class="col-md-6">
             <x-adminlte-card title="Last 7 Days Sales" theme="info" icon="fas fa-chart-line">
-                <canvas id="salesChart" style="height: 250px;"></canvas>
+                <canvas id="salesChart"></canvas>
             </x-adminlte-card>
         </div>
     </div>
@@ -103,7 +105,7 @@
             data: {
                 labels: {!! json_encode($salesChart['labels']) !!},
                 datasets: [{
-                    label: 'Jumlah Collection Terjual',
+                    label: 'Number of Collections Sold',
                     data: {!! json_encode($salesChart['data']) !!},
                     fill: true,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',

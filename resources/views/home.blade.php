@@ -189,14 +189,14 @@
                 {{-- THE BENEFIT --}}
                 <div class="title-about-us ps-4 pt-2 pb-2 pe-2 rounded-5 text-white mb-3 mt-3 me-3 bg-blue">
                     <i class="bi bi-star-fill me-2"></i>
-                    <span>The Benefit</span>
+                    <span>{{ __('navigation.theBenefit') }}</span>
                 </div>
 
                 <ul class="text-justify ps-4 pe-2 ms-4 subtitle-about-us">
-                    <li>Customize snacks to your taste</li>
-                    <li>Aesthetic designs for gifts or events</li>
-                    <li>Flexible with budget</li>
-                    <li>Easy and practical to use</li>
+                    <li>{{ __('navigation.benefit1') }}</li>
+                    <li>{{ __('navigation.benefit2') }}</li>
+                    <li>{{ __('navigation.benefit3') }}</li>
+                    <li>{{ __('navigation.benefit4') }}</li>
                 </ul>
 
             </div>
@@ -206,42 +206,40 @@
                 {{-- WHY CHOOSE US --}}
                 <div class="ps-4 pt-2 pb-2 pe-2 rounded-5 text-white mb-3 bg-pink title-about-us text-align-center">
                     <i class="bi bi-star-fill me-2"></i>
-                    <span>Why Choose Us?</span>
+                    <span>{{ __('navigation.whyChooseUs') }}</span>
                 </div>
 
                 <p class="text-justify subtitle-about-us ps-4 pe-2">
-                    CemilKu! is a modern app that allows you to design your favorite snacks according to your personal
-                    taste. We give you the freedom to create aesthetic snack towers, beautiful gift bouquets, or
-                    surprise gifts within your budget.
+                    {{ __('navigation.chooseUsDesc') }}
                 </p>
 
                 {{-- THE PURPOSE --}}
                 <div class="ps-4 pt-2 pb-2 pe-2 rounded-5 text-white mb-3 bg-green title-about-us">
                     <i class="bi bi-star-fill me-2"></i>
-                    <span>The Purpose</span>
+                    <span>{{ __('navigation.thePurpose') }}</span>
                 </div>
 
                 {{-- BAGIAN KIRI --}}
                 <div class="row ps-4 pe-2">
                     <div class="col-4 ps-3 ">
-                        <p class="text-justify subtitle-about-us mb-1">Customizable</p>
+                        <p class="text-justify subtitle-about-us mb-1">{{ __('navigation.customizable') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-blue probar-custom " role="progressbar" style="width: 95%;"
+                            <div class="progress-bars probar-custom bg-pink" role="progressbar" style="width: 95%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                             </div>
                         </div>
 
-                        <p class="text-justify subtitle-about-us  mb-1 pt-3">Affordable</p>
+                        <p class="text-justify subtitle-about-us  mb-1 pt-3">{{ __('navigation.affordable') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 82%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 82%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
                         </div>
 
-                        <p class="text-justify  subtitle-about-us  mb-1 pt-3">Flexible</p>
+                        <p class="text-justify  subtitle-about-us  mb-1 pt-3">{{ __('navigation.flexible') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 94%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 94%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -250,25 +248,25 @@
 
                     {{-- BAGIAN TENGAH --}}
                     <div class="col-4">
-                        <p class="text-justify subtitle-about-us mb-1">Easy</p>
+                        <p class="text-justify subtitle-about-us mb-1">{{ __('navigation.easy') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 80%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 80%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
                         </div>
 
-                        <p class="text-justify subtitle-about-us mb-1 pt-3">Unique</p>
+                        <p class="text-justify subtitle-about-us mb-1 pt-3">{{ __('navigation.unique') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-pink probar-custom" role="progressbar" style="width: 90%;"
+                            <div class="progress-bars bg-pink probar-custom" role="progressbar" style="width: 90%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
                         </div>
 
-                        <p class="text-justify subtitle-about-us mb-1 pt-3">Creative</p>
+                        <p class="text-justify subtitle-about-us mb-1 pt-3">{{ __('navigation.creative') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 95%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 95%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -278,25 +276,25 @@
 
                     {{-- BAGIAN KANAN --}}
                     <div class="col-4">
-                        <p class="text-justify subtitle-about-us mb-1">Personal</p>
+                        <p class="text-justify subtitle-about-us mb-1">{{ __('navigation.personal') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-purple probar-custom" role="progressbar" style="width: 70%;"
+                            <div class="progress-bars bg-purple probar-custom" role="progressbar" style="width: 70%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
                         </div>
 
-                        <p class="text-justify subtitle-about-us  mb-1 pt-3">Fun</p>
+                        <p class="text-justify subtitle-about-us  mb-1 pt-3">{{ __('navigation.fun') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-green probar-custom" role="progressbar" style="width: 75%;"
+                            <div class="progress-bars bg-green probar-custom" role="progressbar" style="width: 75%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
                         </div>
 
-                        <p class="text-justify subtitle-about-us ps-3 mb-1 pt-3">Memorable</p>
+                        <p class="text-justify subtitle-about-us ps-3 mb-1 pt-3">{{ __('navigation.memorable') }}</p>
                         <div class="progress" style="height: 20px; border-radius: 10px;">
-                            <div class="progress-bar bg-pink probar-custom" role="progressbar" style="width:60%;"
+                            <div class="progress-bars bg-pink probar-custom" role="progressbar" style="width:60%;"
                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 
                             </div>
@@ -308,12 +306,11 @@
                 {{-- YOUR SNACK, YOUR WAY --}}
                 <div class="ps-4 pt-2 pb-2 pe-2 rounded-5 text-white mb-3 mt-4 bg-purple title-about-us">
                     <i class="bi bi-star-fill me-2"></i>
-                    <span>Your Snack, Your Way</span>
+                    <span>{{ __('navigation.yourSnackYourWayTitle') }}</span>
                 </div>
 
                 <p class="text-justify subtitle-about-us ps-4 pe-2">
-                    Why bother searching for snacks? CemilKu! offers you the ease of customizing snacks effortlessly,
-                    according to your theme and budget!
+                    {{ __('navigation.yourSnackYourWayDesc') }}
                 </p>
 
 
@@ -331,9 +328,9 @@
             </div>
 
             <div class="footer-info">
-                <p><strong>Contact us:</strong></p>
+                <p><strong>{{ __('navigation.contactUs') }}</strong></p>
                 <p>Email: <a href="mailto:cemilku@gmail.com">cemilku@gmail.com</a></p>
-                <p>Phone: 555-567-8901</p>
+                <p>{{ __('navigation.phone') }}: 555-567-8901</p>
             </div>
 
             <div class="footer-social">
@@ -350,6 +347,6 @@
         </div>
 
         <hr class="footer-divider">
-        <p class="footer-copyright">© 2025 Cemilku. All Rights Reserved.</p>
+        <p class="footer-copyright">© 2025 Cemilku. {{ __('navigation.allRightsReserved') }}.</p>
     </section>
 @endsection

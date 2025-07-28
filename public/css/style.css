@@ -3,18 +3,26 @@
     background-color: #fdc307;
 }
 
-/* Navbar */
-.navbar {
-    height: 70px;
-    min-height: 70px;
-    transition: height 0.3s ease;
+body {
+    background-color: #fffbef !important;
+    text-align: justify;
+    font-family: 'poppins';
 }
 
-/* Navbar link */
+
 .nav-link {
     position: relative;
+    /* font-family: 'poppins';  */
     font-style: semi-bold;
 }
+
+.nav-link.active {
+        color: #52282A !important;
+        border: none;
+        font-weight: bold;
+        text-decoration: underline;
+        text-decoration-color: #52282A;
+    }
 
 .nav-link::after {
     transition: all 0.2s;
@@ -22,18 +30,15 @@
 }
 
 .nav-link:hover {
+    /* border-bottom:3px solid #52282a; */
     text-decoration: 5px underline #52282a;
 }
 
-/* Burger sidebar */
-.offcanvas-start.sidebar {
-    width: 50%;
-    background-color: #fdc307;
-}
+.navbar {
+    min-height: 70px;
+    height: 70px;
+    transition: height 0.3s ease;
 
-.offcanvas-backdrop.show {
-    background-color: rgba(0, 0, 0, 0.8);
-    transition: background-color 0.3s ease;
 }
 
 /* Logo */
@@ -41,17 +46,13 @@
 .navbar-brand img {
     display: block;
     position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     top: 7px;
 }
 
-/* Active link */
-.nav-link.active {
-    border: 2px solid #52282a;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #fdc307;
-    color: #52282A !important;
-}
+
 
 /* Language flag icon */
 #flag-icon {
@@ -72,7 +73,8 @@
 }
 
 /* Responsive adjustment */
-@media (max-width: 576px) {
+@media  (max-width: 576px) {
+
     .navbar {
         height: auto !important;
     }
@@ -91,21 +93,37 @@
         color: #52282A;
     }
 
-    .logo-cemilku {
-        width: 250px;
-        position: relative;
-        top: 7px;
+
+    .offcanvas-start {
+        width: 80% !important;
+        max-width: 300px;
+    }
+
+    .offcanvas-backdrop.show {
+        background-color: rgba(0, 0, 0, 0.8);
+        transition: background-color 0.3s ease;
+    }
+
+    .sidebar {
+        background-color: #fffbef !important;
+    }
+
+    .logo-burger {
+        padding-left: 1rem;
     }
 
     .nav-link:hover {
+        /* border-bottom:3px solid #52282a; */
         text-decoration: none;
     }
 
     .nav-link.active {
-        border: 2px solid #52282a;
+        border: 2px solid #52282a !important;
         border-radius: 10px;
         padding: 5px 10px;
-        background-color: #fdc307;
+        background-color: #fdc607;
         color: #52282A !important;
+        text-decoration: none;
+        font-weight: normal;
     }
 }

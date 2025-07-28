@@ -56,9 +56,10 @@ a:hover,
     margin: 10px 0
 }
 
-.btn-primary {
-    background: #52282A;
-    border: #52282A;
+.btn-checkout{
+    background: #52282A !important;
+    border: #52282A !important;
+    color: #FFF8E2 !important;
     border-radius: 50px;
     padding: 10px 30px;
     width: 100%;

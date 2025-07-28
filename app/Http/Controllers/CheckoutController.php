@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Carbon\Carbon;
@@ -11,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
+    public function index($order_id){
+        $order = Order::find($order_id);
+
+        return \view('checkout', \compact('order'));
+    }
 
     public function store(Request $request)
     {
@@ -71,7 +78,6 @@ class CheckoutController extends Controller
             dd('Checkout gagal bangg: ', $e->getMessage(), $e->getTraceAsString());
             return redirect()->back()->with('error', 'Checkout gagal: ' . $e->getMessage());
         }
-
     }
 
 }

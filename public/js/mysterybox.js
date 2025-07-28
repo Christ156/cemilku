@@ -96,7 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("Budget not selected. Showing warning modal.");
                     const warningModalTextElement = warningModalElement.querySelector("p");
                     if (warningModalTextElement) {
-                        warningModalTextElement.textContent = "Please choose a budget first!";
+                        const chooseBudgetText = document.getElementById("chooseBudgetText")?.textContent || "Please choose your budget";
+                        warningModalTextElement.textContent = chooseBudgetText;
                     }
                     warningModal.show();
                 } else {
