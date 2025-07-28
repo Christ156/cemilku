@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\UserExport;
@@ -9,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -20,7 +19,8 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->role === 'admin') {
-            $users = User::where('role', 'user')->get(); // Hanya user biasa
+            // $users = User::where('role', 'user')->get(); // Hanya user biasa
+            $users = User::all();
             return view('admin.user.index', compact('users'));
         }
 
@@ -41,7 +41,19 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
+
+            // 2. Validasi: Definisikan aturan validasi untuk pembaruan profil.
+            // Aturan ini dibuat agar sesuai dengan input yang Anda gunakan dalam if/else di bawah.
+            $request->validate([
+                'name' => 'nullable|string|min:1|max:255', // Nama bisa opsional jika hanya update gender dll.
+                'gender' => 'nullable|in:Laki-laki,Perempuan', // Sesuaikan opsi gender Anda
+                'dateofbirth' => 'nullable|date', // Sesuaikan dengan nama input 'dateofbirth'
+                'email' => 'nullable|email|max:255|unique:users,email,' . $user->id, // Email harus unik, kecuali untuk pengguna ini sendiri
+                'telepon' => 'nullable|string|min:1|max:20', // Sesuaikan dengan nama input 'telepon'
+                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg', // Maksimal 2MB
+            ]);
 
         if ($request->name) {
             $user->name = $request->name;
@@ -53,8 +65,8 @@ class UserController extends Controller
             $user->name = Auth::user()->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->dateofbirth;
-            $user->email         = $request->email;
-            $user->phone_number  = $request->telepon;
+            $user->email = $request->email;
+            $user->phone_number = $request->telepon;
         }
 
         // if($request->profile_image != NULL){
@@ -70,17 +82,16 @@ class UserController extends Controller
         if ($request->hasFile('profile_image')) { // Gunakan hasFile untuk memeriksa apakah ada file yang diupload
             $oldProfileImage = $user->profile_image; // Simpan nama file lama
 
-            // Hapus gambar profil lama jika ada dan file-nya eksis
-            if ($oldProfileImage && File::exists(public_path('assets/profile/' . $oldProfileImage))) {
-                File::delete(public_path('assets/profile/' . $oldProfileImage));
-            }
+                // Hapus gambar profil lama jika ada dan file-nya eksis
+                if ($oldProfileImage && File::exists(public_path('assets/profile/' . $oldProfileImage))) {
+                    File::delete(public_path('assets/profile/' . $oldProfileImage));
+                }
 
-            // Buat nama unik untuk gambar profil baru
-            // Gabungkan nama pengguna (jika unik) dan timestamp untuk keunikan
-            $profile_image_name = 'profile-' . Str::slug(Auth::user()->name) . '-' . time() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+                // Buat nama unik untuk gambar profil baru
+                $profile_image_name = 'profile-' . Str::slug($user->name ?: 'user') . '-' . time() . '.' . $request->file('profile_image')->getClientOriginalExtension();
 
-            // Pindahkan file yang diupload
-            $request->file('profile_image')->move(public_path('assets/profile'), $profile_image_name);
+                // Pindahkan file yang diupload
+                $request->file('profile_image')->move(public_path('assets/profile'), $profile_image_name);
 
             // Update path gambar di database
             $user->profile_image = $profile_image_name;
@@ -90,9 +101,23 @@ class UserController extends Controller
 
 
 
-        $user->save();
+            $user->save();
 
-        return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]);
+            // Redirect ke halaman profil dengan pesan sukses
+            return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
+                             ->with('success', 'Profil berhasil diperbarui!');
+
+        } catch (ValidationException $e) {
+            // Jika validasi gagal, redirect kembali dengan error dan input lama.
+            return redirect()->back()
+                             ->withErrors($e->errors())
+                             ->withInput()
+                             ->with('error', 'Gagal memperbarui profil. Mohon periksa kembali input Anda.');
+        } catch (\Exception $e) {
+            // Tangani error lain yang tidak terkait validasi
+            return redirect()->back()
+                             ->with('error', 'Terjadi kesalahan saat memperbarui profil: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -103,5 +128,23 @@ class UserController extends Controller
         return Excel::download(new UserExport, 'user.xlsx');
     }
 
-    // Metode lainnya (create, store, edit, destroy) bisa ditambahkan nanti jika dibutuhkan
+    public function block($id)
+    {
+        $user             = User::findOrFail($id);
+        $user->is_blocked = true;
+        $user->save();
+
+        return redirect()->back()->with('success', 'User berhasil diblokir.');
+    }
+
+    public function toggleBlock($id)
+    {
+        $user             = User::findOrFail($id);
+        $user->is_blocked = ! $user->is_blocked;
+        $user->save();
+
+        $status = $user->is_blocked ? 'diblokir' : 'diaktifkan kembali';
+        return redirect()->back()->with('success', "User berhasil $status.");
+    }
+
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('total_price', 10, 2)->nullable();
-            $table->enum('payment_method', ['BCA', 'CimbNiaga', 'Danamon', 'Mandiri'])->nullable();
+            $table->enum('payment_method', ['BCA', 'Cimb Niaga', 'Danamon', 'Mandiri'])->nullable();
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
             $table->softDeletes();

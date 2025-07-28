@@ -17,15 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone_number')->unique()->default("-");
+            $table->string('phone_number')->unique()->default("-")->nullable();
             $table->date('date_of_birth')->nullable();
-            $table->string('gender')->default("-");
+            $table->string('gender')->default("-")->nullable();
             $table->boolean('is_primary')->default(true);
             $table->enum('role', ['admin', 'user'])->default('user');
             //ini gw hapus kenapa, karena bisa bikin circular foreign key, susah di migrate
             // $table->foreignId('address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->string('profile_image')->nullable();
             $table->rememberToken();
+            $table->boolean('is_blocked')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

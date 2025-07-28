@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Customize;
 use App\Models\CustomizeDecoration;
 use App\Models\CustomizeSnack;
@@ -10,6 +12,7 @@ use App\Models\LayerSnack;
 use App\Models\Snack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CustomizeTowerBouquetController extends Controller
 {
@@ -57,6 +60,19 @@ class CustomizeTowerBouquetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    private function new_cart_item($cart_id, $customize_id, $quantity, $price, $total_price)
+    {
+        $cart_items = new CartItem();
+        $cart_items->cart_id = $cart_id;
+        $cart_items->customize_id = $customize_id;
+        $cart_items->quantity = $quantity;
+        $cart_items->price = $price;
+        $cart_items->total_price = $total_price;
+        $cart_items->created_at = now();
+        $cart_items->save();
+        return 0;
+    }
+
     public function store(Request $request, string $type)
     {
         if (Auth::user()->role == "admin") {
@@ -109,16 +125,28 @@ class CustomizeTowerBouquetController extends Controller
                 }
             }
 
-            return view('home');
+            $user_id = Auth::user()->id;
+            $checkCartUser = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1);
+
+            if ($checkCartUser->count() == 1) {
+                $cart_id = $checkCartUser->first()->id;
+
+                $this->new_cart_item($cart_id, $customize->id, 1, $customize->price, $customize->price);
+            } else {
+                Cart::insert(['user_id' => $user_id, 'is_active' => 1, 'created_at' => now()]);
+                $cart_id = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1)->first()->id;
+
+                $this->new_cart_item($cart_id, $customize->id, 1, $customize->price, $customize->price);
+            }
+
+            return redirect()->route('cart.index', ['id_user' => $user_id, 'slug' => Str::slug(Auth::user()->name)]);
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.

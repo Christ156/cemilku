@@ -13,7 +13,7 @@ class UserExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        return User::select('id', 'name', 'email', 'gender', 'date_of_birth', 'phone_number', 'role')->get();
+        return User::select('id', 'name', 'role', 'is_blocked')->get();
     }
 
     /**
@@ -24,11 +24,8 @@ class UserExport implements FromCollection, WithHeadings
         return [
             'ID',
             'Name',
-            'Email',
-            'Gender',
-            'Date of Birth',
-            'Phone Number',
             'Role',
+            'Is_blocked'
         ];
     }
 }

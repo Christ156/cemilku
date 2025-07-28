@@ -10,7 +10,7 @@ class OrderExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return Order::with('orderDetails.collection', 'orderDetails.customize', 'user')
+        return Order::with('orderDetails.collection', 'orderDetails.customize', 'user', 'address')
             ->get()
             ->map(function ($order) {
                 $products = $order->orderDetails->map(function ($detail) {
@@ -22,6 +22,17 @@ class OrderExport implements FromCollection, WithHeadings
                     return '-';
                 })->implode(', ');
 
+                $address = $order->address;
+                $fullAddress = $address ? (
+                    $address->address . ', ' .
+                    'RT ' . $address->rt . ', RW ' . $address->rw . ', ' .
+                    $address->kelurahan_desa . ', ' .
+                    $address->kecamatan . ', ' .
+                    $address->kota_kabupaten . ', ' .
+                    $address->provinsi . ', ' .
+                    $address->kode_pos
+                ) : '-';
+
                 return [
                     'Order ID' => $order->id,
                     'User' => $order->user?->name ?? '-',
@@ -29,6 +40,7 @@ class OrderExport implements FromCollection, WithHeadings
                     'Status' => $order->status,
                     'Total Price' => $order->total_price,
                     'Products' => $products,
+                    'Address' => $fullAddress, 
                     'Created At' => $order->created_at->toDateTimeString(),
                 ];
             });
@@ -43,8 +55,8 @@ class OrderExport implements FromCollection, WithHeadings
             'Status',
             'Total Price',
             'Products',
+            'Address',
             'Created At',
         ];
     }
 }
-

@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="col-lg-6 col-12 d-flex flex-column justify-content-center px-lg-5 px-3 h-100">
-                    <div class="h-100 w-100 overflow-scroll d-flex justify-content-center">
+                    <div class="h-100 w-100 overflow-scroll d-flex justify-content-center hide-scrollbar">
                         <div class="d-flex flex-column align-items-center justify-content-center my-3">
                             @csrf
                             <div class="d-lg-none d-block w-100 d-flex justify-content-center">

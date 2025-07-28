@@ -24,7 +24,54 @@
             </a>
         </div>
 
-        <!-- Stepper -->
+        <div class="modal-content rounded-4 border-0" style="background-color: #fffaf0;">
+            <div class="modal-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-1"><i class="bi bi-clock-fill text-warning me-2"></i>Bayar sebelum
+                        </h5>
+                        <small class="text-muted" id="paymentDeadline"></small>
+                    </div>
+                    <div class="text-center d-flex" id="countdownContainer">
+                        <div class="bg-danger text-white rounded-pill px-2 py-1 small fw-bold" id="countdownHour">--
+                            <small>Jam</small></div>
+                        <div class="bg-danger text-white rounded-pill px-2 py-1 small fw-bold mt-1"
+                            id="countdownMinute">-- <small>Menit</small></div>
+                        <div class="bg-danger text-white rounded-pill px-2 py-1 small fw-bold mt-1"
+                            id="countdownSecond">-- <small>Detik</small></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <p class="mb-1 text-muted">Nomor Virtual Account</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">1234135139348783</h5>
+                        @if ($order->payment_method == "BCA")
+                        <img id="modalSelectedBankLogo" src="{{asset('assets/bank_logo/BCA.png')}}" alt="Logo Bank" style="height: 28px;">
+                        @elseif ($order->payment_method == "Mandiri")
+                        <img id="modalSelectedBankLogo" src="{{asset('assets/bank_logo/Mandiri.png')}}" alt="Logo Bank" style="height: 28px;">
+                        @elseif ($order->payment_method == "Cimb Niaga")
+                        <img id="modalSelectedBankLogo" src="{{asset('assets/bank_logo/CimbNiaga.png')}}" alt="Logo Bank" style="height: 28px;">
+                        @else
+                        <img id="modalSelectedBankLogo" src="{{asset('assets/bank_logo/Danamon.png')}}" alt="Logo Bank" style="height: 28px;">
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <p class="mb-1 text-muted">Total Tagihan</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold text-dark mb-0">Rp109.500</h5>
+                    </div>
+                </div>
+
+                <form action="" method="post">
+                    @csrf
+                    <a href="{{route('orders.index')}}" id="confirmPaymentBtn" class="btn btn-bayar w-100 mt-3">Lihat Pesanan saya</a>
+                </form>
+            </div>
+        </div>
+        {{-- <!-- Stepper -->
         <div class="py-1">
             <div class="stepper">
                 <div class="step completed">
@@ -71,8 +118,8 @@
                         @foreach ($banks as $bank)
                             <div class="bank-option border p-2 rounded" data-bank="{{ $bank['name'] }}"
                                 data-logo="{{ asset('assets/bank_logo/' . $bank['image']) }}">
-                                <img src="{{ asset('assets/bank_logo/' . $bank['image']) }}"
-                                    alt="{{ $bank['name'] }}" style="height: 30px; width: auto;" class="img-fluid">
+                                <img src="{{ asset('assets/bank_logo/' . $bank['image']) }}" alt="{{ $bank['name'] }}"
+                                    style="height: 30px; width: auto;" class="img-fluid">
                             </div>
                         @endforeach
                     </div>
@@ -136,12 +183,15 @@
                             </div>
                         </div>
 
-                        <button type="button" id="confirmPaymentBtn" class="btn btn-bayar w-100 mt-3">Bayar
-                            Sekarang</button>
+                        <form action="" method="post">
+                            @csrf
+                            <button type="submit" id="confirmPaymentBtn" class="btn btn-bayar w-100 mt-3">Bayar
+                                Sekarang</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <script>
             let deadline = null;
@@ -207,10 +257,10 @@
                     timerInterval = setInterval(updateCountdown, 1000);
                 });
 
-                confirmPaymentBtn?.addEventListener('click', function() {
-                    clearInterval(timerInterval);
-                    checkoutForm?.submit();
-                });
+                // confirmPaymentBtn?.addEventListener('click', function() {
+                //     clearInterval(timerInterval);
+                //     checkoutForm?.submit();
+                // });
             });
 
             function updateCountdown() {

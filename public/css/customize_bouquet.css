@@ -1,42 +1,3 @@
-.preview-tower-1{
-    display: none;
-    width: 30%;
-    z-index: 4;
-}
-
-.preview-tower-2{
-    display: none;
-    width: 45%;
-    z-index: 3;
-    margin-top: -4rem;
-}
-
-.preview-tower-3{
-    display: none;
-    width: 55%;
-    z-index: 2;
-    margin-top: -6rem;
-}
-
-.preview-tower-4{
-    display: none;
-    width: 70%;
-    z-index: 1;
-    margin-top: -10rem;
-}
-
-.decoration-tower{
-    display: none;
-    position: absolute;
-    top: 0rem;
-    z-index: 5;
-    width: 20%;
-}
-
-.preview-tower-1:active, .preview-tower-2:active, .preview-tower-3:active, .preview-tower-4:active{
-    border: 2px solid yellow;
-}
-
 .list-snack{
     height: 28rem;
     padding-bottom: 2.5rem;
@@ -151,4 +112,9 @@
 
 .preview-bouquet-4 img{
     width: 100%;
+}
+
+.preview-bouquet-1:active, .preview-bouquet-2:active, .preview-bouquet-3:active, .preview-bouquet-4:active{
+    transition: 0.3 linear;
+    transform: scale(1.05);
 }

@@ -47,7 +47,7 @@
                 <div class="size-value">85,6 cm ({{ __('collection.height') }}) x 25 cm ({{ __('collection.width') }})</div>
 
                 {{-- FORM ADD TO CART --}}
-                <form action="{{ route('collections.store', $detail->id) }}" method="POST">
+                <form action="{{route('collection.to.cart', ['id_collection' => $detail->id, 'quantity' => "custom"])}}" method="POST">
                     @csrf
                     <input type="hidden" name="collection_id" value="{{ $detail->id }}">
                     <input type="hidden" name="price" value="{{ $detail->price }}">
@@ -60,24 +60,24 @@
 
                     {{-- BUTTON QUANTITY --}}
                     <div class="counter-container">
-                        <div style="font-weight:600; margin-bottom:0px; font-size: 1.1rem;">{{ __('collection.qty') }}</div>
-                        <div class="counter-box">
-                            <button type="button" id="minus">-</button>
-                            <input type="number" id="value" class="counter-value" name="quantity" value="1"
+                        <div style="font-weight:600; margin-bottom:0px; font-size: 1.1rem;">QUANTITY</div>
+                        <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
+                            <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
+                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1"
                                 min="1" />
-                            <button type="button" id="plus">+</button>
+                            <button type="button" id="add_quantity" onclick="setQuantity('add', {{$detail->stock}})">+</button>
                         </div>
                     </div>
 
                     {{-- BUTTON ADD TO CART AND BUY NOW --}}
                     <div class="button-container d-flex">
-                        <button type="button" class="btn btn-warning d-flex align-items-center justify-content-center"
+                        <button type="submit" class="btn btn-warning d-flex align-items-center justify-content-center"
                             style="color: #52282A; border: 1px solid #000000;" id="add-to-cart-detail-btn">
                             <i class="bi bi-cart"></i>
                             <div class="ms-2" style="font-size: 16px">{{ __('collection.addToCart') }}</div>
                         </button>
                         {{-- UBAH BAGIAN INI --}}
-                        <a href="/orders" class="btn btn-warning d-flex align-items-center justify-content-center"
+                        {{-- <a href="/orders" class="btn btn-warning d-flex align-items-center justify-content-center"
                             style="color: #52282A; border: 1px solid #000000;">
                             <div style="font-size: 16px">{{ __('collection.buyNow') }}</div>
                         </a>
