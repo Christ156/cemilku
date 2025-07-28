@@ -1,4 +1,4 @@
-        const carouselElement = document.querySelector('#carousel1');
+const carouselElement = document.querySelector('#carousel1');
         const carousel = new bootstrap.Carousel(carouselElement, {
             interval: false,
             ride: false
@@ -8,7 +8,7 @@
 
         menuLinks.forEach(link => {
             link.addEventListener('click', function(e) {
-                e.preventDefault();
+                // e.preventDefault();
 
                 const index = parseInt(this.getAttribute('data-slide-to'));
                 carousel.to(index);

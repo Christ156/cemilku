@@ -5,7 +5,11 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('js/profile.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+    </script>
+    {{-- <script src="{{ asset('js/profile.js') }}"></script> --}}
 @endsection
 
 @section('script')
@@ -24,7 +28,7 @@
     {{-- Ini untuk menampilkan pesan error validasi spesifik per field --}}
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <h5>{{__('profile.failedToSave')}}</h5>
+            <h5>{{ __('profile.failedToSave') }}</h5>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -88,7 +92,8 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="editAddressModalLabel">{{ __('profile.editInfo') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('profile.close') }}"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="{{ __('profile.close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -137,18 +142,19 @@
                             rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="nomor_telepon" class="form-label">{{__('profile.phoneNumber')}}</label>
+                        <label for="nomor_telepon" class="form-label">{{ __('profile.phoneNumber') }}</label>
                         <input type="number" value="" name="nomor_telepon" class="form-control"
-                            id="nomor_telepon" placeholder="{{__('profile.inputPhoneNumber')}}">
+                            id="nomor_telepon" placeholder="{{ __('profile.inputPhoneNumber') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="receiver_name" class="form-label">{{__('profile.reciepentName')}}</label>
+                        <label for="receiver_name" class="form-label">{{ __('profile.reciepentName') }}</label>
                         <input type="text" value="" name="receiver_name" class="form-control"
-                            id="receiver_name" placeholder="{{__('profile.inputReciepentName')}}">
+                            id="receiver_name" placeholder="{{ __('profile.inputReciepentName') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                    <button type="button" class="btn btn-tutup"
+                        data-bs-dismiss="modal">{{ __('profile.close') }}</button>
                     <button type="submit" class="btn btn-simpan">{{ __('profile.saveChanges') }}</button>
                 </div>
             </form>
@@ -170,9 +176,9 @@
                     <p>{{ __('profile.enterForm') }}</p>
                     <div>
                         <div class="mb-3">
-                            <label for="namaUser" class="form-label">{{__('profile.userName')}}</label>
+                            <label for="namaUser" class="form-label">{{ __('profile.userName') }}</label>
                             <input name="name" value="{{ Auth::user()->name }}" type="text" class="form-control"
-                                id="namaUser" placeholder="{{__('profile.inputUserName')}}">
+                                id="namaUser" placeholder="{{ __('profile.inputUserName') }}">
                         </div>
                         <div class="mb-3"> {{-- Add this new div for image upload --}}
                             <label for="imageUser" class="form-label">{{ __('profile.profileImage') }}</label>
@@ -183,7 +189,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                    <button type="button" class="btn btn-tutup"
+                        data-bs-dismiss="modal">{{ __('profile.close') }}</button>
                     <button type="submit" class="btn btn-simpan">{{ __('profile.save') }}</button>
                 </div>
             </form>
@@ -198,15 +205,18 @@
                     <hr class="garis" />
                 </div>
                 <div class="container d-flex flex-column mb-5 justify-content-center align-items-center">
-                    <a href="#" class="text-center side-link side-link-2 p-2 active" data-slide-to="0">{{__('profile.userInfo')}}</a>
-                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="1">{{__('profile.address')}}</a>
-                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="2">{{__('profile.faq')}}</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 active"
+                        data-slide-to="0">{{ __('profile.userInfo') }}</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1"
+                        data-slide-to="1">{{ __('profile.address') }}</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1"
+                        data-slide-to="2">{{ __('profile.faq') }}</a>
                     <hr class="garis" />
                 </div>
                 <form action="{{ route('logout') }}" class="container d-flex justify-content-center align-items-center"
                     method="POST">
                     @csrf
-                    <button type="submit" class="side-link side-link-2 p-2 mb-4">{{__('profile.logout')}}</a>
+                    <button type="submit" class="side-link side-link-2 p-2 mb-4">{{ __('profile.logout') }}</a>
                 </form>
             </div>
 
@@ -269,27 +279,6 @@
                                                 <h4 class="info-user">{{ Auth::user()->phone_number }}</h4>
                                             </div>
                                         </div>
-                                        {{-- <div class="d-flex flex-row">
-                                            <div class="container-judul-info-user">
-                                                <h4 class="judul-info-user">Gender</h4>
-                                                <h4 class="judul-info-user mt-4">Age</h4>
-                                                <h4 class="judul-info-user mt-4">Email</h4>
-                                                <div class="no-telepon">
-                                                    <h4 class="judul-info-user mt-4">Telephone Number</h4>
-                                                </div>
-                                            </div>
-                                            <div class="container-info-user">
-                                                <h4 class="info-user">{{ Auth::user()->gender }}</h4>
-                                                <h4 class="info-user mt-4">
-                                                    {{ substr(\Carbon\Carbon::parse(Auth::user()->date_of_birth)->diffForHumans(), 0, 2) }}
-                                                </h4>
-                                                <div>
-                                                    <h4 class="info-user mt-4">{{ Auth::user()->email }}</h4>
-                                                </div>
-                                                <h4 class="info-user mt-4">{{ Auth::user()->phone_number }}</h4>
-
-                                            </div>
-                                        </div> --}}
                                         <div class="ms-auto align-self-start" id="edit-bawah">
                                             <button class="button-edit" data-bs-toggle="modal"
                                                 data-bs-target="#editBottomModal">✏️ {{ __('profile.edit') }}</button>
@@ -327,12 +316,12 @@
                                                         {{ $a->is_primary ? 'Utama' : 'Non-Utama' }}
                                                     </span>
                                                 </div>
-                                                <p>{{__('profile.reciepentName')}}: {{ $a->receiver_name }}</p>
-                                                <p>{{__('profile.description')}}: {{ $a->address }},
+                                                <p>{{ __('profile.reciepentName') }}: {{ $a->receiver_name }}</p>
+                                                <p>{{ __('profile.description') }}: {{ $a->address }},
                                                     {{ $a->rt }}/{{ $a->rw }},
                                                     {{ $a->kelurahan_desa }}, {{ $a->kecamatan }},
                                                     {{ $a->kota_kabupaten }}, {{ $a->provinsi }}</p>
-                                                <p>{{__('profile.phoneNumber')}}: {{ $a->phone_number }}</p>
+                                                <p>{{ __('profile.phoneNumber') }}: {{ $a->phone_number }}</p>
                                             </div>
                                             <div class="d-flex flex-row justify-content-between">
                                                 {{-- Delete Form --}}
@@ -340,7 +329,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">
-                                                        {{__('profile.delete')}}
+                                                        {{ __('profile.delete') }}
                                                     </button>
                                                 </form>
                                                 @if (!$a->is_primary)
@@ -377,7 +366,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                                 aria-expanded="false" aria-controls="collapseOne">
-                                                {{__('profile.whatIsSnackTower')}}
+                                                {{ __('profile.whatIsSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse"
@@ -392,7 +381,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                 aria-expanded="false" aria-controls="collapseTwo">
-                                                {{__('profile.howICustomizeSnackTower')}}
+                                                {{ __('profile.howICustomizeSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse"
@@ -407,7 +396,7 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                                 aria-expanded="false" aria-controls="collapseThree">
-                                                {{__('profile.doYouOffer')}}
+                                                {{ __('profile.doYouOffer') }}
                                             </button>
                                         </h2>
                                         <div id="collapseThree" class="accordion-collapse collapse"
@@ -423,13 +412,13 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
                                                 aria-expanded="false" aria-controls="collapseFour">
-                                                {{__('profile.isThereAMinimumOrder')}}
+                                                {{ __('profile.isThereAMinimumOrder') }}
                                             </button>
                                         </h2>
                                         <div id="collapseFour" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                {{__('profile.isThereAMinimumOrderDescription')}}
+                                                {{ __('profile.isThereAMinimumOrderDescription') }}
                                             </div>
                                         </div>
                                     </div>
@@ -439,13 +428,13 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive"
                                                 aria-expanded="false" aria-controls="collapseFive">
-                                                {{__('profile.whatIsDifference')}}
+                                                {{ __('profile.whatIsDifference') }}
                                             </button>
                                         </h2>
                                         <div id="collapseFive" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                {!!__('profile.whatIsDifferenceDescription')!!}
+                                                {!! __('profile.whatIsDifferenceDescription') !!}
                                             </div>
                                         </div>
                                     </div>
@@ -455,13 +444,13 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix"
                                                 aria-expanded="false" aria-controls="collapseSix">
-                                                {{__('profile.whatIsMystery')}}
+                                                {{ __('profile.whatIsMystery') }}
                                             </button>
                                         </h2>
                                         <div id="collapseSix" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                               {{__('profile.whatIsMysteryDescription')}}
+                                                {{ __('profile.whatIsMysteryDescription') }}
                                             </div>
                                         </div>
                                     </div>
@@ -471,13 +460,13 @@
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven"
                                                 aria-expanded="false" aria-controls="collapseSeven">
-                                                {{__('profile.canIChoose')}}
+                                                {{ __('profile.canIChoose') }}
                                             </button>
                                         </h2>
                                         <div id="collapseSeven" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                {{__('profile.canIChooseDescription')}}
+                                                {{ __('profile.canIChooseDescription') }}
                                             </div>
                                         </div>
                                     </div>
@@ -492,5 +481,81 @@
     </div>
 
     <!-- JS -->
+    <script>
+        const carouselElement = document.querySelector('#carousel1');
+        const carousel = new bootstrap.Carousel(carouselElement, {
+            interval: false,
+            ride: false
+        });
 
+        const menuLinks = document.querySelectorAll('[data-slide-to]');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // e.preventDefault();
+
+                const index = parseInt(this.getAttribute('data-slide-to'));
+                carousel.to(index);
+
+                menuLinks.forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        const sidebar = document.getElementById('container1');
+        const toggleButton = document.getElementById('toggleSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            backdrop.classList.toggle('active');
+        });
+
+        backdrop.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            backdrop.classList.remove('active');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Dapatkan semua tombol dengan kelas 'toggle-primary-btn'
+            const toggleButtons = document.querySelectorAll('.toggle-primary-btn');
+            const statusMessageDiv = document.getElementById('statusMessage');
+
+            // 2. Tambahkan event listener untuk setiap tombol
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 3. Ambil ID alamat dari atribut data-address-id tombol yang diklik
+                    const addressId = this.dataset.addressId;
+                    const newPrimaryStatus = 'primary'; // Kita selalu ingin menjadikannya primary
+
+                    // ... (kode untuk menonaktifkan tombol dan update UI sementara) ...
+
+                    // 4. Kirim permintaan AJAX ke backend Laravel
+                    fetch(`/addresses/${addressId}/toggle-primary`, { // <<<--- INI MEMANGGIL CONTROLLER!
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                status: newPrimaryStatus
+                            })
+                        })
+                        .then(response => {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+
+                        })
+                        .catch(error => {
+                            // ... (tangani error) ...
+                        });
+                });
+            });
+
+            // ... (fungsi displayStatusMessage) ...
+
+        });
+    </script>
 @endsection
