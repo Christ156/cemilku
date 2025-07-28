@@ -171,7 +171,6 @@
                                         <div>
                                             <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
                                                 style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
-
                                         </div>
                                     </div>
                                 </div>
