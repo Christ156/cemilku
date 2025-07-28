@@ -14,10 +14,17 @@ class DecorationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::user()->role == "admin") {
-            $decorations = Decoration::all();
+            $query = Decoration::query();
+
+            if ($search = $request->get('search')) {
+                $query->where('name', 'like', '%' . $search . '%');
+            }
+
+            $decorations = $query->get();
+
             return view('admin.decoration.index', compact('decorations'));
         }
     }

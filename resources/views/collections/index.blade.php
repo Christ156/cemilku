@@ -40,12 +40,13 @@
                                     <h4 class="custom-card-title pe-2"> {{ Str::limit($item->name, 15, '...') }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;"
+                                                onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>
@@ -72,12 +73,12 @@
                                     <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>
@@ -103,12 +104,12 @@
                                     <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>
@@ -135,12 +136,12 @@
                                     <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>
@@ -166,12 +167,12 @@
                                     <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>
@@ -198,12 +199,12 @@
                                     <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
                                     <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
-                                        <form method="POST" action="{{route('collection.to.cart', ['id_collection' => $item->id, 'quantity' => 1])}}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;">+</button>
-                                        </form>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <div>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
+                                        </div>
                                     </div>
                                 </div>
                             </a>

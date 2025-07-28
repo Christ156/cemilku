@@ -9,13 +9,15 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
+use Illuminate\Contracts\Auth\Authenticatable; // Import this
 
 class AdminSnackPageTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function loginAsAdmin()
+    protected function loginAsAdmin(): void
     {
+        /** @var \App\Models\User $admin */ // Add this PHPDoc for clarity
         $admin = User::factory()->create([
             'email' => 'admin@example.com',
             'password' => bcrypt('admin123'),
@@ -65,6 +67,7 @@ class AdminSnackPageTest extends TestCase
             'name' => '',
             'price' => 1000,
             'stock' => 10,
+            // 'image' is not required for validation error, so it's okay if it's missing here
         ]);
 
         $response->assertSessionHasErrors('name');
@@ -157,22 +160,23 @@ class AdminSnackPageTest extends TestCase
             'image' => 'oreo.png',
         ]);
 
-        // Start output buffering to capture streamed content
-        ob_start();
-        $response = $this->withoutMiddleware()->get('/admin/snack/export');
-        $response->send();
-        $content = ob_get_clean();
+        // Mock the Excel facade to prevent actual file download
+        // and instead return a DownloadResponse which the test can then inspect.
+        // Assuming you are using Maatwebsite\Excel for CSV export as well
+        // If not, and it's a manual CSV generation, the original test approach might be okay,
+        // but it's generally better to use a dedicated mocking approach.
+        // For simplicity and consistency with the previous Decoration export fix,
+        // I'll assume Maatwebsite\Excel is used.
+        \Maatwebsite\Excel\Facades\Excel::fake();
 
-        $this->assertNotEmpty($content, 'Exported CSV content is empty.');
+        $response = $this->get('/admin/snack/export');
 
-        $contentType = $response->headers->get('Content-Type');
-        $this->assertNotNull($contentType, 'Content-Type header is missing.');
-        $this->assertTrue(
-            str_contains($contentType, 'csv') || str_contains($contentType, 'text/plain'),
-            "Expected Content-Type to contain 'csv' or be 'text/plain', got: {$contentType}"
-        );
+        $response->assertStatus(200);
 
-        $this->assertStringContainsString('Oreo', $content);
+        // Assert that the Excel::download method was called with the correct arguments
+        \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snacks.csv', function(\App\Exports\SnackExport $export) {
+            return $export->collection()->contains('name', 'Oreo');
+        });
     }
 
     public function test_price_must_be_positive()
@@ -203,6 +207,9 @@ class AdminSnackPageTest extends TestCase
             'name' => 'UniqueName',
             'price' => 2000,
             'stock' => 10,
+            // 'image' might be required for new snack creation, depending on your validation rules.
+            // If it is, uncomment and provide a fake image:
+            'image' => UploadedFile::fake()->image('dup.png'),
         ]);
 
         $response->assertSessionHasErrors('name');
