@@ -220,6 +220,7 @@
                     <a class="nav-link" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
+
                     {{-- PROFILE BUAT DESKTOP --}}
                     <div class="dropdown d-lg-block d-none ms-3">
                         <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
@@ -241,10 +242,10 @@
                             </li>
                     </div>
 
-                    <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
+                    {{-- <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
                     <a class="nav-link d-lg-none d-block" href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
-                    </a>
+                    </a> --}}
 
                     {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
                     <div class="d-block d-sm-none ms-3">
