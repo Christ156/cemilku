@@ -185,6 +185,8 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::resource('user', UserController::class);
     Route::resource('address', AddressController::class);
+    Route::post('/addresses/{address}/toggle-primary', [AddressController::class, 'togglePrimary'])
+     ->name('addresses.togglePrimary');
     Route::get('/customize-tower-bouquet', [CustomizeTowerBouquetController::class, 'index'])->name('customer-tower-bouquet.index');
     Route::get('/customize-tower-bouquet/tower', [CustomizeTowerBouquetController::class, 'create_tower'])->name('customize-tower-bouquet.tower');
     Route::get('/customize-tower-bouquet/bouquet', [CustomizeTowerBouquetController::class, 'create_bouquet'])->name('customize-tower-bouquet.bouquet');

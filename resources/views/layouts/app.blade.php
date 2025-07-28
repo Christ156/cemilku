@@ -26,6 +26,7 @@
     <style>
         body,
         html {
+            background-color: #fffbec;
             font-family: 'Poppins', sans-serif !important;
         }
     </style>
@@ -71,7 +72,7 @@
                 </div>
 
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{route('home')}}">
+                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{ route('home') }}">
                     <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
                         class="d-inline-block align-text-top" />
                 </a>
@@ -182,7 +183,8 @@
                     </a>
                     {{-- PROFILE BUAT DESKTOP --}}
                     <div class="dropdown d-lg-block d-none ms-3">
-                        <a href="" class="nav-link" data-bs-toggle="dropdown">
+                        <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                            class="nav-link" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -219,4 +221,5 @@
         </main>
     </div>
 </body>
+
 </html>

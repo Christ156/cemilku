@@ -1,199 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Coba</title>
+@section('style')
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
+@endsection
 
-<body style="background-color: #fffbec">
-    <nav class="navbar fixed-top navbar-expand-sm navbar-light" style="height: 70px">
-        <div class="container-fluid px-3 flex-wrap align-items-center justify-content-between">
+{{-- @section('script')
+    <script src="{{ asset('js/profile.js') }}"></script>
+@endsection --}}
 
-            {{-- Toggler Kiri --}}
-            <div class="d-flex align-items-center justify-content-center d-sm-none">
-                <!-- Burger hanya muncul di mobile -->
-                <button class="navbar-toggler d-block me-2" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+@section('content')
 
-                <!-- Logo (mobile) diluar burger -->
-                <div class="d-block mb-3 text-center ms-2">
-                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
-                        style="display: block; position: relative; top:7px" />
-                </div>
-            </div>
-
-            {{-- Desktop Logo --}}
-            <a class="navbar-brand d-none d-sm-block m-4 p-2" href="#">
-                <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="65" height="50"
-                    class="d-inline-block align-text-top" />
-            </a>
-
-            <!-- Menu NAVBAR Desktop -->
-            <div class="collapse navbar-collapse d-none d-sm-flex" id="collapsibleNavId">
-                <ul class="navbar-nav fs-5 flex-row gap-1">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                            href="{{ route('home') }}">Home</a>
-                    </li>
-                    {{-- <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
-                                href="{{ route('custom') }}">Custom</a>
-                        </li> --}}
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('collections.index') ? 'active' : '' }}"
-                            href="{{ route('collections.index') }}">Collections</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs() ? 'active' : '' }}" href="">Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
-                            href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">Profile</a>
-                    </li>
-                </ul>
-            </div>
-
-            {{-- Burger Content --}}
-            <div class="offcanvas offcanvas-start sidebar d-block d-sm-none" tabindex="-1" id="offcanvasNav"
-                aria-labelledby="offcanvasNavLabel" style="width: 50%; background-color: #fdc307;">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-
-                    <!-- Logo (mobile) dalem burger -->
-                    <div class="logo-burger d-block d-sm-none mb-3 ">
-                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60" height="45" />
-                    </div>
-
-                    <!-- Menu -->
-                    <ul class="navbar-nav fs-5 flex-column gap-2">
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
-                                href="homepage">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
-                                href="custom">Custom</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                href="collections">Collections</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                href="order">Order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
-                                href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">Profile</a>
-                        </li>
-
-                        <!-- Language (Mobile) -->
-                        <li class="nav-item dropdown d-block d-sm-none">
-
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                Language
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a>
-                                </li>
-                            </ul>
-                            <hr style="border-top: 2px solid #341c02;">
-                        </li>
-
-                        <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="nav-link" style="color: red">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Log out
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            {{-- Language (Desktop)
-                <div class="dropdown d-none d-sm-block pe-2">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
-                    </ul>
-                </div> --}}
-
-            {{-- Cart + Profile (Always on right) --}}
-            <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                <!-- BARU DITAMBAHKAN / DIPINDAHKAN: Ikon Keranjang untuk Desktop -->
-                <a class="nav-link d-none d-sm-block" href="{{ route('cart') }}">
-                    <i class="bi bi-cart3 fs-1" style="color: #341c02;"></i>
-                </a>
-
-                <!-- DIPINDAHKAN: Dropdown Bahasa untuk Desktop -->
-                <div class="dropdown d-none d-sm-block">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
-                    </ul>
-                </div>
-
-                {{-- PROFILE BUAT DESKTOP (posisinya tetap di dalam grup, setelah bahasa) --}}
-                <div class="dropdown d-none d-sm-block ms-3">
-                    <!-- ... kode profil desktop ... -->
-                </div>
-
-                <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                <a class="nav-link d-block d-sm-none" href="{{ route('cart') }}">
-                    <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
-                </a>
-
-                {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
-                <div class="d-block d-sm-none ms-3">
-                    <!-- ... kode profil mobile ... -->
-                </div>
-            </div>
-
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </nav>
+    @endif
 
-    <div class="modal fade" id="editBottomModal" tabindex="-1" aria-labelledby="editBottomModalLabel"
-        aria-hidden="true">
+    {{-- Ini untuk menampilkan pesan error validasi spesifik per field --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h5>Gagal menyimpan Alamat! Mohon periksa kesalahan berikut:</h5>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    <div class="modal fade" id="editBottomModal" tabindex="-1" aria-labelledby="editBottomModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <form action="{{ route('user.update', Auth::user()->id) }}" method="POST"
-                class="modal-content modal-1-dalem">
+            <form action="{{ route('user.update', Auth::user()->id) }}" method="POST" class="modal-content modal-1-dalem">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -221,8 +60,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="email2" class="form-label">Email</label>
-                            <input type="email" value="{{ Auth::user()->email }}" class="form-control"
-                                name="email" id="email2" placeholder="Masukkan email">
+                            <input type="email" value="{{ Auth::user()->email }}" class="form-control" name="email"
+                                id="email2" placeholder="Masukkan email">
                         </div>
                         <div class="mb-3">
                             <label for="telepon" class="form-label">No. Telepon</label>
@@ -239,8 +78,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <form action="{{ route('address.store') }}" method="POST" class="modal-content modal-1-dalem">
                 @csrf
@@ -294,6 +132,16 @@
                         <textarea name="address" class="form-control" id="address" placeholder="Masukkan Alamat Lengkap..."
                             rows="3"></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
+                        <input type="number" value="" name="nomor_telepon" class="form-control"
+                            id="nomor_telepon" placeholder="Masukkan Nomor Telepon...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="receiver_name" class="form-label">Nama Penerima</label>
+                        <input type="text" value="" name="receiver_name" class="form-control"
+                            id="receiver_name" placeholder="Masukkan Nama Penerima...">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-tutup" data-bs-dismiss="modal">Tutup</button>
@@ -319,8 +167,8 @@
                     <div>
                         <div class="mb-3">
                             <label for="namaUser" class="form-label">Nama User</label>
-                            <input name="name" value="{{ Auth::user()->name }}" type="text"
-                                class="form-control" id="namaUser" placeholder="Masukkan nama...">
+                            <input name="name" value="{{ Auth::user()->name }}" type="text" class="form-control"
+                                id="namaUser" placeholder="Masukkan nama...">
                         </div>
                         <div class="mb-3"> {{-- Add this new div for image upload --}}
                             <label for="imageUser" class="form-label">Profile Image</label>
@@ -339,21 +187,24 @@
     </div>
 
     <div id="container-luar">
-        <div class="d-flex mt-5 py-5" id="container-luar-2">
+        <div class="d-flex mt-5" id="container-luar-2">
             <div class="container d-flex flex-column justify-content-around shadow p-3 mb-5 rounded" id="container1">
                 <div class="container d-flex flex-column justify-content-center align-items-center p-3">
                     <h2 class="side-link-2">{{ Auth::user()->name }}</h2>
                     <hr class="garis" />
                 </div>
-                <div class="container d-flex flex-column mb-5 align-items-center">
-                    <a href="#" class="side-link side-link-2 p-2 active" data-slide-to="0">User Info</a>
-                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="1">Address</a>
-                    <a href="#" class="side-link side-link-2 p-2 mt-1" data-slide-to="2">FAQ</a>
+                <div class="container d-flex flex-column mb-5 justify-content-center align-items-center">
+                    <a href="#" class="text-center side-link side-link-2 p-2 active" data-slide-to="0">User
+                        Info</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="1">Address</a>
+                    <a href="#" class="text-center side-link side-link-2 p-2 mt-1" data-slide-to="2">FAQ</a>
                     <hr class="garis" />
                 </div>
-                <div class="container d-flex justify-content-center align-items-center">
-                    <a href="/login" class="side-link side-link-2 p-2 mb-4">Log Out</a>
-                </div>
+                <form action="{{ route('logout') }}" class="container d-flex justify-content-center align-items-center"
+                    method="POST">
+                    @csrf
+                    <button type="submit" class="side-link side-link-2 p-2 mb-4">Log Out</a>
+                </form>
             </div>
 
 
@@ -365,12 +216,12 @@
                             <div class="container d-flex p-3 flex-row">
                                 <div class="container d-flex flex-column">
                                     <div class="d-flex flex-row align-items-center p-3" id="atas-profile">
-                                        <img src="{{asset('assets/profile/' . (Auth::user()->profile_image ?? 'orang2.jpg')) }}" alt="orang"
-                                            class="gambar-profile rounded-circle" />
+                                        <img src="{{ asset('assets/profile/' . (Auth::user()->profile_image ?? 'orang2.jpg')) }}"
+                                            alt="orang" class="gambar-profile rounded-circle" />
                                         <div class="d-flex flex-column p-3 flex-grow-1 nama_badge">
                                             <h1 class="nama-user mb-1">{{ Auth::user()->name }}</h1>
-                                            <div
-                                                class="info-user-atas badge text-bg-primary">{{ Auth::user()->role }}</div>
+                                            <div class="info-user-atas badge text-bg-primary">{{ Auth::user()->role }}
+                                            </div>
                                         </div>
                                         <div class="ms-auto align-self-start" data-bs-toggle="modal"
                                             data-bs-target="#editModal">
@@ -466,18 +317,39 @@
                                     @forelse ($address as $a)
                                         <div class="container container-address mt-2 p-2">
                                             <div>
-                                                <h5>{{ $a->label }}</h5>
-                                                <p>{{ $a->address }}, {{ $a->rt }}/{{ $a->rw }},
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <h5 class="label-address">{{ $a->label }}</h5>
+                                                    <span id="status-text-{{ $a->id }}"
+                                                        class="badge {{ $a->is_primary ? 'bg-primary' : 'bg-secondary' }} badge-address">
+                                                        {{ $a->is_primary ? 'Utama' : 'Non-Utama' }}
+                                                    </span>
+                                                </div>
+                                                <p>Receiver Name: {{ $a->receiver_name }}</p>
+                                                <p>Description: {{ $a->address }},
+                                                    {{ $a->rt }}/{{ $a->rw }},
                                                     {{ $a->kelurahan_desa }}, {{ $a->kecamatan }},
                                                     {{ $a->kota_kabupaten }}, {{ $a->provinsi }}</p>
+                                                <p>Phone Number: {{ $a->phone_number }}</p>
                                             </div>
-                                            <form action="{{ route('address.destroy', $a->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                            <div class="d-flex flex-row justify-content-between">
+                                                {{-- Delete Form --}}
+                                                <form action="{{ route('address.destroy', $a->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                @if (!$a->is_primary)
+                                                    <button type="button"
+                                                        class="btn btn-sm toggle-primary-btn {{ $a->is_primary ? 'btn-secondary' : 'btn-primary' }}"
+                                                        data-address-id="{{ $a->id }}"
+                                                        data-current-primary="{{ $a->is_primary ? 'primary' : 'not-primary' }}"
+                                                        {{ $a->is_primary ? 'disabled' : '' }}>
+                                                        {{ $a->is_primary ? 'Utama Saat Ini' : 'Jadikan Utama' }}
+                                                    </button>
+                                                @endif
+                                            </div>
                                         </div>
 
                                     @empty
@@ -499,11 +371,9 @@
                                 <div class="accordion p-3" id="accordionExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseOne" aria-expanded="false"
-                                                aria-controls="collapseOne">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="false" aria-controls="collapseOne">
                                                 What is a Snack Tower?
                                             </button>
                                         </h2>
@@ -519,11 +389,9 @@
                                     </div>
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseTwo" aria-expanded="false"
-                                                aria-controls="collapseTwo">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                aria-expanded="false" aria-controls="collapseTwo">
                                                 How do I customize my Snack Tower?
                                             </button>
                                         </h2>
@@ -545,11 +413,9 @@
                                     </div>
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseThree" aria-expanded="false"
-                                                aria-controls="collapseThree">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                aria-expanded="false" aria-controls="collapseThree">
                                                 Do you offer pre-made towers?
                                             </button>
                                         </h2>
@@ -565,11 +431,9 @@
 
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseFour" aria-expanded="false"
-                                                aria-controls="collapseFour">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                                aria-expanded="false" aria-controls="collapseFour">
                                                 Is there a minimum order amount?
                                             </button>
                                         </h2>
@@ -584,11 +448,9 @@
 
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseFive" aria-expanded="false"
-                                                aria-controls="collapseFive">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive"
+                                                aria-expanded="false" aria-controls="collapseFive">
                                                 What is the difference between a Snack Tower and a Snack Bouquet?
                                             </button>
                                         </h2>
@@ -613,11 +475,9 @@
 
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseSix" aria-expanded="false"
-                                                aria-controls="collapseSix">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix"
+                                                aria-expanded="false" aria-controls="collapseSix">
                                                 What is a Mystery Snack Box?
                                             </button>
                                         </h2>
@@ -634,11 +494,9 @@
 
                                     <div class="accordion-item mt-3">
                                         <h2 class="accordion-header">
-                                            <button
-                                                class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
-                                                type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseSeven" aria-expanded="false"
-                                                aria-controls="collapseSeven">
+                                            <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven"
+                                                aria-expanded="false" aria-controls="collapseSeven">
                                                 Can I choose the Mystery Box's snacks by myself?
                                             </button>
                                         </h2>
@@ -652,6 +510,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -661,7 +520,7 @@
     </div>
 
     <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const carouselElement = document.querySelector('#carousel1');
         const carousel = new bootstrap.Carousel(carouselElement, {
@@ -698,7 +557,47 @@
             backdrop.classList.remove('active');
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Dapatkan semua tombol dengan kelas 'toggle-primary-btn'
+            const toggleButtons = document.querySelectorAll('.toggle-primary-btn');
+            const statusMessageDiv = document.getElementById('statusMessage');
 
-</body>
+            // 2. Tambahkan event listener untuk setiap tombol
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 3. Ambil ID alamat dari atribut data-address-id tombol yang diklik
+                    const addressId = this.dataset.addressId;
+                    const newPrimaryStatus = 'primary'; // Kita selalu ingin menjadikannya primary
 
-</html>
+                    // ... (kode untuk menonaktifkan tombol dan update UI sementara) ...
+
+                    // 4. Kirim permintaan AJAX ke backend Laravel
+                    fetch(`/addresses/${addressId}/toggle-primary`, { // <<<--- INI MEMANGGIL CONTROLLER!
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                status: newPrimaryStatus
+                            })
+                        })
+                        .then(response => {
+                            setTimeout(() => {
+                                 window.location.reload();
+                             }, 1000);
+
+                        })
+                        .catch(error => {
+                            // ... (tangani error) ...
+                        });
+                });
+            });
+
+            // ... (fungsi displayStatusMessage) ...
+
+        });
+    </script>
+@endsection

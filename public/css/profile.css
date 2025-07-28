@@ -22,7 +22,7 @@
 #container-luar {
     background-color: #fffbec;
     height: auto;
-    margin-top: 100px;
+    /* margin-top: 100px; */
 }
 
 #side-h2 {
@@ -309,10 +309,18 @@
 }
 
 .container-address {
-    border: 1px solid #726e6f;
+    border: 2px solid #726e6f;
     border-radius: 10px;
 }
 
 .tulisan-judul-faq {
     color: #52282a !important;
+}
+
+.badge-address{
+    height: 10%;
+}
+
+.label-address{
+    color: #52282a;
 }
