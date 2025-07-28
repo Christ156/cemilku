@@ -54,68 +54,88 @@ class NavbarFooterTest extends TestCase
     /** @test */
     public function test_cart_navigation_button()
     {
-        $this->get('/')->assertSeeHtml('href="'. route('cart') .'"');
+        $user = $this->user;
+
+        $slug = Str::slug($user->name);
+
+        $cartUrl = route('cart.index', ['id_user' => $user->id, 'slug' => $slug]);
+
+        $this->actingAs($user)
+            ->get('/')
+            ->assertSeeHtml('href="' . $cartUrl . '"');
     }
 
-    // /** @test */
-    // public function test_profile_dropdown_button()
-    // {
-    //     $slug = Str::slug($this->user->name);
-    //     $this->get('/')->assertSeeHtml('href="'. route('profile', ['id' => $this->user->id, 'slug' => $slug]) .'"');
-    // }
+    /** @test */
+    public function test_profile_dropdown_button()
+    {
+        $slug = Str::slug($this->user->name);
+        $this->get('/')->assertSeeHtml('href="'. route('profile', ['id' => $this->user->id, 'slug' => $slug]) .'"');
+    }
 
-    // /** @test */
-    // public function test_navbar_layout_ui()
-    // {
-    //     $response = $this->get('/');
-    //     $response->assertSee('Home');
-    //     $response->assertSee('Collections');
-    //     $response->assertSee('Order');
+    /** @test */
+    public function test_navbar_layout_ui()
+    {
+        $response = $this->get('/');
+        $response->assertSee('Home');
+        $response->assertSee('Collections');
+        $response->assertSee('Order');
 
-    //     $response->assertSeeHtml('href="'. route('cart') .'"');
+        $user = $this->user;
 
-    //     $slug = Str::slug($this->user->name);
-    //     $response->assertSeeHtml('href="'. route('profile', ['id' => $this->user->id, 'slug' => $slug]) .'"');
-    // }
+        $slug = Str::slug($user->name);
 
-    // /** @test */
-    // public function test_mobile_hamburg_menu()
-    // {
-    //     $this->get('/')->assertSeeHtml('<button class="navbar-toggler');
-    // }
+        $cartUrl = route('cart.index', ['id_user' => $user->id, 'slug' => $slug]);
+        $response->assertSeeHtml('href="'. $cartUrl .'"');
 
-    // /** @test */
-    // public function test_drawer_menu_links()
-    // {
-    //     $this->get('/')
-    //         ->assertSee('Home')
-    //         ->assertSee('Collections')
-    //         ->assertSee('Order');
-    // }
+        $profileUrl = route('profile', ['id' => $user->id, 'slug' => $slug]);
+        $response->assertSeeHtml('href="'. $profileUrl .'"');
+    }
 
-    // /** @test */
-    // public function test_logout_menu_is_present_when_authenticated()
-    // {
-    //     $response = $this->get('/');
-    //     $response->assertSeeHtml('<form action="'. route('logout') .'" method="POST"');
-    // }
+    /** @test */
+    public function test_mobile_hamburg_menu()
+    {
+        $this->get('/')->assertSeeHtml('<button class="navbar-toggler');
+    }
 
-    // /** @test */
-    // public function test_footer_email_clickable()
-    // {
-    //     $this->get('/')->assertSee('mailto:cemilku@gmail.com');
-    // }
+    /** @test */
+    public function test_drawer_menu_links()
+    {
+        $this->get('/')
+            ->assertSee('Home')
+            ->assertSee('Collections')
+            ->assertSee('Order');
+    }
 
-    // /** @test */
-    // public function test_footer_ui_layout_presence()
-    // {
-    //     $this->get('/')
-    //         ->assertStatus(200)
-    //         ->assertSee('Contact Us')
-    //         ->assertSee('cemilku@gmail.com')
-    //         ->assertSee('555-567-8901')
-    //         ->assertSee('alt="Instagram"')
-    //         ->assertSee('alt="Twitter"')
-    //         ->assertSee('alt="Facebook"');
-    // }
+    /** @test */
+    public function test_logout_menu_is_present_when_authenticated()
+    {
+        $response = $this->get('/');
+        $response->assertSeeHtml('<form action="' . route('logout') . '" method="post">');
+    }
+
+    /** @test */
+    public function test_footer_email_clickable()
+    {
+        $this->get('/')->assertSee('mailto:cemilku@gmail.com');
+    }
+
+    /** @test */
+    public function test_footer_ui_layout()
+    {
+        $response = $this->get('/');
+
+        $response->assertSeeInOrder([
+            'Cemilku Logo',
+            'Contact Us',
+            'Email: <a href="mailto:cemilku@gmail.com">cemilku@gmail.com</a>',
+            'Phone: 555-567-8901',
+            '<a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer">',
+            'alt="Instagram"',
+            '<a href="https://twitter.com/username" target="_blank" rel="noopener noreferrer">',
+            'alt="Twitter"',
+            '<a href="https://facebook.com/username" target="_blank" rel="noopener noreferrer">',
+            'alt="Facebook"',
+            '© 2025 Cemilku. navigation.allRightsReserved.'
+        ]);
+    }
 }
