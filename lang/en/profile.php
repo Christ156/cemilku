@@ -89,5 +89,10 @@ return[
     'canIChoose' => "Can I choose the Mystery Box's snacks by myself?",
     'canIChooseDescription' => 'No. Mystery Boxes are intentionally randomized to keep the surprise
                                                 factor. If you want to build your own, check out our Snack Tower or
-                                                Bouquet options.'
+                                                Bouquet options.',
+    'failedToSave' => 'Failed to save address! Please check the following errors:',
+    'reciepentName' => 'Reciepent Name',
+    'inputReciepentName' => 'Input Recipient Name...',
+    'description' => 'Description',
+
 ];

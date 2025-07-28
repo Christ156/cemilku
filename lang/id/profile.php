@@ -71,5 +71,10 @@ return[
     'whatIsMystery' => 'Apa itu Mystery Snack Box?',
     'whatIsMysteryDescription' => "Mystery Snack Box adalah pilihan cemilan kejutan yang dipilih oleh penjual berdasarkan anggaran, suasana hati, dan preferensi yang kamu tentukan. Kamu tidak akan tahu persis apa isi di dalamnya sampai kotaknya tiba!",
     'canIChoose' => "Apakah saya bisa memilih sendiri isi cemilan dalam Mystery Box?",
-    'canIChooseDescription' => 'Tidak. Mystery Box sengaja dibuat secara acak untuk menjaga unsur kejutan. Jika kamu ingin memilih sendiri isinya, silakan lihat opsi Snack Tower atau Snack Bouquet kami.'
+    'canIChooseDescription' => 'Tidak. Mystery Box sengaja dibuat secara acak untuk menjaga unsur kejutan. Jika kamu ingin memilih sendiri isinya, silakan lihat opsi Snack Tower atau Snack Bouquet kami.',
+    'failedToSave' => 'Gagal menyimpan Alamat! Mohon periksa kesalahan berikut:',
+    'reciepentName' => 'Nama Penerima',
+    'inputReciepentName' => 'Masukkan Nama Penerima...',
+    'description' => 'Deskripsi',
+
 ];

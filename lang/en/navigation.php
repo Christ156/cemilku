@@ -31,4 +31,12 @@ return [
     'phone' => 'Phone',
     'email' => 'Email',
     'copyright' => 'All Rights Reserved.',
+    'banner1' => 'Banner1.png',
+    'banner2' => 'Banner2.png',
+    'banner3' => 'Banner3.png',
+    'banner4' => 'Banner4.png',
+    'banner5' => 'Banner5.png',
+    'banner6' => 'Banner6.png',
+    'banner7' => 'Banner7.png',
+    'banner8' => 'Banner8.png'
 ];

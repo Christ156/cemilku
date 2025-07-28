@@ -35,36 +35,36 @@
             <div class="carousel-inner">
 
                 <div class="carousel-item active">
-                    <img src="{{ asset('assets/banner/Banner1.png') }}" class="d-block w-100 img-fluid" alt="First-Slide">
+                   <img src="{{ asset('assets/banner/' . __('navigation.banner1')) }}" class="d-block w-100 img-fluid" alt="First-Slide">
                 </div>
 
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner2.png') }}" class="d-block w-100 img-fluid" alt="Second Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner2')) }}" class="d-block w-100 img-fluid" alt="Second Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner3.png') }}" class="d-block w-100 img-fluid" alt="Third Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner3')) }}" class="d-block w-100 img-fluid" alt="Third Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner4.png') }}" class="d-block w-100 img-fluid" alt="Fourth Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner4')) }}" class="d-block w-100 img-fluid" alt="Fourth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner5.png') }}" class="d-block w-100 img-fluid" alt="Fifth Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner5')) }}" class="d-block w-100 img-fluid" alt="Fifth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner6.png') }}" class="d-block w-100 img-fluid" alt="Sixth Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner6')) }}" class="d-block w-100 img-fluid" alt="Sixth Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner7.png') }}" class="d-block w-100 img-fluid" alt="Seventh Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner7')) }}" class="d-block w-100 img-fluid" alt="Seventh Slide">
                 </div>
 
                 <div class="carousel-item">
-                    <img src="{{ asset('assets/banner/Banner8.png') }}" class="d-block w-100 img-fluid" alt="Eighth Slide">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner8')) }}" class="d-block w-100 img-fluid" alt="Eighth Slide">
                 </div>
 
             </div>
