@@ -76,8 +76,19 @@
                 </div>
             </div> --}}
 
+        @if ($orders->isEmpty())
+            <div class="text-center py-5 text-muted">
+                <h5>Belum ada pesanan</h5>
+            </div>
+        @endif
 
         @foreach ($orders as $order)
+            @if ($orders->isEmpty())
+                <div class="d-flex justify-content-center align-items-center">
+                    <p class="text-center fw-bold text-muted my-0">Belum ada pesanan</p>
+                </div>
+             @endif
+
             <div class="card custombg shadow-sm border border-warning rounded-4 p-3 mb-4">
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-2">
