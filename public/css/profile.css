@@ -66,7 +66,7 @@
 
 .gambar-profile {
     width: 15%;
-    height: 100%;
+    aspect-ratio: 1/1;
 }
 
 .pilih-foto {

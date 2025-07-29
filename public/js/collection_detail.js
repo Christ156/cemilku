@@ -8,7 +8,6 @@ function setQuantity(state, quantity){
     }
 
     document.getElementById("value_quantity").value = currentQuantity;
-
     checkQuantityValid(quantity);
 }
 

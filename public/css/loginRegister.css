@@ -30,7 +30,7 @@ body{
 }
 
 .text-brown1{
-    color: #52282A;
+    color: #52282A !important;
     text-decoration: none;
 }
 
