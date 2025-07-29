@@ -43,7 +43,7 @@
                             @endif
                         </p>
                     </div>
-                    @if ($count_address_active == 0 || $address->count() == 0)
+                    @if ($count_address_active == 0 && $address->count() == 0)
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addressCartModal" class="btn btn-sm"
                             style="background-color: #FFF8E2; border: 1px solid #D1BB9E; color: #52282A; padding: 5px 15px; border-radius: 20px; font-weight: bold;">Tambah
                             alamat baru</button>
@@ -77,7 +77,7 @@
                                 @if ($c->collection_id != null)
                                     <img src="{{ asset('assets/collections/' . $c->collection->image) }}" alt=""
                                         class="product-img">
-                                @else
+                                @elseif($c->customize_id != null)
                                     @if ($c->customize->type == 'tower')
                                         <img src="{{ asset('assets/tower_selection/preview-tower-layer-4.png') }}"
                                             alt="" class="product-img">
@@ -85,14 +85,30 @@
                                         <img src="{{ asset('assets/bouquet_base/base.png') }}" alt=""
                                             class="product-img">
                                     @endif
+                                @else
+                                    <?php
+                                        $image_mysteryBox = array(
+                                            'Romantic'=>'mysterybox_pink.png',
+                                            'Funny'=>'mysterybox_biru.png',
+                                            'Calm'=>'mysterybox_hijau.png',
+                                            'Mysterious'=>'mysterybox_ungu.png',
+                                            'Brave'=>'mysterybox_merah.png',
+                                            'Happy'=>'mysterybox_kuning.png',
+                                        );
+                                    ?>
+                                    <img src="{{ asset('assets/mystery_box/'. $image_mysteryBox[$c->mysteryBox->mood]) }}" alt=""
+                                        class="product-img">
                                 @endif
                                 <div class="ms-2">
                                     @if ($c->collection_id != null)
                                         <h6 class="fw-bold mb-0">{{ $c->collection->category }} |
                                             {{ $c->collection->name }}</h6>
-                                    @else
+                                    @elseif($c->customize_id != null)
                                         <h6 class="fw-bold mb-0">{{ $c->customize->name }} - Custom
                                             {{ $c->customize->type }}</h6>
+                                    @else
+                                        <h6 class="fw-bold mb-0">{{ $c->mysteryBox->mood }} -
+                                            {{ $c->mysteryBox->name }}</h6>
                                     @endif
                                     <small>{{ $c->quantity }} pcs</small>
                                 </div>
@@ -188,14 +204,14 @@
         <div class="modal fade" id="addressCartModal" tabindex="-1" aria-labelledby="addressCartModal"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
+                <div class="modal-content color_secondary">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Alamat</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addAddressCartModal"
-                            class="w-100 card border border-warning p-2 mb-2">
+                            class="w-100 card border border-warning p-2 mb-2 color_secondary">
                             <p class="m-0 fw-bold">Tambah alamat baru</p>
                         </button>
                         <div>
@@ -242,18 +258,17 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="addAddressCartModal" tabindex="-1" aria-labelledby="addAddressCartModal"
+        <div class="modal fade" id="addAddressCartModal" tabindex="-2" aria-labelledby="addAddressCartModal"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    @csrf
+                <div class="modal-content color_secondary">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah alamat</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#addressCartModal"></button>
                     </div>
                     <form method="POST"
                         action="{{ route('cart.new.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
-                        class="modal-body p-3">
+                        class="modal-body p-3 px-5">
                         @csrf
                         <div class="col">
                             <div class="mb-3">
@@ -331,7 +346,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" data-bs-toggle="modal" data-bs-target="#addressCartModal">Simpan
+                        <button type="submit">Simpan
                             alamat</button>
                     </form>
                 </div>

@@ -118,7 +118,9 @@ class CustomizeTowerBouquetController extends Controller
                     CustomizeSnack::insert(['customize_id' => $customize->id, 'snack_id' => $request->input('snack_' . $i), 'quantity' => 10, 'created_at' => now()]);
                 }
 
-                CustomizeDecoration::insert(['customize_id' => $customize->id, 'decoration_id' => $request->decoration, 'created_at' => now()]);
+                if($request->decoration != NULL){
+                    CustomizeDecoration::insert(['customize_id' => $customize->id, 'decoration_id' => $request->decoration, 'created_at' => now()]);
+                }
             } else if ($type == 'bouquet') {
                 for ($i = 1; $i <= $request->layer; $i++) {
                     CustomizeSnack::insert(['customize_id' => $customize->id, 'snack_id' => $request->input('snack_' . $i), 'quantity' => 5, 'created_at' => now()]);

@@ -43,12 +43,15 @@
                     </div>
                     <div class="preview-bouquet-decor" id="bouquet-decor"></div>
                 </div>
+                <div class="w-100 d-flex justify-content-center py-2">
+                    <p id="warning-bouquet" class="m-0 text-danger text-center"></p>
+                </div>
             </div>
 
             {{-- Right content --}}
             <div class="col-lg-6 col-12">
                 <div class="w-100 d-flex justify-content-center mt-3">
-                    <div class="row w-lg-20 w-50 d-flex">
+                    <div class="row w-lg-25 w-75 d-flex">
                         <div class="col-2 p-0">
                             <div class="progress-node" id="progress-node-1">
                                 1</div>
@@ -71,7 +74,7 @@
                 </div>
 
                 <div class="w-100 d-flex justify-content-center mb-3">
-                    <div class="row w-lg-25 w-50 d-flex justify-content-between">
+                    <div class="row w-lg-25 w-75 d-flex justify-content-between">
                         <div class="col-3 p-0">
                             <p class="m-0">{{__('bouquet.setBase')}}</p>
                         </div>
@@ -261,7 +264,7 @@
                                     <p class="m-0 fs-2 fw-bold">Rp<span id="temp_price1">0</span></p>
                                 </div>
                                 <div class="col d-flex align-items-center justify-content-end">
-                                    <button class="btn btn-warning px-3" onclick="controlProgress('next')">{{__('bouquet.next')}}</button>
+                                    <button type="button" class="btn btn-warning px-3" id="next-progress" onclick="controlProgress('next')" disabled>{{__('bouquet.next')}}</button>
                                 </div>
                             </div>
                         </div>
@@ -281,8 +284,9 @@
                                 </div>
                                 <div class="mx-3">
                                     <label for="" class="form-label">{{__('bouquet.confirmName')}}</label>
-                                    <input type="text" name="name" id="" class="form-control"
-                                        placeholder="" />
+                                    <input type="text" name="name" id="customize-name" class="form-control"
+                                        placeholder=""/>
+                                    <p class="m-0 text-danger" id="warning-bouquet-name"></p>
                                 </div>
 
                                 <input type="hidden" name="price" id="customize-price" value="">
@@ -300,8 +304,7 @@
                                 <div class="col d-flex align-items-center justify-content-end">
                                     <button class="btn btn-warning px-3 me-2" type="button"
                                         onclick="controlProgress('prev')">Back</button>
-                                    <button class="btn btn-warning px-3" type="button" class="btn btn-primary"
-                                        data-bs-toggle="modal" data-bs-target="#confirmationBouquet">Finish</button>
+                                    <button id="finish-customize" onclick="checkCustomizeName()" class="btn btn-warning px-3" type="button" class="btn btn-primary">{{ __('bouquet.finish') }}</button>
                                 </div>
                             </div>
 
