@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container mt-5" onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }})">
+    <div class="container mt-5" onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{$count_address_active}})">
         <div class="row">
             <form
                 action="{{ route('cart.destroy', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name), 'count_items' => $carts->count()]) }}"

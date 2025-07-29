@@ -6,6 +6,8 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Collection;
+use App\Models\Customize;
+use App\Models\MysteryBox;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -61,10 +63,22 @@ class CartController extends Controller
                 $order_detail->order_id = $id_order;
                 $order_detail->collection_id = $cart_items[$i]->collection_id;
                 $order_detail->customize_id = $cart_items[$i]->customize_id;
+                $order_detail->mysterybox_id = $cart_items[$i]->mysterybox_id;
                 $order_detail->quantity = $cart_items[$i]->quantity;
                 $order_detail->price = $cart_items[$i]->total_price;
                 $order_detail->created_at = now();
                 $order_detail->save();
+
+                if($cart_items[$i]->collection_id != NULL){
+                    $id = $cart_items[$i]->collection_id;
+                    $coll = Collection::findOrFail($id);
+                    $coll->stock = $coll->stock - $cart_items[$i]->quantity;
+                    $coll->save();
+                }else if($cart_items[$i]->customize_id != NULL){
+                    $id = $cart_items[$i]->customize_id;
+                    Customize::findOrFail($id)->delete();
+                }
+
                 $cart_items[$i]->delete();
             }
         }
