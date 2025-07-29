@@ -11,9 +11,15 @@
 
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ asset('css/loginRegister.css') }}">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+    </script>
 </head>
 
 <body>
@@ -36,26 +42,35 @@
                                 <img src="{{ asset('assets/logo/logo.png') }}" alt="" class="w-75">
                             </div>
 
-                            <h2 class="fw-bold text-brown1">Verify your email!</h2>
-
-                            @if (session('resent'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ __('A fresh verification link has been sent to your email address.') }}
-                                </div>
-                            @endif
+                            <h2 class="fw-bold text-brown1 text-center">Verify your email!</h2>
 
                             <div class="mb-3">
-                                <p class="m-0">Please check your email for a verification link</p>
+                                <p class="m-0 text-center">Please check your email for a verification link</p>
                             </div>
 
-                            <form class="w-100 d-flex flex-column justify-content-center align-items-center" method="POST" action="{{ route('verification.resend') }}">
+                            <form class="w-100 mt-3 d-flex flex-column justify-content-center align-items-center"
+                                method="POST" action="{{ route('verification.resend') }}">
                                 @csrf
-                                <div>
-                                    <p class="m-0">If you did not receive the email</p>
-                                </div>
                                 <button type="submit"
                                     class="btn btn-warning">{{ __('Resend verification link') }}</button>
                             </form>
+
+                            @if (session('resent'))
+                                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                    <div id="liveToast" class="toast bg-warning" role="alert" aria-live="assertive"
+                                        aria-atomic="true">
+                                        <div class="toast-header">
+                                            <img src="{{asset('assets/logo/logo.png')}}" class="rounded me-2" alt="" width="35">
+                                            <strong class="me-auto">Success</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body">
+                                            {{ __('A fresh verification link has been sent to your email address.') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
                             <div class="w-100">
                                 <img src="{{ asset('assets/layout/borderLineHiden.png') }}" alt=""
@@ -67,6 +82,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const toastLiveExample = document.getElementById('liveToast')
+
+        const toast = new bootstrap.Toast(toastLiveExample)
+        toast.show()
+    </script>
 </body>
 
 </html>

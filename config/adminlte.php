@@ -300,82 +300,56 @@ return [
 
     'menu'                                    => [
         [
+            'text'         => strtoupper(app()->getLocale()), // Menampilkan kode bahasa aktif
+            'icon'         => 'fas fa-language',
+            'topnav_right' => true,
+            'submenu'      => [
+                [
+                    'text' => 'English',
+                    'url'  => 'lang/en',
+                ],
+                [
+                    'text' => 'Bahasa Indonesia',
+                    'url'  => 'lang/id',
+                ],
+            ],
+        ],
+        [
             'text' => 'Dashboard',
             'url'  => '/',
             'icon' => 'fas fa-tachometer-alt',
         ],
         [
             'text' => 'Snack',
-            'url'   => 'admin/snack',
-            'icon'  => 'fas fa-box',
+            'url'  => 'admin/snack',
+            'icon' => 'fas fa-box',
         ],
         [
             'text' => 'Decoration',
-            'url' => 'admin/decoration',
+            'url'  => 'admin/decoration',
             'icon' => 'fas fa-ribbon',
         ],
         [
             'text' => 'Collection',
-            'url'   => 'admin/collection',
-            'icon'  => 'fas fa-tags',
+            'url'  => 'admin/collection',
+            'icon' => 'fas fa-tags',
         ],
         [
             'text' => 'Order',
-            'url'   => 'admin/order',
-            'icon'  => 'fas fa-shopping-cart',
+            'url'  => 'admin/order',
+            'icon' => 'fas fa-shopping-cart',
         ],
         [
             'text' => 'User',
-            'url'   => 'admin/user',
-            'icon'  => 'fas fa-users',
+            'url'  => 'admin/user',
+            'icon' => 'fas fa-users',
         ],
 
-        // -------------------------------- ^.^
-        // Navbar items:
-        // [
-        //     'type' => 'navbar-search',
-        //     'text' => 'search',
-        //     'topnav_right' => true,
-        // ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
-        // Sidebar items:
-        // [
-        //     'type' => 'sidebar-menu-search',
-        //     'text' => 'search',
-        // ],
-        // [
-        //     'text' => 'blog',
-        //     'url' => 'admin/blog',
-        //     'can' => 'manage-blog',
-        // ],
-        // [
-        //     'text' => 'pages',
-        //     'url' => 'admin/pages',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label' => 4,
-        //     'label_color' => 'success',
-        // ],
-        // ['header' => 'account_settings'],
-        // [
-        //     'text' => 'profile',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
-        // [
-        //     'text' => 'change_password',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        // ['header' => 'labels'],
-        // [
-        //     'text' => 'important',
-        //     'icon_color' => 'red',
-        //     'url' => '#',
-        // ],
     ],
 
     /*

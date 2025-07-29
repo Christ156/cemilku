@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Collection;
 use App\Models\Order;
 use App\Models\OrderDetail;

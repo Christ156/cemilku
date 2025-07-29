@@ -127,5 +127,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
+    Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
 });

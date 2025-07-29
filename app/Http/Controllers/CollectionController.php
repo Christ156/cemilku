@@ -134,13 +134,13 @@ class CollectionController extends Controller
             $userId = Auth::user()->id;
 
             // Cari cart aktif milik user
-            $cart = Cart::where('user_id', $userId)->where('is_active', true)->first();
+            $cart = Cart::where('user_id', $userId)->where('is_active', 1)->first();
 
             // Jika tidak ada, buat cart baru
             if (! $cart) {
                 $cart = Cart::create([
                     'user_id'   => $userId,
-                    'is_active' => true,
+                    'is_active' => 1,
                 ]);
             }
 

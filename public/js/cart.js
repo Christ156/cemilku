@@ -101,9 +101,10 @@ function removeSelected(count_checked){
     }
 }
 
-function checkItemSelected(count, carts){
+function checkItemSelected(count, carts, address){
     var selectedItem = 0;
     var selectedPayment = 0;
+    var selectedAddress = 0;
 
     for(var i = 0; i < count; i++){
         if(document.getElementById("item_cart_"+carts[i]["id"]).value == "true"){
@@ -119,7 +120,11 @@ function checkItemSelected(count, carts){
         }
     }
 
-    if(selectedItem == 1 && selectedPayment == 1){
+    if(address == 1){
+        selectedAddress = 1;
+    }
+
+    if(selectedItem == 1 && selectedPayment == 1 && selectedAddress == 1){
         document.getElementById("checkout_btn").disabled = false;
     }else{
         document.getElementById("checkout_btn").disabled = true;

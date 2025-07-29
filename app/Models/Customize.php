@@ -12,10 +12,10 @@ class Customize extends Model
     protected $fillable = ['name', 'type', 'price', 'image', 'layer'];
 
     public function snacks() {
-        return $this->belongsToMany(Snack::class, 'customize_snack')->withPivot('quantity');
+        return $this->belongsToMany(Snack::class, 'customize_snacks')->withPivot('quantity');
     }
 
     public function decorations() {
-        return $this->belongsToMany(Decoration::class, 'customize_decoration');
+        return $this->belongsToMany(Decoration::class, 'customize_decorations');
     }
 }
