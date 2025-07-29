@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Address extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     // Tentukan kolom yang dapat diisi
     protected $fillable = [
@@ -30,5 +32,12 @@ class Address extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable() // Atau logOnly(['name', 'email'])
+            ->dontSubmitEmptyLogs(); // Hindari log kosong jika tidak ada perubahan
     }
 }

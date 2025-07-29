@@ -9,9 +9,9 @@ class Collection extends Model
 {
     use SoftDeletes;
 
-protected $fillable = [
-    'name', 'type', 'category', 'description', 'price', 'stock', 'image', 'layer'
-];
+    protected $fillable = [
+        'name', 'type', 'category', 'description', 'price', 'stock', 'image', 'layer'
+    ];
 
 
     public function snacks()
