@@ -12,9 +12,6 @@
     {{-- <script src="{{ asset('js/profile.js') }}"></script> --}}
 @endsection
 
-@section('script')
-@endsection
-
 
 @section('content')
 
@@ -257,7 +254,8 @@
                                             </div>
                                             <div class="container-info-user">
                                                 <h4 class="info-user">
-                                                    {{ substr(\Carbon\Carbon::parse(Auth::user()->date_of_birth)->diffForHumans(), 0, 2) }}
+                                                    {{-- {{ substr(\Carbon\Carbon::parse(Auth::user()->date_of_birth)->diffForHumans(), 0, 2) }} --}}
+                                                    {{ Auth::user()->date_of_birth ? \Carbon\Carbon::parse(Auth::user()->date_of_birth)->age . ' years' : '-' }}
                                                 </h4>
                                             </div>
                                         </div>
@@ -482,40 +480,6 @@
 
     <!-- JS -->
     <script>
-        const carouselElement = document.querySelector('#carousel1');
-        const carousel = new bootstrap.Carousel(carouselElement, {
-            interval: false,
-            ride: false
-        });
-
-        const menuLinks = document.querySelectorAll('[data-slide-to]');
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // e.preventDefault();
-
-                const index = parseInt(this.getAttribute('data-slide-to'));
-                carousel.to(index);
-
-                menuLinks.forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        const sidebar = document.getElementById('container1');
-        const toggleButton = document.getElementById('toggleSidebar');
-        const backdrop = document.getElementById('sidebarBackdrop');
-
-        toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-            backdrop.classList.toggle('active');
-        });
-
-        backdrop.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            backdrop.classList.remove('active');
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Dapatkan semua tombol dengan kelas 'toggle-primary-btn'
             const toggleButtons = document.querySelectorAll('.toggle-primary-btn');
@@ -558,4 +522,40 @@
 
         });
     </script>
+    <script>
+        const carouselElement = document.querySelector('#carousel1');
+        const carousel = new bootstrap.Carousel(carouselElement, {
+            interval: false,
+            ride: false
+        });
+
+        const menuLinks = document.querySelectorAll('[data-slide-to]');
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // e.preventDefault();
+
+                const index = parseInt(this.getAttribute('data-slide-to'));
+                carousel.to(index);
+
+                menuLinks.forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        const sidebar = document.getElementById('container1');
+        const toggleButton = document.getElementById('toggleSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            backdrop.classList.toggle('active');
+        });
+
+        backdrop.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            backdrop.classList.remove('active');
+        });
+    </script>
 @endsection
+

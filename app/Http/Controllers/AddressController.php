@@ -78,12 +78,12 @@ class AddressController extends Controller
                 'kota_kabupaten' => 'required|string|max:255',
                 'kecamatan' => 'required|string|max:255',
                 'kelurahan_desa' => 'required|string|max:255',
-                'rt' => 'required|string|max:10',
-                'rw' => 'required|string|max:10',
-                'kode_pos' => 'required|string|max:10',
-                'address' => 'required|string|max:500',
-                'nomor_telepon' => 'required|string|max:20',
-                'receiver_name' => 'required|string|max:255',
+                'rt' => 'required|numeric|digits:3', // Changed to 'required'
+                'rw' => 'required|numeric|digits:3', // Changed to 'required'
+                'kode_pos' => 'required|numeric|digits:5', // Changed to 'required'
+                'address' => 'required|string|max:255',
+                'nomor_telepon' => 'required|numeric|digits_between:10,12', // Changed to 'nullable'
+                'receiver_name' => 'required|string|max:255', // Added this field
             ]);
 
             $userId = Auth::user()->id;
@@ -108,20 +108,19 @@ class AddressController extends Controller
             ]);
 
             return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-                             ->with('success', 'Alamat berhasil ditambahkan!');
-
+                ->with('success', 'Alamat berhasil ditambahkan!');
         } catch (ValidationException $e) {
             // Laravel akan otomatis redirect kembali dengan errors yang sudah di-flash.
             // Anda bisa menambahkan pesan error umum di sini jika mau,
             // tapi biasanya errors spesifik per field lebih informatif.
             return redirect()->back()
-                             ->withErrors($e->errors())
-                             ->withInput()
-                             ->with('error', 'Gagal menambahkan alamat. Mohon periksa kembali input Anda.');
+                ->withErrors($e->errors())
+                ->withInput()
+                ->with('error', 'Gagal menambahkan alamat. Mohon periksa kembali input Anda.');
         } catch (\Exception $e) {
             // Tangani error lain yang tidak terkait validasi
             return redirect()->back()
-                             ->with('error', 'Terjadi kesalahan saat menambahkan alamat: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat menambahkan alamat: ' . $e->getMessage());
         }
     }
 
@@ -139,11 +138,11 @@ class AddressController extends Controller
             'kota_kabupaten' => 'required|string|max:255',
             'kecamatan' => 'required|string|max:255',
             'kelurahan_desa' => 'required|string|max:255',
-            'rt' => 'required|string|max:10', // Changed to 'required'
-            'rw' => 'required|string|max:10', // Changed to 'required'
-            'kode_pos' => 'required|string|max:10', // Changed to 'required'
-            'address' => 'required|string|max:500',
-            'phone_number' => 'required|string|max:20', // Changed to 'nullable'
+            'rt' => 'required|numeric|digits:3', // Changed to 'required'
+            'rw' => 'required|numeric|digits:3', // Changed to 'required'
+            'kode_pos' => 'required|numeric|digits:5', // Changed to 'required'
+            'address' => 'required|string|max:255',
+            'nomor_telepon' => 'required|numeric|digits_between:10,12', // Changed to 'nullable'
             'receiver_name' => 'required|string|max:255', // Added this field
         ]);
 
@@ -158,13 +157,13 @@ class AddressController extends Controller
             'rw' => $request->input('rw'),
             'kode_pos' => $request->input('kode_pos'),
             'address' => $request->input('address'),
-            'phone_number' => $request->input('phone_number'), // Ensure this matches the input name from your form
+            'phone_number' => $request->input('nomor_telepon'), // Ensure this matches the input name from your form
             'receiver_name' => $request->input('receiver_name'), // Added this field
         ]);
 
         // 4. Redirect back to the profile page with a success message
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-                         ->with('success', 'Address updated successfully!');
+            ->with('success', 'Address updated successfully!');
     }
 
     public function destroy(string $id)
@@ -179,10 +178,10 @@ class AddressController extends Controller
         $address->delete();
 
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-                         ->with('success', 'Address deleted successfully!');
+            ->with('success', 'Address deleted successfully!');
     }
 
-     public function togglePrimary(Request $request, Address $address)
+    public function togglePrimary(Request $request, Address $address)
     {
         // 1. Otorisasi: Pastikan pengguna yang diautentikasi adalah pemilik alamat ini
         if (Auth::id() !== $address->user_id) {
@@ -225,7 +224,6 @@ class AddressController extends Controller
                 'is_primary' => $address->is_primary, // Kirim status baru kembali
                 'message'    => 'Status alamat berhasil diperbarui!'
             ]);
-
         } catch (ValidationException $e) {
             // Jika validasi gagal (misalnya status tidak valid)
             Log::error('Validation error toggling address primary status: ' . $e->getMessage(), ['errors' => $e->errors()]);
