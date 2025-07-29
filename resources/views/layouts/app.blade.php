@@ -237,10 +237,13 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item"
-                                    href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Log out
-                                </a>
+                            <li>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Log out
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>

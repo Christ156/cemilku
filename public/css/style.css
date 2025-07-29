@@ -9,6 +9,9 @@ body {
     font-family: 'poppins';
 }
 
+.color_secondary{
+    background-color: #fffbef !important;
+}
 
 .nav-link {
     position: relative;

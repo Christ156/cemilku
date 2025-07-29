@@ -42,6 +42,10 @@
                             id="preview-tower-decor">
                     </div>
                 </div>
+
+                <div class="w-100 d-flex justify-content-center py-2">
+                    <p id="warning-tower" class="m-0 text-danger text-center"></p>
+                </div>
             </div>
 
             {{-- Right content --}}
@@ -256,7 +260,7 @@
                                     <p class="m-0 fs-2 fw-bold">Rp<span id="temp_price1">0</span></p>
                                 </div>
                                 <div class="col d-flex align-items-center justify-content-end">
-                                    <button class="btn btn-warning px-3" onclick="controlProgress('next')">{{ __('tower.next') }}</button>
+                                    <button disabled id="next-progress-1" class="btn btn-warning px-3" onclick="controlProgress('next')">{{ __('tower.next') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -338,8 +342,9 @@
                                 </div>
                                 <div class="mx-3">
                                     <label for="" class="form-label">{{ __('tower.giveName') }}</label>
-                                    <input type="text" name="name" id="" class="form-control"
-                                        placeholder="" />
+                                    <input type="text" name="name" id="customize-name" class="form-control"
+                                        placeholder=""/>
+                                    <p class="m-0 text-danger" id="warning-tower-name"></p>
                                 </div>
 
                                 <input type="hidden" name="price" id="customize-price" value="">
@@ -357,8 +362,28 @@
                                 <div class="col d-flex align-items-center justify-content-end">
                                     <button class="btn btn-warning px-3 me-2" type="button"
                                         onclick="controlProgress('prev')">{{ __('tower.back') }}</button>
-                                    <button class="btn btn-warning px-3" type="submit"
-                                        onclick="controlProgress('next')">{{ __('tower.finish') }}</button>
+                                    <button id="finish-customize" class="btn btn-warning px-3" type="button"
+                                        onclick="checkCustomizeName()">{{ __('tower.finish') }}</button>
+                                </div>
+                            </div>
+
+                            {{-- MODAL CONFIRMATION --}}
+                            <div class="modal fade color_secondary" id="confirmationBouquet" tabindex="-1" aria-labelledby="confirmationBouquetLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Congratulations</h1>
+                                        </div>
+                                        <div class="modal-body d-flex flex-column justify-content-center">
+                                            <div>
+                                                <p class="text-center">
+                                                    Horeyyy, Snack Tower kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                                                </p>
+                                            </div>
+                                            <button type="submit" class="btn btn-warning">Lihat keranjang</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </form>

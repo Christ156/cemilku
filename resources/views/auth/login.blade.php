@@ -31,7 +31,7 @@
                 <div class="hide-scrollbar col-lg-6 col-12 d-flex flex-column justify-content-center px-lg-5 px-3 h-100">
                     <div class="hide-scrollbar h-100 w-100 overflow-scroll d-flex justify-content-center">
                         <form method="POST" action="{{ route('login') }}"
-                            class="my-3">
+                            class="my-3 px-1 d-lg-flex flex-lg-column justify-content-lg-center">
                             @csrf
                             <div class="d-lg-none d-block w-100 d-flex justify-content-center">
                                 <img src="{{ asset('assets/logo/logo.png') }}" alt="" class="w-75">
@@ -93,7 +93,10 @@
                                 <img src="{{ asset('assets/layout/borderLine.png') }}" alt="" class="w-100">
                             </div>
 
-                            <a href="{{route('google-redirect')}}" class="btn btn-warning py-2 w-100 fw-bold text-brown1">Sign up with Google</a>
+                            <a href="{{route('google-redirect')}}" class="btn btn-outline-warning py-2 w-100 fw-bold text-brown1 d-flex justify-content-center align-items-center">
+                                <img src="{{asset('assets/social_media/google.png')}}" class="me-2" alt="" width="25">
+                                <p class="m-0">Sign up with Google</p>
+                            </a>
 
                             <div class="w-100 mt-5 d-flex justify-content-center align-items-bottom">
                                 <p class="fw-bold text-brown1 text-center">Don't have an account? <span><a

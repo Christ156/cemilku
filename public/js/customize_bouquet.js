@@ -2,6 +2,7 @@ var current_layer = 1;
 
 const url = "http://127.0.0.1:8000/";
 
+var layer_selected = 0;
 var priceLayer1 = 0;
 var priceLayer2 = 0;
 var priceLayer3 = 0;
@@ -34,18 +35,22 @@ function changePreview(imageName, itemPrice, idItem, stateLayer){
         layer1_preview.src = url+"assets/bouquet_layer_1/"+imageName;
         priceLayer1 = itemPrice;
         document.getElementById("snack-1").value = idItem;
+        changeLayerSetState(stateLayer, layer_selected);
     }else if(stateLayer == 2){
         layer2_preview.src = url+"assets/bouquet_layer_2&3/"+imageName;
         priceLayer2 = itemPrice;
         document.getElementById("snack-2").value = idItem;
+        changeLayerSetState(stateLayer, layer_selected);
     }else if(stateLayer == 3){
         layer3_preview.src = url+"assets/bouquet_layer_2&3/"+imageName;
         priceLayer3 = itemPrice;
         document.getElementById("snack-3").value = idItem;
+        changeLayerSetState(stateLayer, layer_selected);
     }else{
         layer4_preview.src = url+"assets/bouquet_layer_4/"+imageName;
         priceLayer4 = itemPrice;
         document.getElementById("snack-4").value = idItem;
+        changeLayerSetState(stateLayer, layer_selected);
     }
 
     tempTotalPrice = priceLayer1 + priceLayer2 + priceLayer3 + priceLayer4;
@@ -99,16 +104,19 @@ function previewLayer(layer){
     const bouquet_layer_4 = document.getElementById("bouquet-layer-4");
 
     if(layer == 2){
+        layer_selected = 2;
         bouquet_layer_1.style.display = 'block';
         bouquet_layer_2.style.display = 'block';
         bouquet_layer_3.style.display = "none";
         bouquet_layer_4.style.display = "none";
     }else if(layer == 3){
+        layer_selected = 3;
         bouquet_layer_1.style.display = "block";
         bouquet_layer_2.style.display = "block";
         bouquet_layer_3.style.display = "block";
         bouquet_layer_4.style.display = "none";
     }else{
+        layer_selected = 4;
         bouquet_layer_1.style.display = "block";
         bouquet_layer_2.style.display = "block";
         bouquet_layer_3.style.display = "block";
@@ -117,4 +125,46 @@ function previewLayer(layer){
 
     controlProgress('next');
     document.getElementById("layer-selected").value = layer;
+    document.getElementById("warning-bouquet").innerText = "Note: Please fill all layer with snack before continue!"
+}
+
+var layer_set_status = [false, false, false, false];
+
+function changeLayerSetState(layer, layer_selected){
+    if(layer == 1){
+        layer_set_status[0] = true;
+    }else if(layer == 2){
+        layer_set_status[1] = true;
+    }else if(layer == 3){
+        layer_set_status[2] = true;
+    }else{
+        layer_set_status[3] = true;
+    }
+
+    all_layer_set = true;
+
+    for(var i=0; i < layer_selected; i++){
+        if(layer_set_status[i] == false){
+            all_layer_set = false;
+            break;
+        }
+    }
+
+    if(all_layer_set == true){
+        document.getElementById("next-progress").disabled = false;
+        document.getElementById("warning-bouquet").innerText = "";
+    }else{
+        document.getElementById("next-progress").disabled = true;
+        document.getElementById("warning-bouquet").innerText = "Note: Please fill all layer with snack before continue!"
+    }
+}
+
+function checkCustomizeName(){
+    if(document.getElementById("customize-name").value === ""){
+        document.getElementById("warning-bouquet-name").innerText = "*Please fill the bouquet name!";
+    }else{
+        document.getElementById("warning-bouquet-name").innerText = "";
+        document.getElementById("finish-customize").setAttribute("data-bs-toggle", "modal");
+        document.getElementById("finish-customize").setAttribute("data-bs-target", "#confirmationBouquet");
+    }
 }

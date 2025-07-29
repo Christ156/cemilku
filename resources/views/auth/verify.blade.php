@@ -33,7 +33,7 @@
                         <div class="d-flex flex-column align-items-center justify-content-center my-3">
                             @csrf
                             <div class="d-lg-none d-block w-100 d-flex justify-content-center">
-                                <img src="{{ asset('assets/images/logo.png') }}" alt="" class="w-75">
+                                <img src="{{ asset('assets/logo/logo.png') }}" alt="" class="w-75">
                             </div>
 
                             <h2 class="fw-bold text-brown1">Verify your email!</h2>
