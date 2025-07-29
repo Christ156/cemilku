@@ -42,43 +42,14 @@
 
         <hr class="text-warning">
 
-        <!-- Card Order -->
-        {{-- <div class="card shadow-sm border border-warning rounded-4 p-3 mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <small class="fw-medium">INV/20250520/STW0001</small>
-                    <button class="btn btn-sm fw-bold text-white" style="background-color: #00D9F5;">Dikirim</button>
-                </div>
-
-                <hr class="text-warning">
-
-                <div class="d-flex align-items-center mb-2">
-                    <div class="me-3"
-                        style="width: 64px; height: 64px; background-color: #f5f5f5; border-radius: 4px;">
-                    </div>
-                    <div>
-                        <div class="fw-bold">Custom Snack Tower – 4 Layer</div>
-                        <div class="text-muted small">1 barang x Rp200.000</div>
-                    </div>
-                    <div class="ms-auto text-end">
-                        <div class="fw-bold">Total</div>
-                        <div>Rp200.000</div>
-                    </div>
-                </div>
-
-                <hr class="text-warning">
-
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <small class="text-muted">20 Mei 2025 23:59</small>
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-warning btn-sm me-2">Lihat detail transaksi</button>
-                        <input type="checkbox" class="form-check-input">
-                    </div>
-                </div>
-            </div> --}}
-
+        @if ($orders->isEmpty())
+            <div class="text-center py-5">
+                <h5>Belum ada pesanan.</h5>
+            </div>
+        @endif
 
         @foreach ($orders as $order)
-            <div class="card custombg shadow-sm border border-warning rounded-4 p-3 mb-4">
+            <div class="card custombg shadow-sm border border-warning rounded-4 p-3 mb-4 warnaCoklat">
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <small class="fw-medium">
@@ -112,7 +83,7 @@
                         </div>
                         <div>
                             <div class="fw-bold">{{ $name }}</div>
-                            <div class="text-muted small">{{ $quantity }} barang x
+                            <div class="small">{{ $quantity }} barang x
                                 Rp{{ number_format($price, 0, ',', '.') }}</div>
                         </div>
                         <div class="ms-auto text-end">
@@ -126,7 +97,7 @@
 
                 <!-- Footer -->
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <small class="text-muted">{{ $order->created_at->format('d M Y H:i') }}</small>
+                    <small class="">{{ $order->created_at->format('d M Y H:i') }}</small>
                     <div class="d-flex align-items-center">
                         <button class="btn btn-outline-brown btn-sm me-2" data-bs-toggle="modal"
                             data-bs-target="#orderModal{{ $order->id }}">
@@ -141,7 +112,7 @@
             <div class="modal fade" id="orderModal{{ $order->id }}" tabindex="-1"
                 aria-labelledby="orderModalLabel{{ $order->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content rounded-4 custombg2">
+                    <div class="modal-content rounded-4 custombg2 warnaCoklat">
                         <div class="modal-header border-0">
                             <h5 class="modal-title fw-bold" id="orderModalLabel{{ $order->id }}">Detail
                                 Transaksi</h5>
@@ -181,7 +152,7 @@
                                         </div>
                                         <div>
                                             <div class="fw-semibold">{{ $name }}</div>
-                                            <div class="text-muted small">{{ $quantity }} x
+                                            <div class="small">{{ $quantity }} x
                                                 Rp{{ number_format($item->price, 0, ',', '.') }}</div>
                                         </div>
                                     </div>
@@ -211,7 +182,6 @@
                                 </div>
                             </div>
 
-
                             <hr>
 
                             <!-- Rincian Pembayaran -->
@@ -226,12 +196,18 @@
                         </div>
 
                         <div class="modal-footer border-0">
-                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button class="btn btn-outline-brown me-2" data-bs-dismiss="modal">Tutup</button>
 
                             @if ($order->status === 'pending')
                                 <form action="{{ route('orders.pay', $order->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-warning">Bayar Sekarang</button>
+                                </form>
+
+                                <form action="{{ route('orders.cancel', $order->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-danger">Batalkan</button>
                                 </form>
                             @endif
                         </div>
@@ -254,23 +230,3 @@
         });
     </script>
 @endsection
-{{-- <x-app2>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Checkout</title>
-        <link rel="stylesheet" href="{{ asset('css/order_style.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    </head>
-
-    <body>
-
-
-    </body>
-
-
-</x-app2> --}}

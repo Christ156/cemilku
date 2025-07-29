@@ -75,7 +75,7 @@ class OrderSeeder extends Seeder
             'user_id' => $users[1]->id,
             'status' => 'pending',
             'total_price' => 0,
-            'payment_method' => 'CimbNiaga',
+            'payment_method' => 'Cimb Niaga',
         ]);
 
         OrderDetail::create([
