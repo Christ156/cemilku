@@ -39,6 +39,7 @@ class OrderController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
+                    ->orWhere('payment_method', 'like', "%{$search}%")
                     ->orWhereHas('orderDetails.collection', function ($q2) use ($search) {
                         $q2->where('name', 'like', "%{$search}%");
                     })
