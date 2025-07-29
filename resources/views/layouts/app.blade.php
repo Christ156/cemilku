@@ -29,6 +29,7 @@
     <style>
         body,
         html {
+            background-color: #fffbec;
             font-family: 'Poppins', sans-serif !important;
         }
     </style>
@@ -43,7 +44,7 @@
     <!-- Global JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        xintegrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>
 
     @yield('script')
@@ -70,7 +71,7 @@
                 </div>
 
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2 align-items-center" href="{{ route('home') }}">
+                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{ route('home') }}">
                     <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
                         class="d-inline-block align-text-top" />
                 </a>
@@ -220,9 +221,11 @@
                         href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
+
                     {{-- PROFILE BUAT DESKTOP --}}
                     <div class="dropdown d-lg-block d-none ms-3">
-                        <a href="" class="nav-link" data-bs-toggle="dropdown">
+                        <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                            class="nav-link" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -242,6 +245,7 @@
                                     </button>
                                 </form>
                             </li>
+                        </ul>
                     </div>
 
                     <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
