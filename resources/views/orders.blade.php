@@ -67,19 +67,44 @@
                 <!-- Item list -->
                 @foreach ($order->orderDetails as $item)
                     @php
-                        $product = $item->collection ?? $item->customize;
-                        $name = $product->name ?? 'Item Tidak Diketahui';
+                        // Ambil relasi aktif
+                        $product = $item->collection ?? ($item->customize ?? $item->mysteryBox);
+
+                        // Tentukan path gambar berdasarkan jenis
+                        if ($item->collection) {
+                            $imagePath = 'assets/collections/';
+                            $name = "{$product->category} | {$product->name}";
+                        } elseif ($item->customize && $item->customize->type == 'tower') {
+                            $imagePath = 'assets/tower_selection/preview-tower-layer-4.png';
+                            $name = "{$product->name} - Custom {$product->type}";
+                        } elseif ($item->customize && $item->customize->type == 'bouquet') {
+                            $imagePath = 'assets/bouquet_base/base.png';
+                            $name = "{$product->name} - Custom {$product->type}";
+                        } elseif ($item->mysteryBox) {
+                            $imagePath = 'assets/mystery_box/';
+                            $name = "{$product->name} - Mood {$product->mood}";
+                        } else {
+                            $imagePath = null;
+                            $name = 'Item Tidak Diketahui';
+                        }
+
                         $image = $product->image ?? null;
                         $price = $item->price ?? 0;
                         $quantity = $item->quantity ?? 1;
                     @endphp
+
+
                     <div class="d-flex align-items-center mb-2">
                         <div class="me-3"
                             style="width: 64px; height: 64px; background-color: #f5f5f5; border-radius: 4px; overflow: hidden;">
-                            @if ($image)
-                                <img src="{{ asset('assets/collections/' . $image) }}" alt="Item Image"
-                                    class="img-fluid rounded" style="width: 64px; height: 64px; object-fit: cover;">
+                            @if ($item->customize)
+                                <img src="{{ asset($imagePath) }}" alt="Item Image" class="img-fluid rounded"
+                                    style="width: 64px; height: 64px; object-fit: cover;">
+                            @elseif ($image)
+                                <img src="{{ asset($imagePath . $image) }}" alt="Item Image" class="img-fluid rounded"
+                                    style="width: 64px; height: 64px; object-fit: cover;">
                             @endif
+
                         </div>
                         <div>
                             <div class="fw-bold">{{ $name }}</div>
@@ -139,20 +164,51 @@
                                 <h6 class="fw-bold">Detail Produk</h6>
                                 @foreach ($order->orderDetails as $item)
                                     @php
-                                        $product = $item->collection ?? $item->customize;
-                                        $name = $product->name ?? 'Item Tidak Diketahui';
+                                        // Ambil relasi aktif
+                                        $product = $item->collection ?? ($item->customize ?? $item->mysteryBox);
+
+                                        // Tentukan path gambar berdasarkan jenis
+                                        if ($item->collection) {
+                                            $imagePath = 'assets/collections/';
+                                            $name = "{$product->category} | {$product->name}";
+                                        } elseif ($item->customize && $item->customize->type == 'tower') {
+                                            $imagePath = 'assets/tower_selection/preview-tower-layer-4.png';
+                                            $name = "{$product->name} - Custom {$product->type}";
+                                        } elseif ($item->customize && $item->customize->type == 'bouquet') {
+                                            $imagePath = 'assets/bouquet_base/base.png';
+                                            $name = "{$product->name} - Custom {$product->type}";
+                                        } elseif ($item->mysteryBox) {
+                                            $imagePath = 'assets/mystery_box/';
+                                            $name = "{$product->name} - Mood {$product->mood}";
+                                        } else {
+                                            $imagePath = null;
+                                            $name = 'Item Tidak Diketahui';
+                                        }
+
                                         $image = $product->image ?? null;
                                         $price = $item->price ?? 0;
                                         $quantity = $item->quantity ?? 1;
                                     @endphp
+
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="me-3">
-                                            <img src="{{ $image ? asset('assets/collections/' . $image) : 'https://via.placeholder.com/64' }}"
-                                                width="64" height="64" class="rounded">
+                                            @if ($item->customize)
+                                                <img src="{{ asset($imagePath) }}" alt="Item Image"
+                                                    class="img-fluid rounded"
+                                                    style="width: 64px; height: 64px; object-fit: cover;">
+                                            @elseif ($image)
+                                                <img src="{{ asset($imagePath . $image) }}" alt="Item Image"
+                                                    class="img-fluid rounded"
+                                                    style="width: 64px; height: 64px; object-fit: cover;">
+                                            @else
+                                                <img src="https://via.placeholder.com/64" alt="Item Image"
+                                                    class="img-fluid rounded"
+                                                    style="width: 64px; height: 64px; object-fit: cover;">
+                                            @endif
                                         </div>
                                         <div>
                                             <div class="fw-semibold">{{ $name }}</div>
-                                            <div class="small">{{ $quantity }} x
+                                            <div class="small">{{ $item->quantity }} x
                                                 Rp{{ number_format($item->price, 0, ',', '.') }}</div>
                                         </div>
                                     </div>

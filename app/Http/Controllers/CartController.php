@@ -76,7 +76,7 @@ class CartController extends Controller
                     $coll->save();
                 }else if($cart_items[$i]->customize_id != NULL){
                     $id = $cart_items[$i]->customize_id;
-                    Customize::findOrFail($id)->delete();
+                    // Customize::findOrFail($id)->delete();
                 }
 
                 $cart_items[$i]->delete();

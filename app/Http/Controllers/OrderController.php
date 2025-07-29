@@ -19,10 +19,11 @@ class OrderController extends Controller
         // Base query
         $query = Order::with([
             'orderDetails' => function ($q) {
-                $q->orderBy('id'); // Urutkan detail pesanan
+                $q->orderBy('id');
             },
             'orderDetails.collection',
             'orderDetails.customize',
+            'orderDetails.mysteryBox',
             'user.mainAddress',
         ]);
 
@@ -46,16 +47,18 @@ class OrderController extends Controller
                     ->orWhereHas('orderDetails.customize', function ($q3) use ($search) {
                         $q3->where('name', 'like', "%{$search}%");
                     })
-                    ->orWhereHas('user', function ($q4) use ($search) {
-                        $q4->where('name', 'like', "%{$search}%");
+                    ->orWhereHas('orderDetails.mysteryBox', function ($q4) use ($search) {
+                        $q4->where('mood', 'like', "%{$search}%")
+                            ->orWhere('budget', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('user', function ($q5) use ($search) {
+                        $q5->where('name', 'like', "%{$search}%");
                     });
             });
         }
 
-        // Ambil data terbaru
         $orders = $query->latest()->get();
 
-        // Tampilkan view sesuai role
         if ($user->role === 'admin') {
             return view('admin.order.index', compact('orders', 'status'));
         } else {
