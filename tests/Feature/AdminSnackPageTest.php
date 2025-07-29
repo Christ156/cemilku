@@ -17,7 +17,7 @@ class AdminSnackPageTest extends TestCase
 
     protected function loginAsAdmin(): void
     {
-        /** @var \App\Models\User $admin */ // Add this PHPDoc for clarity
+        /** @var \App\Models\User $admin */
         $admin = User::factory()->create([
             'email' => 'admin@example.com',
             'password' => bcrypt('admin123'),
@@ -27,6 +27,7 @@ class AdminSnackPageTest extends TestCase
         $this->actingAs($admin);
     }
 
+    /** @test */
     public function test_can_see_snack_list()
     {
         $this->loginAsAdmin();
@@ -43,6 +44,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertSee('Chiki Balls');
     }
 
+    /** @test */
     public function test_can_create_new_snack()
     {
         $this->loginAsAdmin();
@@ -59,6 +61,7 @@ class AdminSnackPageTest extends TestCase
         $this->assertDatabaseHas('snacks', ['name' => 'Test Snack']);
     }
 
+    /** @test */
     public function test_create_snack_requires_name()
     {
         $this->loginAsAdmin();
@@ -73,6 +76,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertSessionHasErrors('name');
     }
 
+    /** @test */
     public function test_can_edit_snack()
     {
         $this->loginAsAdmin();
@@ -95,6 +99,7 @@ class AdminSnackPageTest extends TestCase
         $this->assertDatabaseHas('snacks', ['name' => 'Updated']);
     }
 
+    /** @test */
     public function test_can_soft_delete_snack()
     {
         $this->loginAsAdmin();
@@ -111,6 +116,7 @@ class AdminSnackPageTest extends TestCase
         $this->assertSoftDeleted('snacks', ['id' => $snack->id]);
     }
 
+    /** @test */
     public function test_can_search_snack()
     {
         $this->loginAsAdmin();
@@ -124,6 +130,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertDontSee('Oreo');
     }
 
+    /** @test */
     public function test_search_snack_no_result()
     {
         $this->loginAsAdmin();
@@ -136,6 +143,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertSee('<tbody></tbody>', false);
     }
 
+    /** @test */
     public function test_import_invalid_csv_format()
     {
         $this->loginAsAdmin();
@@ -149,6 +157,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertSessionHasErrors();
     }
 
+    /** @test */
     public function test_export_snack_csv()
     {
         $this->loginAsAdmin();
@@ -160,25 +169,18 @@ class AdminSnackPageTest extends TestCase
             'image' => 'oreo.png',
         ]);
 
-        // Mock the Excel facade to prevent actual file download
-        // and instead return a DownloadResponse which the test can then inspect.
-        // Assuming you are using Maatwebsite\Excel for CSV export as well
-        // If not, and it's a manual CSV generation, the original test approach might be okay,
-        // but it's generally better to use a dedicated mocking approach.
-        // For simplicity and consistency with the previous Decoration export fix,
-        // I'll assume Maatwebsite\Excel is used.
         \Maatwebsite\Excel\Facades\Excel::fake();
 
         $response = $this->get('/admin/snack/export');
 
         $response->assertStatus(200);
 
-        // Assert that the Excel::download method was called with the correct arguments
         \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snacks.csv', function(\App\Exports\SnackExport $export) {
             return $export->collection()->contains('name', 'Oreo');
         });
     }
 
+    /** @test */
     public function test_price_must_be_positive()
     {
         $this->loginAsAdmin();
@@ -192,6 +194,7 @@ class AdminSnackPageTest extends TestCase
         $response->assertSessionHasErrors('price');
     }
 
+    /** @test */
     public function test_duplicate_snack_name_should_fail()
     {
         $this->loginAsAdmin();
@@ -207,8 +210,6 @@ class AdminSnackPageTest extends TestCase
             'name' => 'UniqueName',
             'price' => 2000,
             'stock' => 10,
-            // 'image' might be required for new snack creation, depending on your validation rules.
-            // If it is, uncomment and provide a fake image:
             'image' => UploadedFile::fake()->image('dup.png'),
         ]);
 
