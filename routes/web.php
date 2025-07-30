@@ -118,6 +118,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
     Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
+    Route::put('{id_user}/{slug}/cart/update-quantity-item', [CartController::class, 'update_quantity_item'])->name('cart.update.quantity');
     Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
 
     // baru dibuat ni bang -jason

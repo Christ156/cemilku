@@ -9,7 +9,8 @@
 @endsection
 
 @section('content')
-    <div class="container mt-5" onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{$count_address_active}})">
+    <div class="container mt-5"
+        onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{ $count_address_active }})">
         <div class="row">
             <form
                 action="{{ route('cart.destroy', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name), 'count_items' => $carts->count()]) }}"
@@ -87,17 +88,17 @@
                                     @endif
                                 @else
                                     <?php
-                                        $image_mysteryBox = array(
-                                            'Romantic'=>'mysterybox_pink.png',
-                                            'Funny'=>'mysterybox_biru.png',
-                                            'Calm'=>'mysterybox_hijau.png',
-                                            'Mysterious'=>'mysterybox_ungu.png',
-                                            'Brave'=>'mysterybox_merah.png',
-                                            'Happy'=>'mysterybox_kuning.png',
-                                        );
+                                    $image_mysteryBox = [
+                                        'Romantic' => 'mysterybox_pink.png',
+                                        'Funny' => 'mysterybox_biru.png',
+                                        'Calm' => 'mysterybox_hijau.png',
+                                        'Mysterious' => 'mysterybox_ungu.png',
+                                        'Brave' => 'mysterybox_merah.png',
+                                        'Happy' => 'mysterybox_kuning.png',
+                                    ];
                                     ?>
-                                    <img src="{{ asset('assets/mystery_box/'. $image_mysteryBox[$c->mysteryBox->mood]) }}" alt=""
-                                        class="product-img">
+                                    <img src="{{ asset('assets/mystery_box/' . $image_mysteryBox[$c->mysteryBox->mood]) }}"
+                                        alt="" class="product-img">
                                 @endif
                                 <div class="ms-2">
                                     @if ($c->collection_id != null)
@@ -110,7 +111,19 @@
                                         <h6 class="fw-bold mb-0">{{ $c->mysteryBox->mood }} -
                                             {{ $c->mysteryBox->name }}</h6>
                                     @endif
-                                    <small>{{ $c->quantity }} pcs</small>
+                                    {{-- <small>{{ $c->quantity }} pcs</small> --}}
+                                    <div class="d-flex quantity-cart">
+                                        <button type="button" class="btn quantity-btn"
+                                            onclick="updateQuantity('subs', {{ $c->id }})">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                        <input type="text" class="quantity-cart-field" name="quantity_cart"
+                                            id="quantity_cart_{{ $c->id }}" value="{{ $c->quantity }}" onchange="updateQuantityByField({{$c->id}})">
+                                        <button type="button" class="btn quantity-btn"
+                                            onclick="updateQuantity('add', {{ $c->id }})">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <p class="mb-0 me-3">Rp{{ Str::currency($c->total_price) }}</p>
@@ -119,8 +132,6 @@
                         <p>Keranjang anda kosong</p>
                     @endforelse
                 </div>
-
-
             </form>
 
             <div class="col-md-4">
@@ -175,7 +186,7 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>Shipping Regular</span>
-                        <span>Rp20.000</span>
+                        <span>Free</span>
                     </div>
 
                     <hr style="border-top:2px solid #52282A;">
@@ -206,14 +217,15 @@
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content color_secondary">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Alamat</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Alamat Pengiriman</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addAddressCartModal"
-                            class="w-100 card border border-warning p-2 mb-2 color_secondary">
+                            class="w-100 card btn btn-outline-warning coklatbang p-2 mb-2">
                             <p class="m-0 fw-bold">Tambah alamat baru</p>
                         </button>
+                        <hr class="w-100 coklatbang" style="height: 2px;">
                         <div>
                             @if ($count_address_active != 0)
                                 <div class="w-100 card border border-warning p-3 mb-2 bg-warning">
@@ -264,7 +276,8 @@
                 <div class="modal-content color_secondary">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah alamat</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#addressCartModal"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            data-bs-toggle="modal" data-bs-target="#addressCartModal"></button>
                     </div>
                     <form method="POST"
                         action="{{ route('cart.new.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
@@ -346,11 +359,20 @@
                             </div>
                         </div>
 
-                        <button type="submit">Simpan
+                        <button class="btn btn-warning w-100 mt-3" type="submit">Simpan
                             alamat</button>
                     </form>
                 </div>
             </div>
         </div>
         {{-- End Address Cart Modal --}}
+
+        <form
+            action="{{ route('cart.update.quantity', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+            method="post" id="set-quantity-cart">
+            @method('PUT')
+            @csrf
+            <input type="hidden" name="cart_item_id" id="cart_item_id" value="">
+            <input type="hidden" name="quantity_item" id="quantity_item" value="">
+        </form>
     @endsection

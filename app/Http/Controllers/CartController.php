@@ -21,7 +21,7 @@ class CartController extends Controller
         $id_user = Auth::user()->id;
         $id_cart = Cart::where('user_id', $id_user)->where('is_active', 1);
 
-        if($id_cart->count() == 0){
+        if ($id_cart->count() == 0) {
             Cart::insert(['user_id' => $id_user, 'is_active' => 1, 'created_at' => now()]);
         }
 
@@ -69,12 +69,12 @@ class CartController extends Controller
                 $order_detail->created_at = now();
                 $order_detail->save();
 
-                if($cart_items[$i]->collection_id != NULL){
+                if ($cart_items[$i]->collection_id != NULL) {
                     $id = $cart_items[$i]->collection_id;
                     $coll = Collection::findOrFail($id);
                     $coll->stock = $coll->stock - $cart_items[$i]->quantity;
                     $coll->save();
-                }else if($cart_items[$i]->customize_id != NULL){
+                } else if ($cart_items[$i]->customize_id != NULL) {
                     $id = $cart_items[$i]->customize_id;
                     // Customize::findOrFail($id)->delete();
                 }
@@ -83,7 +83,7 @@ class CartController extends Controller
             }
         }
 
-        return \redirect()->route('checkout.index', ['order_id'=>$id_order]);
+        return \redirect()->route('checkout.index', ['order_id' => $id_order]);
     }
 
     public function destroy(Request $request, $id_user, $slug, $count_items)
@@ -101,18 +101,20 @@ class CartController extends Controller
         return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => Str::slug(Auth::user()->name)]);
     }
 
-    private function checkPrimaryAddress($id_user){
+    private function checkPrimaryAddress($id_user)
+    {
         $count = Address::where('user_id', $id_user)->where('is_primary', 1)->count();
         $exist = false;
 
-        if($count > 0){
+        if ($count > 0) {
             $exist = true;
         }
 
         return $exist;
     }
 
-    public function store_address(Request $request, $id_user, $slug){
+    public function store_address(Request $request, $id_user, $slug)
+    {
         $address = new Address();
         $address->user_id = $id_user;
         $address->receiver_name = $request->input('receiver_name');
@@ -126,9 +128,9 @@ class CartController extends Controller
         $address->kota_kabupaten = $request->input('kabupaten');
         $address->provinsi = $request->input('province');
         $address->kode_pos = $request->input('pos_code');
-        if($this->checkPrimaryAddress($id_user)){
+        if ($this->checkPrimaryAddress($id_user)) {
             $address->is_primary = 0;
-        }else{
+        } else {
             $address->is_primary = 1;
         }
         $address->created_at = now();
@@ -137,7 +139,8 @@ class CartController extends Controller
         return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => $slug]);
     }
 
-    public function set_primary_address(Request $request, $id_user, $slug){
+    public function set_primary_address(Request $request, $id_user, $slug)
+    {
         $old_primary = Address::where('user_id', $id_user)->where('is_primary', 1)->first();
         $old_primary->is_primary = 0;
         $old_primary->save();
@@ -146,6 +149,19 @@ class CartController extends Controller
         $new_primary = Address::find($id_new_primary);
         $new_primary->is_primary = 1;
         $new_primary->save();
+
+        return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => $slug]);
+    }
+
+    public function update_quantity_item(Request $request, $id_user, $slug)
+    {
+        $new_quantity = $request->input('quantity_item');
+        $cart_item_id = $request->input('cart_item_id');
+
+        $cart_item = CartItem::findOrFail($cart_item_id);
+        $cart_item->quantity = $new_quantity;
+        $cart_item->total_price = $cart_item->price * $new_quantity;
+        $cart_item->save();
 
         return \redirect()->route('cart.index', ['id_user' => $id_user, 'slug' => $slug]);
     }
