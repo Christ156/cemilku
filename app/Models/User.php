@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\Address;
@@ -7,12 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, SoftDeletes, LogsActivity;
+    use HasFactory, Notifiable, SoftDeletes;
 
     // relasi one to many dari user terhadap address
     public function addresses()
@@ -68,10 +69,98 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function getActivitylogOptions(): LogOptions
+    protected static function booted()
     {
-        return LogOptions::defaults()
-            ->logFillable() // Atau logOnly(['name', 'email'])
-            ->dontSubmitEmptyLogs(); // Hindari log kosong jika tidak ada perubahan
+        // When a user is created
+        static::created(function (User $user) {
+            $causer = Auth::user();
+
+            // Customizing the description
+            $description = "User with name = '{$user->name}', id = '{$user->id}', and email = '{$user->email}' has been created.";
+
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties([
+                    'created_user_id' => $user->id,
+                    'created_user_name' => $user->name,
+                    'created_user_email' => $user->email,
+                    'created_phone_number' => $user->phone_number,
+                    'created_date_of_birth' => $user->date_of_birth,
+                    'created_gender' => $user->gender,
+                    'created_profile_image' => $user->profile_image
+                ])
+                ->event('created')
+                ->log($description); // Use the custom description here
+        });
+
+        static::updated(function (User $user) {
+            $causer = Auth::user();
+
+            $properties = [
+                'updated_user_id' => $user->id,
+                'updated_user_name' => $user->name,
+                'updated_user_email' => $user->email,
+                'updated_phone_number' => $user->phone_number,
+                'updated_date_of_birth' => $user->date_of_birth,
+                // Ensure 'gender' and 'profile_image' are actually fillable or otherwise accessible on the model
+                'updated_gender' => $user->gender,
+                'updated_profile_image' => $user->profile_image
+            ];
+
+            $changes = $user->getChanges();
+            $original = $user->getOriginal(); // Get all original values
+
+            $changeMessages = [];
+            foreach ($changes as $attribute => $newValue) {
+                // Skip 'updated_at' if you don't want to log every save
+                if ($attribute === 'updated_at') {
+                    continue;
+                }
+
+                // Get the old value for this specific attribute
+                $oldValue = $original[$attribute] ?? 'null'; // Use 'null' if old value doesn't exist (e.g., for new attributes)
+
+                // Add a message for each changed attribute
+                $changeMessages[] = "{$attribute} from {$oldValue} to {$newValue}";
+            }
+
+            // Combine individual change messages into a readable string
+            $changeDetails = implode(', ', $changeMessages);
+
+            // Customize the description for update
+            $description = "{$changeDetails}";
+
+            // Add old and new values to properties for more detailed auditing
+            if (!empty($changes)) {
+                $properties['old'] = $original; // Store all original values
+                $properties['new'] = $changes;  // Store only the changed new values
+            }
+
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties($properties)
+                ->event('updated')
+                ->log($description);
+        });
+
+        // When a user is deleted
+        static::deleted(function (User $user) {
+            $causer = Auth::user();
+
+            // Customizing the description for delete
+            $description = "User with name '{$user->name}', id '{$user->id}'  has been deleted.";
+
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties([
+                    'deleted_user_id' => $user->id,
+                    'deleted_user_name' => $user->name
+                ])
+                ->event('deleted')
+                ->log($description);
+        });
     }
 }
