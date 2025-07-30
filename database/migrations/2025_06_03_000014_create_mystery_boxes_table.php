@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name')->default('Mystery Box');
             $table->decimal('budget', 10, 2);
             $table->enum('mood', ['Romantic', 'Mysterious', 'Funny', 'Brave', 'Calm', 'Happy']);
-            $table->integer('stock')->default(0);
+            // $table->integer('stock')->default(0);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
