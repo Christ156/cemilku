@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Edit Collection</h1>
+        <h1>{{__('adminCollection.editCollection')}}</h1>
     </div>
 
     <x-adminlte-card>
@@ -17,22 +17,22 @@
             @method('PUT')
 
             {{-- Nama Collection --}}
-            <x-adminlte-input name="name" label="Collection Name" placeholder="Enter collection name"
+            <x-adminlte-input name="name" label="{{__('adminCollection.collectionName')}}" placeholder="{{__('adminCollection.enterCollectionName')}}"
                 value="{{ old('name', $collection->name) }}" required />
 
             {{-- Jenis Collection --}}
             <x-adminlte-select name="type" label="Type" required>
-                <option value="">-- Choose Type --</option>
-                <option value="tower" {{ old('type', $collection->type) == 'tower' ? 'selected' : '' }}>Tower</option>
-                <option value="bouquet" {{ old('type', $collection->type) == 'bouquet' ? 'selected' : '' }}>Bouquet</option>
+                <option value="">-- {{__('adminCollection.chooseType')}} --</option>
+                <option value="tower" {{ old('type', $collection->type) == 'tower' ? 'selected' : '' }}>{{__('adminCollection.tower')}}</option>
+                <option value="bouquet" {{ old('type', $collection->type) == 'bouquet' ? 'selected' : '' }}>{{__('adminCollection.bouquet')}}</option>
             </x-adminlte-select>
 
             {{-- Kategori --}}
-            <x-adminlte-select name="category" label="Category" required>
+            <x-adminlte-select name="category" label="{{__('adminCollection.category')}}" required>
                 @php
                     $categories = ['Chinese New Year', 'Valentine', 'Ramadhan', 'Christmas', 'Birthday', 'Graduation'];
                 @endphp
-                <option value="">-- Choose Category --</option>
+                <option value="">-- {{__('adminCollection.chooseCategory')}} --</option>
                 @foreach ($categories as $cat)
                     <option value="{{ $cat }}" {{ old('category', $collection->category) == $cat ? 'selected' : '' }}>
                         {{ $cat }}
@@ -41,21 +41,21 @@
             </x-adminlte-select>
 
             {{-- Deskripsi --}}
-            <x-adminlte-textarea name="description" label="Description" rows="3"
-                placeholder="Enter description (optional)">{{ old('description', $collection->description) }}</x-adminlte-textarea>
+            <x-adminlte-textarea name="description" label="{{__('adminCollection.description')}}" rows="3"
+                placeholder="{{__('adminCollection.enterDescriptionOptional')}}">{{ old('description', $collection->description) }}</x-adminlte-textarea>
 
             {{-- Harga --}}
-            <x-adminlte-input name="price" label="Price (Rp)" type="number"
+            <x-adminlte-input name="price" label="{{__('adminCollection.price')}} (Rp)" type="number"
                 value="{{ old('price', $collection->price) }}" required />
 
             {{-- Stok --}}
-            <x-adminlte-input name="stock" label="Stock" type="number"
+            <x-adminlte-input name="stock" label="{{__('adminCollection.stock')}}" type="number"
                 value="{{ old('stock', $collection->stock) }}" required />
 
             {{-- Gambar --}}
-            <x-adminlte-input name="image" label="Collection Image" type="file" accept="image/*" />
+            <x-adminlte-input name="image" label="{{__('adminCollection.collectionImage')}}" type="file" accept="image/*" />
             @if ($collection->image)
-                <p class="mt-1">Current: <img src="{{ asset('assets/collections/' . $collection->image) }}"
+                <p class="mt-1">{{__('adminCollection.current')}}: <img src="{{ asset('assets/collections/' . $collection->image) }}"
                         alt="Image" width="60" height="60" style="object-fit: cover; border-radius: 6px;" />
                 </p>
             @endif
@@ -67,7 +67,7 @@
                 $snackIds = $collection->snacks->pluck('id')->values(); // [id1, id2, id3, id4]
             @endphp
 
-            <h5 class="mt-4 mb-2">Snacks for Each Layer (4 Layers)</h5>
+            <h5 class="mt-4 mb-2">{{__('adminCollection.snackForEachLayer')}}</h5>
 
             @for ($i = 1; $i <= 4; $i++)
                 @php
@@ -77,7 +77,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <x-adminlte-select name="snack_id_{{ $i }}" label="Snack for Layer {{ $i }}" required>
-                            <option value="">-- Choose Snack --</option>
+                            <option value="">-- {{__('adminCollection.chooseSnack')}} --</option>
                             @foreach ($snacks as $snack)
                                 <option value="{{ $snack->id }}"
                                     {{ $selectedSnackId == $snack->id ? 'selected' : '' }}>
@@ -90,8 +90,8 @@
             @endfor
 
             <div class="mt-3">
-                <x-adminlte-button type="submit" theme="primary" icon="fas fa-save" label="Update" />
-                <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+                <x-adminlte-button type="submit" theme="primary" icon="fas fa-save" label="{{__('adminCollection.update')}}" />
+                <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">{{__('adminCollection.cancel')}}</a>
             </div>
         </form>
     </x-adminlte-card>

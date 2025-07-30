@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -77,6 +78,8 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
 
     Route::post('/users/{id}/toggle-block', [UserController::class, 'toggleBlock'])->name('user.block');
 
+    Route::get('/admin/users/{userId}/logs', [ActivityLogController::class, 'showUserLogs'])->name('admin.users.logs');
+
 
     // Resource routes
     Route::resource('snack', SnackController::class);
@@ -115,11 +118,12 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('collections', CollectionController::class);
     Route::post('/collection/{id_collection}/add-to-cart/{quantity}', [CollectionController::class, 'add_to_cart'])->name('collection.to.cart');
 
-    Route::get('/{id_user}/{slug}/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/{id_user}/{slug}/xart', [CartController::class, 'index'])->name('cart.index');
     Route::delete('/{id_user}/{slug}/cart/{count_items}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
     Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
+    Route::put('{id_user}/{slug}/cart/update-quantity-item', [CartController::class, 'update_quantity_item'])->name('cart.update.quantity');
     Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
 
     // baru dibuat ni bang -jason
@@ -128,6 +132,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
+
+    Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
 });

@@ -1,0 +1,37 @@
+<?php
+
+return[
+    'shippingAddress' => 'Alamat Pengiriman',
+    'addressIsEmpty' => 'Alamat Kosong',
+    'edit' => 'Ubah',
+    'selectAll' => 'Pilih Semua',
+    'remove' => 'Hapus',
+    'cartIsEmpty' => 'Keranjang masih kosong.',
+    'cart' => 'Keranjang',
+    'product' => 'Produk',
+    'shipping' => 'Pengiriman',
+    'addNewAddress' => 'Tambahkan Alamat Baru',
+    'custom' => 'Kustom',
+    'yourCartIsEmpty' => 'Keranjang masih kosong',
+    'paymentMethod' => 'Metode Pembayaran',
+    'orderSummary' => 'Ringkasan Pesanan',
+    'totalPrice' => 'Total Harga',
+    'shippingRegular' => 'Pengiriman Regular',
+    'total' => 'Total',
+    'buyNow' => 'Bayar Sekarang',
+    'address' => 'Alamat',
+    'primary' => 'Utama',
+    'label' => 'Label',
+    'receiverName' => 'Nama Penerima',
+    'phoneNumber' => 'Nomor Telepon',
+    'rt' => 'Rukun Tetangga (RT)',
+    'rw' => 'Rukun Warga (RW)',
+    'subDistrict' => 'Kelurahan',
+    'district' => 'Kecamatan',
+    'regency' => 'Kabupaten',
+    'province' => 'Provinsi',
+    'postalCode' => 'Kode Pos',
+    'saveAddress' => 'Simpan Alamat',
+
+
+];

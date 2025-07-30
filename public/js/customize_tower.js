@@ -131,7 +131,11 @@ function previewDecoration(decorName, itemPrice, idItem){
     priceDecor = itemPrice;
     tempTotalPrice = priceLayer1 + priceLayer2 + priceLayer3 + priceLayer4 + priceDecor;
 
-    document.getElementById("decoration").value = idItem;
+    if(idItem != 0){
+        document.getElementById("decoration").value = idItem;
+    }else{
+        document.getElementById("decoration").value = "";
+    }
 
     document.getElementById("temp_price1").textContent = tempTotalPrice.toLocaleString("id-ID");
     document.getElementById("temp_price2").textContent = tempTotalPrice.toLocaleString("id-ID");

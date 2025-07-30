@@ -1,0 +1,29 @@
+<?php
+
+return[
+    'all' => 'Semua',
+    'pending' => 'Belum Bayar',
+    'paid' => 'Diproses',
+    'shipped' => 'Dikirim',
+    'completed' => 'Selesai',
+    'cancelled' => 'Dibatalkan',
+    'searchOrder' => 'Cari Pesanan',
+    'search' => 'Cari',
+    'notOrder' => 'Belum Ada Pesanan',
+    'product' => 'Produk',
+    'total' => 'Total',
+    'viewTransactionDetails' => 'Lihat Detail Transaksi',
+    'transactionDetails' => 'Detail Transaksi',
+    'order' => 'Pesanan',
+    'orderNumbers' => 'Nomor Pesanan',
+    'orderDate' => 'Tanggal Pesanan',
+    'productDetail' => 'Detail Produk',
+    'deliveryInfo' => 'Info Pengiriman',
+    'address' => 'Alamat',
+    'paymentDetails' => 'Detail Pembayaran',
+    'paymentMethod' => 'Metode Pembayaran',
+    'close' => 'Tutup',
+    'buyNow' => 'Bayar Sekarang',
+    'cancel' => 'Batalkan'
+
+];

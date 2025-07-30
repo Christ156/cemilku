@@ -40,7 +40,7 @@ function allCheckboxCheck(count, carts){
     }
 
     removeSelected(total_item_check);
-    total_price_with_ship = total_price_cart + 20000;
+    total_price_with_ship = total_price_cart + 0;
 
     document.getElementById("total_price_cart").innerText = total_price_cart.toLocaleString("id-ID");
     document.getElementById("total_price_with_ship").innerText = total_price_with_ship.toLocaleString("id-ID");
@@ -61,7 +61,7 @@ function previewPrice(price, cart_item_id){
         document.getElementById("item_cart_"+cart_item_id).value = "true";
     }
 
-    total_price_with_ship = total_price_cart + 20000;
+    total_price_with_ship = total_price_cart + 0;
 
     document.getElementById("product-count").innerText = total_item_check;
     document.getElementById("total_price_cart").innerText = total_price_cart.toLocaleString("id-ID");
@@ -101,9 +101,10 @@ function removeSelected(count_checked){
     }
 }
 
-function checkItemSelected(count, carts){
+function checkItemSelected(count, carts, address){
     var selectedItem = 0;
     var selectedPayment = 0;
+    var selectedAddress = 0;
 
     for(var i = 0; i < count; i++){
         if(document.getElementById("item_cart_"+carts[i]["id"]).value == "true"){
@@ -119,9 +120,64 @@ function checkItemSelected(count, carts){
         }
     }
 
-    if(selectedItem == 1 && selectedPayment == 1){
+    if(address == 1){
+        selectedAddress = 1;
+    }
+
+    if(selectedItem == 1 && selectedPayment == 1 && selectedAddress == 1){
         document.getElementById("checkout_btn").disabled = false;
     }else{
         document.getElementById("checkout_btn").disabled = true;
+    }
+}
+
+function updateQuantity(state, id){
+    const form_update = document.getElementById('set-quantity-cart');
+    const cart_item_id = document.getElementById('cart_item_id');
+    const quantity_item = document.getElementById('quantity_item');
+    const quantity_cart = document.getElementById('quantity_cart_'+id);
+    var quantity = parseInt(quantity_cart.value);
+
+    if(quantity >= 1){
+        if(state == 'add'){
+            quantity = quantity + 1;
+        }else{
+            quantity = quantity - 1;
+        }
+
+        if(quantity != 0){
+            cart_item_id.value = id;
+            quantity_item.value = quantity;
+            quantity_cart.value = quantity;
+            form_update.submit();
+        }else{
+            cart_item_id.value = id;
+            quantity_item.value = 1;
+            quantity_cart.value = 1;
+            form_update.submit();
+        }
+    }else{
+        cart_item_id.value = id;
+        quantity_item.value = 1;
+        quantity_cart.value = 1;
+        form_update.submit();
+    }
+}
+
+function updateQuantityByField(id){
+    const form_update = document.getElementById('set-quantity-cart');
+    const quantity_cart = document.getElementById('quantity_cart_'+id);
+    var quantity = parseInt(quantity_cart.value);
+    const cart_item_id = document.getElementById('cart_item_id');
+    const quantity_item = document.getElementById('quantity_item');
+
+    if(quantity >= 1){
+        cart_item_id.value = id;
+        quantity_item.value = quantity;
+        form_update.submit();
+    }else{
+        cart_item_id.value = id;
+        quantity_item.value = 1;
+        form_update.submit();
     }
 }

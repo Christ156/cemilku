@@ -5,6 +5,7 @@ use App\Exports\OrderExport;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -19,10 +20,11 @@ class OrderController extends Controller
         // Base query
         $query = Order::with([
             'orderDetails' => function ($q) {
-                $q->orderBy('id'); // Urutkan detail pesanan
+                $q->orderBy('id');
             },
             'orderDetails.collection',
             'orderDetails.customize',
+            'orderDetails.mysteryBox',
             'user.mainAddress',
             'address',
         ]);
@@ -48,21 +50,18 @@ class OrderController extends Controller
                     ->orWhereHas('orderDetails.customize', function ($q3) use ($search) {
                         $q3->where('name', 'like', "%{$search}%");
                     })
-                    ->orWhereHas('user', function ($q4) use ($search) {
-                        $q4->where('name', 'like', "%{$search}%");
+                    ->orWhereHas('orderDetails.mysteryBox', function ($q4) use ($search) {
+                        $q4->where('mood', 'like', "%{$search}%")
+                            ->orWhere('budget', 'like', "%{$search}%");
                     })
-                    ->orWhereHas('address', function ($q5) use ($search) {
-                        $q5->where('address', 'like', "%{$search}%") // Mencari di kolom 'address' (alamat lengkap)
-                           ->orWhere('kota_kabupaten', 'like', "%{$search}%") // Opsional: mencari berdasarkan kota
-                           ->orWhere('provinsi', 'like', "%{$search}%"); // Opsional: mencari berdasarkan provinsi
+                    ->orWhereHas('user', function ($q5) use ($search) {
+                        $q5->where('name', 'like', "%{$search}%");
                     });
             });
         }
 
-        // Ambil data terbaru
         $orders = $query->latest()->get();
 
-        // Tampilkan view sesuai role
         if ($user->role === 'admin') {
             return view('admin.order.index', compact('orders', 'status'));
         } else {
@@ -144,6 +143,49 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->with('error', 'Status hanya bisa diubah dari paid ke shipped.');
+    }
+
+    public function cancel(Order $order)
+    {
+        DB::transaction(function () use ($order) {
+            if ($order->status !== 'pending') {
+                throw new \Exception('Order tidak bisa dibatalkan.');
+            }
+
+            foreach ($order->orderDetails as $detail) {
+                if ($detail->collection_id) {
+                    $collection = $detail->collection;
+                    $collection->stock += $detail->quantity;
+                    $collection->save();
+
+                    foreach ($collection->snacks as $snack) {
+                        $snack->stock += $snack->pivot->quantity * $detail->quantity;
+                        $snack->save();
+                    }
+                }
+
+                if ($detail->customize_id) {
+                    $customize = $detail->customize;
+
+                    // Kembalikan stok untuk snack
+                    foreach ($customize->snacks as $snack) {
+                        $snack->stock += $snack->pivot->quantity * $detail->quantity;
+                        $snack->save();
+                    }
+
+                    // Kembalikan stok untuk decoration
+                    foreach ($customize->decorations as $decoration) {
+                        $decoration->stock += $detail->quantity; // karena setiap customize pakai 1 dekorasi
+                        $decoration->save();
+                    }
+                }
+            }
+
+            $order->status = 'cancelled';
+            $order->save();
+        });
+
+        return back()->with('success', 'Order berhasil dibatalkan dan stok dikembalikan.');
     }
 
 }

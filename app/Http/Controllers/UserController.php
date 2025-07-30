@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UserExport;
+use App\Models\ActivityLog;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class UserController extends Controller
         if (Auth::user()->role === 'admin') {
             // $users = User::where('role', 'user')->get(); // Hanya user biasa
             $users = User::all();
-            return view('admin.user.index', compact('users'));
+            $user_logs = Activity::all();
+            return view('admin.user.index', compact('users', 'user_logs'));
         }
 
         abort(403, 'Unauthorized'); // Untuk selain admin
@@ -34,8 +36,15 @@ class UserController extends Controller
      */
     public function show(string $id, string $slug)
     {
-        $address = Address::where('user_id', $id)->get();
-        return view('profile.index', compact('address'));
+        if (Auth::user()->role == 'admin') {
+            $user = User::findOrFail($id);
+            $logs = Activity::where('causer_id', $id)->get();
+
+            return \view('admin.user.show', \compact(['user', 'logs']));
+        } else {
+            $address = Address::where('user_id', $id)->get();
+            return view('profile.index', compact('address'));
+        }
     }
 
     /**

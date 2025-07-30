@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Add Collection</h1>
+        <h1>{{ __('adminCollection.addCollection') }}</h1>
     </div>
 
     {{-- Pesan Error --}}
@@ -27,50 +27,50 @@
             @csrf
 
             {{-- Nama Collection --}}
-            <x-adminlte-input name="name" label="Collection Name" placeholder="Enter collection name" required
+            <x-adminlte-input name="name" label="{{__('adminCollection.collectionName')}}" placeholder="{{__('adminCollection.enterCollectionName')}}" required
                 value="{{ old('name') }}" />
 
             {{-- Kategori --}}
-            <x-adminlte-select name="category" label="Category" required>
-                <option value="">-- Choose Category --</option>
+            <x-adminlte-select name="category" label="{{__('adminCollection.category')}}" required>
+                <option value="">-- {{__('adminCollection.chooseCategory')}} --</option>
                 @foreach (['Chinese New Year', 'Valentine', 'Ramadhan', 'Christmas', 'Birthday', 'Graduation'] as $cat)
                     <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
                 @endforeach
             </x-adminlte-select>
 
             {{-- Jenis Collection --}}
-            <x-adminlte-select name="type" label="Type" required>
-                <option value="">-- Choose Type --</option>
-                <option value="tower" {{ old('type') == 'tower' ? 'selected' : '' }}>Tower</option>
-                <option value="bouquet" {{ old('type') == 'bouquet' ? 'selected' : '' }}>Bouquet</option>
+            <x-adminlte-select name="type" label="{{__('adminCollection.type')}}" required>
+                <option value="">-- {{__('adminCollection.chooseType')}} --</option>
+                <option value="tower" {{ old('type') == 'tower' ? 'selected' : '' }}>{{__('adminCollection.tower')}}</option>
+                <option value="bouquet" {{ old('type') == 'bouquet' ? 'selected' : '' }}>{{__('adminCollection.bouquet')}}</option>
             </x-adminlte-select>
 
             {{-- Deskripsi --}}
-            <x-adminlte-textarea name="description" label="Description" rows="3" placeholder="Enter description">
+            <x-adminlte-textarea name="description" label="{{__('adminCollection.description')}}" rows="3" placeholder="{{__('adminCollection.enterDescription')}}">
                 {{ old('description') }}
             </x-adminlte-textarea>
 
             {{-- Harga --}}
-            <x-adminlte-input name="price" label="Price (Rp)" type="number" required value="{{ old('price') }}" />
+            <x-adminlte-input name="price" label="{{__('adminCollection.price')}} (Rp)" type="number" required value="{{ old('price') }}" />
 
             {{-- Stok --}}
-            <x-adminlte-input name="stock" label="Stock" type="number" required value="{{ old('stock') }}" />
+            <x-adminlte-input name="stock" label="{{__('adminCollection.stock')}}" type="number" required value="{{ old('stock') }}" />
 
             {{-- Gambar --}}
-            <x-adminlte-input name="image" label="Collection Image" type="file" accept="image/*" />
+            <x-adminlte-input name="image" label="{{__('adminCollection.collectionImage')}}" type="file" accept="image/*" />
 
             {{-- Snack per Layer --}}
             @php
                 $snacks = \App\Models\Snack::all();
             @endphp
 
-            <h5 class="mt-4 mb-2">Snacks for Each Layer (4 Layers)</h5>
+            <h5 class="mt-4 mb-2">{{__('adminCollection.snackForEachLayer')}}</h5>
 
             @for ($i = 1; $i <= 4; $i++)
                 <div class="row">
                     <div class="col-md-6">
                         <x-adminlte-select name="snack_id_{{ $i }}" label="Snack for Layer {{ $i }}" required>
-                            <option value="">-- Choose Snack --</option>
+                            <option value="">-- {{__('adminCollection.chooseSnack')}} --</option>
                             @foreach ($snacks as $snack)
                                 <option value="{{ $snack->id }}"
                                     {{ old("snack_id_$i") == $snack->id ? 'selected' : '' }}>
@@ -84,8 +84,9 @@
 
             <div class="mt-3">
                 <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
-                <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+                <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">{{__('adminCollection.cancel')}}</a>
             </div>
         </form>
+
     </x-adminlte-card>
 @endsection

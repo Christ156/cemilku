@@ -40,9 +40,13 @@
 
                     {{-- ACTION --}}
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Log" label="Log" />
+                        <a href="{{ route('profile', ['id'=>$user->id, 'slug'=>Str::slug($user->name)]) }}">
+                            <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Log"
+                                label="Log" />
+                        </a>
 
-                        <form action="{{ route('adminuser.block', $user->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('adminuser.block', $user->id) }}" method="POST"
+                            style="display:inline-block;">
                             @csrf
                             <x-adminlte-button class="btn-delete" icon="fas fa-user-slash" size="sm"
                                 title="{{ $user->is_blocked ? 'Unblock' : 'Block' }}"

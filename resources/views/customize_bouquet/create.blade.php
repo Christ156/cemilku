@@ -51,7 +51,7 @@
             {{-- Right content --}}
             <div class="col-lg-6 col-12">
                 <div class="w-100 d-flex justify-content-center mt-3">
-                    <div class="row w-lg-25 w-75 d-flex">
+                    <div class="row w-lg-25 w-50 d-flex">
                         <div class="col-2 p-0">
                             <div class="progress-node" id="progress-node-1">
                                 1</div>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="w-100 d-flex justify-content-center mb-3">
-                    <div class="row w-lg-25 w-75 d-flex justify-content-between">
+                    <div class="row w-lg-25 w-50 d-flex justify-content-between">
                         <div class="col-3 p-0">
                             <p class="m-0">{{__('bouquet.setBase')}}</p>
                         </div>
@@ -160,6 +160,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -192,6 +194,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -224,6 +228,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -256,6 +262,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 

@@ -64,7 +64,7 @@
                         <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
                             <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
                             <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1"
-                                min="1" />
+                                min="1"/>
                             <button type="button" id="add_quantity" onclick="setQuantity('add', {{$detail->stock}})">+</button>
                         </div>
                     </div>
