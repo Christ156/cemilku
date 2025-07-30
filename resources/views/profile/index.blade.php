@@ -314,22 +314,27 @@
                                                         {{ $a->is_primary ? 'Utama' : 'Non-Utama' }}
                                                     </span>
                                                 </div>
-                                                <p>{{ __('profile.reciepentName') }}: {{ $a->receiver_name }}</p>
-                                                <p>{{ __('profile.description') }}: {{ $a->address }},
+                                                <p class="m-0">{{ __('profile.reciepentName') }}:
+                                                    {{ $a->receiver_name }}</p>
+                                                <p class="m-0">{{ __('profile.description') }}: {{ $a->address }},
                                                     {{ $a->rt }}/{{ $a->rw }},
                                                     {{ $a->kelurahan_desa }}, {{ $a->kecamatan }},
                                                     {{ $a->kota_kabupaten }}, {{ $a->provinsi }}</p>
                                                 <p>{{ __('profile.phoneNumber') }}: {{ $a->phone_number }}</p>
                                             </div>
                                             <div class="d-flex flex-row justify-content-between">
-                                                {{-- Delete Form --}}
-                                                <form action="{{ route('address.destroy', $a->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">
-                                                        {{ __('profile.delete') }}
-                                                    </button>
-                                                </form>
+                                                <div class="d-flex">
+                                                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
+                                                        data-bs-target="#editAddress{{ $a->id }}">Edit</button>
+                                                    {{-- Delete Form --}}
+                                                    <form action="{{ route('address.destroy', $a->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">
+                                                            {{ __('profile.delete') }}
+                                                        </button>
+                                                    </form>
+                                                </div>
                                                 @if (!$a->is_primary)
                                                     <button type="button"
                                                         class="btn btn-sm toggle-primary-btn {{ $a->is_primary ? 'btn-secondary' : 'btn-primary' }}"
@@ -342,6 +347,111 @@
                                             </div>
                                         </div>
 
+                                        <!-- Edit Address Modal -->
+                                        <div class="modal fade" id="editAddress{{ $a->id }}" tabindex="-1"
+                                            aria-labelledby="addAddressModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                <form action="{{ route('address.update', ['address' => $a]) }}"
+                                                    method="POST" class="modal-content modal-1-dalem">
+                                                    @method('PUT')
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editAddressModalLabel">
+                                                            {{ __('profile.editInfo') }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="{{ __('profile.close') }}"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="label"
+                                                                class="form-label">{{ __('profile.label') }}</label>
+                                                            <input type="text" value="{{ $a->label }}"
+                                                                name="label" class="form-control" id="label"
+                                                                placeholder="{{ __('profile.placeHolderAddress') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="provinsi"
+                                                                class="form-label">{{ __('profile.province') }}</label>
+                                                            <input type="text" value="{{ $a->provinsi }}"
+                                                                name="provinsi" class="form-control" id="provinsi"
+                                                                placeholder="{{ __('profile.inputProvince') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="kota_kabupaten"
+                                                                class="form-label">{{ __('profile.city') }}</label>
+                                                            <input type="text" value="{{ $a->kota_kabupaten }}"
+                                                                name="kota_kabupaten" class="form-control"
+                                                                id="kota_kabupaten"
+                                                                placeholder="{{ __('profile.inputCity') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="kecamatan"
+                                                                class="form-label">{{ __('profile.district') }}</label>
+                                                            <input type="text" value="{{ $a->kecamatan }}"
+                                                                name="kecamatan" class="form-control" id="kecamatan"
+                                                                placeholder="{{ __('profile.inputDistrict') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="kelurahan_desa"
+                                                                class="form-label">{{ __('profile.village') }}</label>
+                                                            <input type="text" value="{{ $a->kelurahan_desa }}"
+                                                                name="kelurahan_desa" class="form-control"
+                                                                id="kelurahan_desa"
+                                                                placeholder="{{ __('profile.inputVillage') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="rt"
+                                                                class="form-label">{{ __('profile.rt') }}</label>
+                                                            <input type="text" value="{{ $a->rt }}"
+                                                                name="rt" class="form-control" id="rt"
+                                                                placeholder="{{ __('profile.inputRT') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="rw"
+                                                                class="form-label">{{ __('profile.rw') }}</label>
+                                                            <input type="text" value="{{ $a->rw }}"
+                                                                name="rw" class="form-control" id="rw"
+                                                                placeholder="{{ __('profile.inputRW') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="kode_pos"
+                                                                class="form-label">{{ __('profile.postalCode') }}</label>
+                                                            <input type="text" value="{{ $a->kode_pos }}"
+                                                                name="kode_pos" class="form-control" id="kode_pos"
+                                                                placeholder="{{ __('profile.inputPostalCode') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="address"
+                                                                class="form-label">{{ __('profile.fullAddress') }}</label>
+                                                            <textarea name="address" class="form-control" id="address" placeholder="{{ __('profile.inputFullAddress') }}"
+                                                                rows="3">{{ $a->address }}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="nomor_telepon"
+                                                                class="form-label">{{ __('profile.phoneNumber') }}</label>
+                                                            <input type="number" value="{{ $a->phone_number }}"
+                                                                name="nomor_telepon" class="form-control"
+                                                                id="nomor_telepon"
+                                                                placeholder="{{ __('profile.inputPhoneNumber') }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="receiver_name"
+                                                                class="form-label">{{ __('profile.reciepentName') }}</label>
+                                                            <input type="text" value="{{ $a->receiver_name }}"
+                                                                name="receiver_name" class="form-control"
+                                                                id="receiver_name"
+                                                                placeholder="{{ __('profile.inputReciepentName') }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-tutup"
+                                                            data-bs-dismiss="modal">{{ __('profile.close') }}</button>
+                                                        <button type="submit"
+                                                            class="btn btn-simpan">{{ __('profile.saveChanges') }}</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @empty
                                         <div class="container mt-2">
                                             <h4>{{ __('profile.addressEmpty') }}</h4>
@@ -558,4 +668,3 @@
         });
     </script>
 @endsection
-

@@ -124,12 +124,12 @@ class AddressController extends Controller
         }
     }
 
-    public function update(Request $request, User $user, Address $address)
+    public function update(Request $request, Address $address)
     {
-        // 1. Authorization: Ensure the authenticated user owns this address
-        if (Auth::id() !== $address->user_id) {
-            abort(403, 'Unauthorized action.'); // Or redirect with an error message
-        }
+        // // 1. Authorization: Ensure the authenticated user owns this address
+        // if (Auth::id() !== $address->user_id) {
+        //     abort(403, 'Unauthorized action.'); // Or redirect with an error message
+        // }
 
         // 2. Validation: Define and apply validation rules based on your migration schema
         $request->validate([
