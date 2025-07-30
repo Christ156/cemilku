@@ -363,13 +363,13 @@ class ComposerStaticInit73ace0a62df49f8f67e0f6ac33c5209c
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
-            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
-            1 => __DIR__ . '/..' . '/spatie/ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -8106,10 +8106,12 @@ class ComposerStaticInit73ace0a62df49f8f67e0f6ac33c5209c
         'Termwind\\ValueObjects\\Styles' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
         'Tests\\CreatesApplication' => __DIR__ . '/../..' . '/tests/CreatesApplication.php',
         'Tests\\Feature\\AdminDecorationPageTest' => __DIR__ . '/../..' . '/tests/Feature/AdminDecorationPageTest.php',
+        'Tests\\Feature\\AdminOrderTest' => __DIR__ . '/../..' . '/tests/Feature/AdminOrderTest.php',
         'Tests\\Feature\\AdminSnackPageTest' => __DIR__ . '/../..' . '/tests/Feature/AdminSnackPageTest.php',
         'Tests\\Feature\\HomepageTest' => __DIR__ . '/../..' . '/tests/Feature/HomepageTest.php',
         'Tests\\Feature\\LoginTest' => __DIR__ . '/../..' . '/tests/Feature/LoginTest.php',
         'Tests\\Feature\\NavbarFooterTest' => __DIR__ . '/../..' . '/tests/Feature/NavbarFooterTest.php',
+        'Tests\\Feature\\OrderPageTest' => __DIR__ . '/../..' . '/tests/Feature/OrderPageTest.php',
         'Tests\\Feature\\RegisterTest' => __DIR__ . '/../..' . '/tests/Feature/RegisterTest.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',

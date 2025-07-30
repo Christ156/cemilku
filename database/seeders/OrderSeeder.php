@@ -98,9 +98,8 @@ class OrderSeeder extends Seeder
         $order3 = Order::create([
             'user_id' => $users[1]->id,
             'status' => 'pending',
-            'total_price' => 0, // Akan diupdate setelah order details
+            'total_price' => 0,
             'payment_method' => 'Cimb Niaga',
-            'address_id' => $addressUser2->id,
         ]);
         OrderDetail::create([
             'order_id' => $order3->id,
