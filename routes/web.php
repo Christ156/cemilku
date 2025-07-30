@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -74,6 +75,8 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     Route::post('/users/{id}/block', [UserController::class, 'block'])->name('user.block');
 
     Route::post('/users/{id}/toggle-block', [UserController::class, 'toggleBlock'])->name('user.block');
+
+    Route::get('/admin/users/{userId}/logs', [ActivityLogController::class, 'showUserLogs'])->name('admin.users.logs');
 
 
     // Resource routes
