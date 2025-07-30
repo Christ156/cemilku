@@ -268,20 +268,13 @@ class CollectionController extends Controller
 
     public function add_to_cart(Request $request, $id_collection, $quantity) // $quantity IS A PARAMETER
     {
-        // Remove the dd() you added earlier, or it will stop the test prematurely
-        // dd([
-        //     'id_collection_received' => $id_collection,
-        //     'quantity_received' => $quantity,
-        //     'request_all_data' => $request->all(),
-        //     'request_query_data' => $request->query(),
-        //     'request_route_parameters' => $request->route()->parameters(),
-        // ]);
-
-        if (!auth()->check()) {
+        // PERBAIKAN: Ganti auth()->check() menjadi Auth::check()
+        if (!Auth::check()) { // Baris 271 yang error
             return redirect()->route('login')->with('error', 'Silakan login untuk menambahkan produk ke keranjang.');
         }
 
-        $user = auth()->user();
+        // PERBAIKAN: Ganti auth()->user() menjadi Auth::user()
+        $user = Auth::user(); // Baris 275 yang error
         $product = Collection::findOrFail($id_collection);
 
         // This is the line that uses the $quantity received as a parameter.

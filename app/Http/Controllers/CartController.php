@@ -22,7 +22,6 @@ class CartController extends Controller
     public function index($id_user, $slug)
     {
         $id_user = Auth::user()->id;
-        // Perbaikan: Menggunakan 'user_id' yang benar
         $cartQuery = Cart::where('user_id', $id_user)->where('is_active', 1);
 
         if ($cartQuery->count() == 0) {
@@ -36,7 +35,16 @@ class CartController extends Controller
         $count_address_active = Address::where('user_id', $id_user)->where('is_primary', 1)->count();
         $address = Address::where('user_id', $id_user)->where('is_primary', 0)->get();
 
-        return view('cart', \compact(['carts', 'address_active', 'count_address_active', 'address']));
+        // --- Calculate Total Price for the view ---
+        $totalPriceFromItems = $carts->sum('total_price');
+        $shippingCost = 20000; // Define your shipping cost here
+        $finalCartTotal = $totalPriceFromItems + $shippingCost;
+
+        // Format the total for display, e.g., "Rp 1.049.000"
+        $formattedFinalCartTotal = 'Rp ' . number_format($finalCartTotal, 0, ',', '.');
+        // --- End Calculation ---
+
+        return view('cart', \compact(['carts', 'address_active', 'count_address_active', 'address', 'formattedFinalCartTotal']));
     }
 
     // Metode private create_new_order tidak lagi diperlukan karena logikanya diintegrasikan ke dalam checkout.
