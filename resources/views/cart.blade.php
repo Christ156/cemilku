@@ -12,7 +12,7 @@
     <div class="container mt-5" onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{$count_address_active}})">
         <div class="row">
             <form
-                action="{{ route('cart.destroy', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name), 'count_items' => $carts->count()]) }}"
+                action="{{ route('cart.destroy', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? ''), 'count_items' => $carts->count()]) }}"
                 method="POST" class="col-md-8">
                 @csrf
                 @method('DELETE')
@@ -125,7 +125,7 @@
 
             <div class="col-md-4">
                 <form method="POST"
-                    action="{{ route('cart.checkout', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                    action="{{ route('cart.checkout', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? '')]) }}"
                     class="summary-box p-3">
                     @csrf
 
@@ -234,7 +234,7 @@
                             @endif
                             @forelse ($address as $a)
                                 <form
-                                    action="{{ route('cart.primary.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                                    action="{{ route('cart.primary.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? '')]) }}"
                                     method="post">
                                     @csrf
                                     @method('PUT')
@@ -267,7 +267,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#addressCartModal"></button>
                     </div>
                     <form method="POST"
-                        action="{{ route('cart.new.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                        action="{{ route('cart.new.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? '')]) }}"
                         class="modal-body p-3 px-5">
                         @csrf
                         <div class="col">
