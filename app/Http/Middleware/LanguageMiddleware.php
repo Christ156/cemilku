@@ -22,7 +22,6 @@ class LanguageMiddleware
             if (in_array($lang, ['id', 'en'])) {
                 Session::put('locale', $lang);
 
-                // Redirect ke halaman yang sama TANPA query `?lang=...`
                 return redirect($request->url()); // <--- Poin penting
             }
         }
