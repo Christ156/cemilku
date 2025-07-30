@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'phone_number',
         'date_of_birth',
+        'gender',
         'profile_picture',
     ];
 
@@ -76,7 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $causer = Auth::user();
 
             // Customizing the description
-            $description = "User with name = '{$user->name}', id = '{$user->id}', and email = '{$user->email}' has been created.";
+            $description = "User with name {$user->name}, id {$user->id}, and email {$user->email} has been created.";
 
             activity()
                 ->performedOn($user)
@@ -103,7 +104,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 'updated_user_email' => $user->email,
                 'updated_phone_number' => $user->phone_number,
                 'updated_date_of_birth' => $user->date_of_birth,
-                // Ensure 'gender' and 'profile_image' are actually fillable or otherwise accessible on the model
                 'updated_gender' => $user->gender,
                 'updated_profile_image' => $user->profile_image
             ];
@@ -129,7 +129,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $changeDetails = implode(', ', $changeMessages);
 
             // Customize the description for update
-            $description = "{$changeDetails}";
+            $description = "Changes = {$changeDetails}";
 
             // Add old and new values to properties for more detailed auditing
             if (!empty($changes)) {
@@ -157,7 +157,12 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->causedBy($causer)
                 ->withProperties([
                     'deleted_user_id' => $user->id,
-                    'deleted_user_name' => $user->name
+                    'deleted_user_name' => $user->name,
+                    'deleted_user_email' => $user->email,
+                    'deleted_phone_number' => $user->phone_number,
+                    'deleted_date_of_birth' => $user->date_of_birth,
+                    'deleted_gender' => $user->gender,
+                    'deleted_profile_image' => $user->profile_image
                 ])
                 ->event('deleted')
                 ->log($description);
