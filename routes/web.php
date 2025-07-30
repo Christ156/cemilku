@@ -68,6 +68,8 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     // Order untuk update status
     Route::post('/orders/{id}/ship', [OrderController::class, 'ship'])->name('order.ship');
 
+    
+
     // User Export/Import
     Route::get('/user/export', [UserController::class, 'export'])->name('user.export');
 

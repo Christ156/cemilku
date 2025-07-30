@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
 
 class Snack extends Model
 {
     use SoftDeletes;
+    use HasFactory;
     // artinya name, price, stock bisa diisi secara massal
     protected $fillable = ['name', 'description' ,'price', 'stock', 'image'];
 
