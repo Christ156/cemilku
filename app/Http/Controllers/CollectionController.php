@@ -8,7 +8,10 @@ use App\Models\CartItem;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
@@ -134,13 +137,13 @@ class CollectionController extends Controller
             $userId = Auth::user()->id;
 
             // Cari cart aktif milik user
-            $cart = Cart::where('user_id', $userId)->where('is_active', true)->first();
+            $cart = Cart::where('user_id', $userId)->where('is_active', 1)->first();
 
             // Jika tidak ada, buat cart baru
             if (! $cart) {
                 $cart = Cart::create([
                     'user_id'   => $userId,
-                    'is_active' => true,
+                    'is_active' => 1,
                 ]);
             }
 
@@ -263,36 +266,76 @@ class CollectionController extends Controller
         return 0;
     }
 
-    public function add_to_cart(Request $request, $collection_id, $quantity)
+    public function add_to_cart(Request $request, $id_collection, $quantity)
     {
-        $user_id = Auth::user()->id;
-        $checkCartUser = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1);
-        $collection = Collection::findOrFail($collection_id);
-
-        if($quantity == "custom"){
-            $quantity = $request->input('quantity');
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Or handle unauthorized access
         }
 
-        if ($checkCartUser->count() == 1) {
-            $cart_id = $checkCartUser->first()->id;
-            $sameItem = CartItem::where('collection_id', $collection_id);
-            if($sameItem->count() > 0){
-                $sameItem = $sameItem->first();
-                $sameItem->quantity = $sameItem->quantity + $quantity;
-                $sameItem->total_price = $sameItem->quantity * $sameItem->price;
-                $sameItem->updated_at = now();
-                $sameItem->save();
-            }else{
-                $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
-            }
+        // 1. Get the authenticated user's ID
+        $userId = Auth::id();
+
+        // 2. Find or create the active cart for the user
+        // THIS IS WHERE $cart SHOULD BE ASSIGNED
+        $cart = Cart::firstOrCreate(
+            ['user_id' => $userId, 'is_active' => true],
+            ['total_price' => 0] // Initialize total_price if it exists on the cart model
+        );
+
+        // 3. Find the collection (product) by ID
+        // THIS IS WHERE $collection SHOULD BE ASSIGNED
+        $collection = Collection::find($id_collection);
+
+        // Basic validation for collection and quantity
+        if (!$collection) {
+            // Handle case where collection doesn't exist (e.g., redirect with error)
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+
+        if ($quantity <= 0) {
+            return redirect()->back()->with('error', 'Quantity must be positive.');
+        }
+
+        // Optional: Check stock before adding
+        if ($collection->stock < $quantity) {
+             return redirect()->back()->with('error', 'Insufficient stock.');
+        }
+
+
+        // 4. Find or update the cart item
+        $cartItem = CartItem::where('cart_id', $cart->id)
+                            ->where('collection_id', $collection->id)
+                            ->first();
+
+        if ($cartItem) {
+            // Item exists, update quantity
+            $newQuantity = $cartItem->quantity + $quantity;
+            $cartItem->quantity = $newQuantity;
+            $cartItem->total_price = $collection->price * $newQuantity;
+            $cartItem->save(); // Save the updated cart item
         } else {
-            Cart::insert(['user_id' => $user_id, 'is_active' => 1, 'created_at' => now()]);
-            $cart_id = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1)->first()->id;
-
-            $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
+            // Item does not exist, create new cart item
+            $cartItem = CartItem::create([
+                'cart_id' => $cart->id,
+                'collection_id' => $collection->id,
+                'quantity' => $quantity,
+                'price' => $collection->price, // Store individual item price
+                'total_price' => $collection->price * $quantity, // Calculate item total
+                'customize_id' => null, // Assuming these are nullable or have defaults
+                'mysterybox_id' => null, // Assuming these are nullable or have defaults
+            ]);
         }
 
-        return \redirect()->route('collections.index');
+        // 5. Update the overall total_price of the cart
+        // IF total_price column exists on 'carts' table and you want to keep it updated:
+        // (This was the source of your previous migration error)
+        $cart->total_price = $cart->cartItems()->sum('total_price');
+        $cart->save(); // Save the updated cart total
+
+
+        // 6. Redirect to cart index page
+        return redirect()->route('cart.index', ['id_user' => $userId, 'slug' => Str::slug(Auth::user()->name)]);
     }
 
     public function export()

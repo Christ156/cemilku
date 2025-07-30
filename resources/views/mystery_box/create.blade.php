@@ -219,5 +219,6 @@
     </div>
 
     <p id="chooseBudgetText" class="d-none">{{ __('mysterybox.chooseBudgetFirst') }}</p>
-
+    <input type="hidden" id="id_user" value="{{Auth::user()->id}}">
+    <input type="hidden" id="slug" value="{{Str::slug(Auth::user()->name)}}">
 @endsection

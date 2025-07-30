@@ -1,3 +1,6 @@
+.coklatbang{
+    color: #52282A !important;
+}
 /* Warna utama */
 .color_primary {
     background-color: #fdc307;
@@ -9,7 +12,7 @@ body {
     font-family: 'poppins';
 }
 
-.color_secondary{
+.color_secondary {
     background-color: #fffbef !important;
 }
 
@@ -20,21 +23,40 @@ body {
 }
 
 .nav-link.active {
-        color: #52282A !important;
-        border: none;
-        font-weight: bold;
-        text-decoration: underline;
-        text-decoration-color: #52282A;
-    }
+    color: #52282A !important;
+    border: none;
+    font-weight: bold;
+    /* text-decoration: underline; */
+    text-decoration-color: #52282A;
+}
 
-.nav-link::after {
+/* .nav-link::after {
     transition: all 0.2s;
     opacity: 0;
+} */
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 70%;
+    height: 3px;
+    background-color: #52282A;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    opacity: 1;
 }
 
 .nav-link:hover {
     /* border-bottom:3px solid #52282a; */
-    text-decoration: 5px underline #52282a;
+    /* text-decoration: 5px underline #52282a; */
 }
 
 .navbar {
@@ -52,7 +74,7 @@ body {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    top: 7px;
+    /* top: 7px; */
 }
 
 
@@ -70,13 +92,13 @@ body {
     color: #52282A;
 }
 
-.content-box{
+.content-box {
     background-color: #fffbec;
     padding-top: 60px !important;
 }
 
 /* Responsive adjustment */
-@media  (max-width: 576px) {
+@media (max-width: 576px) {
 
     .navbar {
         height: auto !important;

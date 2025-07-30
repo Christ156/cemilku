@@ -156,6 +156,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -188,6 +190,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -220,6 +224,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -252,6 +258,8 @@
                                         @endif
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
 
@@ -313,6 +321,8 @@
                                         </div>
                                     @empty
                                     @endforelse
+                                    <div class="w-100" style="height: 60px">
+                                    </div>
                                 </div>
                             </div>
                             <div class="floating-control-button">

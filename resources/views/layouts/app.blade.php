@@ -72,7 +72,7 @@
 
                 {{-- Desktop Logo --}}
                 <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{ route('home') }}">
-                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="85"
+                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="110"
                         class="d-inline-block align-text-top" />
                 </a>
 
@@ -92,7 +92,7 @@
                                 href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
+                            <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}"
                                 href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
@@ -130,17 +130,28 @@
                                     href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
+                                <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}"
                                     href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                             </li>
 
                             <!-- Language (Mobile) -->
                             <li class="dropdown d-block d-sm-none pe-2">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img id="flag-icon"
-                                        src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
+                                <a href="#" class="d-flex align-items-center gap-1 text-decoration-none"
+                                    data-bs-toggle="dropdown" role="button">
+                                    @php
+                                        $flagCodes = [
+                                            'id' => 'id.png',
+                                            'en' => 'gb.png',
+                                        ];
+                                        $flagFile = $flagCodes[app()->getLocale()] ?? 'gb.png';
+                                    @endphp
+
+                                    <img id="flag-icon" src="{{ asset('assets/flags/' . $flagFile) }}"
                                         alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle"
                                         width="30" height="30" />
+
+                                    <i class="bi bi-caret-down-fill fs-6 coklatbang"></i>
+
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
@@ -182,58 +193,62 @@
                     </div>
                 </div>
 
-                {{-- Language (Desktop) --}}
-                <div class="dropdown d-none d-sm-block pe-2">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon"
-                            src="https://flagcdn.com/w20/{{ app()->getLocale() == 'id' ? 'id' : 'gb' }}.png"
-                            alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
-                            height="30" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <form method="GET" action="{{ url()->current() }}">
-                                <input type="hidden" name="lang" value="id">
-                                <button type="submit" class="dropdown-item">
-                                    Indonesia
-                                    @if (app()->getLocale() == 'id')
-                                    @endif
-                                </button>
-                            </form>
-                        </li>
-                        <li>
-                            <form method="GET" action="{{ url()->current() }}">
-                                <input type="hidden" name="lang" value="en">
-                                <button type="submit" class="dropdown-item">
-                                    English
-                                    @if (app()->getLocale() == 'en')
-                                    @endif
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
+                {{-- Language (Desktop only) --}}
+                <div class="d-none d-sm-block ms-auto pe-3 me-2">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center gap-1 text-decoration-none"
+                            data-bs-toggle="dropdown" role="button">
+                            @php
+                                $flagCodes = [
+                                    'id' => 'id.png',
+                                    'en' => 'gb.png',
+                                ];
+                                $flagFile = $flagCodes[app()->getLocale()] ?? 'gb.png';
+                            @endphp
+
+                            <img id="flag-icon" src="{{ asset('assets/flags/' . $flagFile) }}"
+                                alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
+                                height="30" />
+
+                            <i class="bi bi-caret-down-fill fs-6 coklatbang"></i>
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form method="GET" action="{{ url()->current() }}">
+                                    <input type="hidden" name="lang" value="id">
+                                    <button type="submit" class="dropdown-item">Indonesia</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="GET" action="{{ url()->current() }}">
+                                    <input type="hidden" name="lang" value="en">
+                                    <button type="submit" class="dropdown-item">English</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-
-                {{-- Cart + Profile (Always on right) --}}
-                <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <a class="nav-link"
+                {{-- Cart + Profile (Always visible) --}}
+                <div class="d-flex align-items-center gap-4 pe-2">
+                    {{-- Cart --}}
+                    <a class=""
                         href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
 
-                    {{-- PROFILE BUAT DESKTOP --}}
-                    <div class="dropdown d-lg-block d-none ms-3">
+                    {{-- Profile --}}
+                    <div class="dropdown">
                         <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
-                            class="nav-link" data-bs-toggle="dropdown">
+                            class="" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item"
                                     href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
-                                    <i class="bi bi-gear me-2"></i>Settings
-                                </a>
-                            </li>
+                                    <i class="bi bi-gear me-2"></i>Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -247,20 +262,9 @@
                             </li>
                         </ul>
                     </div>
-
-                    <!-- DIPERBAIKI HREF & VISIBILITAS: Ikon Keranjang untuk Mobile -->
-                    <a class="nav-link d-lg-none d-block"
-                        href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
-                        <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
-                    </a>
-
-                    {{-- PROFILE BUAT MOBILE (posisinya tetap di dalam grup) --}}
-                    <div class="d-block d-sm-none ms-3">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
-                        </a>
-                    </div>
                 </div>
+
+
             </div>
         </nav>
 
