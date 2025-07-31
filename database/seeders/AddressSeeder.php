@@ -13,6 +13,8 @@ class AddressSeeder extends Seeder
         // Buat alamat untuk user1
         $address1 = Address::create([
             'user_id' => 1,
+            'receiver_name' => 'Sisca Limit',
+            'phone_number' => '081234598690',
             'label' => 'Rumah Utama',
             'provinsi' => 'Jawa Barat',
             'kota_kabupaten' => 'Bandung',
@@ -28,6 +30,8 @@ class AddressSeeder extends Seeder
         // Buat alamat untuk user2
         $address2 = Address::create([
             'user_id' => 2,
+            'receiver_name' => 'John Doe',
+            'phone_number' => '081234567890',
             'label' => 'Kantor',
             'provinsi' => 'DKI Jakarta',
             'kota_kabupaten' => 'Jakarta Selatan',
