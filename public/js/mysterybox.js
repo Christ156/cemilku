@@ -150,7 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (data.success) {
                         modalDone.show();
                         setTimeout(() => {
-                            window.location.href = "/cart";
+                            const id_user = document.getElementById('id_user');
+                            const slug = document.getElementById('slug');
+                            window.location.href = "/{"+id_user+"}/{"+slug+"}/cart";
                         }, 2500);
                     }
                 })

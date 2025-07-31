@@ -8,7 +8,10 @@ use App\Models\CartItem;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
@@ -263,36 +266,60 @@ class CollectionController extends Controller
         return 0;
     }
 
-    public function add_to_cart(Request $request, $collection_id, $quantity)
+    public function add_to_cart(Request $request, $id_collection, $quantity) // $quantity IS A PARAMETER
     {
-        $user_id = Auth::user()->id;
-        $checkCartUser = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1);
-        $collection = Collection::findOrFail($collection_id);
-
-        if($quantity == "custom"){
-            $quantity = $request->input('quantity');
+        // PERBAIKAN: Ganti auth()->check() menjadi Auth::check()
+        if (!Auth::check()) { // Baris 271 yang error
+            return redirect()->route('login')->with('error', 'Silakan login untuk menambahkan produk ke keranjang.');
         }
 
-        if ($checkCartUser->count() == 1) {
-            $cart_id = $checkCartUser->first()->id;
-            $sameItem = CartItem::where('collection_id', $collection_id);
-            if($sameItem->count() > 0){
-                $sameItem = $sameItem->first();
-                $sameItem->quantity = $sameItem->quantity + $quantity;
-                $sameItem->total_price = $sameItem->quantity * $sameItem->price;
-                $sameItem->updated_at = now();
-                $sameItem->save();
-            }else{
-                $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
-            }
+        // PERBAIKAN: Ganti auth()->user() menjadi Auth::user()
+        $user = Auth::user(); // Baris 275 yang error
+        $product = Collection::findOrFail($id_collection);
+
+        // This is the line that uses the $quantity received as a parameter.
+        // Make sure you are not trying to get it from $request->input() here.
+        $quantityToAdd = (int) $quantity; // THIS IS LINE 273 or very close to it.
+
+        // Pastikan kuantitas yang diminta tidak melebihi stok
+        if ($quantityToAdd <= 0 || $quantityToAdd > $product->stock) {
+            return back()->with('error', 'Kuantitas tidak valid atau melebihi stok yang tersedia.');
+        }
+
+        $cart = Cart::firstOrCreate(
+            ['user_id' => $user->id, 'is_active' => true],
+        );
+
+        $cartItem = CartItem::where('cart_id', $cart->id)
+                            ->where('collection_id', $product->id)
+                            ->first();
+
+        // Logic for updating/creating cart item
+        $newQuantity = ($cartItem ? $cartItem->quantity : 0) + $quantityToAdd;
+
+        if ($newQuantity > $product->stock) {
+            return back()->with('error', 'Penambahan kuantitas melebihi stok yang tersedia (' . $product->stock . ' pcs).');
+        }
+
+        if ($cartItem) {
+            $cartItem->quantity = $newQuantity;
+            $cartItem->price = $product->price;
+            $cartItem->total_price = $product->price * $newQuantity;
+            $cartItem->save();
         } else {
-            Cart::insert(['user_id' => $user_id, 'is_active' => 1, 'created_at' => now()]);
-            $cart_id = Cart::where('user_id', '=', $user_id)->where('is_active', '=', 1)->first()->id;
-
-            $this->new_cart_item($cart_id, $collection_id, 1, $collection->price, $collection->price);
+            CartItem::create([
+                'cart_id' => $cart->id,
+                'collection_id' => $product->id,
+                'quantity' => $newQuantity,
+                'price' => $product->price,
+                'total_price' => $product->price * $newQuantity,
+            ]);
         }
 
-        return \redirect()->route('collections.index');
+        return redirect()->route('cart.index', [
+            'id_user' => $user->id,
+            'slug' => Str::slug($user->name)
+        ])->with('success', 'Produk berhasil ditambahkan ke keranjang!');
     }
 
     public function export()

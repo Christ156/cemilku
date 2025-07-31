@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 
 class Cart extends Model
 {
@@ -20,4 +21,5 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

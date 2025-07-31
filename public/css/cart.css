@@ -92,4 +92,32 @@ a:hover,
     margin-right: 10px
 }
 
+.quantity-cart{
+    border: 2px solid #52282A;
+    width: fit-content;
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.quantity-cart-field{
+    width: 3rem;
+    background: #FFF8E2;
+    border: none;
+    text-align: center;
+}
+
+.quantity-btn{
+    border-radius: 15px;
+    width: 30px;
+    aspect-ratio: 1/1;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-btn i{
+    color: #52282A;
+    font-weight: bold;
+}
+
 /* Remove button: tampil/ sembunyi handled by JS via .d-none (Bootstrap) */

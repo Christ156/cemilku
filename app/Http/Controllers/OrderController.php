@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -25,6 +26,7 @@ class OrderController extends Controller
             'orderDetails.customize',
             'orderDetails.mysteryBox',
             'user.mainAddress',
+            'address',
         ]);
 
         // Filter berdasarkan role
@@ -41,6 +43,7 @@ class OrderController extends Controller
         if ($request->filled('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
+                    ->orWhere('payment_method', 'like', "%{$search}%")
                     ->orWhereHas('orderDetails.collection', function ($q2) use ($search) {
                         $q2->where('name', 'like', "%{$search}%");
                     })
@@ -91,6 +94,8 @@ class OrderController extends Controller
         };
     }
 
+
+
     public function edit(Order $order)
     {
         // Pastikan hanya admin yang bisa mengakses
@@ -110,6 +115,7 @@ class OrderController extends Controller
 
         // Cek apakah status saat ini adalah 'paid' dan status yang diminta adalah 'shipped'
         if ($order->status === 'paid' && $validated['status'] === 'shipped') {
+            // Update status ke shipped
             $order->status = 'shipped';
             $order->save();
 
