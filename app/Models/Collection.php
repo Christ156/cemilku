@@ -9,6 +9,7 @@ use Spatie\Activitylog\LogOptions;
 
 class Collection extends Model
 {
+
     use SoftDeletes;
 
     protected $fillable = [

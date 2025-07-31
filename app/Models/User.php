@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -44,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'date_of_birth',
         'gender',
         'profile_picture',
+        'role',
     ];
 
     /**
@@ -66,7 +69,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'date_of_birth'     => 'date',
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable() // Ini akan mencatat semua perubahan pada kolom $fillable
+            ->dontSubmitEmptyLogs(); // Tidak mencatat log jika tidak ada perubahan
     }
 
     protected static function booted()
