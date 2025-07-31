@@ -29,11 +29,11 @@ trait InteractsWithKeyboard
     {
         return collect($keys)->map(function ($key) {
             if (is_string($key) && Str::startsWith($key, '{') && Str::endsWith($key, '}')) {
-                $key = constant(WebDriverKeys::class.'::'.strtoupper(trim($key, '{}')));
+                $key = constant(WebDriverKeys::class . '::' . strtoupper(trim($key, '{}') ?? ''));
             }
 
             if (is_array($key) && Str::startsWith($key[0], '{')) {
-                $key[0] = constant(WebDriverKeys::class.'::'.strtoupper(trim($key[0], '{}')));
+                $key[0] = constant(WebDriverKeys::class . '::' . strtoupper(trim($key[0], '{}') ?? ''));
             }
 
             return $key;

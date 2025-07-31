@@ -1,186 +1,168 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use App\Exports\UserExport;
-use App\Models\ActivityLog;
 use App\Models\Address;
-use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use Maatwebsite\Excel\Facades\Excel;
-use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\LogOptions;
 
-class UserController extends Controller
+class User extends Authenticatable implements MustVerifyEmail
 {
-    /**
-     * Menampilkan daftar user ke halaman admin.
-     */
-    public function index()
-    {
-        if (Auth::user()->role === 'admin') {
-            // $users = User::where('role', 'user')->get(); // Hanya user biasa
-            $users = User::all();
-            $user_logs = Activity::all();
-            return view('admin.user.index', compact('users', 'user_logs'));
-        }
+    use HasFactory, Notifiable, SoftDeletes;
 
-        abort(403, 'Unauthorized'); // Untuk selain admin
+    // relasi one to many dari user terhadap address
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function mainAddress()
+    {
+        return $this->hasOne(Address::class)->where('is_primary', 1);
+    }
+
+    //relasi one to many dari user terhadap order
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     /**
-     * Menampilkan detail user (alamat dan lainnya).
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
-    public function show(string $id, string $slug)
-    {
-        if (Auth::user()->role == 'admin') {
-            $user = User::findOrFail($id);
-            $logs = Activity::where('causer_id', $id)->get();
-
-            return \view('admin.user.show', \compact(['user', 'logs']));
-        } else {
-            $address = Address::where('user_id', $id)->get();
-            return view('profile.index', compact('address'));
-        }
-    }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'phone_number',
+        'date_of_birth',
+        'profile_picture',
+    ];
 
     /**
-     * Mengupdate informasi user.
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
      */
-    public function update(Request $request, string $id)
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        try {
-            $user = User::findOrFail($id);
+        return [
+            'email_verified_at' => 'datetime',
+            'password'          => 'hashed',
+        ];
+    }
 
-            // 2. Validasi: Definisikan aturan validasi untuk pembaruan profil.
-            // Aturan ini dibuat agar sesuai dengan input yang Anda gunakan dalam if/else di bawah.
-            $request->validate([
-                'name' => 'sometimes|required|string|max:255', // Nama bisa opsional jika hanya update gender dll.
-                'gender' => 'nullable', // Sesuaikan opsi gender Anda
-                'dateofbirth' => 'nullable|date', // Sesuaikan dengan nama input 'dateofbirth'
-                'email' => [
-                    'sometimes',
-                    'email', // Pastikan format email dasar (@ dan .)
-                    'max:255',
-                    'unique:users,email,' . $user->id, // Email harus unik, kecuali untuk pengguna ini sendiri
-                    'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', // Regex untuk validasi domain yang lebih ketat
-                ],
-                'telepon' => 'sometimes|numeric|digits_between:10,12', // Sesuaikan dengan nama input 'telepon'
-                'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp', // Maksimal 2MB
-            ]);
+    protected static function booted()
+    {
+        // When a user is created
+        static::created(function (User $user) {
+            $causer = Auth::user();
 
-            // if ($request->name) {
-            //     $user->name = $request->name;
-            //     $user->gender = Auth::user()->gender;
-            //     $user->date_of_birth = Auth::user()->date_of_birth;
-            //     $user->email = Auth::user()->email;
-            //     $user->phone_number = Auth::user()->phone_number;
-            // } else {
-            //     $user->name = Auth::user()->name;
-            //     $user->gender = $request->gender;
-            //     $user->date_of_birth = $request->dateofbirth;
-            //     $user->email = $request->email;
-            //     $user->phone_number = $request->telepon;
-            // }
+            // Customizing the description
+            $description = "User with name = '{$user->name}', id = '{$user->id}', and email = '{$user->email}' has been created.";
 
-            if ($request->filled('name')) {
-                $user->name = $request->name;
-            }
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties([
+                    'created_user_id' => $user->id,
+                    'created_user_name' => $user->name,
+                    'created_user_email' => $user->email,
+                    'created_phone_number' => $user->phone_number,
+                    'created_date_of_birth' => $user->date_of_birth,
+                    'created_gender' => $user->gender,
+                    'created_profile_image' => $user->profile_image
+                ])
+                ->event('created')
+                ->log($description); // Use the custom description here
+        });
 
-            if ($request->filled('gender')) {
-                $user->gender = $request->gender;
-            }
+        static::updated(function (User $user) {
+            $causer = Auth::user();
 
-            if ($request->filled('dateofbirth')) {
-                $user->date_of_birth = $request->dateofbirth;
-            }
+            $properties = [
+                'updated_user_id' => $user->id,
+                'updated_user_name' => $user->name,
+                'updated_user_email' => $user->email,
+                'updated_phone_number' => $user->phone_number,
+                'updated_date_of_birth' => $user->date_of_birth,
+                // Ensure 'gender' and 'profile_image' are actually fillable or otherwise accessible on the model
+                'updated_gender' => $user->gender,
+                'updated_profile_image' => $user->profile_image
+            ];
 
-            if ($request->filled('email')) {
-                $user->email = $request->email;
-            }
+            $changes = $user->getChanges();
+            $original = $user->getOriginal(); // Get all original values
 
-            if ($request->filled('telepon')) {
-                $user->phone_number = $request->telepon;
-            }
-
-
-            // if($request->profile_image != NULL){
-            //     if(file_exists(public_path('assets\profile', $user->profile_image))){
-            //         File::delete(public_path('assets/profile'. $user->profile_image))
-            //     }
-
-            //     $profile_image_name = 'profile'.Str::slug(Auth::user()->name()).Str::slug(now()).'.'.$request->file('profile_image')->getClientOriginalExtension();
-            //     $request->profile_image->move(public_path('assets\profile'), $profile_image_name);
-            //     $user->profile_image = $profile_image_name;
-            // }
-
-            if ($request->hasFile('profile_image')) { // Gunakan hasFile untuk memeriksa apakah ada file yang diupload
-                $oldProfileImage = $user->profile_image; // Simpan nama file lama
-
-                // Hapus gambar profil lama jika ada dan file-nya eksis
-                if ($oldProfileImage && File::exists(public_path('assets/profile/' . $oldProfileImage))) {
-                    File::delete(public_path('assets/profile/' . $oldProfileImage));
+            $changeMessages = [];
+            foreach ($changes as $attribute => $newValue) {
+                // Skip 'updated_at' if you don't want to log every save
+                if ($attribute === 'updated_at') {
+                    continue;
                 }
 
-                // Buat nama unik untuk gambar profil baru
-                $profile_image_name = 'profile-' . Str::slug($user->name ?: 'user') . '-' . time() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+                // Get the old value for this specific attribute
+                $oldValue = $original[$attribute] ?? 'null'; // Use 'null' if old value doesn't exist (e.g., for new attributes)
 
-                // Pindahkan file yang diupload
-                $request->file('profile_image')->move(public_path('assets/profile'), $profile_image_name);
-
-                // Update path gambar di database
-                $user->profile_image = $profile_image_name;
+                // Add a message for each changed attribute
+                $changeMessages[] = "{$attribute} from {$oldValue} to {$newValue}";
             }
 
+            // Combine individual change messages into a readable string
+            $changeDetails = implode(', ', $changeMessages);
 
+            // Customize the description for update
+            $description = "{$changeDetails}";
 
+            // Add old and new values to properties for more detailed auditing
+            if (!empty($changes)) {
+                $properties['old'] = $original; // Store all original values
+                $properties['new'] = $changes;  // Store only the changed new values
+            }
 
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties($properties)
+                ->event('updated')
+                ->log($description);
+        });
 
-            $user->save();
+        // When a user is deleted
+        static::deleted(function (User $user) {
+            $causer = Auth::user();
 
-            // Redirect ke halaman profil dengan pesan sukses
-            return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-                ->with('success', 'Profil berhasil diperbarui!');
-        } catch (ValidationException $e) {
-            // Jika validasi gagal, redirect kembali dengan error dan input lama.
-            return redirect()->back()
-                ->withErrors($e->errors())
-                ->withInput()
-                ->with('error', 'Gagal memperbarui profil. Mohon periksa kembali input Anda.');
-        } catch (\Exception $e) {
-            // Tangani error lain yang tidak terkait validasi
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat memperbarui profil: ' . $e->getMessage());
-        }
-    }
+            // Customizing the description for delete
+            $description = "User with name '{$user->name}', id '{$user->id}'  has been deleted.";
 
-    /**
-     * Mengekspor data user ke file Excel.
-     */
-    public function export()
-    {
-        return Excel::download(new UserExport, 'user.xlsx');
-    }
-
-    public function block($id)
-    {
-        $user             = User::findOrFail($id);
-        $user->is_blocked = true;
-        $user->save();
-
-        return redirect()->back()->with('success', 'User berhasil diblokir.');
-    }
-
-    public function toggleBlock($id)
-    {
-        $user             = User::findOrFail($id);
-        $user->is_blocked = ! $user->is_blocked;
-        $user->save();
-
-        $status = $user->is_blocked ? 'diblokir' : 'diaktifkan kembali';
-        return redirect()->back()->with('success', "User berhasil $status.");
+            activity()
+                ->performedOn($user)
+                ->causedBy($causer)
+                ->withProperties([
+                    'deleted_user_id' => $user->id,
+                    'deleted_user_name' => $user->name
+                ])
+                ->event('deleted')
+                ->log($description);
+        });
     }
 }
+
+
