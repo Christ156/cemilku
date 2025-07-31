@@ -8,20 +8,20 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Trash - Deleted Collections</h1>
+        <h1>{{__('adminCollection.trashDeletedColletions')}}</h1>
     </div>
 
     <a href="{{ route('admincollection.index') }}" class="btn btn-yellowbrown mb-3">
-        <i class="fas fa-arrow-left"></i> Back to List
+        <i class="fas fa-arrow-left"></i> {{__('adminCollection.backToList')}}
     </a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>No.</th>
-                <th>Name</th>
-                <th>Deleted At</th>
-                <th>Action</th>
+                <th>{{__('adminCollection.no')}}</th>
+                <th>{{__('adminCollection.name')}}</th>
+                <th>{{__('adminCollection.deletedAt')}}</th>
+                <th>{{__('adminCollection.action')}}</th>
             </tr>
         </thead>
         <tbody>
@@ -34,29 +34,29 @@
                         <form action="{{ route('admincollection.restore', $collection->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('PUT')
-                            <button class="btn btn-add btn-sm" onclick="return confirm('Restore collection ini?')">Restore</button>
+                            <button class="btn btn-add btn-sm" onclick="return confirm('{{__('adminCollection.restoreCollection')}}')">{{__('adminCollection.restore')}}</button>
                         </form>
                         <form action="{{ route('admincollection.force-delete', $collection->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-delete btn-sm" onclick="return confirm('Hapus permanen collection ini?')">Delete Permanently</button>
+                            <button class="btn btn-delete btn-sm" onclick="return confirm('{{__('adminCollection.qdeletedPermanently')}}')">{{__('adminCollection.deletedPermanently')}}</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">Tidak ada collection yang terhapus.</td>
+                    <td colspan="4" class="text-center">{{__('adminCollection.noCollectionRemoved')}}</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
     @if ($trashedCollections->count() > 0)
-        <form action="{{ route('admincollection.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Yakin ingin mengembalikan semua collection yang terhapus?')">
+        <form action="{{ route('admincollection.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('{{__('adminCollection.areYouSureDeleted')}}')">
             @csrf
             @method('PUT')
             <button type="submit" class="btn btn-export mb-3">
-                <i class="fas fa-undo"></i> Restore All
+                <i class="fas fa-undo"></i> {{__('adminCollection.restoreAll')}}
             </button>
         </form>
     @endif

@@ -69,7 +69,7 @@
             @for ($i = 1; $i <= 4; $i++)
                 <div class="row">
                     <div class="col-md-6">
-                        <x-adminlte-select name="snack_id_{{ $i }}" label="Snack for Layer {{ $i }}" required>
+                        <x-adminlte-select name="snack_id_{{ $i }}" label="{{__('adminCollection.snackForLayer')}} {{ $i }}" required>
                             <option value="">-- {{__('adminCollection.chooseSnack')}} --</option>
                             @foreach ($snacks as $snack)
                                 <option value="{{ $snack->id }}"
@@ -83,7 +83,7 @@
             @endfor
 
             <div class="mt-3">
-                <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
+                <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="{{__('adminCollection.add')}}" />
                 <a href="{{ route('admincollection.index') }}" class="btn btn-secondary ml-2">{{__('adminCollection.cancel')}}</a>
             </div>
         </form>

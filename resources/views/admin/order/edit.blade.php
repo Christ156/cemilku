@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Edit Order</h1>
+        <h1>{{__('adminOrder.editOrder')}}</h1>
     </div>
 
     <x-adminlte-card>

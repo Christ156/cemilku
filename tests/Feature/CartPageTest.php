@@ -230,70 +230,70 @@ class CartPageTest extends TestCase
         $response->assertSee(number_format($this->product2->price * 2, 0, ',', '.'));
     }
 
-/** @test */
-public function cart_total_price_is_correctly_calculated_and_displayed()
-{
-    $this->withoutExceptionHandling();
+    /** @test */
+    public function cart_total_price_is_correctly_calculated_and_displayed()
+    {
+        $this->withoutExceptionHandling();
 
-    $user = $this->user;
-    $user->email_verified_at = now();
-    $user->save();
+        $user = $this->user;
+        $user->email_verified_at = now();
+        $user->save();
 
-    $this->actingAs($user);
+        $this->actingAs($user);
 
-    if (!isset($this->product1)) {
-        $this->product1 = \App\Models\Collection::create([
-            'category' => 'Chinese New Year', 'name' => 'Kongsi Tower', 'slug' => 'kongsi-tower', 'image' => 'test.png', 'description' => 'Test', 'price' => 339000, 'stock' => 5, 'layer' => '1'
+        if (!isset($this->product1)) {
+            $this->product1 = \App\Models\Collection::create([
+                'category' => 'Chinese New Year', 'name' => 'Kongsi Tower', 'slug' => 'kongsi-tower', 'image' => 'test.png', 'description' => 'Test', 'price' => 339000, 'stock' => 5, 'layer' => '1'
+            ]);
+        }
+        if (!isset($this->product2)) {
+            $this->product2 = \App\Models\Collection::create([
+                'category' => 'Chinese New Year', 'name' => 'Snackpao Tower', 'slug' => 'snackpao-tower', 'image' => 'test.png', 'description' => 'Test', 'price' => 355000, 'stock' => 5, 'layer' => '1'
+            ]);
+        }
+
+        $userCart = Cart::firstOrCreate([
+            'user_id' => $user->id,
+            'is_active' => true,
         ]);
-    }
-    if (!isset($this->product2)) {
-        $this->product2 = \App\Models\Collection::create([
-            'category' => 'Chinese New Year', 'name' => 'Snackpao Tower', 'slug' => 'snackpao-tower', 'image' => 'test.png', 'description' => 'Test', 'price' => 355000, 'stock' => 5, 'layer' => '1'
+
+        CartItem::create([
+            'cart_id' => $userCart->id,
+            'collection_id' => $this->product1->id,
+            'quantity' => 1,
+            'price' => $this->product1->price,
+            'total_price' => $this->product1->price,
         ]);
+
+        CartItem::create([
+            'cart_id' => $userCart->id,
+            'collection_id' => $this->product2->id,
+            'quantity' => 2,
+            'price' => $this->product2->price,
+            'total_price' => $this->product2->price * 2,
+        ]);
+
+        $expectedCartTotal = $this->product1->price + ($this->product2->price * 2);
+        $formattedExpectedCartTotal = 'Rp0';
+
+        $userSlug = \Str::slug($user->name ?? '');
+
+        $userCart->refresh();
+
+        $response = $this->get(route('cart.index', [
+            'id_user' => $user->id,
+            'slug' => $userSlug,
+        ]));
+
+        $response->assertOk();
+
+        file_put_contents(storage_path('logs/cart_debug.html'), $response->getContent());
+
+        $response->assertSee('Total Price');
+        $response->assertSee('Shipping Regular');
+        $response->assertSee('Total');
+        $response->assertSeeText($formattedExpectedCartTotal);
     }
-
-    $userCart = Cart::firstOrCreate([
-        'user_id' => $user->id,
-        'is_active' => true,
-    ]);
-
-    CartItem::create([
-        'cart_id' => $userCart->id,
-        'collection_id' => $this->product1->id,
-        'quantity' => 1,
-        'price' => $this->product1->price,
-        'total_price' => $this->product1->price,
-    ]);
-
-    CartItem::create([
-        'cart_id' => $userCart->id,
-        'collection_id' => $this->product2->id,
-        'quantity' => 2,
-        'price' => $this->product2->price,
-        'total_price' => $this->product2->price * 2,
-    ]);
-
-    $expectedCartTotal = $this->product1->price + ($this->product2->price * 2);
-    $formattedExpectedCartTotal = 'Rp0';
-
-    $userSlug = \Str::slug($user->name ?? '');
-
-    $userCart->refresh();
-
-    $response = $this->get(route('cart.index', [
-        'id_user' => $user->id,
-        'slug' => $userSlug,
-    ]));
-
-    $response->assertOk();
-
-    file_put_contents(storage_path('logs/cart_debug.html'), $response->getContent());
-
-    $response->assertSee('Total Price');
-    $response->assertSee('Shipping Regular');
-    $response->assertSee('Total');
-    $response->assertSeeText($formattedExpectedCartTotal);
-}
 
     /** @test */
     public function cart_is_empty_when_no_products()
@@ -451,13 +451,13 @@ public function cart_total_price_is_correctly_calculated_and_displayed()
 
         $this->assertEquals($initialAddressCount + 1, Address::where('user_id', $this->user->id)->count());
 
-        $finalResponse = $this->get($cartUrl),
-        $finalResponse->assertOk(),
-        $finalResponse->assertSeeText($newAddressData['label_address']),
-        $finalResponse->assertSeeText($newAddressData['address']),
-        $finalResponse->assertSeeText($newAddressData['receiver_name']),
-        $finalResponse->assertSeeText($newAddressData['receiver_phone']),
-        $finalResponse->assertSeeText($newAddressData['pos_code'])
+        $finalResponse = $this->get($cartUrl);
+        $finalResponse->assertOk();
+        $finalResponse->assertSeeText($newAddressData['label_address']);
+        $finalResponse->assertSeeText($newAddressData['address']);
+        $finalResponse->assertSeeText($newAddressData['receiver_name']);
+        $finalResponse->assertSeeText($newAddressData['receiver_phone']);
+        $finalResponse->assertSeeText($newAddressData['pos_code']);
     }
 
     // BLOM ADA VALIDASI
