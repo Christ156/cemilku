@@ -142,7 +142,7 @@ class UserController extends Controller
             $user->save();
 
             // Redirect ke halaman profil dengan pesan sukses
-            return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
+            return redirect()->route('profile', ['id' => $user->id, 'slug' => Str::slug($user->name)])
                 ->with('success', 'Profil berhasil diperbarui!');
         } catch (ValidationException $e) {
             // Jika validasi gagal, redirect kembali dengan error dan input lama.
