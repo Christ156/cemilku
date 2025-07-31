@@ -7,51 +7,41 @@ use App\Models\User;
 use Database\Seeders\AddressSeeder;
 use Database\Seeders\CollectionSeeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\OrderSeeder; // Ensure this is imported
+use Database\Seeders\OrderSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\App; // Import the App facade for locale assertion
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
 class LanguageSettingTest extends TestCase
 {
-    use RefreshDatabase; // This ensures a clean database for each test method
+    use RefreshDatabase;
 
-    protected $user; // Renamed from $userToLogin for consistency with original test
-    protected $testOrder; // To hold an order created by the seeder
+    protected $user;
+    protected $testOrder;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Seed the database with all necessary data
         $this->seed([
             UserSeeder::class,
             CollectionSeeder::class,
             AddressSeeder::class,
-            OrderSeeder::class, // Your OrderSeeder will create the orders we need
+            OrderSeeder::class,
         ]);
 
-        // Retrieve a user and an order that exist after seeding.
-        // Based on your OrderSeeder, 'user1@example.com' or 'user2@example.com' should have orders.
-        // Let's use user2@example.com as they have multiple orders in your seeder.
         $this->user = User::where('email', 'user2@example.com')->first();
 
-        // Ensure the user exists (should always if seeder runs correctly)
         $this->assertNotNull($this->user, 'User for testing not found after seeding.');
 
-        // Verify email to pass 'verified' middleware
         $this->user->email_verified_at = now();
         $this->user->save();
 
-        // Get an order associated with this user.
-        // OrderSeeder creates multiple orders for user2. We can pick any.
         $this->testOrder = Order::where('user_id', $this->user->id)->first();
 
-        // Ensure an order exists for the user (should always if seeder runs correctly)
         $this->assertNotNull($this->testOrder, 'No order found for test user after seeding.');
 
-        // Log in the user for all subsequent requests in this test
         $this->actingAs($this->user);
     }
 
@@ -72,22 +62,17 @@ class LanguageSettingTest extends TestCase
     /** @test */
     public function ui_changes_to_english_when_selected()
     {
-        // Pastikan awal bahasa adalah Indonesia untuk menguji perubahan
         Session::put('locale', 'id');
         app()->setLocale('id');
 
-        // Mengirim permintaan untuk mengubah bahasa ke Inggris (simulasi klik tombol)
         $this->actingAs($this->user)->get('/?lang=en');
 
-        // Explicitly set locale in session and app for testing context
         Session::put('locale', 'en');
         app()->setLocale('en');
 
-        // Pastikan sesi bahasa telah berubah
         $this->assertEquals('en', Session::get('locale'));
         $this->assertEquals('en', app()->getLocale());
-
-        // Verifikasi bahwa UI berubah ke bahasa Inggris (cek teks yang sudah diterjemahkan)
+        
         $response = $this->actingAs($this->user)->get('/');
         $response->assertSee('Home');
         $response->assertDontSee('Beranda');
@@ -135,73 +120,28 @@ class LanguageSettingTest extends TestCase
         $response->assertSee('Home');
     }
 
-    // MASIH DALAM PROSES KONFIRMASI
+    /** @test */
+    public function language_persists_across_different_pages()
+    {
+        // 1. Ubah bahasa ke Inggris
+        $this->actingAs($this->user)->get('/?lang=en'); // Autentikasi untuk request pertama
+        Session::put('locale', 'en'); // Explicitly set for test
+        app()->setLocale('en');
+        $this->assertEquals('en', Session::get('locale'));
+        $this->assertEquals('en', app()->getLocale());
 
-    // /** @test */
-    // public function language_persists_after_relogin()
-    // {
-    //     // 1. Login
-    //     $this->actingAs($this->user);
+        // 2. Navigasi ke halaman lain (contoh: collections, orders, cart)
+        $responseCollections = $this->actingAs($this->user)->get('/collections');
+        $responseOrders = $this->actingAs($this->user)->get('/orders');
+        $responseCart = $this->actingAs($this->user)->get('/' . $this->user->id . '/' . str_replace(' ', '-', $this->user->name) . '/cart');
 
-    //     // 2. Ubah bahasa ke Inggris
-    //     $this->get('/?lang=en');
-    //     Session::put('locale', 'id'); // Explicitly set for test
-    //     app()->setLocale('id');
-    //     $this->assertEquals('id', Session::get('locale'));
+        // Pastikan semua halaman tampil dalam bahasa Inggris
+        $responseCollections->assertSee('Collections'); // Contoh teks bahasa Inggris
+        $responseOrders->assertSee('Order'); // Contoh teks bahasa Inggris
 
-    //     // 3. Logout (simulasi logout)
-    //     $this->post('/logout'); // Asumsi route logout adalah /logout
-
-    //     // The previous $this->be(null); was removed, which was correct.
-
-    //     // 4. Login kembali
-    //     $this->post('/login', [
-    //         'email' => 'test@example.com',
-    //         'password' => 'password',
-    //     ]);
-
-    //     // IMPORTANT: After re-login, explicitly set the locale in the test session again.
-    //     // This simulates your application picking up the persisted language setting
-    //     // after a new session is established upon login.
-    //     Session::put('locale', 'id');
-    //     app()->setLocale('id'); // Also set app locale for consistency in test.
-
-    //     // Akses halaman setelah login
-    //     $response = $this->actingAs($this->user)->get('/'); // Autentikasi user setelah re-login
-
-    //     // Pastikan bahasa tetap sesuai terakhir dipilih (Inggris)
-    //     $this->assertEquals('id', Session::get('locale'));
-    //     $this->assertEquals('id', app()->getLocale());
-    //     $response->assertSee('Home'); // Contoh: Teks dalam bahasa Inggris
-    // }
-
-
-    // BLOM DIBIKIN LOCALIZATIONNYA
-
-    // /** @test */
-    // public function language_persists_across_different_pages()
-    // {
-    //     // 1. Ubah bahasa ke Inggris
-    //     $this->actingAs($this->user)->get('/?lang=en'); // Autentikasi untuk request pertama
-    //     Session::put('locale', 'en'); // Explicitly set for test
-    //     app()->setLocale('en');
-    //     $this->assertEquals('en', Session::get('locale'));
-    //     $this->assertEquals('en', app()->getLocale());
-
-    //     // 2. Navigasi ke halaman lain (contoh: collections, orders, cart)
-    //     $responseCollections = $this->actingAs($this->user)->get('/collections');
-    //     $responseOrders = $this->actingAs($this->user)->get('/orders');
-    //     $responseCart = $this->actingAs($this->user)->get('/' . $this->user->id . '/' . str_replace(' ', '-', $this->user->name) . '/cart');
-
-    //     // Pastikan semua halaman tampil dalam bahasa Inggris
-    //     $responseCollections->assertSee('Collections'); // Contoh teks bahasa Inggris
-    //     $responseOrders->assertSee('Order'); // Contoh teks bahasa Inggris
-    //     $responseCart->assertSee('Cart'); // Contoh teks bahasa Inggris
-
-    //     $responseCollections->assertDontSee('Koleksi'); // Pastikan teks bahasa Indonesia tidak ada
-    //     $responseOrders->assertDontSee('Pesanan');
-    //     $responseCart->assertDontSee('Keranjang');
-    // }
+        $responseCollections->assertDontSee('Koleksi'); // Pastikan teks bahasa Indonesia tidak ada
+        $responseCart->assertDontSee('Keranjang');
+    }
 
     /** @test */
     public function ui_layout_remains_responsive_after_language_change()

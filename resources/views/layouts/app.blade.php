@@ -241,7 +241,7 @@
 
                     {{-- Profile --}}
                     <div class="dropdown">
-                        <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
+                        <a href=""
                             class="" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
