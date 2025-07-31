@@ -16,4 +16,12 @@ return [
     'important' => 'Important',
     'warning' => 'Warning',
     'information' => 'Information',
+
+    // Navbar
+    'Dashboard' => 'Dashboard',
+    'Snack' => 'Snack',
+    'Decoration' => 'Decoration',
+    'Collection' => 'Collection',
+    'Order' => 'Order',
+    'User' => 'User'
 ];
