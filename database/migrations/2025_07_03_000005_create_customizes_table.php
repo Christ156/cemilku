@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['tower', 'bouquet']);
             $table->decimal('price', 10, 2);
             $table->string('image')->nullable();
+            $table->string('base_image_path')->nullable();
             $table->enum('layer', [2, 3, 4]);
             $table->timestamps();
             $table->softDeletes();
