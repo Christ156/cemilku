@@ -11,7 +11,7 @@
 @section('content')
     {{-- BAGIAN CAROUSEL AWAL --}}
     {{-- Carousel Banner --}}
-    <section id="banner" class="d-flex justify-content-center align-items-center ps-5 pe-5 "style="padding-top: 120px;">
+    <section id="banner" class="d-flex justify-content-center align-items-center ps-5 pe-5 "style="padding-top: 50px;">
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active"
@@ -35,7 +35,9 @@
             <div class="carousel-inner">
 
                 <div class="carousel-item active">
-                   <img src="{{ asset('assets/banner/' . __('navigation.banner1')) }}" class="d-block w-100 img-fluid" alt="First-Slide">
+                   <img src="{{ asset('assets/banner/' . __('navigation.banner1')) }}" class="imageBanner d-none d-md-block w-100 img-fluid" alt="First-Slide">
+                   <img src="{{ asset('assets/banner/' . __('navigation.banner1Mobile')) }}" class="d-block d-md-none" alt="Mobile Image">
+
                 </div>
 
 

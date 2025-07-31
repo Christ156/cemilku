@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>User List</h1>
+        <h1>{{__('adminUser.userList')}}</h1>
     </div>
 
     <x-adminlte-card>
@@ -23,31 +23,31 @@
                     {{-- ROLE --}}
                     <td>
                         @if ($user->role === 'admin')
-                            <span class="badge bg-primary text-uppercase">Admin</span>
+                            <span class="badge bg-primary text-uppercase">{{__('adminUser.admin')}}</span>
                         @else
-                            <span class="badge bg-secondary text-uppercase">User</span>
+                            <span class="badge bg-secondary text-uppercase">{{__('adminUser.user')}}</span>
                         @endif
                     </td>
 
                     {{-- STATUS --}}
                     <td>
                         @if ($user->is_blocked)
-                            <span class="badge bg-danger">Blocked</span>
+                            <span class="badge bg-danger">{{__('adminUser.blocked')}}</span>
                         @else
-                            <span class="badge bg-success">Active</span>
+                            <span class="badge bg-success">{{__('adminUser.active')}}</span>
                         @endif
                     </td>
 
                     {{-- ACTION --}}
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Log" label="Log" />
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Log" label="{{__('adminUser.log')}}" />
 
                         <form action="{{ route('adminuser.block', $user->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             <x-adminlte-button class="btn-delete" icon="fas fa-user-slash" size="sm"
                                 title="{{ $user->is_blocked ? 'Unblock' : 'Block' }}"
                                 label="{{ $user->is_blocked ? 'Unblock' : 'Block' }}" type="submit"
-                                onclick="return confirm('Yakin ingin {{ $user->is_blocked ? 'membuka blokir' : 'memblokir' }} user ini?')" />
+                                onclick="return confirm('{{__('adminUser.areYouSure')}} {{ $user->is_blocked ? 'Unblock' : 'Block' }} {{__('adminUser.thisUser')}}')" />
                         </form>
                     </td>
                 </tr>
@@ -58,7 +58,7 @@
 
     {{-- Tombol Ekspor --}}
     <a href="{{ route('adminuser.export') }}" class="btn btn-export mb-3">
-        Export to Excel
+        {{__('adminUser.exportToExcel')}}
     </a>
 
     {{-- Pesan Sukses --}}

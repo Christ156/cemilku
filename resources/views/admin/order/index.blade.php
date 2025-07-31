@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Order List</h1>
+        <h1>{{__('adminOrder.orderList')}}</h1>
     </div>
 
     <x-adminlte-card>
@@ -55,7 +55,7 @@
                             @elseif ($order->status === 'pending') bg-warning
                             @elseif ($order->status === 'completed') bg-primary
                             @else bg-secondary @endif">
-                            {{ ucfirst($order->status) }}
+                            {{ ucfirst( __('adminOrder.'.$order->status)) }}
                         </span>
                     </td>
                     <td>Rp{{ number_format($order->total_price, 0, ',', '.') }}</td>
@@ -79,8 +79,8 @@
                             <form action="{{ route('adminorder.ship', $order->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-primary"
-                                    onclick="return confirm('Change status to shipped?')">
-                                    <i class="fas fa-shipping-fast"></i> Ship
+                                    onclick="return confirm('{{__('adminOrder.changeStatusToShip')}}')">
+                                    <i class="fas fa-shipping-fast"></i> {{__('adminOrder.ship')}}
                                 </button>
                             </form>
                         @endif
@@ -94,7 +94,7 @@
 
     {{-- Tombol Ekspor --}}
     <a href="{{ route('adminorder.export') }}" class="btn btn-export mb-3">
-        Export to Excel
+        {{__('adminOrder.exportToExcel')}}
     </a>
 
     {{-- Pesan sukses --}}

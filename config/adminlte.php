@@ -306,11 +306,11 @@ return [
             'submenu'      => [
                 [
                     'text' => 'English',
-                    'url'  => 'lang/en',
+                    'url'  => url()->current() . '?lang=en',
                 ],
                 [
                     'text' => 'Bahasa Indonesia',
-                    'url'  => 'lang/id',
+                    'url'  =>  url()->current() . '?lang=id',
                 ],
             ],
         ],
