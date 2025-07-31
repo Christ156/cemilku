@@ -41,6 +41,7 @@ class CollectionController extends Controller
     {
         $search = $request->input('search');
 
+
         if (Auth::user()->role == "user") {
             $cny = Collection::where('category', 'Chinese New Year')->where('name', 'like', '%' . $search . '%')->get();
             $ramadhan = Collection::where('category', 'Ramadhan')->where('name', 'like', '%' . $search . '%')->get();
@@ -52,6 +53,9 @@ class CollectionController extends Controller
             return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
         }
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.

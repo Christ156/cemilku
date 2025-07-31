@@ -8314,6 +8314,7 @@ class ComposerStaticInit73ace0a62df49f8f67e0f6ac33c5209c
         'Tests\\Feature\\AdminOrderTest' => __DIR__ . '/../..' . '/tests/Feature/AdminOrderTest.php',
         'Tests\\Feature\\AdminSnackPageTest' => __DIR__ . '/../..' . '/tests/Feature/AdminSnackPageTest.php',
         'Tests\\Feature\\CartPageTest' => __DIR__ . '/../..' . '/tests/Feature/CartPageTest.php',
+        'Tests\\Feature\\CollectionDetailTest' => __DIR__ . '/../..' . '/tests/Feature/CollectionDetailTest.php',
         'Tests\\Feature\\HomepageTest' => __DIR__ . '/../..' . '/tests/Feature/HomepageTest.php',
         'Tests\\Feature\\LanguageSettingTest' => __DIR__ . '/../..' . '/tests/Feature/LanguageSettingTest.php',
         'Tests\\Feature\\LoginTest' => __DIR__ . '/../..' . '/tests/Feature/LoginTest.php',

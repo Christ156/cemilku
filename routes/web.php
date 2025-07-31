@@ -69,7 +69,7 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     // Order untuk update status
     Route::post('/orders/{id}/ship', [OrderController::class, 'ship'])->name('order.ship');
 
-    
+
 
     // User Export/Import
     Route::get('/user/export', [UserController::class, 'export'])->name('user.export');
@@ -98,7 +98,11 @@ Route::get('/auth-google-callback', [RegisterController::class, 'google_callback
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    // Add this to your web.php routes
     Route::get('/profile/{id}/{slug}', [UserController::class, 'show'])->name('profile');
+    // Rute untuk memperbarui profil (PUT)
+    Route::put('/profile/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update'); // Gunakan 'user.update' sesuai form action Anda
 
     // Mystery Box
     Route::get('/mysterybox', [MysteryBoxController::class, 'index'])->name('mysterybox');

@@ -7662,6 +7662,7 @@ return array(
     'Tests\\Feature\\AdminOrderTest' => $baseDir . '/tests/Feature/AdminOrderTest.php',
     'Tests\\Feature\\AdminSnackPageTest' => $baseDir . '/tests/Feature/AdminSnackPageTest.php',
     'Tests\\Feature\\CartPageTest' => $baseDir . '/tests/Feature/CartPageTest.php',
+    'Tests\\Feature\\CollectionDetailTest' => $baseDir . '/tests/Feature/CollectionDetailTest.php',
     'Tests\\Feature\\HomepageTest' => $baseDir . '/tests/Feature/HomepageTest.php',
     'Tests\\Feature\\LanguageSettingTest' => $baseDir . '/tests/Feature/LanguageSettingTest.php',
     'Tests\\Feature\\LoginTest' => $baseDir . '/tests/Feature/LoginTest.php',
