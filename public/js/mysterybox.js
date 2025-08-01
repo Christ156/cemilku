@@ -7,18 +7,43 @@ document.addEventListener("DOMContentLoaded", function () {
     if (backBtn) {
         backBtn.addEventListener("click", function (e) {
             e.preventDefault();
-            fetch("/reset-session", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document
-                        .querySelector('meta[name="csrf-token"]')
-                        .getAttribute("content"),
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-            }).then(() => {
-                window.location.href = "/mysterybox";
-            });
+            // PERBAIKAN DI SINI: Logic untuk tombol "Back"
+            if (mode === 'Budget') {
+                // Jika di mode Budget, kembali ke home
+                const homeUrl = backBtn.dataset.homeUrl; // Ambil nilai dari data-home-url
+                if (homeUrl) {
+                    window.location.href = homeUrl;
+                } else {
+                    console.error("Home URL data attribute not found on backBtn!");
+                    window.location.href = "/"; // Fallback
+                }
+            } else if (mode === 'Mood') {
+                // Jika di mode Mood, kembali ke page sebelumnya (Budget)
+                // Ini melibatkan reset session agar halaman Budget muncul lagi
+                fetch("/reset-session", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                }).then(() => {
+                    window.location.href = "/mysterybox"; // Kembali ke awal mysterybox (budget)
+                }).catch(error => {
+                    console.error("Error resetting session:", error);
+                    window.location.href = "/mysterybox"; // Fallback
+                });
+            } else {
+                // Default ke home jika mode tidak terdefinisi atau 'Done'
+                const homeUrl = backBtn.dataset.homeUrl;
+                if (homeUrl) {
+                    window.location.href = homeUrl;
+                } else {
+                    window.location.href = "/"; // Fallback
+                }
+            }
         });
     }
 
@@ -34,12 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(`Selected ${inputId}:`, input.value);
 
                 if (inputId === "selectedMood") {
-                    const mysteryBoxIdInput = document.getElementById("selectedMysteryBoxId");
-                    const moodId = box.getAttribute("data-id");
-                    if (mysteryBoxIdInput && moodId) {
-                        mysteryBoxIdInput.value = moodId;
-                        console.log("Selected Mystery Box ID:", moodId);
-                    }
+                    // Perbaikan: Hapus baris ini karena mystery_box_id tidak lagi dikirim
+                    // const mysteryBoxIdInput = document.getElementById("selectedMysteryBoxId");
+                    // const moodId = box.getAttribute("data-id");
+                    // if (mysteryBoxIdInput && moodId) {
+                    //     mysteryBoxIdInput.value = moodId;
+                    //     console.log("Selected Mystery Box ID:", moodId);
+                    // }
 
                     if (box.dataset.img && mysteryBoxImage) {
                         mysteryBoxImage.src = box.dataset.img;
@@ -60,25 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    const doneModalElement = document.getElementById("doneModal");
-    const doneModal = new bootstrap.Modal(doneModalElement);
+    // Mengganti doneModal dengan successAddToCartModal
+    const successAddToCartModalElement = document.getElementById("successAddToCartModal");
+    const successAddToCartModal = new bootstrap.Modal(successAddToCartModalElement);
 
-    if (doneModalElement) {
-        doneModalElement.addEventListener("hidden.bs.modal", function () {
-            console.log("Done Modal hidden event triggered. Redirecting to /cart...");
-            window.location.href = "/cart";
-        });
-
-        const confirmBtn = doneModalElement.querySelector(".btn-confirm");
-        if (confirmBtn) {
-            confirmBtn.addEventListener("click", function () {
-                console.log("Confirm button clicked. Hiding done modal.");
-                doneModal.hide();
-            });
-        }
-    } else {
-        console.error("ERROR: doneModalElement not found! Ensure your HTML has an element with id='doneModal'.");
-    }
 
     if (mode === "Budget") {
         const budgetBoxes = document.querySelectorAll(".budget_box");
@@ -115,49 +126,73 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const moodForm = document.getElementById("moodForm");
 
-        const modalDoneElement = document.getElementById("doneModal");
-        const modalDone = new bootstrap.Modal(modalDoneElement);
-
         moodForm.addEventListener("submit", function (e) {
             e.preventDefault();
 
             const selectedMood = document.getElementById("selectedMood").value;
-            const selectedBoxId = document.getElementById("selectedMysteryBoxId").value;
+            // const selectedBoxId = document.getElementById("selectedMysteryBoxId").value; // Hapus ini
 
-            if (!selectedMood || !selectedBoxId) {
+            if (!selectedMood) { // Cukup cek selectedMood
+                const warningModalTextElement = warningModalElement.querySelector("p");
+                if (warningModalTextElement) {
+                    warningModalTextElement.textContent = document.getElementById("chooseBudgetText")?.textContent || "Please choose your mood";
+                }
                 warningModal.show();
                 return;
             }
 
+            // Dapatkan CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+
+            // Buat objek FormData
+            const formData = new FormData();
+            formData.append('mood', selectedMood);
+            // Tidak perlu menambahkan mystery_box_id ke FormData jika MysteryBox dicari di backend
+            // berdasarkan mood dan budget dari session.
+
             fetch("/set-mood", {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": document
-                        .querySelector('meta[name="csrf-token"]')
-                        .getAttribute("content"),
-                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken, // Tetap kirim CSRF token
+                    "Content-Type": "application/json", // Sesuaikan dengan tipe data yang dikirim (JSON)
                     Accept: "application/json",
                 },
-                body: JSON.stringify({ mood: selectedMood, mystery_box_id: selectedBoxId }),
+                body: JSON.stringify({ mood: selectedMood }), // Kirim hanya mood
             })
                 .then((res) => {
                     console.log("Fetch response received. Status:", res.status, res.ok);
-                    if (!res.ok) throw new Error("Bad request");
+                    if (!res.ok) {
+                        // Coba parse error response jika ada
+                        return res.json().then(errorData => {
+                            console.error("Error response from server:", errorData);
+                            throw new Error(errorData.message || "Bad request");
+                        });
+                    }
                     return res.json();
                 })
                 .then((data) => {
                     console.log("Parsed JSON data (success branch):", data);
                     if (data.success) {
-                        modalDone.show();
-                        setTimeout(() => {
-                            const id_user = document.getElementById('id_user');
-                            const slug = document.getElementById('slug');
-                            window.location.href = "/{"+id_user+"}/{"+slug+"}/cart";
-                        }, 2500);
+                        successAddToCartModal.show();
+                    } else {
+                        // Tampilkan pesan error dari backend
+                        const warningModalTextElement = warningModalElement.querySelector("p");
+                        if (warningModalTextElement) {
+                            warningModalTextElement.textContent = data.message || "Failed to add to cart. Please try again.";
+                        }
+                        warningModal.show();
+                        if (data.redirect) {
+                            window.location.href = data.redirect;
+                        }
                     }
                 })
                 .catch((err) => {
                     console.error("Error during mood form submission:", err);
+                    const warningModalTextElement = warningModalElement.querySelector("p");
+                    if (warningModalTextElement) {
+                        warningModalTextElement.textContent = err.message || "Failed to add to cart: An unexpected error occurred.";
+                    }
+                    warningModal.show();
                 });
         });
     }

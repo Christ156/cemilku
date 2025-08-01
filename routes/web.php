@@ -9,25 +9,15 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CustomizeTowerBouquetController;
 use App\Http\Controllers\DecorationController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
 // ADMIN
 Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
-    // Resource routes
-    Route::resource('snack', SnackController::class);
-    Route::resource('decoration', DecorationController::class);
-    Route::resource('collection', CollectionController::class);
-    Route::resource('order', OrderController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('customize-tower-bouquet', CustomizeTowerBouquetController::class);
 
     // Snack Export/Import
     Route::get('/snack/export', [SnackController::class, 'export'])->name('snack.export');
@@ -75,6 +65,14 @@ Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
     Route::post('/users/{id}/toggle-block', [UserController::class, 'toggleBlock'])->name('user.block');
     // User Log
     Route::get('/admin/users/{userId}/logs', [ActivityLogController::class, 'showUserLogs'])->name('admin.users.logs');
+
+    // Resource routes
+    Route::resource('snack', SnackController::class);
+    Route::resource('decoration', DecorationController::class);
+    Route::resource('collection', CollectionController::class);
+    Route::resource('order', OrderController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('customize-tower-bouquet', CustomizeTowerBouquetController::class);
 });
 
 Auth::routes(['verify' => true]);
@@ -87,7 +85,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // Add this to your web.php routes
     Route::get('/profile/{id}/{slug}', [UserController::class, 'show'])->name('profile');
-    // Rute untuk memperbarui profil (PUT)
+                                                                                                              // Rute untuk memperbarui profil (PUT)
     Route::put('/profile/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update'); // Gunakan 'user.update' sesuai form action Anda
 
     // Mystery Box
@@ -99,7 +97,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('address', AddressController::class);
     Route::post('/addresses/{address}/toggle-primary', [AddressController::class, 'togglePrimary'])
-     ->name('addresses.togglePrimary');
+        ->name('addresses.togglePrimary');
     Route::get('/customize-tower-bouquet', [CustomizeTowerBouquetController::class, 'index'])->name('customer-tower-bouquet.index');
     Route::get('/customize-tower-bouquet/tower', [CustomizeTowerBouquetController::class, 'create_tower'])->name('customize-tower-bouquet.tower');
     Route::get('/customize-tower-bouquet/bouquet', [CustomizeTowerBouquetController::class, 'create_bouquet'])->name('customize-tower-bouquet.bouquet');
@@ -108,7 +106,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('collections', CollectionController::class);
     Route::post('/collection/{id_collection}/add-to-cart/{quantity}', [CollectionController::class, 'add_to_cart'])->name('collection.to.cart');
 
-    Route::get('/{id_user}/{slug}/xart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/{id_user}/{slug}/cart', [CartController::class, 'index'])->name('cart.index');
     Route::delete('/{id_user}/{slug}/cart/{count_items}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
