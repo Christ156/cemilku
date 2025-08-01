@@ -107,7 +107,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('collections', CollectionController::class);
     Route::post('/collection/{id_collection}/add-to-cart/{quantity}', [CollectionController::class, 'add_to_cart'])->name('collection.to.cart');
 
-    Route::get('/{id_user}/{slug}/xart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/{id_user}/{slug}/cart', [CartController::class, 'index'])->name('cart.index');
     Route::delete('/{id_user}/{slug}/cart/{count_items}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/{id_user}/{slug}/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');

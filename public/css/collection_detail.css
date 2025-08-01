@@ -140,7 +140,7 @@ input::-webkit-inner-spin-button {
 }
 
 .button-container {
-    margin-top: 4.6vh;
+    margin-top: 4.8vh;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -345,20 +345,19 @@ input::-webkit-inner-spin-button {
     bottom: 90px;
 }
 
-/* --- Perubahan dimulai di sini --- */
 #successAddToCartModal .modal-body {
-    padding: 1rem; /* Berikan padding ke modal-body itu sendiri */
+    padding: 1rem
 }
 
 #successAddToCartModal .modal-body .btn.btn-warning {
-    width: 100%; /* Pastikan tombol mengambil lebar penuh dari parent-nya */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 38px;
     font-size: 1rem;
     padding: 8px 15px;
-    box-sizing: border-box; /* Pastikan padding dan border termasuk dalam width 100% */
+    box-sizing: border-box;
 }
 
 #successAddToCartModal .modal-body > div:last-of-type {

@@ -12,7 +12,7 @@ class OrderDetail extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['order_id', 'collection_id', 'customize_id', 'quantity', 'price'];
+    protected $fillable = ['order_id', 'collection_id', 'customize_id', 'mysterybox_id', 'quantity', 'price'];
 
     public function customize()
     {

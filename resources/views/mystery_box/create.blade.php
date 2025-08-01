@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid min-vh-100 d-flex flex-column flex-md-row mt-5" id="mysteryboxContainer"
+    <div class="container-fluid min-vh-100 d-flex flex-column flex-md-row" id="mysteryboxContainer"
         data-mode="{{ $mode }}">
 
         <div class="container-fluid d-flex flex-column flex-md-row" data-mode="{{ $mode }}">
@@ -17,15 +17,16 @@
             {{-- LEFT SIDE --}}
             <div class="left-section col-12 col-md-6 p-4 d-flex flex-column">
                 {{-- Header --}}
-                <div class="d-flex w-100 justify-content-between align-items-center mb-3" style="margin-top: 30px">
-                    <a href="{{ route('home') }}" id="backBtn">
+                <div class="d-flex w-100 justify-content-between align-items-center mb-3">
+                    {{-- PERUBAHAN DI SINI: Tambahkan data-home-url untuk digunakan di JS --}}
+                    <a href="#" id="backBtn" data-home-url="{{ route('home') }}">
                         <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
                     </a>
                     <h2 class="fw-bold mb-0 text-center flex-grow-1">
                         @if ($mode == 'Budget')
-                            {{__('mysterybox.chooseYourBudget')}}
+                            {{ __('mysterybox.chooseYourBudget') }}
                         @elseif ($mode == 'Mood')
-                            {{__('mysterybox.chooseYourMood')}}
+                            {{ __('mysterybox.chooseYourMood') }}
                         @else
                             Done!
                         @endif
@@ -40,17 +41,17 @@
                             <div
                                 class="circle {{ $mode == 'Budget' || $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">
                                 1</div>
-                            <div class="label">{{__('mysterybox.setBudget')}}</div>
+                            <div class="label">{{ __('mysterybox.setBudget') }}</div>
                         </div>
                         <div class="line_completed"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">2</div>
-                            <div class="label">{{__('mysterybox.setMood')}}</div>
+                            <div class="label">{{ __('mysterybox.setMood') }}</div>
                         </div>
                         <div class="line_completed {{ $mode == 'Done' ? '' : 'line_pending' }}"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Done' ? 'active' : '' }}">3</div>
-                            <div class="label">{{__('mysterybox.done')}}</div>
+                            <div class="label">{{ __('mysterybox.done') }}</div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
             </div>
 
             {{-- RIGHT SIDE --}}
-            <div class="right-section col-12 col-md-6 p-4 d-flex flex-column position-relative" style="margin-top: 30px">
+            <div class="right-section col-12 col-md-6 p-4 d-flex flex-column position-relative">
                 {{-- Progress Bar (desktop) --}}
                 <div class="d-none d-md-block">
                     <div class="d-flex justify-content-center align-items-center">
@@ -86,17 +87,17 @@
                             <div
                                 class="circle {{ $mode == 'Budget' || $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">
                                 1</div>
-                            <div class="label mt-1">{{__('mysterybox.setBudget')}}</div>
+                            <div class="label mt-1">{{ __('mysterybox.setBudget') }}</div>
                         </div>
                         <div class="line_completed"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Mood' || $mode == 'Done' ? 'active' : '' }}">2</div>
-                            <div class="label mt-1">{{__('mysterybox.setMood')}}</div>
+                            <div class="label mt-1">{{ __('mysterybox.setMood') }}</div>
                         </div>
                         <div class="{{ $mode == 'Done' ? 'line_completed' : 'line_pending' }}"></div>
                         <div class="step text-center d-flex flex-column align-items-center">
                             <div class="circle {{ $mode == 'Done' ? 'active' : '' }}">3</div>
-                            <div class="label mt-1">{{__('mysterybox.done')}}</div>
+                            <div class="label mt-1">{{ __('mysterybox.done') }}</div>
                         </div>
                     </div>
 
@@ -104,12 +105,12 @@
                         @if ($mode == 'Mood')
                             <h5 class="fw-bold">Mood</h5>
                             <p class="text-muted small mt-2">
-                                {!!  __('mysterybox.descriptionMood') !!}
+                                {!! __('mysterybox.descriptionMood') !!}
                             </p>
                         @elseif ($mode == 'Budget')
                             <h5 class="fw-bold">Budget</h5>
                             <p class="text-muted small mt-2">
-                                {!!  __('mysterybox.descriptionBudget') !!}
+                                {!! __('mysterybox.descriptionBudget') !!}
                             </p>
                         @endif
                     </div>
@@ -143,10 +144,11 @@
                             <input type="hidden" name="budget" id="selectedBudget" required>
                         </form>
                         <div class="next-button-wrapper">
-                            <button type="submit" class="next_button" form="budgetForm">{{__('mysterybox.next')}}</button>
+                            <button type="submit" class="next_button"
+                                form="budgetForm">{{ __('mysterybox.next') }}</button>
                         </div>
 
-                    {{-- Step 2: Mood --}}
+                        {{-- Step 2: Mood --}}
                     @elseif ($mode == 'Mood')
                         <form method="POST" action="{{ route('set-mood') }}" id="moodForm"
                             class="w-100 flex-grow-1 d-flex flex-column align-items-center">
@@ -171,10 +173,17 @@
                                 @endforeach
                             </div>
                             <input type="hidden" name="mood" id="selectedMood" required>
-                            <input type="hidden" name="mystery_box_id" id="selectedMysteryBoxId">
+                            {{-- Input hidden 'mystery_box_id' DIHAPUS karena ID Mood tidak relevan untuk pencarian MysteryBox di backend --}}
+                            {{-- <input type="hidden" name="mystery_box_id" id="selectedMysteryBoxId"> --}}
                         </form>
                         <div class="next-button-wrapper">
-                            <button type="submit" class="next_button" form="moodForm">{{__('mysterybox.next')}}</button>
+                            {{-- BUTTON ADD TO CART BARU, SESUAI REFERENSI --}}
+                            <button type="submit"
+                                class="next_button add-to-cart-button d-flex align-items-center justify-content-center"
+                                form="moodForm">
+                                <i class="bi bi-cart"></i>
+                                <div class="addcart ms-2">{{ __('collection.addToCart') }}</div>
+                            </button>
                         </div>
                     @endif
                 </div>
@@ -193,32 +202,41 @@
                             d="M20 20l24 24M44 20L20 44" />
                     </svg>
                 </div>
-                <h4 class="fw-bold mb-2">{{__('mysterybox.failed')}}</h4>
-                <p class="mb-4">{{__('mysterybox.chooseOptionFirst')}}</p>
-                <button type="button" class="btn btn-danger rounded-pill px-4" data-bs-dismiss="modal">{{__('mysterybox.close')}}</button>
+                <h4 class="fw-bold mb-2">{{ __('mysterybox.failed') }}</h4>
+                <p class="mb-4">{{ __('mysterybox.chooseOptionFirst') }}</p>
+                <button type="button" class="btn btn-danger rounded-pill px-4"
+                    data-bs-dismiss="modal">{{ __('mysterybox.close') }}</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="doneModal" tabindex="-1" aria-labelledby="doneModalLabel" aria-hidden="true">
+    {{-- MODAL DONE (SUCCESS ADD TO CART) - DIADOP DARI collection_detail --}}
+    <div class="modal fade" id="successAddToCartModal" tabindex="-1" aria-labelledby="successAddToCartModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 p-4 text-center">
-                <div class="success-icon mx-auto mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="none"
-                        viewBox="0 0 64 64">
-                        <rect width="64" height="64" rx="12" fill="#28a745" />
-                        <path stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-                            d="M18 34l10 10 18-24" />
-                    </svg>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">Congratulations!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <h4 class="fw-bold mb-2">{{__('mysterybox.success')}}</h4>
-                <p class="mb-4">{{__('mysterybox.addedToCart')}}</p>
-                <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">{{__('mysterybox.confirm')}}</button>
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <div>
+                        <p class="text-center">
+                            Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center w-100">
+                        <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}"
+                            class="btn btn-warning">Lihat keranjang</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    {{-- END MODAL DONE --}}
 
     <p id="chooseBudgetText" class="d-none">{{ __('mysterybox.chooseBudgetFirst') }}</p>
-    <input type="hidden" id="id_user" value="{{Auth::user()->id}}">
-    <input type="hidden" id="slug" value="{{Str::slug(Auth::user()->name)}}">
+    <input type="hidden" id="id_user" value="{{ Auth::user()->id }}">
+    <input type="hidden" id="slug" value="{{ Str::slug(Auth::user()->name) }}">
 @endsection
