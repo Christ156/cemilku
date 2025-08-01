@@ -24,11 +24,11 @@ class CollectionController extends Controller
             $collections = Collection::with('snacks')->get();
             return view('admin.collection.index', compact('collections'));
         } else {
-            $cny        = Collection::where('category', 'Chinese New Year')->get();
-            $ramadhan   = Collection::where('category', 'Ramadhan')->get();
-            $valentine  = Collection::where('category', 'Valentine')->get();
-            $christmas  = Collection::where('category', 'Christmas')->get();
-            $birthday   = Collection::where('category', 'Birthday')->get();
+            $cny          = Collection::where('category', 'Chinese New Year')->get();
+            $ramadhan     = Collection::where('category', 'Ramadhan')->get();
+            $valentine    = Collection::where('category', 'Valentine')->get();
+            $christmas    = Collection::where('category', 'Christmas')->get();
+            $birthday     = Collection::where('category', 'Birthday')->get();
             $graduation = Collection::where('category', 'Graduation')->get();
 
             return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
@@ -75,19 +75,19 @@ class CollectionController extends Controller
 
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name'        => 'required|string|max:255|unique:collections,name',
-                'type'        => 'required|in:tower,bouquet',
-                'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
-                'description' => 'required|string',
-                'price'       => 'required|numeric|min:1',
-                'stock'       => 'required|integer|min:0',
-                'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'name'          => 'required|string|max:255|unique:collections,name',
+                'type'          => 'required|in:tower,bouquet',
+                'category'      => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
+                'description'   => 'required|string',
+                'price'         => 'required|numeric|min:1',
+                'stock'         => 'required|integer|min:0',
+                'image'         => 'required|image|mimes:jpg,jpeg,png|max:2048',
 
                 // Snack dan quantity untuk 4 layer
-                'snack_id_1'  => 'required|exists:snacks,id',
-                'snack_id_2'  => 'required|exists:snacks,id',
-                'snack_id_3'  => 'required|exists:snacks,id',
-                'snack_id_4'  => 'required|exists:snacks,id',
+                'snack_id_1'    => 'required|exists:snacks,id',
+                'snack_id_2'    => 'required|exists:snacks,id',
+                'snack_id_3'    => 'required|exists:snacks,id',
+                'snack_id_4'    => 'required|exists:snacks,id',
             ]);
 
             $defaultQuantities = [
@@ -97,7 +97,6 @@ class CollectionController extends Controller
 
             $quantities = $defaultQuantities[$validated['type']];
 
-            // Simpan image jika ada
             $imageName = null;
             if ($request->hasFile('image')) {
                 $imageName = $request->file('image')->getClientOriginalName();
@@ -105,22 +104,21 @@ class CollectionController extends Controller
             } else {
                 $imageName = $collection->image ?? null;
             }
-            // Simpan collection
+
             $collection = Collection::create([
-                'name'        => $validated['name'],
-                'type'        => $validated['type'],
-                'category'    => $validated['category'],
-                'description' => $validated['description'],
-                'layer'       => '4',
-                'price'       => $validated['price'],
-                'stock'       => $validated['stock'],
-                'image'       => $imageName,
+                'name'          => $validated['name'],
+                'type'          => $validated['type'],
+                'category'      => $validated['category'],
+                'description'   => $validated['description'],
+                'layer'         => '4',
+                'price'         => $validated['price'],
+                'stock'         => $validated['stock'],
+                'image'         => $imageName,
             ]);
 
-            // Simpan relasi snack
             for ($i = 1; $i <= 4; $i++) {
                 $collection->snacks()->attach($validated["snack_id_$i"], [
-                    'quantity' => $quantities[$i - 1], // gunakan default quantity sesuai type
+                    'quantity' => $quantities[$i - 1],
                 ]);
             }
 
@@ -135,7 +133,7 @@ class CollectionController extends Controller
             $collection = Collection::findOrFail($request->collection_id);
 
             if ($request->quantity > $collection->stock) {
-                return redirect()->back()->with('error', 'Quantity melebihi stok yang tersedia.');
+                return redirect()->back()->with('error', 'Quantity exceeds available stock.');
             }
 
             $userId = Auth::user()->id;
@@ -188,18 +186,18 @@ class CollectionController extends Controller
     {
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
-                'name'        => 'required|string|max:255',
-                'type'        => 'required|in:tower,bouquet',
-                'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
-                'description' => 'required|string',
-                'price'       => 'required|numeric||min:1',
-                'stock'       => 'required|integer|min:0',
-                'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'name'          => 'required|string|max:255',
+                'type'          => 'required|in:tower,bouquet',
+                'category'      => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
+                'description'   => 'required|string',
+                'price'         => 'required|numeric||min:1',
+                'stock'         => 'required|integer|min:0',
+                'image'         => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
-                'snack_id_1'  => 'required|exists:snacks,id',
-                'snack_id_2'  => 'required|exists:snacks,id',
-                'snack_id_3'  => 'required|exists:snacks,id',
-                'snack_id_4'  => 'required|exists:snacks,id',
+                'snack_id_1'    => 'required|exists:snacks,id',
+                'snack_id_2'    => 'required|exists:snacks,id',
+                'snack_id_3'    => 'required|exists:snacks,id',
+                'snack_id_4'    => 'required|exists:snacks,id',
             ]);
 
             // Simpan image baru jika ada
@@ -214,25 +212,22 @@ class CollectionController extends Controller
                 $imageName = $collection->image;
             }
 
-            // Update kolom-kolom utama
             $collection->update([
-                'name'        => $validated['name'],
-                'type'        => $validated['type'],
-                'category'    => $validated['category'],
-                'description' => $validated['description'],
-                'price'       => $validated['price'],
-                'stock'       => $validated['stock'],
-                'image'       => $imageName,
+                'name'          => $validated['name'],
+                'type'          => $validated['type'],
+                'category'      => $validated['category'],
+                'description'   => $validated['description'],
+                'price'         => $validated['price'],
+                'stock'         => $validated['stock'],
+                'image'         => $imageName,
             ]);
 
-            // Tetapkan default quantity berdasarkan type
             $defaultQuantities = [
                 'tower'   => [10, 12, 10, 8],
                 'bouquet' => [5, 5, 5, 3],
             ];
             $quantities = $defaultQuantities[$validated['type']];
 
-            // Sinkronisasi snack dan quantity
             $snackSync = [];
             for ($i = 1; $i <= 4; $i++) {
                 $snackId             = $validated["snack_id_$i"];
@@ -270,60 +265,95 @@ class CollectionController extends Controller
         return 0;
     }
 
-    public function add_to_cart(Request $request, $id_collection, $quantity) // $quantity IS A PARAMETER
+    public function add_to_cart(Request $request, $id_collection, $quantity)
     {
-        // PERBAIKAN: Ganti auth()->check() menjadi Auth::check()
-        if (!Auth::check()) { // Baris 271 yang error
-            return redirect()->route('login')->with('error', 'Silakan login untuk menambahkan produk ke keranjang.');
-        }
+        try {
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda harus login untuk menambahkan item ke keranjang.'
+                ], 401);
+            }
 
-        // PERBAIKAN: Ganti auth()->user() menjadi Auth::user()
-        $user = Auth::user(); // Baris 275 yang error
-        $product = Collection::findOrFail($id_collection);
+            $user = Auth::user();
+            $product = Collection::findOrFail($id_collection);
+            $quantityToAdd = (int) $quantity;
 
-        // This is the line that uses the $quantity received as a parameter.
-        // Make sure you are not trying to get it from $request->input() here.
-        $quantityToAdd = (int) $quantity; // THIS IS LINE 273 or very close to it.
+            if ($quantityToAdd <= 0) {
+                 return response()->json([
+                    'success' => false,
+                    'message' => 'Kuantitas harus lebih dari 0.'
+                ], 400);
+            }
 
-        // Pastikan kuantitas yang diminta tidak melebihi stok
-        if ($quantityToAdd <= 0 || $quantityToAdd > $product->stock) {
-            return back()->with('error', 'Kuantitas tidak valid atau melebihi stok yang tersedia.');
-        }
+            if ($quantityToAdd > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kuantitas yang diminta melebihi stok yang tersedia (' . $product->stock . ' pcs).'
+                ], 400);
+            }
 
-        $cart = Cart::firstOrCreate(
-            ['user_id' => $user->id, 'is_active' => true],
-        );
+            $cart = Cart::firstOrCreate(
+                ['user_id' => $user->id, 'is_active' => true],
+                []
+            );
 
-        $cartItem = CartItem::where('cart_id', $cart->id)
-                            ->where('collection_id', $product->id)
-                            ->first();
+            $cartItem = CartItem::where('cart_id', $cart->id)
+                                ->where('collection_id', $product->id)
+                                ->first();
 
-        // Logic for updating/creating cart item
-        $newQuantity = ($cartItem ? $cartItem->quantity : 0) + $quantityToAdd;
+            $newQuantity = ($cartItem ? $cartItem->quantity : 0) + $quantityToAdd;
 
-        if ($newQuantity > $product->stock) {
-            return back()->with('error', 'Penambahan kuantitas melebihi stok yang tersedia (' . $product->stock . ' pcs).');
-        }
+            if ($newQuantity > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Total quantity in cart exceeds available stock (' . $product->stock . ' pcs).'
+                ], 400);
+            }
 
-        if ($cartItem) {
-            $cartItem->quantity = $newQuantity;
-            $cartItem->price = $product->price;
-            $cartItem->total_price = $product->price * $newQuantity;
-            $cartItem->save();
-        } else {
-            CartItem::create([
-                'cart_id' => $cart->id,
-                'collection_id' => $product->id,
-                'quantity' => $newQuantity,
-                'price' => $product->price,
-                'total_price' => $product->price * $newQuantity,
+            if ($cartItem) {
+                $cartItem->quantity = $newQuantity;
+                $cartItem->price = $product->price;
+                $cartItem->total_price = $product->price * $newQuantity;
+                $cartItem->save();
+            } else {
+                CartItem::create([
+                    'cart_id' => $cart->id,
+                    'collection_id' => $product->id,
+                    'quantity' => $newQuantity,
+                    'price' => $product->price,
+                    'total_price' => $product->price * $newQuantity,
+                ]);
+            }
+
+            // Jika semua sukses, kembalikan respons JSON sukses
+            return response()->json([
+                'success' => true,
+                'message' => 'Produk berhasil ditambahkan ke keranjang!',
+                'cart_item_count' => CartItem::where('cart_id', $cart->id)->sum('quantity'), // Opsional: kirim jumlah total item di keranjang
+                'redirect_url' => route('cart.index', ['id_user' => $user->id, 'slug' => Str::slug($user->name)])
             ]);
-        }
 
-        return redirect()->route('cart.index', [
-            'id_user' => $user->id,
-            'slug' => Str::slug($user->name)
-        ])->with('success', 'Produk berhasil ditambahkan ke keranjang!');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Tangkap jika Collection tidak ditemukan
+            Log::error('Collection not found in add_to_cart: ' . $e->getMessage(), ['id_collection' => $id_collection]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Produk tidak ditemukan.'
+            ], 404); // Not Found
+        } catch (\Exception $e) {
+            // Tangkap semua exception lainnya
+            Log::error('Error in CollectionController@add_to_cart: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'id_collection' => $id_collection,
+                'quantity' => $quantity,
+                'user_id' => Auth::id(), // Pastikan Auth::id() aman di sini
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan server. Silakan coba lagi. Detail: ' . $e->getMessage()
+            ], 500); // Internal Server Error
+        }
     }
 
     public function export()
