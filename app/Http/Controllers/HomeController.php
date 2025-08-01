@@ -59,7 +59,7 @@ class HomeController extends Controller
                 'user:id,name',
                 'orderDetails.collection:id,name,image',
             ])
-                ->orderByDesc('id') // urutkan berdasarkan ID terbaru
+                ->orderByDesc('id')
                 ->take(5)
                 ->get();
 
