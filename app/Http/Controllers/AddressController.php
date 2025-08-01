@@ -116,7 +116,7 @@ class AddressController extends Controller
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput()
-                ->with('error', 'Gagal menambahkan alamat. Mohon periksa kembali input Anda.');
+                ->with('trigger_modal', 'editBottomModal');
         } catch (\Exception $e) {
             // Tangani error lain yang tidak terkait validasi
             return redirect()->back()

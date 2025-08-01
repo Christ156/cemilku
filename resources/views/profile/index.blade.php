@@ -119,17 +119,17 @@
                             id="kelurahan_desa" placeholder="{{ __('profile.inputVillage') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rt" class="form-label">{{ __('profile.rt') }}</label>
+                        <label for="rt" class="form-label">{{ __('profile.rt') }} (3 digit)</label>
                         <input type="text" value="" name="rt" class="form-control" id="rt"
                             placeholder="{{ __('profile.inputRT') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rw" class="form-label">{{ __('profile.rw') }}</label>
+                        <label for="rw" class="form-label">{{ __('profile.rw') }} (3 digit)</label>
                         <input type="text" value="" name="rw" class="form-control" id="rw"
                             placeholder="{{ __('profile.inputRW') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kode_pos" class="form-label">{{ __('profile.postalCode') }}</label>
+                        <label for="kode_pos" class="form-label">{{ __('profile.postalCode') }} (5 digit)</label>
                         <input type="text" value="" name="kode_pos" class="form-control" id="kode_pos"
                             placeholder="{{ __('profile.inputPostalCode') }}">
                     </div>
@@ -139,7 +139,7 @@
                             rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="nomor_telepon" class="form-label">{{ __('profile.phoneNumber') }}</label>
+                        <label for="nomor_telepon" class="form-label">{{ __('profile.phoneNumber') }} (10 - 12 digit)</label>
                         <input type="number" value="" name="nomor_telepon" class="form-control"
                             id="nomor_telepon" placeholder="{{ __('profile.inputPhoneNumber') }}">
                     </div>
@@ -219,7 +219,7 @@
 
 
             <div class="container d-block shadow p-3 mb-5 rounded" id="container2">
-                <div id="carousel1" class="carousel slide" data-bs-interval="false">
+                <div id="carousel1" class="carousel slide" data-bs-interval="false" data-bs-ride="false">
                     <div class="carousel-inner">
                         <!-- Slide 1: User Info -->
                         <div class="carousel-item active">
@@ -324,16 +324,15 @@
                                             </div>
                                             <div class="d-flex flex-row justify-content-between">
                                                 <div class="d-flex">
-                                                    <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
+                                                    <button type="button" class="btn btn-warning me-2"
+                                                        data-bs-toggle="modal"
                                                         data-bs-target="#editAddress{{ $a->id }}">Edit</button>
-                                                    {{-- Delete Form --}}
-                                                    <form action="{{ route('address.destroy', $a->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">
-                                                            {{ __('profile.delete') }}
-                                                        </button>
-                                                    </form>
+
+                                                    <!-- Modal trigger button -->
+                                                    <button type="button" class="btn btn-danger btn-lg"
+                                                        data-bs-toggle="modal" data-bs-target="#deleteConfirm">
+                                                        Delete
+                                                    </button>
                                                 </div>
                                                 @if (!$a->is_primary)
                                                     <button type="button"
@@ -452,6 +451,41 @@
                                                 </form>
                                             </div>
                                         </div>
+
+                                        {{-- Modal Confirm Delete --}}
+                                        <!-- Modal Body -->
+                                        <div class="modal fade" id="deleteConfirm" tabindex="-1"
+                                            data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+                                            aria-labelledby="modalTitleId" aria-hidden="true"
+                                            style="background-color: #000000">
+                                            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                                                role="document" style="background-color: #000000">
+                                                <div class="modal-content" style="background-color: #fffbec">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalTitleId">
+                                                            Delete Address
+                                                        </h5>
+                                                    </div>
+                                                    <div class="modal-body">Are you sure you want to delete this address ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-tutup"
+                                                            data-bs-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                        {{-- Delete Form --}}
+                                                        <form action="{{ route('address.destroy', $a->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">
+                                                                {{ __('profile.delete') }}
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @empty
                                         <div class="container mt-2">
                                             <h4>{{ __('profile.addressEmpty') }}</h4>
@@ -468,17 +502,17 @@
                                 <div class="container p-2 ms-2">
                                     <h2>{{ __('profile.frequentlyAskedQuestions') }}</h2>
                                 </div>
-                                <div class="accordion p-3" id="accordionExample">
+                                <div class="accordion p-3" id="accordionFAQ">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                aria-expanded="false" aria-controls="collapseOne">
+                                                aria-expanded="true" aria-controls="collapseOne">
                                                 {{ __('profile.whatIsSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {{ __('profile.whatIsSnackTowerDescription') }}
                                             </div>
@@ -488,12 +522,12 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                aria-expanded="true" aria-controls="collapseTwo">
                                                 {{ __('profile.howICustomizeSnackTower') }}
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {!! __('profile.howICustomizeSnackTowerDescription') !!}
                                             </div>
@@ -503,12 +537,12 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                                aria-expanded="false" aria-controls="collapseThree">
+                                                aria-expanded="true" aria-controls="collapseThree">
                                                 {{ __('profile.doYouOffer') }}
                                             </button>
                                         </h2>
                                         <div id="collapseThree" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {{ __('profile.doYouOfferDescription') }}
                                             </div>
@@ -519,12 +553,12 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                                aria-expanded="false" aria-controls="collapseFour">
+                                                aria-expanded="true" aria-controls="collapseFour">
                                                 {{ __('profile.isThereAMinimumOrder') }}
                                             </button>
                                         </h2>
                                         <div id="collapseFour" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {{ __('profile.isThereAMinimumOrderDescription') }}
                                             </div>
@@ -535,12 +569,12 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive"
-                                                aria-expanded="false" aria-controls="collapseFive">
+                                                aria-expanded="true" aria-controls="collapseFive">
                                                 {{ __('profile.whatIsDifference') }}
                                             </button>
                                         </h2>
                                         <div id="collapseFive" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {!! __('profile.whatIsDifferenceDescription') !!}
                                             </div>
@@ -551,12 +585,12 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix"
-                                                aria-expanded="false" aria-controls="collapseSix">
+                                                aria-expanded="true" aria-controls="collapseSix">
                                                 {{ __('profile.whatIsMystery') }}
                                             </button>
                                         </h2>
                                         <div id="collapseSix" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {{ __('profile.whatIsMysteryDescription') }}
                                             </div>
@@ -567,19 +601,18 @@
                                         <h2 class="accordion-header">
                                             <button class="bg-warning accordion-button collapsed tulisan-judul-faq fw-bold"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven"
-                                                aria-expanded="false" aria-controls="collapseSeven">
+                                                aria-expanded="true" aria-controls="collapseSeven">
                                                 {{ __('profile.canIChoose') }}
                                             </button>
                                         </h2>
                                         <div id="collapseSeven" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
+                                            data-bs-parent="#accordionFAQ">
                                             <div class="accordion-body">
                                                 {{ __('profile.canIChooseDescription') }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -587,6 +620,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- JS -->
     <script>
@@ -630,41 +664,31 @@
 
             // ... (fungsi displayStatusMessage) ...
 
+
         });
     </script>
     <script>
-        const carouselElement = document.querySelector('#carousel1');
-        const carousel = new bootstrap.Carousel(carouselElement, {
-            interval: false,
-            ride: false
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselElement = document.querySelector('#carousel1');
+            const sidebar = document.getElementById('container1');
 
-        const menuLinks = document.querySelectorAll('[data-slide-to]');
+            if (carouselElement) {
+                const carousel = new bootstrap.Carousel(carouselElement, {
+                    pause: true
+                });
 
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // e.preventDefault();
+                const menuLinks = document.querySelectorAll('[data-slide-to]');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const index = parseInt(this.getAttribute('data-slide-to'), 10);
+                        carousel.to(index);
 
-                const index = parseInt(this.getAttribute('data-slide-to'));
-                carousel.to(index);
-
-                menuLinks.forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        const sidebar = document.getElementById('container1');
-        const toggleButton = document.getElementById('toggleSidebar');
-        const backdrop = document.getElementById('sidebarBackdrop');
-
-        toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-            backdrop.classList.toggle('active');
-        });
-
-        backdrop.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            backdrop.classList.remove('active');
+                        menuLinks.forEach(el => el.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            }
         });
     </script>
 @endsection
