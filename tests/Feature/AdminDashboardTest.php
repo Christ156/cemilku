@@ -20,13 +20,11 @@ class AdminDashboardTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // Menonaktifkan event model untuk mencegah crash terkait SoftDeletes/ActivityLog
         Event::fake();
     }
 
     /**
-     * Helper function to log in as an admin.
-     *
+
      * @return void
      */
     protected function loginAsAdmin(): void
@@ -39,37 +37,15 @@ class AdminDashboardTest extends TestCase
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
-        // Force verify the email
         $admin->markEmailAsVerified();
 
         $this->actingAs($admin);
     }
 
-    /**
-     * Test bahwa admin bisa mengakses dashboard.
-     * @return void
-     */
-    public function test_admin_can_access_dashboard()
-    {
-        $this->loginAsAdmin();
 
-        // Debug: check if user is actually logged in
-        $this->assertAuthenticated();
 
-        $response = $this->get(route('home'));
-
-        // Debug: check the redirection location
-        if ($response->status() === 302) {
-            dd($response->headers->get('Location'));
-        }
-
-        $response->assertStatus(200);
-        $response->assertSeeText(__('adminDashboard.dashboard'));
-    }
-
-    /**
-     * TC1: Verifikasi Snack Count di Dashboard Admin.
-     *
+    // Verifikasi Snack Count di Dashboard Admin.
+    /*
      * @return void
      */
     public function test_tc1_verify_snack_count()
@@ -92,9 +68,9 @@ class AdminDashboardTest extends TestCase
         $response->assertSeeText($expectedSnackCount);
     }
 
-    /**
-     * TC2: Verifikasi Collection Count di Dashboard Admin.
-     *
+
+    //Verifikasi Collection Count di Dashboard Admin.
+    /*
      * @return void
      */
     public function test_tc2_verify_collection_count()
@@ -120,22 +96,21 @@ class AdminDashboardTest extends TestCase
         $response->assertSeeText($expectedCollectionCount);
     }
 
-    /**
-     * TC3: Verifikasi Order Count di Dashboard Admin.
-     *
+    //Verifikasi Order Count di Dashboard Admin.
+     /*
      * @return void
      */
     public function test_tc3_verify_order_count()
     {
         $this->loginAsAdmin();
 
-        // Buat user untuk order
         $user1 = User::create([
             'name' => 'Test User One',
             'email' => 'testuser1@example.com',
             'password' => bcrypt('password'),
             'role' => 'user',
             'email_verified_at' => now(),
+            'phone_number' => '0812' . Str::random(8),
         ]);
 
         for ($i = 0; $i < 7; $i++) {
@@ -155,11 +130,6 @@ class AdminDashboardTest extends TestCase
         $response->assertSeeText($expectedOrderCount);
     }
 
-    /**
-     * Test Verifikasi User Count di Dashboard Admin.
-     *
-     * @return void
-     */
     public function test_user_count_is_correctly_displayed()
     {
         $this->loginAsAdmin();
@@ -171,6 +141,7 @@ class AdminDashboardTest extends TestCase
                 'password' => bcrypt('password'),
                 'role' => 'user',
                 'email_verified_at' => now(),
+                'phone_number' => '0813' . Str::random(8),
             ]);
         }
 
@@ -180,5 +151,198 @@ class AdminDashboardTest extends TestCase
         $expectedUserCount = User::count();
         $response->assertSeeText(__('adminDashboard.userCount'));
         $response->assertSeeText($expectedUserCount);
+    }
+
+
+
+
+
+
+
+
+
+    //verifikasi koleksi terlaris
+    public function test_best_selling_collection_is_correctly_displayed()
+    {
+        $this->loginAsAdmin();
+
+
+        $user = User::create([
+            'name' => 'Test User for Orders',
+            'email' => 'orderuser@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+            'phone_number' => '0812' . Str::random(8),
+        ]);
+
+
+        $collectionA = Collection::create([
+            'name' => 'Koleksi A',
+            'price' => 100000,
+            'stock' => 50,
+        ]);
+        $collectionB = Collection::create([
+            'name' => 'Koleksi B',
+            'price' => 120000,
+            'stock' => 50,
+        ]);
+        $collectionC = Collection::create([
+            'name' => 'Koleksi C',
+            'price' => 90000,
+            'stock' => 50,
+        ]);
+
+
+        Order::create([
+            'user_id' => $user->id,
+            'status' => 'completed',
+        ])->orderDetails()->create([
+            'collection_id' => $collectionA->id,
+            'quantity' => 5,
+            'price' => $collectionA->price,
+        ]);
+
+
+        Order::create([
+            'user_id' => $user->id,
+            'status' => 'completed',
+        ])->orderDetails()->create([
+            'collection_id' => $collectionB->id,
+            'quantity' => 3,
+            'price' => $collectionB->price,
+        ]);
+
+        Order::create([
+            'user_id' => $user->id,
+            'status' => 'completed',
+        ])->orderDetails()->create([
+            'collection_id' => $collectionA->id,
+            'quantity' => 2,
+            'price' => $collectionA->price,
+        ]);
+
+
+        Order::create([
+            'user_id' => $user->id,
+            'status' => 'completed',
+        ])->orderDetails()->create([
+            'collection_id' => $collectionC->id,
+            'quantity' => 4,
+            'price' => $collectionC->price,
+        ]);
+
+
+        $expectedSoldCountA = 7;
+        $expectedSoldCountB = 3;
+        $expectedSoldCountC = 4;
+
+
+        $response = $this->get(route('home'));
+        $response->assertStatus(200);
+
+
+        $response->assertSeeTextInOrder([
+            'Koleksi A',
+            $expectedSoldCountA . ' Sold',
+        ]);
+
+
+        $response->assertSeeTextInOrder([
+            'Koleksi A',
+            $expectedSoldCountA . ' Sold',
+            'Koleksi C',
+            $expectedSoldCountC . ' Sold',
+            'Koleksi B',
+            $expectedSoldCountB . ' Sold',
+        ]);
+    }
+
+
+    //verifikasi data pesanan terbaru
+    public function test_latest_orders_are_displayed_correctly_on_dashboard()
+    {
+        $this->loginAsAdmin();
+
+        $user1 = User::create([
+            'name' => 'Test User One',
+            'email' => 'testuser1@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+            'phone_number' => '0812' . Str::random(8),
+        ]);
+
+        $user2 = User::create([
+            'name' => 'Test User Two',
+            'email' => 'testuser2@example.com',
+            'password' => bcrypt('password'),
+            'role' => 'user',
+            'email_verified_at' => now(),
+            'phone_number' => '0813' . Str::random(8),
+        ]);
+
+        $now = Carbon::now();
+
+        $order1 = Order::create([
+            'user_id' => $user1->id,
+            'total_price' => 100000,
+            'payment_method' => 'BCA',
+            'status' => 'paid',
+            'created_at' => $now->copy()->subDays(2),
+        ]);
+
+        $order2 = Order::create([
+            'user_id' => $user2->id,
+            'total_price' => 150000,
+            'payment_method' => 'Mandiri',
+            'status' => 'shipped',
+            'created_at' => $now->copy()->subDay(1),
+        ]);
+
+
+        $order4 = Order::create([
+            'user_id' => $user2->id,
+            'total_price' => 50000,
+            'payment_method' => 'BCA',
+            'status' => 'pending',
+            'created_at' => $now->copy()->subHours(2),
+        ]);
+
+        $order3 = Order::create([
+            'user_id' => $user1->id,
+            'total_price' => 200000,
+            'payment_method' => 'BCA',
+            'status' => 'completed',
+            'created_at' => $now->copy(),
+        ]);
+
+
+        $response = $this->get(route('home'));
+        $response->assertStatus(200);
+
+
+        $response->assertSeeTextInOrder([
+            (string) $order3->id,
+            $user1->name,
+            'Completed',
+            $order3->created_at->format('d M Y'),
+
+
+            (string) $order4->id,
+            $user2->name,
+            'Pending',
+            $order4->created_at->format('d M Y'),
+
+            (string) $order2->id,
+            $user2->name,
+            'Shipped',
+            $order2->created_at->format('d M Y'),
+
+            (string) $order1->id,
+            $user1->name,
+            'Paid',
+            $order1->created_at->format('d M Y'),
+        ]);
     }
 }

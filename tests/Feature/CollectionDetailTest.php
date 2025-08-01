@@ -17,8 +17,6 @@ class CollectionDetailTest extends TestCase
     protected User $user;
 
     /**
-     *
-     *
      * @return void
      */
     protected function setUp(): void
@@ -38,9 +36,8 @@ class CollectionDetailTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /**
-     * search item ->depreceated
-     *
+    // search item ->depreceated
+    /*
      * @return void
      */
     public function test_user_can_search_collection_by_name()
@@ -95,9 +92,8 @@ class CollectionDetailTest extends TestCase
     }
 
 
-    /**
-     * Tombol '+' (Link Kartu Koleksi) Mengarahkan ke Halaman Detail yang Benar.-> depreceated
-     */
+    //Tombol '+' (Link Kartu Koleksi) Mengarahkan ke Halaman Detail yang Benar.-> depreceated
+
     public function test_plus_button_redirects_to_correct_detail_page()
     {
 
@@ -134,10 +130,8 @@ class CollectionDetailTest extends TestCase
     }
 
 
-    /**
-     * Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
-     *
-     */
+    //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
+
     public function test_add_to_cart_quantity_validation_and_stock_limit()
     {
 
@@ -177,7 +171,7 @@ class CollectionDetailTest extends TestCase
             '_token' => csrf_token(),
         ]);
         $response->assertSessionHas('error', 'Kuantitas tidak valid atau melebihi stok yang tersedia.'); // Asumsi pesan error dari controller
-        $response->assertStatus(302); // Redirect back on error
+        $response->assertStatus(302);
 
 
         $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]), [
@@ -190,7 +184,7 @@ class CollectionDetailTest extends TestCase
 
 
         $this->assertDatabaseHas('cart_items', [
-           
+
             'cart_id' => Cart::where('user_id', $this->user->id)->first()->id,
             'collection_id' => $collection->id,
             'quantity' => 3,
