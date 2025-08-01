@@ -186,8 +186,9 @@ final class UriNormalizer
         $regex = '/(?:%[A-Fa-f0-9]{2})++/';
 
         $callback = function (array $match): string {
-            return strtoupper($match[0]);
+            return strtoupper($match[0] ?? '');  // Pastikan $match[0] bukan null sebelum diproses
         };
+
 
         return
             $uri->withPath(

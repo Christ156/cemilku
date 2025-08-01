@@ -10,7 +10,7 @@ body {
 
 
 .mt-custom {
-    margin-top: 10rem;
+    margin-top: 3rem;
 }
 
 .snack-card {
@@ -301,6 +301,7 @@ body {
 
     #banner {
         margin: 0 30px 0 30px;
+        /* height: 100px; */
     }
 
     .carousel-inner img {

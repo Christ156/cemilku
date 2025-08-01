@@ -16,4 +16,12 @@ return [
     'important' => 'Penting',
     'warning' => 'Peringatan',
     'information' => 'Informasi',
+
+    // Navbar
+    'Dashboard' => 'Dasbor',
+    'Snack' => 'Camilan',
+    'Decoration' => 'Dekorasi',
+    'Collection' => 'Koleksi',
+    'Order' => 'Pesanan',
+    'User' => 'Pengguna'
 ];

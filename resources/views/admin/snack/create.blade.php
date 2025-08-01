@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Add Snack</h1>
+        <h1>{{__('adminSnack.addSnack')}}</h1>
     </div>
 
     <x-adminlte-card>
@@ -28,9 +28,9 @@
 
             {{-- Name --}}
             <div class="form-group">
-                <label for="name">Snack Name</label>
+                <label for="name">{{__('adminSnack.snackName')}}</label>
                 <input type="text" id="name" name="name" value="{{ old('name') }}"
-                    class="form-control @error('name') is-invalid @enderror" placeholder="Enter snack name" required>
+                    class="form-control @error('name') is-invalid @enderror" placeholder="{{__('adminSnack.enterSnackName')}}" required>
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -38,7 +38,7 @@
 
             {{-- Price --}}
             <div class="form-group">
-                <label for="price">Price (Rp)</label>
+                <label for="price">{{__('adminSnack.price')}} (Rp)</label>
                 <input type="number" id="price" name="price" value="{{ old('price') }}"
                     class="form-control @error('price') is-invalid @enderror" required>
                 @error('price')
@@ -48,7 +48,7 @@
 
             {{-- Stock --}}
             <div class="form-group">
-                <label for="stock">Stock</label>
+                <label for="stock">{{__('adminSnack.stock')}}</label>
                 <input type="number" id="stock" name="stock" value="{{ old('stock') }}"
                     class="form-control @error('stock') is-invalid @enderror" required>
                 @error('stock')
@@ -58,7 +58,7 @@
 
             {{-- Image --}}
             <div class="form-group">
-                <label for="image">Snack Image</label>
+                <label for="image">{{__('adminSnack.snackImage')}}</label>
                 <input type="file" id="image" name="image"
                     class="form-control-file @error('image') is-invalid @enderror" accept="image/*">
                 @error('image')
@@ -66,8 +66,8 @@
                 @enderror
             </div>
 
-            <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
-            <a href="{{ route('adminsnack.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+            <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="{{__('adminSnack.add')}}" />
+            <a href="{{ route('adminsnack.index') }}" class="btn btn-secondary ml-2">{{__('adminSnack.cancel')}}</a>
         </form>
     </x-adminlte-card>
 

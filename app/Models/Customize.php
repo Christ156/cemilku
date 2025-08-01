@@ -12,7 +12,7 @@ class Customize extends Model
     use SoftDeletes;
 
 
-    protected $fillable = ['name', 'type', 'price', 'image', 'layer'];
+    protected $fillable = ['name', 'type', 'price', 'image', 'base_image_path', 'layer'];
 
     public function snacks() {
         return $this->belongsToMany(Snack::class, 'customize_snacks')->withPivot('quantity');

@@ -12,7 +12,7 @@ return [
     'height' => 'Tinggi',
     'limit' => 'Ups! Batas stok maksimum telah tercapai.',
     'qty' => 'Kuantitas',
-    'addToCart' => 'Tambahkan ke Keranjang',
+    'addToCart' => 'Tambah ke Keranjang',
     'buyNow' => 'Beli Sekarang',
     'success' => 'Berhasil',
     'collectionAdded' => 'Koleksi telah ditambahkan ke keranjang.',

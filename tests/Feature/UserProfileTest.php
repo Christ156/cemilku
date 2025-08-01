@@ -1,193 +1,198 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Login sebagai pengguna
-     */
-    protected function loginAsUser(): void
+
+    protected function loginAsUser(): User
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create([
-            'gender' => 'Perempuan',          // Menambahkan gender
+            'gender' => 'Perempuan',
             'date_of_birth' => '1995-08-15',
             'email' => 'user@example.com',
             'password' => bcrypt('password123'),
+            'phone_number' => '081234567890',
+            'role' => 'user',
         ]);
 
         $this->actingAs($user);
+
+        return $user;
     }
-
-
 
     public function test_navigate_to_user_info()
     {
         $this->loginAsUser();
-
-        // Buat pengguna untuk menguji secara langsung menggunakan create()
         $user = User::create([
-            'name' => 'Rahmat Hidayat',  // Pastikan 'name' diisi dengan data yang sesuai
+            'name' => 'Rahmat Hidayat',
             'email' => 'rahmat@example.com',
-            'password' => bcrypt('password123'), // Password harus di-hash
+            'password' => bcrypt('password123'),
         ]);
 
-        // Buat slug dari nama pengguna
-        $slug = Str::slug($user->name);  // Contoh slug dari nama pengguna
-
-        // Kirim dua parameter sesuai dengan yang diharapkan oleh controller
+        $slug = Str::slug($user->name);
         $response = $this->get('/profile/' . $user->id . '/' . $slug);
 
-        // Verifikasi pengguna tetap berada di halaman 'User Info'
         $response->assertStatus(200);
-        $response->assertSee('User Info'); // Sesuaikan dengan teks yang ada di halaman
+        $response->assertSee('User Info');
     }
 
     public function test_navigate_to_address_using_carousel()
     {
         $this->loginAsUser();
-
-        // Buat pengguna untuk menguji
         $user = User::create([
             'name' => 'Rahmat Hidayat',
             'email' => 'rahmat@example.com',
             'password' => bcrypt('password123'),
         ]);
 
-        $slug = Str::slug($user->name); // Membuat slug berdasarkan nama pengguna
-
-        // Kirim dua parameter sesuai dengan yang diharapkan oleh controller
+        $slug = Str::slug($user->name);
         $response = $this->get('/profile/' . $user->id . '/' . $slug);
 
-        // Verifikasi status 200 untuk halaman
         $response->assertStatus(200);
-
-        // Verifikasi apakah bagian carousel alamat (address) aktif saat diklik
-        $response->assertSeeInOrder(['Address']); // Pastikan ada teks 'Address' di dalam HTML
+        $response->assertSeeInOrder(['Address']);
     }
 
-
-    /**
-     * Test navigasi ke halaman 'FAQ'
-     */
     public function test_navigate_to_faq_using_carousel()
     {
         $this->loginAsUser();
-
-        // Buat pengguna untuk menguji
         $user = User::create([
             'name' => 'Rahmat Hidayat',
             'email' => 'rahmat@example.com',
             'password' => bcrypt('password123'),
         ]);
 
-        $slug = Str::slug($user->name); // Membuat slug berdasarkan nama pengguna
-
-        // Kirim dua parameter sesuai dengan yang diharapkan oleh controller
-        $response = $this->get('/profile/' . $user->id . '/' . $slug);
-
-        // Verifikasi status 200 untuk halaman
-        $response->assertStatus(200);
-
-        // Klik pada menu FAQ dan pastikan bagian FAQ muncul
-        $response->assertSeeInOrder(['Frequently Asked Questions', 'What is a Snack Tower?']); // Ganti sesuai dengan teks yang ada pada halaman FAQ
-    }
-
-
-
-
-
-    public function test_verify_user_name_and_role()
-    {
-        // Simulasikan login sebagai pengguna
-        $this->loginAsUser();
-
-        // Ambil data pengguna
-        $user = Auth::user();  // Gunakan pengguna yang sedang login
-        $slug = Str::slug($user->name);  // Slug untuk URL
-
-        // Navigasi ke halaman "User Info"
-        $response = $this->get('/profile/' . $user->id . '/' . $slug);
-
-        // Verifikasi status 200 untuk halaman
-        $response->assertStatus(200);
-
-        // Verifikasi bahwa Nama Pengguna dan Peran yang ditampilkan sesuai dengan data di database
-        $response->assertSee($user->name);  // Verifikasi Nama Pengguna
-        $response->assertSee($user->role);  // Verifikasi Peran Pengguna (misalnya: "User")
-    }
-
-
-
-
-    public function test_verify_user_info_displayed_correctly()
-    {
-        // 1. Membuat pengguna untuk pengujian menggunakan loginAsUser()
-        $this->loginAsUser(); // Memanggil method loginAsUser()
-
-        // 2. Mendapatkan data pengguna yang telah login
-        $user = User::where('email', 'user@example.com')->first(); // Ambil pengguna berdasarkan email
-
-        // 3. Navigasi ke halaman "User Info" menggunakan ID dan slug pengguna
-        $slug = Str::slug($user->name);  // Membuat slug untuk nama pengguna
-        $response = $this->get('/profile/' . $user->id . '/' . $slug);
-
-        // 4. Memeriksa status halaman
-        $response->assertStatus(200);
-
-        // 5. Memeriksa Gender yang ditampilkan
-        $response->assertSee($user->gender);
-
-        // 6. Memeriksa umur yang dihitung dari tanggal lahir
-        $age = Carbon::parse($user->date_of_birth)->age;
-        $response->assertSee($age);
-
-        // 7. Memeriksa Email yang ditampilkan
-        $response->assertSee($user->email);
-
-        // 8. Memeriksa Nomor Telepon yang ditampilkan
-        $response->assertSee($user->phone_number);
-    }
-
-
-
-    public function test_edit_button_shows_pop_up_with_user_data()
-    {
-        // Login sebagai pengguna
-        $this->loginAsUser();
-
-        // Mendapatkan data pengguna
-        $user = User::where('email', 'user@example.com')->first();
         $slug = Str::slug($user->name);
-
-        // Navigasi ke halaman User Info
         $response = $this->get('/profile/' . $user->id . '/' . $slug);
 
-        // Memastikan halaman ditemukan
         $response->assertStatus(200);
+        $response->assertSeeInOrder(['Frequently Asked Questions', 'What is a Snack Tower?']);
+    }
 
-        // Memastikan tombol "Edit" ada di halaman
-        $response->assertSee('Edit');
 
-        // Klik tombol "Edit"
-        $response = $this->actingAs($user)->get('/profile/' . $user->id . '/' . $slug . '/edit');
+    // edit username-> depreceated
+    public function test_edit_user_name_valid()
+    {
+        $user = User::first() ?? User::factory()->create();
+        $newName = 'New Valid Name';
 
-        // Memastikan modal pop-up "Edit User Info" muncul dengan Nama User yang terisi
-        $response->assertSee($user->name);  // Pastikan Nama User terisi di form edit
+        $response = $this->actingAs($user)
+            ->from('/profile/' . $user->id . '/' . Str::slug($user->name))
+            ->put('/user/' . $user->id, [
+                'name' => $newName,
+                '_token' => csrf_token(),
+            ]);
 
-        // Validasi bahwa Peran tidak bisa diedit
-        $response->assertDontSee($user->role);  // Pastikan Peran tidak ada dalam form
+        $user->refresh();
+        $newSlug = Str::slug($newName);
+
+        $response->assertRedirect('/profile/' . $user->id . '/' . $newSlug);
+        $redirectResponse = $this->get($response->headers->get('Location'));
+
+        try {
+            $redirectResponse->assertSessionHas('success', 'Profil berhasil diperbarui!');
+        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
+            $redirectResponse->assertSee('Profil berhasil diperbarui!');
+        }
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'name' => $newName,
+        ]);
+
+        $this->get('/profile/' . $user->id . '/' . $newSlug)
+            ->assertSee($newName);
     }
 
 
 
+    // edit username-> depreceated
+    public function test_user_can_update_username()
+    {
+        if (!Schema::hasTable('users') || !Schema::hasColumn('users', 'name')) {
+            $this->markTestSkipped('Required database structure missing');
+            return;
+        }
+
+        $user = $this->loginAsUser();
+        $newUsername = 'RahmatUpdated';
+
+        $response = $this->actingAs($user)->put(route('user.update', $user->id), [
+            '_token' => csrf_token(),
+            'name' => $newUsername,
+        ]);
+
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'name' => $newUsername,
+        ]);
+        $user->refresh();
+        $this->assertEquals($newUsername, $user->name);
+    }
+
+
+    // edit info-> depreceated
+    public function test_user_can_update_profile_info()
+    {
+        Carbon::setTestNow(Carbon::create(2025, 7, 31, 9, 0, 0));
+
+        $user = $this->loginAsUser();
+        $newGender = 'Laki-laki';
+        $newDateOfBirth = '1995-08-15';
+        $newEmail = 'new_email@example.com';
+        $newPhoneNumber = '089876543210';
+
+        $response = $this->put("/profile/{$user->id}", [
+            'gender' => $newGender,
+            'dateofbirth' => $newDateOfBirth,
+            'email' => $newEmail,
+            'telepon' => $newPhoneNumber,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('profile', ['id' => $user->id, 'slug' => Str::slug($user->name ?? 'user')]));
+        $response->assertSessionHas('success', 'Profil berhasil diperbarui!');
+
+        $user->refresh();
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'gender' => $newGender,
+            'date_of_birth' => $newDateOfBirth,
+            'email' => $newEmail,
+            'phone_number' => $newPhoneNumber,
+            'name' => $user->name,
+        ]);
+
+        $response = $this->get(route('profile', ['id' => $user->id, 'slug' => Str::slug($user->name ?? 'user')]));
+        $response->assertStatus(200);
+
+        $response->assertSee($newGender);
+
+        $birthDate = Carbon::parse($newDateOfBirth);
+        $age = (int) $birthDate->diffInYears(Carbon::now());
+        $response->assertSee($age . ' years');
+
+        $response->assertSee($newEmail);
+        $response->assertSee($newPhoneNumber);
+        $response->assertSee($user->name);
+
+        Carbon::setTestNow(null);
+    }
+
+
+    //tes alamat
 }

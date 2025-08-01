@@ -33,6 +33,7 @@ return [
     'copyright' => 'Hak Cipta Dilindungi.',
     'logout' => 'Keluar',
     'banner1' => 'Banner1_Indo.png',
+    'banner1Mobile' => 'Banner1.png',
     'banner2' => 'Banner2_Indo.png',
     'banner3' => 'Banner3_Indo.png',
     'banner4' => 'Banner4_Indo.png',

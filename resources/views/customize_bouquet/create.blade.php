@@ -1,4 +1,4 @@
-    @extends('layouts.app')
+@extends('layouts.app')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/customize_bouquet.css') }}">
