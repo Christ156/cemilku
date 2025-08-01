@@ -9,6 +9,8 @@ use App\Models\OrderDetail;
 use App\Models\Snack;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {

@@ -14,12 +14,15 @@ use App\Http\Controllers\MysteryBoxController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SnackController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
 // ADMIN
-Route::prefix('admin')->name('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     // Snack Export/Import
     Route::get('/snack/export', [SnackController::class, 'export'])->name('snack.export');
     Route::post('/snack/import', [SnackController::class, 'import'])->name('snack.import');
