@@ -723,7 +723,7 @@ class PageSetup
         } elseif (strpos($value, '$') !== false) {
             throw new PhpSpreadsheetException('Cell coordinate must not be absolute.');
         }
-        $value = strtoupper($value);
+        $value = $value === null ? null : strtoupper($value);
         if (!$this->printArea) {
             $index = 0;
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\MysteryBox;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,14 @@ class MysteryBoxController extends Controller
      */
     public function index(Request $request)
     {
-        $mode = session('mode', 'Budget');
+        // $mode = session('mode', 'Budget');
+        // return view('mystery_box.create', compact('mode'));
+
+        if (!session::has('mode')) {
+            session::put('mode', 'Budget');
+        }
+
+        $mode = Session::get('mode');
         return view('mystery_box.create', compact('mode'));
     }
 
