@@ -100,6 +100,7 @@ class OrderSeeder extends Seeder
             'status' => 'pending',
             'total_price' => 0,
             'payment_method' => 'Cimb Niaga',
+            'address_id' => $addressUser2->id,
         ]);
         OrderDetail::create([
             'order_id' => $order3->id,
