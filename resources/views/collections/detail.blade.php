@@ -19,7 +19,7 @@
     </div>
 
     {{-- BACK BUTTON --}}
-    <div class="back-button d-flex w-100 justify-content-between align-items-center" style="margin-top: 80px">
+    <div class="back-button d-flex w-100 justify-content-between align-items-center" style="margin-top: 30px">
         <a href="/collections" id="backBtn">
             <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
         </a>
@@ -63,24 +63,18 @@
                         <div style="font-weight:600; margin-bottom:0px; font-size: 1.1rem;">QUANTITY</div>
                         <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
                             <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
-                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1"
-                                min="1"/>
+                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1" min="1"/>
                             <button type="button" id="add_quantity" onclick="setQuantity('add', {{$detail->stock}})">+</button>
                         </div>
                     </div>
 
-                    {{-- BUTTON ADD TO CART AND BUY NOW --}}
-                    <div class="button-container d-flex">
+                    {{-- BUTTON ADD TO CART DAN BUY NOW - PENTING: TAMBAHKAN CLASS BARU DI SINI --}}
+                    <div class="button-container d-flex add-to-cart-fixed-position">
                         <button type="submit" class="btn btn-warning d-flex align-items-center justify-content-center"
                             style="color: #52282A; border: 1px solid #000000;" id="add-to-cart-detail-btn">
                             <i class="bi bi-cart"></i>
                             <div class="ms-2" style="font-size: 16px">{{ __('collection.addToCart') }}</div>
                         </button>
-                        {{-- UBAH BAGIAN INI --}}
-                        {{-- <a href="/orders" class="btn btn-warning d-flex align-items-center justify-content-center"
-                            style="color: #52282A; border: 1px solid #000000;">
-                            <div style="font-size: 16px">{{ __('collection.buyNow') }}</div>
-                        </a>
                     </div>
                 </form>
 

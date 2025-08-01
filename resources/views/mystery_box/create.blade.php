@@ -146,7 +146,7 @@
                             <button type="submit" class="next_button" form="budgetForm">{{__('mysterybox.next')}}</button>
                         </div>
 
-                        {{-- Step 2: Mood --}}
+                    {{-- Step 2: Mood --}}
                     @elseif ($mode == 'Mood')
                         <form method="POST" action="{{ route('set-mood') }}" id="moodForm"
                             class="w-100 flex-grow-1 d-flex flex-column align-items-center">

@@ -6,7 +6,7 @@
 }
 
 .collections_img {
-    padding-top: 25px;
+    padding-top: 45px;
     padding-right: 50px;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .subtitle {
-    padding-top: 25px;
+    padding-top: 45px;
     padding-bottom: 0.5vh;
     color: #747474;
     font-size: 1.3rem;
@@ -73,8 +73,16 @@
     align-items: center;
     color: #52282A;
     gap: 20px;
-    padding-top: 10vh;
+    padding-top: 7.5vh;
     margin-bottom: 3vh;
+}
+
+.add-to-cart-fixed-position {
+    padding-top: 20px;
+        position: relative;
+        bottom: 20px;
+        left: 475px;
+        z-index: 1050;
 }
 
 .quantity-label {
@@ -120,8 +128,7 @@ input::-webkit-inner-spin-button {
 
 .button-container {
     margin-top: 4.5vh;
-    align-items: center;
-    gap: 40px;
+    align-items: end;
 }
 
 #alertBox {
@@ -244,10 +251,17 @@ input::-webkit-inner-spin-button {
     }
 
     .button-container {
-        flex-direction: row;
         padding-top: 30px;
-        gap: 20px;
+        gap: 10px;
         padding-bottom: 10px;
+        align-items: center;
+    }
+
+    .add-to-cart-fixed-position {
+        position: relative;
+        bottom: 20px;
+        left: 90px;
+        z-index: 1050;
     }
 
     .btn {
