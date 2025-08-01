@@ -211,7 +211,7 @@
     }
     .info-user-atas {
         font-size: 1rem;
-        width: 20%;
+        width: 100%;
         color: #000000;
     }
     .gambar-profile-container {
@@ -278,7 +278,7 @@
 
     .info-user {
         margin-top: 0px;
-        font-size: small;
+        font-size: smaller;
     }
 
     .no-telepon {
@@ -287,7 +287,7 @@
 
     .info-user-atas {
         font-size: 1rem;
-        width: 30%;
+        width: 100%;
         color: #000000;
     }
 }

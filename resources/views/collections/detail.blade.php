@@ -19,7 +19,7 @@
     </div>
 
     {{-- BACK BUTTON --}}
-    <div class="back-button d-flex w-100 justify-content-between align-items-center" style="margin-top: 80px">
+    <div class="back-button d-flex w-100 justify-content-between align-items-center" style="margin-top: 30px">
         <a href="/collections" id="backBtn">
             <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
         </a>
@@ -47,7 +47,7 @@
                 <div class="size-value">85,6 cm ({{ __('collection.height') }}) x 25 cm ({{ __('collection.width') }})</div>
 
                 {{-- FORM ADD TO CART --}}
-                <form action="{{route('collection.to.cart', ['id_collection' => $detail->id, 'quantity' => "custom"])}}" method="POST">
+                <form id="addToCartForm">
                     @csrf
                     <input type="hidden" name="collection_id" value="{{ $detail->id }}">
                     <input type="hidden" name="price" value="{{ $detail->price }}">
@@ -60,31 +60,23 @@
 
                     {{-- BUTTON QUANTITY --}}
                     <div class="counter-container">
-                        <div style="font-weight:600; margin-bottom:0px; font-size: 1.1rem;">{{__('collection.qty')}}</div>
+                        <div class="qty-label" style="font-weight:600; margin-bottom:0px;">QUANTITY</div>
                         <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
                             <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
-                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1"
-                                min="1"/>
+                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1" min="1"/>
                             <button type="button" id="add_quantity" onclick="setQuantity('add', {{$detail->stock}})">+</button>
                         </div>
                     </div>
 
-                    {{-- BUTTON ADD TO CART AND BUY NOW --}}
-                    <div class="button-container d-flex">
-                        <button type="submit" class="btn btn-warning d-flex align-items-center justify-content-center"
+                    <div class="button-container d-flex add-to-cart-fixed-position">
+                        <button type="button" class="btn btn-warning d-flex align-items-center justify-content-center"
                             style="color: #52282A; border: 1px solid #000000;" id="add-to-cart-detail-btn">
                             <i class="bi bi-cart"></i>
-                            <div class="ms-2" style="font-size: 16px">{{ __('collection.addToCart') }}</div>
+                            <div class="addcart ms-2">{{ __('collection.addToCart') }}</div>
                         </button>
-                        {{-- UBAH BAGIAN INI --}}
-                        {{-- <a href="/orders" class="btn btn-warning d-flex align-items-center justify-content-center"
-                            style="color: #52282A; border: 1px solid #000000;">
-                            <div style="font-size: 16px">{{ __('collection.buyNow') }}</div>
-                        </a>
                     </div>
                 </form>
 
-                {{-- TOAST ALERT --}}
                 <div id="toastAlert" class="toast-alert">
                     <span id="toastMessage">{{ __('collection.limit') }}</span>
                 </div>
@@ -92,7 +84,6 @@
         </div>
     </div>
 
-    {{-- Pop Up Success --}}
     <div class="modal fade" id="doneModal" tabindex="-1" aria-labelledby="doneModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 p-4 text-center">
@@ -116,13 +107,36 @@
         </div>
     </div>
 
-    {{-- Trigger Pop Up if Success Add To Cart --}}
-    @if (session('success'))
+    <div class="modal fade" id="successAddToCartModal" tabindex="-1" aria-labelledby="successAddToCartModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">Congratulations!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center"> {{-- Hapus justify-content-center dari sini --}}
+                    <div>
+                        <p class="text-center">
+                            Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center w-100">
+                        <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-warning">Lihat keranjang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Trigger Pop Up if Success Add To Cart (Dihapus karena diganti dengan JS Ajax, tapi saya kembalikan sesuai permintaan Anda untuk tidak mengubah yang tidak berhubungan. Namun, jika Anda menggunakan AJAX, bagian ini tidak akan terpicu oleh AJAX.) --}}
+    {{-- @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var doneModal = new bootstrap.Modal(document.getElementById('doneModal'));
                 doneModal.show();
             });
         </script>
-    @endif
+    @endif --}}
 @endsection
