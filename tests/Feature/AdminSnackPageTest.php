@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use Illuminate\Contracts\Auth\Authenticatable; // Import this
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class AdminSnackPageTest extends TestCase
 {
@@ -175,7 +175,7 @@ class AdminSnackPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snacks.csv', function(\App\Exports\SnackExport $export) {
+        \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snack.xlsx', function(\App\Exports\SnackExport $export) {
             return $export->collection()->contains('name', 'Oreo');
         });
     }

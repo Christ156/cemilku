@@ -10,11 +10,11 @@ class DecorationExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
-        return Decoration::select('id', 'name', 'price', 'stock', 'image', 'created_at')->get();
+        return Decoration::select('name', 'price', 'stock')->get();
     }
 
     public function headings(): array
     {
-        return ['ID', 'Name', 'Price', 'Stock', 'Image', 'Created At'];
+        return ['Name', 'Price', 'Stock'];
     }
 }

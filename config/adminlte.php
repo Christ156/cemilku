@@ -300,13 +300,13 @@ return [
 
     'menu'                                    => [
         [
-            'text'         => strtoupper(app()->getLocale()), // Menampilkan kode bahasa aktif
+            'text'         => app()->getLocale() ? strtoupper(app()->getLocale()) : '',
             'icon'         => 'fas fa-language',
             'topnav_right' => true,
             'submenu'      => [
                 [
                     'text' => 'English',
-                    'url'  =>'?lang=en',
+                    'url'  => '?lang=en',
                 ],
                 [
                     'text' => 'Bahasa Indonesia',

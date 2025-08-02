@@ -4,21 +4,36 @@ namespace App\Imports;
 
 use App\Models\Decoration;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
-class DecorationImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure
+class DecorationImport implements ToModel, WithHeadingRow
 {
-    use SkipsFailures;
+    private int $currentRow = 1; // Untuk tracking baris Excel
 
     public function model(array $row)
     {
-        $existing = Decoration::where('name', $row['name'])->first();
+        $this->currentRow++; // Menambahkan baris yang sedang dibaca
+
+        // Validasi data per baris
+        $validator = Validator::make($row, [
+            'name'  => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'nullable|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            throw ValidationException::withMessages([
+                'file' => "Error pada baris {$this->currentRow}: " . implode(', ', $validator->errors()->all()),
+            ]);
+        }
+
+        // Cek apakah dekorasi sudah ada
+        $existing = Decoration::where('name', trim($row['name']))->first();
 
         if ($existing) {
+            // Update stok dan harga jika sudah ada
             $existing->stock += $row['stock'] ?? 0;
             $existing->price = $row['price'];
             $existing->save();
@@ -26,32 +41,11 @@ class DecorationImport implements ToModel, WithHeadingRow, WithValidation, Skips
             return null;
         }
 
+        // Buat dekorasi baru
         return new Decoration([
-            'name'  => $row['name'],
+            'name'  => trim($row['name']),
             'price' => $row['price'],
             'stock' => $row['stock'] ?? 0,
         ]);
-    }
-
-    public function rules(): array
-    {
-        return [
-            '*.name' => ['required', 'string', 'max:255'],
-            '*.price' => ['required', 'numeric', 'min:0'],
-            '*.stock' => ['nullable', 'integer', 'min:0'],
-        ];
-    }
-
-    public function customValidationMessages()
-    {
-        return [
-            '*.name.required' => 'Nama dekorasi wajib diisi.',
-            '*.name.max' => 'Nama dekorasi tidak boleh lebih dari 255 karakter.',
-            '*.price.required' => 'Harga wajib diisi.',
-            '*.price.numeric' => 'Harga harus berupa angka.',
-            '*.price.min' => 'Harga tidak boleh negatif.',
-            '*.stock.integer' => 'Stok harus berupa bilangan bulat.',
-            '*.stock.min' => 'Stok tidak boleh negatif.',
-        ];
     }
 }

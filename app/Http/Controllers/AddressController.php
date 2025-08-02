@@ -7,63 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-
-
-// class AddressController extends Controller
-// {
-//     public function store(Request $request, User $user)
-//     {
-//         $request->validate([
-//             'label' => 'required|string|max:255',
-//             'provinsi' => 'required|string|max:255',
-//             'kota_kabupaten' => 'required|string|max:255',
-//             'kecamatan' => 'required|string|max:255',
-//             'kelurahan_desa' => 'required|string|max:255',
-//             'rt' => 'nullable|string|max:10', // Assuming RT/RW can be optional or formatted differently
-//             'rw' => 'nullable|string|max:10',
-//             'kode_pos' => 'nullable|string|max:10',
-//             'address' => 'required|string|max:500',
-//             'nomor_telepon' => 'number|max:20',
-//         ]);
-
-//         Address::create([
-//             'user_id' => Auth::user()->id,
-//             'label' => $request->input('label'),
-//             'provinsi' => $request->input('provinsi'),
-//             'kota_kabupaten' => $request->input('kota_kabupaten'),
-//             'kecamatan' => $request->input('kecamatan'),
-//             'kelurahan_desa' => $request->input('kelurahan_desa'),
-//             'rt' => $request->input('rt'),
-//             'rw' => $request->input('rw'),
-//             'kode_pos' => $request->input('kode_pos'),
-//             'address' => $request->input('address'),
-//             'phone_number' => $request->input('nomor_telepon')
-//         ]);
-
-//         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]);
-//     }
-
-//     public function update(Request $request, User $user, Address $address) {}
-
-//     public function destroy(string $id)
-//     {
-//         $address = Address::findOrFail($id);
-
-//         $address->delete();
-
-//         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]);
-//     }
-// }
-
-
-namespace App\Http\Controllers;
-
-use App\Models\Address;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -126,12 +69,7 @@ class AddressController extends Controller
 
     public function update(Request $request, Address $address)
     {
-        // // 1. Authorization: Ensure the authenticated user owns this address
-        // if (Auth::id() !== $address->user_id) {
-        //     abort(403, 'Unauthorized action.'); // Or redirect with an error message
-        // }
-
-        // 2. Validation: Define and apply validation rules based on your migration schema
+        // 1. Validation: Define and apply validation rules based on your migration schema
         $request->validate([
             'label' => 'required|string|max:255',
             'provinsi' => 'required|string|max:255',
@@ -146,7 +84,7 @@ class AddressController extends Controller
             'receiver_name' => 'required|string|max:255', // Added this field
         ]);
 
-        // 3. Update the address attributes
+        // 2. Update the address attributes
         $address->update([
             'label' => $request->input('label'),
             'provinsi' => $request->input('provinsi'),
@@ -161,7 +99,7 @@ class AddressController extends Controller
             'receiver_name' => $request->input('receiver_name'), // Added this field
         ]);
 
-        // 4. Redirect back to the profile page with a success message
+        // 3. Redirect back to the profile page with a success message
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
             ->with('success', 'Address updated successfully!');
     }
@@ -206,12 +144,6 @@ class AddressController extends Controller
                     ->where('id', '!=', $address->id) // Kecualikan alamat yang sedang diupdate
                     ->update(['is_primary' => false]);
             } else {
-                // Opsional: Jika Anda ingin mencegah semua alamat menjadi non-utama
-                // Misalnya, jika mencoba menonaktifkan alamat utama dan itu satu-satunya alamat.
-                // Atau, Anda bisa membiarkan user menghapus alamat utama saja.
-                // Untuk kesederhanaan, kita hanya berfokus pada menjadikan satu utama.
-                // Jika is_primary diset false dari request, itu berarti toggle dari js ke non-utama,
-                // tapi design kita di js selalu kirim "primary"
             }
 
             // Perbarui status is_primary alamat saat ini

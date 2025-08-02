@@ -8,18 +8,18 @@
 
 @section('content')
     <div class="content-header">
-        <h1>{{__('admincollection.collectionList')}}</h1>
+        <h1>{{ __('admincollection.collectionList') }}</h1>
     </div>
 
     <x-adminlte-card>
 
         <div class="d-flex justify-content-between mb-3">
             <a href="{{ route('admincollection.create') }}" class="btn btn-add">
-                <i class="fas fa-plus"></i> {{__('adminCollection.addCollection')}}
+                <i class="fas fa-plus"></i> {{ __('adminCollection.addCollection') }}
             </a>
 
             <a href="{{ route('admincollection.trash') }}" class="btn btn-yellowbrown">
-                <i class="fas fa-trash-alt"></i> {{__('adminCollection.viewTrash')}}
+                <i class="fas fa-trash-alt"></i> {{ __('adminCollection.viewTrash') }}
             </a>
         </div>
 
@@ -35,7 +35,7 @@
                             <img src="{{ asset('assets/collections/' . $collection->image) }}" alt="collection image"
                                 width="60" height="60" style="object-fit: cover; border-radius: 6px;">
                         @else
-                            <span class="text-muted">{{__('adminCollection.noImage')}}</span>
+                            <span class="text-muted">{{ __('adminCollection.noImage') }}</span>
                         @endif
                     </td>
 
@@ -55,14 +55,15 @@
                     <td>Rp{{ number_format($collection->price, 0, ',', '.') }}</td>
                     <td>{{ $collection->stock }}</td>
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit" label="{{__('adminCollection.edit')}}"
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit"
+                            label="{{ __('adminCollection.edit') }}"
                             onclick="location.href='{{ route('admincollection.edit', $collection->id) }}'" />
                         <form action="{{ route('admincollection.destroy', $collection->id) }}" method="POST"
                             style="display:inline-block;" onsubmit="return confirm(__('adminCollectionAreYouSureYouWant'))">
                             @csrf
                             @method('DELETE')
                             <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus"
-                                label="{{__('adminCollection.delete')}}" type="submit" />
+                                label="{{ __('adminCollection.delete') }}" type="submit" />
                         </form>
                     </td>
                 </tr>
@@ -73,15 +74,22 @@
 
     {{-- Tombol Ekspor --}}
     <a href="{{ route('admincollection.export') }}" class="btn btn-export mb-3">
-        {{__('adminCollection.exportToExcel')}}
+        {{ __('adminCollection.exportToExcel') }}
     </a>
 
     {{-- Form Impor --}}
     <form action="{{ route('admincollection.import') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="file" required>
-        <button type="submit" class="btn btn-add">{{__('adminCollection.importExcel')}}</button>
+        <button type="submit" class="btn btn-add">{{ __('adminCollection.importExcel') }}</button>
     </form>
+
+    {{-- Tampilkan error validasi --}}
+    @if ($errors->has('file'))
+        <x-adminlte-alert theme="danger" title="Error" class="mt-2">
+            {{ $errors->first('file') }}
+        </x-adminlte-alert>
+    @endif
 
     {{-- Pesan Sukses --}}
     @if (session('success'))

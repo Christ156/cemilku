@@ -129,6 +129,7 @@ class CollectionDetailTest extends TestCase
 
     }
 
+    //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
 
     //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
 
