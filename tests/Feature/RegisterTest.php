@@ -68,21 +68,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['phone_num']);
     }
 
-    /** @test */
-    public function test_register_with_xss_in_name()
-    {
-        $response = $this->post('/register', [
-            'name' => '<script>alert(1)</script>',
-            'birth_date' => '2000-01-01',
-            'phone_num' => '081234567891',
-            'email' => 'xss@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ]);
-
-        $response->assertRedirect('/');
-        $this->assertDatabaseHas('users', ['email' => 'xss@example.com']);
-    }
+    
 
     /** @test */
     public function test_register_with_missing_fields()

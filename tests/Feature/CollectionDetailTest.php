@@ -134,7 +134,6 @@ class CollectionDetailTest extends TestCase
 
     public function test_add_to_cart_quantity_validation_and_stock_limit()
     {
-
         $collection = Collection::create([
             'name' => 'Test Collection',
             'type' => 'bouquet',
@@ -147,15 +146,15 @@ class CollectionDetailTest extends TestCase
         ]);
 
 
-        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]), [
-            'collection_id' => $collection->id,
-            'price' => $collection->price,
-            '_token' => csrf_token(),
+        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]));
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'message' => 'Produk berhasil ditambahkan ke keranjang!',
 
         ]);
 
-        $response->assertRedirect(route('cart.index', ['id_user' => $this->user->id, 'slug' => Str::slug($this->user->name)]));
-        $response->assertSessionHas('success', 'Produk berhasil ditambahkan ke keranjang!');
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => Cart::where('user_id', $this->user->id)->first()->id,
             'collection_id' => $collection->id,
@@ -164,30 +163,24 @@ class CollectionDetailTest extends TestCase
             'total_price' => $collection->price * 3,
         ]);
 
-
-        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 6]), [
-            'collection_id' => $collection->id,
-            'price' => $collection->price,
-            '_token' => csrf_token(),
+        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 6]));
+        $response->assertStatus(400);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Kuantitas yang diminta melebihi stok yang tersedia (' . $collection->stock . ' pcs).',
         ]);
-        $response->assertSessionHas('error', 'Kuantitas tidak valid atau melebihi stok yang tersedia.'); // Asumsi pesan error dari controller
-        $response->assertStatus(302);
 
-
-        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]), [
-            'collection_id' => $collection->id,
-            'price' => $collection->price,
-            '_token' => csrf_token(),
+        $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]));
+        $response->assertStatus(400); // Controller mengembalikan 400 Bad Request untuk error stok
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Total quantity in cart exceeds available stock (' . $collection->stock . ' pcs).',
         ]);
-        $response->assertSessionHas('error', 'Penambahan kuantitas melebihi stok yang tersedia (' . $collection->stock . ' pcs).'); // Asumsi pesan error dari controller
-        $response->assertStatus(302);
-
 
         $this->assertDatabaseHas('cart_items', [
-
             'cart_id' => Cart::where('user_id', $this->user->id)->first()->id,
             'collection_id' => $collection->id,
-            'quantity' => 3,
+            'quantity' => 3, 
         ]);
     }
 }

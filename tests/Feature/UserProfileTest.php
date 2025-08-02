@@ -1,7 +1,7 @@
 <?php
 
 namespace Tests\Feature;
-
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -15,6 +15,7 @@ class UserProfileTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
 
     protected function loginAsUser(): User
     {
@@ -82,7 +83,7 @@ class UserProfileTest extends TestCase
     }
 
 
-    // edit username-> depreceated
+    // edit username-> deprecated
     public function test_edit_user_name_valid()
     {
         $user = User::first() ?? User::factory()->create();
@@ -194,6 +195,6 @@ class UserProfileTest extends TestCase
     }
 
 
-    //tes alamat
-    
+
+
 }
