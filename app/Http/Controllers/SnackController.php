@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\SnackExport;
@@ -7,9 +6,8 @@ use App\Imports\SnackImport;
 use App\Models\Snack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SnackController extends Controller
 {
@@ -52,7 +50,7 @@ class SnackController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
+            $file         = $request->file('image');
             $originalName = $file->getClientOriginalName();
 
             $destinationPath = public_path('assets/snack_items');
@@ -96,8 +94,8 @@ class SnackController extends Controller
                 unlink(public_path('assets/snack_items/' . $snack->image));
             }
 
-            $file = $request->file('image');
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file            = $request->file('image');
+            $filename        = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('assets/snack_items');
             $file->move($destinationPath, $filename);
 
@@ -124,12 +122,17 @@ class SnackController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
         ]);
 
-        Excel::import(new SnackImport, $request->file('file'));
-
-        return redirect()->route('adminsnack.index')->with('success', 'Data snack berhasil diimpor!');
+        try {
+            Excel::import(new SnackImport, $request->file('file'));
+            return redirect()->route('adminsnack.index')->with('success', 'Data snack berhasil diimpor!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+        }
     }
 
     public function trash()

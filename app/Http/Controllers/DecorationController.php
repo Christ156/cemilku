@@ -144,17 +144,17 @@ class DecorationController extends Controller
     public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
         ]);
 
-        $import = new DecorationImport;
-        Excel::import($import, $request->file('file'));
-
-        if ($import->failures()->isNotEmpty()) {
-            return back()->withErrors($import->failures())->with('warning', 'Beberapa baris gagal diimpor.');
+        try {
+            Excel::import(new DecorationImport, $request->file('file'));
+            return redirect()->route('admindecoration.index')->with('success', 'Data decoration berhasil diimpor!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
         }
-
-        return redirect()->route('admindecoration.index')->with('success', 'Data decoration berhasil diimpor!');
     }
 
     public function trash()

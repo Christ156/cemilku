@@ -24,7 +24,6 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
             'stock',
             'image',
             'layer',
-            'created_at'
         ]);
     }
 
@@ -49,7 +48,6 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
             $collection->image,
             $collection->layer,
             $snacks,
-            $collection->created_at,
         ];
     }
 
@@ -69,7 +67,6 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
             'image',
             'layer',
             'snacks',
-            'created_at',
         ];
     }
 }
