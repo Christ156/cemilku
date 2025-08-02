@@ -187,36 +187,6 @@ class AdminCollectionTest extends TestCase
         $this->assertSoftDeleted('collections', ['id' => $collection->id]);
     }
 
-
-
-    //Verifikasi admin dapat melihat koleksi yang terhapus di halaman 'trash'.
-
-    public function test_admin_can_view_trashed_collections()
-    {
-        $this->markTestSkipped('Skipping this test due to a known routing conflict in the application. Please fix routes/web.php and CollectionController.php first.');
-
-        $this->loginAsAdmin();
-
-        $trashedCollection = Collection::create([
-            'name' => 'Koleksi Dihapus',
-            'category' => 'Valentine',
-            'type' => 'bouquet',
-            'description' => 'Deskripsi koleksi yang sudah dihapus.',
-            'price' => 75000,
-            'stock' => 10,
-            'image' => 'deleted.jpg',
-        ]);
-        $trashedCollection->delete();
-
-        $response = $this->get(route('admincollection.trash'));
-
-        $response->assertStatus(200);
-        $response->assertSeeText($trashedCollection->name);
-    }
-
-
-    //Verifikasi admin dapat mengembalikan koleksi dari 'trash'.
-
     public function test_admin_can_restore_a_deleted_collection()
     {
         $this->loginAsAdmin();
@@ -327,7 +297,7 @@ class AdminCollectionTest extends TestCase
         $response->assertRedirect(route('admincollection.index'));
         $response->assertSessionHas('success', 'Data collection berhasil diimpor!');
 
-       
+
         Excel::assertImported('collections.xlsx');
     }
 

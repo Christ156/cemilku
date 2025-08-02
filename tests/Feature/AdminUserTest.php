@@ -78,7 +78,6 @@ class AdminUserTest extends TestCase
         $response->assertSeeText($user2->id);
     }
 
-
     //halaman log user
     public function test_admin_can_view_user_logs_page()
     {
