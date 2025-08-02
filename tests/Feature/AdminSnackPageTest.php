@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use Illuminate\Contracts\Auth\Authenticatable; // Import this
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class AdminSnackPageTest extends TestCase
 {

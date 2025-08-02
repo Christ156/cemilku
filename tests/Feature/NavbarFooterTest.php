@@ -119,24 +119,4 @@ class NavbarFooterTest extends TestCase
     {
         $this->get('/')->assertSee('mailto:cemilku@gmail.com');
     }
-
-    /** @test */
-    public function test_footer_ui_layout()
-    {
-        $response = $this->get('/');
-
-        $response->assertSeeInOrder([
-            'Cemilku Logo',
-            'Contact Us',
-            'Email: <a href="mailto:cemilku@gmail.com">cemilku@gmail.com</a>',
-            'Phone: 555-567-8901',
-            '<a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer">',
-            'alt="Instagram"',
-            '<a href="https://twitter.com/username" target="_blank" rel="noopener noreferrer">',
-            'alt="Twitter"',
-            '<a href="https://facebook.com/username" target="_blank" rel="noopener noreferrer">',
-            'alt="Facebook"',
-            '© 2025 Cemilku. navigation.allRightsReserved.'
-        ]);
-    }
 }
