@@ -55,7 +55,7 @@
                             @elseif ($order->status === 'pending') bg-warning
                             @elseif ($order->status === 'completed') bg-primary
                             @else bg-secondary @endif">
-                            {{ ucfirst(__('adminOrder.' . $order->status)) }}
+                            {{ $order->status }}
                         </span>
                     </td>
                     <td>Rp{{ number_format($order->total_price, 0, ',', '.') }}</td>

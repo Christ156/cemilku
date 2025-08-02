@@ -24,6 +24,7 @@ return[
     'paymentMethod' => 'Metode Pembayaran',
     'close' => 'Tutup',
     'buyNow' => 'Bayar Sekarang',
-    'cancel' => 'Batalkan'
+    'cancel' => 'Batalkan',
+    'numberOfCollectionSold' => 'Jumlah Koleksi Yang Terjual'
 
 ];
