@@ -118,7 +118,7 @@ class SnackController extends Controller
 
     public function export()
     {
-        return Excel::download(new SnackExport, 'snack.csv');
+        return Excel::download(new SnackExport, 'snack.xlsx');
     }
 
     public function import(Request $request)
