@@ -175,7 +175,7 @@ class AdminSnackPageTest extends TestCase
 
         $response->assertStatus(200);
 
-        \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snacks.csv', function(\App\Exports\SnackExport $export) {
+        \Maatwebsite\Excel\Facades\Excel::assertDownloaded('snack.xlsx', function(\App\Exports\SnackExport $export) {
             return $export->collection()->contains('name', 'Oreo');
         });
     }
