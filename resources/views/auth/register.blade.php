@@ -12,6 +12,10 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <link rel="shortcut icon" href="{{ asset('assets/logo/logo_cemilku.png') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{{ asset('css/loginRegister.css') }}">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -43,7 +47,7 @@
                                 <label for="name" class="col-form-label text-md-end">{{ __('Name') }}</label>
 
                                 <input id="name" type="text"
-                                    class="border border-warning form-control @error('name') is-invalid @enderror"
+                                    class="border border-warning bg-yellow2 form-control @error('name') is-invalid @enderror"
                                     name="name" value="{{ old('name') }}" placeholder="Type your name" required autocomplete="name" autofocus>
 
                                 @error('name')
@@ -58,7 +62,7 @@
                                     class="col-form-label text-md-end">{{ __('Birth date') }}</label>
 
                                 <input type="date" name="birth_date" id="birth_date"
-                                    class="border border-warning form-control" value="{{ old('birth_date') }}" required
+                                    class="border border-warning bg-yellow2 form-control" value="{{ old('birth_date') }}" required
                                     autocomplete="birth_date" autofocus>
                             </div>
 
@@ -67,7 +71,7 @@
                                     class="col-form-label text-md-end">{{ __('Phone number') }}</label>
 
                                 <input id="phone_num" type="number"
-                                    class="border border-warning form-control @error('phone_num') is-invalid @enderror"
+                                    class="border border-warning bg-yellow2 form-control @error('phone_num') is-invalid @enderror"
                                     name="phone_num" value="{{ old('phone_num') }}" placeholder="Type your phone number" required autocomplete="phone_num"
                                     autofocus>
 
@@ -82,7 +86,7 @@
                                 <label for="email"
                                     class="col-form-label text-md-end">{{ __('Email Address') }}</label>
                                 <input id="email" type="email"
-                                    class="border border-warning form-control @error('email') is-invalid @enderror"
+                                    class="border border-warning bg-yellow2 form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" placeholder="Type your email" required autocomplete="email">
 
                                 @error('email')
@@ -95,7 +99,7 @@
                             <div class="mb-3">
                                 <label for="password" class="col-form-label text-md-end">{{ __('Password') }}</label>
                                 <input id="password" type="password"
-                                    class="border border-warning form-control @error('password') is-invalid @enderror"
+                                    class="border border-warning bg-yellow2 form-control @error('password') is-invalid @enderror"
                                     name="password" placeholder="Type your password" required autocomplete="new-password">
 
                                 @error('password')
@@ -109,7 +113,7 @@
                                 <label for="password-confirm"
                                     class="col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
-                                <input id="password-confirm" type="password" class="border border-warning form-control"
+                                <input id="password-confirm" type="password" class="border border-warning bg-yellow2 form-control"
                                     name="password_confirmation" placeholder="Retype your password" required autocomplete="new-password">
                             </div>
 

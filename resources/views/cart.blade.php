@@ -6,7 +6,7 @@
 
 @section('script')
     <script src="{{ asset('js/cart.js') }}" defer></script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const addressCartModal = document.getElementById('addressCartModal');
             const addAddressCartModal = document.getElementById('addAddressCartModal');
@@ -112,7 +112,7 @@
             }
             // MODIFIKASI BERAKHIR DI SINI
         });
-    </script>
+    </script> --}}
 @endsection
 
 @section('content')
@@ -166,7 +166,7 @@
                         {{ __('cart.selectAll') }}
                     </label>
 
-                    <button type="submit" id="remove-btn" class="btn btn-link text-decoration-none" style="display: none">
+                    <button type="submit" id="remove-btn" class="btn text-decoration-none fw-bold" style="display: none; color:#52282A;">
                         {{ __('cart.remove') }}
                     </button>
                 </div>
@@ -326,10 +326,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#addAddressCartModal"
+                        <a href="{{route('profile', ['id'=>Auth::user()->id, 'slug'=>Str::slug(Auth::user()->name)])}}"
                             class="w-100 card btn btn-outline-warning coklatbang p-2 mb-2">
                             <p class="m-0 fw-bold">{{ __('cart.addNewAddress') }}</p>
-                        </button>
+                        </a>
                         <hr class="w-100 coklatbang" style="height: 2px;">
                         <div>
                             @if ($count_address_active != 0)
@@ -372,99 +372,6 @@
                             @endforelse
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="addAddressCartModal" tabindex="-1" aria-labelledby="addAddressCartModal"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content color_secondary">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ __('cart.addNewAddress') }}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST"
-                        action="{{ route('cart.new.address', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? '')]) }}"
-                        class="modal-body p-3 px-5">
-                        @csrf
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.label') }}</label>
-                                <input type="text" name="label_address" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.receiverName') }}</label>
-                                <input type="text" name="receiver_name" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.phoneNumber') }}</label>
-                                <input type="text" name="receiver_phone" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.address') }}</label>
-                                <input type="text" name="address" id="" class="form-control" placeholder=""
-                                    required />
-                            </div>
-                        </div>
-                        <div class="col d-flex">
-                            <div class="mb-3 pe-2 w-50">
-                                <label class="form-label">{{ __('cart.rt') }}</label>
-                                <input type="text" name="rt" id="" class="form-control" placeholder=""
-                                    required />
-                            </div>
-                            <div class="mb-3 ps-2 w-50">
-                                <label class="form-label">{{ __('cart.rw') }}</label>
-                                <input type="text" name="rw" id="" class="form-control" placeholder=""
-                                    required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.subDistrict') }}</label>
-                                <input type="text" name="kelurahan" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.district') }}</label>
-                                <input type="text" name="kecamatan" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.regency') }}</label>
-                                <input type="text" name="kabupaten" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.province') }}</label>
-                                <input type="text" name="province" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">{{ __('cart.postalCode') }}</label>
-                                <input type="text" name="pos_code" id="" class="form-control"
-                                    placeholder="" required />
-                            </div>
-                        </div>
-
-                        <button class="btn btn-warning w-100 mt-3" type="submit">{{ __('cart.saveAddress') }}</button>
-                    </form>
                 </div>
             </div>
         </div>

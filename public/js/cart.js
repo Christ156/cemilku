@@ -8,7 +8,7 @@ var total_item_check = 0;
 var total_price_with_ship = 0; // Ini adalah total harga dari item yang dipilih + ongkir
 
 var allCheck = 0;
-const SHIPPING_COST = 20000; // Define shipping cost here, MUST BE CONSISTENT WITH PHP CONTROLLER
+const SHIPPING_COST = 0; // Define shipping cost here, MUST BE CONSISTENT WITH PHP CONTROLLER
 
 // Fungsi untuk memperbarui hidden input total_price di form checkout
 function updateHiddenTotalPrice() {
