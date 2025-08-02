@@ -9,6 +9,9 @@ use App\Models\Collection;
 use App\Models\Snack;
 use App\Models\Decoration;
 use App\Models\OrderDetail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrderExport;
+use Illuminate\Support\Str;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -74,7 +77,7 @@ class AdminOrderTest extends TestCase
     {
         $this->loginAsAdmin();
 
-        // Buat beberapa data order agar tabel tidak benar-benar kosong awalnya
+        
         User::factory()->create(['name' => 'Adi']);
         Order::create([
             'user_id' => User::factory()->create(['name' => 'Joko'])->id,
@@ -266,5 +269,43 @@ class AdminOrderTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('success', 'Status berhasil diubah menjadi shipped.');
     }
-}
 
+    //memastikan bisa export
+
+    public function test_admin_can_export_orders_to_excel()
+    {
+        $this->loginAsAdmin();
+
+
+        $user = User::create([
+            'name' => 'Rahmat Hidayat',
+            'email' => 'rahmat.hidayat@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'user',
+            'phone_number' => '0812' . Str::random(8),
+            'email_verified_at' => now(),
+        ]);
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_price' => 150000,
+            'payment_method' => 'BCA',
+            'status' => 'completed',
+        ]);
+
+
+        $this->assertDatabaseHas('orders', ['id' => $order->id]);
+
+        Excel::fake();
+
+
+        $response = $this->get(route('adminorder.export'));
+
+        $response->assertStatus(200);
+
+
+        Excel::assertDownloaded('orders.xlsx', function (OrderExport $export) {
+            return $export->collection()->count() === 1;
+        });
+    }
+}
