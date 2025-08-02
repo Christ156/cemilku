@@ -10,11 +10,11 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class CollectionExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
-     * Ambil hanya kolom yang diperlukan dari tabel collections
+     * Ambil data collections beserta relasi snacks
      */
     public function collection()
     {
-        return Collection::all([
+        return Collection::with('snacks')->get([
             'id',
             'category',
             'name',
@@ -29,10 +29,15 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
     }
 
     /**
-     * Atur urutan dan isi data setiap baris
+     * Mapping data setiap baris
      */
     public function map($collection): array
     {
+        // Gabungkan semua snack menjadi satu string
+        $snacks = $collection->snacks->map(function ($snack) {
+            return $snack->name . ' x ' . ($snack->pivot->quantity ?? 1);
+        })->implode(', ');
+
         return [
             $collection->id,
             $collection->category,
@@ -43,6 +48,7 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
             $collection->stock,
             $collection->image,
             $collection->layer,
+            $snacks,
             $collection->created_at,
         ];
     }
@@ -62,6 +68,7 @@ class CollectionExport implements FromCollection, WithHeadings, WithMapping
             'stock',
             'image',
             'layer',
+            'snacks',
             'created_at',
         ];
     }
