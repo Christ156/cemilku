@@ -9,6 +9,9 @@ use App\Models\Collection;
 use App\Models\Snack;
 use App\Models\Decoration;
 use App\Models\OrderDetail;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrderExport;
+use Illuminate\Support\Str;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -29,10 +32,7 @@ class AdminOrderTest extends TestCase
         $this->actingAs($admin);
     }
 
-    /**
-     * Verifikasi Fungsionalitas Kolom 'Search' (Pencarian Valid)
-     * Memastikan pencarian dengan kata kunci valid menampilkan hasil yang relevan.
-     */
+    // Verifikasi Fungsionalitas Kolom 'Search' (Pencarian Valid)
     public function test_can_search_order_by_valid_keyword()
     {
         $this->loginAsAdmin();
@@ -57,28 +57,27 @@ class AdminOrderTest extends TestCase
 
         ]);
 
-        // Skenario 1: Pencarian berdasarkan username
+
         $response = $this->get('/admin/order?search=Rahmat');
         $response->assertStatus(200);
         $response->assertSee('Rahmat Hidayat');
         $response->assertDontSee('Budi Santoso');
 
-        // Skenario 2: Pencarian berdasarkan payment method
+
         $response = $this->get('/admin/order?search=BCA');
         $response->assertStatus(200);
         $response->assertSee('BCA');
         $response->assertDontSee('Mandiri');
     }
 
-    /**
-     * Verifikasi Fungsionalitas Kolom 'Search' (Pencarian Tidak Valid)
-     * Memastikan pencarian dengan kata kunci yang tidak ada menampilkan pesan 'No results found' atau tabel kosong.
-     */
+
+    // Verifikasi Fungsionalitas Kolom 'Search' (Pencarian Tidak Valid)
+
     public function test_search_order_no_results()
     {
         $this->loginAsAdmin();
 
-        // Buat beberapa data order agar tabel tidak benar-benar kosong awalnya
+        
         User::factory()->create(['name' => 'Adi']);
         Order::create([
             'user_id' => User::factory()->create(['name' => 'Joko'])->id,
@@ -90,18 +89,16 @@ class AdminOrderTest extends TestCase
         $response = $this->get('/admin/order?search=KeywordTidakAda');
         $response->assertStatus(200);
 
-        // Pastikan tidak ada hasil yang sesuai
+
         $response->assertDontSee('Joko');
         $response->assertDontSee('BCA');
 
-        // Cek apakah tabel kosong
+
         $response->assertSee('<tbody></tbody>', false);
     }
 
-    /**
-     * Verifikasi Tombol 'X' (Clear) pada Kolom Search
-     * Memastikan kolom search kosong dan semua item kembali ditampilkan setelah clear.
-     */
+
+    //Verifikasi Tombol 'X' (Clear) pada Kolom Search
     public function test_clear_search_button_resets_results()
     {
         $this->loginAsAdmin();
@@ -140,50 +137,47 @@ class AdminOrderTest extends TestCase
         $response->assertSee('Customer B');
     }
 
-    /**
-     * TC1: Verifikasi Tampilan Data Order di Tabel Entri
-     * Memastikan semua kolom yang diharapkan muncul dan data relevan ditampilkan.
-     */
+    //Verifikasi Tampilan Data Order di Tabel Entri
     public function test_can_see_order_list_and_data_in_table()
     {
         $this->loginAsAdmin();
 
-        // --- Data untuk Order 1 (sesuai gambar) ---
+
         $user1 = User::factory()->create(['name' => 'User Satu']);
         $order1 = Order::create([
             'user_id' => $user1->id,
-            'total_price' => 678000, // Rp678.000
+            'total_price' => 678000,
             'payment_method' => 'BCA',
-            'status' => 'paid', // Status di UI
+            'status' => 'paid',
         ]);
 
-        // Buat Collection untuk produk Kongsi Tower
+
         $collection1 = Collection::create([
             'name' => 'Kongsi Tower',
-            'price' => 339000, // Harga per item
+            'price' => 339000,
             'description' => 'Deskripsi Kongsi Tower',
             'image' => 'kongsi_tower_collection.png',
         ]);
 
-        // Buat OrderDetail dan pastikan collection_id diisi dengan benar
+
         OrderDetail::create([
             'order_id' => $order1->id,
-            'collection_id' => $collection1->id, // Menyambungkan dengan Collection
+            'collection_id' => $collection1->id,
             'quantity' => 2,
             'price' => $collection1->price,
-            'product_type' => 'App\\Models\\Collection', // Menunjukkan jenis produk
+            'product_type' => 'App\\Models\\Collection',
         ]);
 
-        // --- Data untuk Order 2 (sesuai gambar) ---
+
         $user2 = User::factory()->create(['name' => 'User Dua']);
         $order2 = Order::create([
             'user_id' => $user2->id,
-            'total_price' => 623000, // Rp623.000
+            'total_price' => 623000,
             'payment_method' => 'Mandiri',
             'status' => 'completed',
         ]);
 
-        // Buat Collection untuk produk Kongkow Bouquet
+
         $collection2 = Collection::create([
             'name' => 'Kongkow Bouquet',
             'price' => 400000,
@@ -191,7 +185,7 @@ class AdminOrderTest extends TestCase
             'image' => 'kongkow_bouquet_collection.png',
         ]);
 
-        // Buat Collection untuk produk Kongsi Tower (jika berbeda instance atau harga)
+
         $collection3 = Collection::create([
             'name' => 'Kongsi Tower',
             'price' => 223000,
@@ -199,29 +193,29 @@ class AdminOrderTest extends TestCase
             'image' => 'kongsi_tower_collection_2.png',
         ]);
 
-        // OrderDetail untuk Kongkow Bouquet
+
         OrderDetail::create([
             'order_id' => $order2->id,
-            'collection_id' => $collection2->id, // Menyambungkan dengan Collection Kongkow Bouquet
+            'collection_id' => $collection2->id,
             'quantity' => 1,
             'price' => $collection2->price,
             'product_type' => 'App\\Models\\Collection',
         ]);
 
-        // OrderDetail untuk Kongsi Tower
+
         OrderDetail::create([
             'order_id' => $order2->id,
-            'collection_id' => $collection3->id, // Menyambungkan dengan Collection Kongsi Tower
+            'collection_id' => $collection3->id,
             'quantity' => 1,
             'price' => $collection3->price,
             'product_type' => 'App\\Models\\Collection',
         ]);
 
-        // Mengakses halaman dan memastikan status 200
+
         $response = $this->get('/admin/order');
         $response->assertStatus(200);
 
-        // Verifikasi keberadaan header kolom
+
         $response->assertSee('Order ID');
         $response->assertSee('User Name');
         $response->assertSee('Address');
@@ -231,67 +225,87 @@ class AdminOrderTest extends TestCase
         $response->assertSee('Products');
         $response->assertSee('Action');
 
-        // Verifikasi data order 1
+
         $response->assertSee('#' . $order1->id);
         $response->assertSee('User Satu');
-        $response->assertSee('-'); // Jika address null
+        $response->assertSee('-');
         $response->assertSee('BCA');
         $response->assertSee('Paid');
-        $response->assertSee('Rp' . number_format($order1->total_price, 0, ',', '.')); // Format harga
-        $response->assertSee('Kongsi Tower (x2)'); // Verifikasi produk di order 1
-        $response->assertSee('Ship'); // Tombol 'Ship'
+        $response->assertSee('Rp' . number_format($order1->total_price, 0, ',', '.'));
+        $response->assertSee('Kongsi Tower (x2)');
+        $response->assertSee('Ship');
 
-        // Verifikasi data order 2
+
         $response->assertSee('#' . $order2->id);
         $response->assertSee('User Dua');
-        $response->assertSee('-'); // Jika address null
+        $response->assertSee('-');
         $response->assertSee('Mandiri');
         $response->assertSee('Completed');
-        $response->assertSee('Rp' . number_format($order2->total_price, 0, ',', '.')); // Format harga
+        $response->assertSee('Rp' . number_format($order2->total_price, 0, ',', '.'));
         $response->assertSee('Kongkow Bouquet (x1)');
         $response->assertSee('Kongsi Tower (x1)');
-        $response->assertSee('Ship'); // Tombol 'Ship'
+        $response->assertSee('Ship');
     }
 
 
 
-
-    public function test_edit_order_functionality()
+    // Memastikan admin bisa mengubah status pesanan dari 'paid' ke 'shipped'
+    public function test_admin_can_ship_a_paid_order()
     {
-        // Membuat user untuk order
-        $user = User::create([
-            'name' => 'Test User',
-            'email' => 'testuser@example.com',
-            'password' => bcrypt('password123'),
-        ]);
 
-        // Membuat order menggunakan model Order dan mengisi user_id
+        $this->loginAsAdmin();
+
+
+        $user = User::factory()->create();
         $order = Order::create([
             'user_id' => $user->id,
-            'total_price' => 678000,
-            'payment_method' => 'BCA',
-            'status' => 'paid',  // Pastikan statusnya "paid"
+            'status' => 'paid', // Status awal harus 'paid'
         ]);
 
-        // Mengakses halaman edit order untuk order tertentu
-        $response = $this->get(route('order.edit', $order->id));
-
-        // Verifikasi apakah status saat ini ada di form
-        $response->assertSee('paid');
-
-        // Mengubah status order
-        $response = $this->post(route('order.ship', $order->id), [
-            'status' => 'shipped',
-        ]);
-
-        // Verifikasi apakah status sudah diperbarui menjadi shipped
+        $response = $this->post(route('adminorder.ship', $order->id));
         $order->refresh();
         $this->assertEquals('shipped', $order->status);
 
-        // Verifikasi bahwa pengalihan kembali terjadi setelah pembaruan
-        $response->assertRedirect(route('admin.order.index'));
-        $response->assertSessionHas('success', 'Order status updated to shipped.');
+        $response->assertRedirect();
+        $response->assertSessionHas('success', 'Status berhasil diubah menjadi shipped.');
+    }
+
+    //memastikan bisa export
+
+    public function test_admin_can_export_orders_to_excel()
+    {
+        $this->loginAsAdmin();
+
+
+        $user = User::create([
+            'name' => 'Rahmat Hidayat',
+            'email' => 'rahmat.hidayat@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'user',
+            'phone_number' => '0812' . Str::random(8),
+            'email_verified_at' => now(),
+        ]);
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_price' => 150000,
+            'payment_method' => 'BCA',
+            'status' => 'completed',
+        ]);
+
+
+        $this->assertDatabaseHas('orders', ['id' => $order->id]);
+
+        Excel::fake();
+
+
+        $response = $this->get(route('adminorder.export'));
+
+        $response->assertStatus(200);
+
+
+        Excel::assertDownloaded('orders.xlsx', function (OrderExport $export) {
+            return $export->collection()->count() === 1;
+        });
     }
 }
-
-

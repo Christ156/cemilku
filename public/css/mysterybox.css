@@ -19,7 +19,7 @@ body.modal-open {
     height: 100vh;
     overflow: hidden;
     margin-top: 0 !important;
-    padding-top: 50px;
+    padding-top: 10px;
 }
 
 /* ----------------- Section Styling ----------------- */
@@ -99,7 +99,7 @@ body.modal-open {
     border: 1.5px solid #52282a;
     border-radius: 10px;
     color: #52282a;
-    font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
@@ -369,4 +369,28 @@ body.modal-open {
 .mood_box.selected {
     border-color: #52282A;
     background-color: #FDC607;
+}
+
+/* --- Perubahan dimulai di sini --- */
+#successAddToCartModal .modal-body {
+    padding: 1rem; /* Berikan padding ke modal-body itu sendiri */
+}
+
+#successAddToCartModal .modal-body .btn.btn-warning {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    font-size: 1rem;
+    padding: 8px 15px;
+    box-sizing: border-box;
+}
+
+#successAddToCartModal .modal-body > div:last-of-type {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
 }

@@ -43,7 +43,7 @@ return[
     'noImage' => 'No Image',
     'areYouSureYouWant' => 'Are you sure you want to delete this snack?',
     'delete' => 'Delete',
-    'exportToExcel' => 'Expert To Excel',
+    'exportToExcel' => 'Export To Excel',
     'importExcel' => 'Import Excel',
     'edit' => 'Edit',
 

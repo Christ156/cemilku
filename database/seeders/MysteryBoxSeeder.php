@@ -30,6 +30,7 @@ class MysteryBoxSeeder extends Seeder
                     'budget'     => $budget,
                     'mood'       => $mood,
                     'image'      => $imageMap[$mood] ?? null,
+                    'stock'      => 10000,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
