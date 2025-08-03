@@ -143,7 +143,7 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <h5 class="card-title m-0">
-                                                            {{ Str::limit($s->snack->name, 12, '...') }}</h5>
+                                                            {{ Str::limit($s->snack->name, 10, '...') }}</h5>
                                                         <p class="card-text fs-bold m-0">
                                                             Rp{{ Str::currency($s->snack->price * 10) }}</p>
                                                     </div>
@@ -292,7 +292,7 @@
                                                     id="list-snack" />
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title m-0">{{ Str::limit('No decoration', 13, '...') }}
+                                                <h5 class="card-title m-0">{{ Str::limit('No decoration', 10, '...') }}
                                                 </h5>
                                                 <p class="card-text fs-bold m-0">Rp{{ Str::currency(0) }}</p>
                                             </div>
@@ -311,7 +311,7 @@
                                                         alt="Title" id="list-snack" />
                                                 </div>
                                                 <div class="card-body">
-                                                    <h5 class="card-title m-0">{{ Str::limit($d->name, 13, '...') }}</h5>
+                                                    <h5 class="card-title m-0">{{ Str::limit($d->name, 10, '...') }}</h5>
                                                     <p class="card-text fs-bold m-0">Rp{{ Str::currency($d->price) }}</p>
                                                 </div>
                                                 <div class="card-footer d-flex justify-content-center">
@@ -381,7 +381,7 @@
                             </div>
 
                             {{-- MODAL CONFIRMATION --}}
-                            <div class="modal fade color_secondary" id="confirmationBouquet" tabindex="-1"
+                            <div class="modal fade" id="confirmationBouquet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                                 aria-labelledby="confirmationBouquetLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
