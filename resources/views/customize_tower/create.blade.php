@@ -353,7 +353,7 @@
                                 <div class="mx-3">
                                     <label for="" class="form-label">{{ __('tower.giveName') }}</label>
                                     <input type="text" name="name" id="customize-name" class="form-control"
-                                        placeholder=""/>
+                                        placeholder="" maxlength="30"/>
                                     <p class="m-0 text-danger" id="warning-tower-name"></p>
                                 </div>
 

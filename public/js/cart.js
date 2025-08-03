@@ -149,6 +149,23 @@ function removeSelected(count_checked) {
     }
 }
 
+function quantityCheck(count, carts) {
+    for (var i = 0; i < count; i++) {
+        var quantity = parseInt(document.getElementById("quantity_cart_" + carts[i]["id"]).value)
+
+        if (quantity <= 1) {
+            document.getElementById("add_item_" + carts[i]["id"]).disabled = false;
+            document.getElementById("subs_item_" + carts[i]["id"]).disabled = true;
+        } else if (quantity >= 100) {
+            document.getElementById("add_item_" + carts[i]["id"]).disabled = true;
+            document.getElementById("subs_item_" + carts[i]["id"]).disabled = false;
+        } else {
+            document.getElementById("add_item_" + carts[i]["id"]).disabled = false;
+            document.getElementById("subs_item_" + carts[i]["id"]).disabled = false;
+        }
+    }
+}
+
 function checkItemSelected(count, carts, address) {
     var selectedItem = 0;
     var selectedPayment = 0;
@@ -181,7 +198,7 @@ function checkItemSelected(count, carts, address) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var addAddressCartModal = document.getElementById('addAddressCartModal');
     var addressCartModal = document.getElementById('addressCartModal');
 
@@ -257,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener untuk addressCartModal
     if (addressCartModal) {
         // Saat addressCartModal ditampilkan, pastikan backdrop-nya ada
-        addressCartModal.addEventListener('shown.bs.modal', function() {
+        addressCartModal.addEventListener('shown.bs.modal', function () {
             const currentBackdrop = document.querySelector('.modal-backdrop.fade.show');
             if (currentBackdrop) {
                 // Default Bootstrap z-index untuk backdrop pertama adalah 1040
@@ -306,17 +323,19 @@ function updateQuantity(state, id) {
     if (!quantity_cart) {
         console.error(
             "Error: quantity_cart element with ID 'quantity_cart_" +
-                id +
-                "' not found."
+            id +
+            "' not found."
         );
         return;
     }
 
     var quantity = parseInt(quantity_cart.value);
 
-    if (quantity >= 1) {
+    if (quantity >= 1 && quantity <= 100) {
         if (state == "add") {
-            quantity = quantity + 1;
+            if(quantity != 100){
+                quantity = quantity + 1;
+            }
         } else {
             quantity = quantity - 1;
         }
@@ -335,10 +354,17 @@ function updateQuantity(state, id) {
         }
     } else {
         // If initial quantity is less than 1, set to 1 and submit
-        if (cart_item_id) cart_item_id.value = id;
-        if (quantity_item) quantity_item.value = 1;
-        quantity_cart.value = 1; // Prevent quantity from going below 1
-        if (form_update) form_update.submit();
+        if (quantity <= 1) {
+            if (cart_item_id) cart_item_id.value = id;
+            if (quantity_item) quantity_item.value = 1;
+            quantity_cart.value = 1; // Prevent quantity from going below 1
+            if (form_update) form_update.submit();
+        } else if(quantity >= 99){
+            if (cart_item_id) cart_item_id.value = id;
+            if (quantity_item) quantity_item.value = 100;
+            quantity_cart.value = 100; // Prevent quantity from going below 1
+            if (form_update) form_update.submit();
+        }
     }
 }
 
@@ -349,8 +375,8 @@ function updateQuantityByField(id) {
     if (!quantity_cart) {
         console.error(
             "Error: quantity_cart element with ID 'quantity_cart_" +
-                id +
-                "' not found."
+            id +
+            "' not found."
         );
         return;
     }
@@ -361,6 +387,9 @@ function updateQuantityByField(id) {
         console.warn("Invalid quantity entered in field for item: " + id + ". Setting to 1.");
         quantity = 1; // Default to 1 if invalid
         quantity_cart.value = 1; // Update the field visually
+    }else if(quantity > 100){
+        quantity = 100; // Default to 1 if invalid
+        quantity_cart.value = 100; // Update the field visually
     }
 
     if (cart_item_id) cart_item_id.value = id;

@@ -250,12 +250,12 @@
                                                         <h5 class="card-title m-0">
                                                             {{ Str::limit($s->snack->name, 10, '...') }}</h5>
                                                         <p class="card-text fs-bold m-0">
-                                                            Rp{{ Str::currency($s->snack->price * 5) }}</p>
+                                                            Rp{{ Str::currency($s->snack->price * 3) }}</p>
                                                     </div>
                                                     <div class="card-footer d-flex justify-content-center">
                                                         <button class="btn btn-warning px-lg-5 px-2"
                                                             id="add-snack-{{ $s->id_snack }}"
-                                                            onclick="changePreview('{{ $s->snack->image }}', {{ $s->snack->price * 5 }}, {{ $s->id_snack }}, 4)">{{__('bouquet.add')}}</button>
+                                                            onclick="changePreview('{{ $s->snack->image }}', {{ $s->snack->price * 3 }}, {{ $s->id_snack }}, 4)">{{__('bouquet.add')}}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -293,7 +293,7 @@
                                 <div class="mx-3">
                                     <label for="" class="form-label">{{__('bouquet.confirmName')}}</label>
                                     <input type="text" name="name" id="customize-name" class="form-control"
-                                        placeholder=""/>
+                                        placeholder="" maxlength="30"/>
                                     <p class="m-0 text-danger" id="warning-bouquet-name"></p>
                                 </div>
 
