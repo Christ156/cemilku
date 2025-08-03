@@ -16,7 +16,7 @@
                     <a href="{{ route('home') }}"
                         class="col-2 d-flex align-items-center justify-content-center decoration-none"><i
                             class="bi bi-arrow-left-circle-fill" style="color: #542828; font-size: 1.75rem;"></i></a>
-                    <div class="col-10 d-flex align-items-center justify-content-lg-start justify-content-end">
+                    <div class="col-10 d-flex align-items-center justify-content-lg-start">
                         <p class="fs-lg-1 fs-4 fw-bold m-0" style="color: #542828;">{{ __('bouquet.createYourBouquet') }}</p>
                     </div>
                 </div>
