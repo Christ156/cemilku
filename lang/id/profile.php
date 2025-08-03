@@ -76,5 +76,9 @@ return[
     'reciepentName' => 'Nama Penerima',
     'inputReciepentName' => 'Masukkan Nama Penerima...',
     'description' => 'Deskripsi',
-    'years' => ' tahun'
+    'years' => ' tahun',
+    'main' => 'Utama',
+    'setMain' => 'Jadikan Utama',
+    'currentMain' => 'Utama saat ini',
+    'nonMain' => 'Non-utama'
 ];

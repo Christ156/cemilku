@@ -19,7 +19,6 @@ body.modal-open {
     height: 100vh;
     overflow: hidden;
     margin-top: 0 !important;
-    padding-top: 10px;
 }
 
 /* ----------------- Section Styling ----------------- */
@@ -230,7 +229,6 @@ body.modal-open {
     #mysteryboxContainer {
         height: auto;
         overflow: visible;
-        padding-top: 40px;
     }
 
     .mystery_box {
@@ -245,7 +243,7 @@ body.modal-open {
 
     .right-section {
         padding-top: 2rem;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
         height: auto;
         overflow-y: visible;
         box-sizing: border-box;
