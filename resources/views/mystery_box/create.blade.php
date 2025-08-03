@@ -15,7 +15,7 @@
         <div class="container-fluid d-flex flex-column flex-md-row" data-mode="{{ $mode }}">
 
             {{-- LEFT SIDE --}}
-            <div class="left-section col-12 col-md-6 mt-3 d-flex flex-column">
+            <div class="left-section col-12 col-md-6 mt-2 d-flex flex-column">
                 {{-- Header --}}
                 <div class="d-flex w-100 justify-content-between align-items-center mb-3">
                     <a href="#" id="backBtn" data-home-url="{{ route('home') }}">
