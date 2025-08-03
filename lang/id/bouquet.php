@@ -15,4 +15,7 @@ return[
     'confirmName' => 'Silakan berikan nama untuk desainmu',
     'back' => 'Kembali',
     'finish' => 'Selesai',
+    'congratulations' => 'Selamat',
+    'horey' => 'Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!',
+    'seeCart' => 'Lihat Keranjang'
 ];

@@ -155,12 +155,12 @@
                             @csrf
                             @php
                                 $moods = [
-                                    ['label' => __('mysterybox.romantic'), 'img' => 'mysterybox_pink.png', 'id' => 1],
-                                    ['label' => __('mysterybox.mysterious'), 'img' => 'mysterybox_ungu.png', 'id' => 2],
-                                    ['label' => __('mysterybox.funny'), 'img' => 'mysterybox_biru.png', 'id' => 3],
-                                    ['label' => __('mysterybox.brave'), 'img' => 'mysterybox_merah.png', 'id' => 4],
-                                    ['label' => __('mysterybox.calm'), 'img' => 'mysterybox_hijau.png', 'id' => 5],
-                                    ['label' => __('mysterybox.happy'), 'img' => 'mysterybox_kuning.png', 'id' => 6],
+                                    ['label' => 'Romantic', 'img' => 'mysterybox_pink.png', 'id' => 1],
+                                    ['label' => 'Mysterious', 'img' => 'mysterybox_ungu.png', 'id' => 2],
+                                    ['label' => 'Funny', 'img' => 'mysterybox_biru.png', 'id' => 3],
+                                    ['label' => 'Brave', 'img' => 'mysterybox_merah.png', 'id' => 4],
+                                    ['label' => 'Calm', 'img' => 'mysterybox_hijau.png', 'id' => 5],
+                                    ['label' => 'Happy', 'img' => 'mysterybox_kuning.png', 'id' => 6],
                                 ];
                             @endphp
                             <div class="mood-wrapper mb-2 w-1000 d-grid"
@@ -216,19 +216,19 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">Congratulations!</h1>
+                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">{{__('bouquet.congratulations')}}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex flex-column align-items-center">
                     <div>
                         <p class="text-center">
-                            Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                            {{__('bouquet.horey')}}
                         </p>
                     </div>
 
                     <div class="d-flex justify-content-center w-100">
                         <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}"
-                            class="btn btn-warning">Lihat keranjang</a>
+                            class="btn btn-warning">{{__('bouquet.seeCart')}}</a>
                     </div>
                 </div>
             </div>

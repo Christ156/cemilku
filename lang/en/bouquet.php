@@ -15,4 +15,7 @@ return[
     'confirmName' => 'Please give a name for your design',
     'back' => 'Back',
     'finish' => 'Finish',
+    'congratulations' => 'Congratulations',
+    'horey' => 'Hooray, your Snack Bouquet has been successfully created and added to your cart!!!',
+    'seeCart' => 'Check Cart'
 ];

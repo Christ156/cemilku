@@ -112,18 +112,18 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">Congratulations!</h1>
+                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">{{__('bouquet.congratulations')}}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex flex-column align-items-center"> {{-- Hapus justify-content-center dari sini --}}
                     <div>
                         <p class="text-center">
-                            Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                            {{__('bouquet.horey')}}
                         </p>
                     </div>
 
                     <div class="d-flex justify-content-center w-100">
-                        <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-warning">Lihat keranjang</a>
+                        <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-warning">{{__('bouquet.seeCart')}}</a>
                     </div>
                 </div>
             </div>

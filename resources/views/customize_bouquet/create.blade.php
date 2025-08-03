@@ -311,7 +311,7 @@
                                 </div>
                                 <div class="col d-flex align-items-center justify-content-end">
                                     <button class="btn btn-warning px-3 me-2" type="button"
-                                        onclick="controlProgress('prev')">Back</button>
+                                        onclick="controlProgress('prev')">{{__('bouquet.back')}}</button>
                                     <button id="finish-customize" onclick="checkCustomizeName()" class="btn btn-warning px-3" type="button" class="btn btn-primary">{{ __('bouquet.finish') }}</button>
                                 </div>
                             </div>
@@ -322,15 +322,15 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Congratulations</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{__('bouquet.congratulations')}}</h1>
                                         </div>
                                         <div class="modal-body d-flex flex-column justify-content-center">
                                             <div>
                                                 <p class="text-center">
-                                                    Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                                                    {{__('bouquet.horey')}}
                                                 </p>
                                             </div>
-                                            <button type="submit" class="btn btn-warning">Lihat keranjang</button>
+                                            <button type="submit" class="btn btn-warning">{{__('bouquet.seeCart')}}</button>
                                         </div>
                                     </div>
                                 </div>
