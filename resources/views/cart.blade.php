@@ -221,7 +221,7 @@
                                         </button>
                                         <input type="text" class="quantity-cart-field" name="quantity_cart"
                                             id="quantity_cart_{{ $c->id }}" value="{{ $c->quantity }}"
-                                            onchange="updateQuantityByField({{ $c->id }})">
+                                            oninput="updateQuantityByField({{ $c->id }})">
                                         <button type="button" class="btn quantity-btn"
                                             onclick="updateQuantity('add', {{ $c->id }})">
                                             <i class="bi bi-plus"></i>
