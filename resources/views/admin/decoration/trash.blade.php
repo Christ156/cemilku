@@ -8,11 +8,11 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Trash - Deleted Decorations</h1>
+        <h1>{{__('adminDecoration.trashDeleted')}}</h1>
     </div>
 
-    <a href="{{ route('admin.decoration.index') }}" class="btn btn-yellowbrown mb-3">
-        <i class="fas fa-arrow-left "></i> Back to List
+    <a href="{{ route('admindecoration.index') }}" class="btn btn-yellowbrown mb-3">
+        <i class="fas fa-arrow-left "></i> {{__('adminDecoration.backToList')}}
     </a>
 
     <table class="table table-bordered">
@@ -31,31 +31,31 @@
                     <td>{{ $decoration->name }}</td>
                     <td>{{ $decoration->deleted_at }}</td>
                     <td>
-                        <form action="{{ route('admin.decoration.restore', $decoration->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('admindecoration.restore', $decoration->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('PUT')
-                            <button class="btn btn-add btn-sm" onclick="return confirm('Restore decoration ini?')">Restore</button>
+                            <button class="btn btn-add btn-sm" onclick="return confirm('{{__('adminDecoration.restoreThis')}}')">{{__('adminDecoration.restore')}}</button>
                         </form>
-                        <form action="{{ route('admin.decoration.force-delete', $decoration->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('admindecoration.force-delete', $decoration->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-delete btn-sm" onclick="return confirm('Hapus permanen decoration ini?')">Delete Permanently</button>
+                            <button class="btn btn-delete btn-sm" onclick="return confirm('{{__('adminDecoration.deletePermanent')}}')">{{__('adminDecoration.deletePermanently')}}</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">Tidak ada decoration yang terhapus.</td>
+                    <td colspan="4" class="text-center">{{__('adminDecoration.noDecorationDeleted')}}</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
-    <form action="{{ route('admin.decoration.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Yakin ingin mengembalikan semua decoration yang terhapus?')">
+    <form action="{{ route('admindecoration.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('{{__('adminDecoration.areYouSureRestore')}}')">
         @csrf
         @method('PUT')
         <button type="submit" class="btn btn-export mb-3">
-            <i class="fas fa-undo"></i> Restore All
+            <i class="fas fa-undo"></i> {{__('adminDecoration.restoreAll')}}
         </button>
     </form>
 @endsection

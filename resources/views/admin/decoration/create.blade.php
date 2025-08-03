@@ -8,20 +8,66 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Add Decoration</h1>
+        <h1>{{__('adminDecoration.addDecoration')}}</h1>
     </div>
 
+    {{-- Global error summary (opsional tapi membantu) --}}
+    @if ($errors->any())
+        <x-adminlte-alert theme="danger" title="Validation Error">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </x-adminlte-alert>
+    @endif
+
     <x-adminlte-card>
-        <form action="{{ route('admin.decoration.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admindecoration.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <x-adminlte-input name="name" label="Decoration Name" placeholder="Enter decoration name" required />
-            <x-adminlte-input name="price" label="Price (Rp)" type="number" required />
-            <x-adminlte-input name="stock" label="Stock" type="number" required />
-            <x-adminlte-input name="image" label="Decoration Image" type="file" accept="image/*" />
+            {{-- Name --}}
+            <div class="form-group">
+                <label for="name">{{__('adminDecoration.decorationName')}}</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}"
+                    class="form-control @error('name') is-invalid @enderror" placeholder="{{__('adminDecoration.enterDecorationName')}}" required>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Price --}}
+            <div class="form-group">
+                <label for="price">{{__('adminDecoration.price')}} (Rp)</label>
+                <input type="number" name="price" id="price" value="{{ old('price') }}"
+                    class="form-control @error('price') is-invalid @enderror" required>
+                @error('price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Stock --}}
+            <div class="form-group">
+                <label for="stock">{{__('adminDecoration.stock')}}</label>
+                <input type="number" name="stock" id="stock" value="{{ old('stock') }}"
+                    class="form-control @error('stock') is-invalid @enderror" required>
+                @error('stock')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Image --}}
+            <div class="form-group">
+                <label for="image">{{__('adminDecoration.decorationImage')}}</label>
+                <input type="file" name="image" id="image" accept="image/*"
+                    class="form-control-file @error('image') is-invalid @enderror">
+                @error('image')
+                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
 
             <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
-            <a href="{{ route('admin.decoration.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+            <a href="{{ route('admindecoration.index') }}" class="btn btn-secondary ml-2">{{__('adminDecoration.cancel')}}</a>
         </form>
     </x-adminlte-card>
 @endsection

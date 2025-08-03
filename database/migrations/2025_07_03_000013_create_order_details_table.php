@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->foreignId('collection_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('customize_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('mysterybox_id')->nullable()->references('id')->on('mystery_boxes')->nullOnDelete();
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->timestamps();

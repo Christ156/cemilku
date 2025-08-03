@@ -1,0 +1,44 @@
+.warnaCoklat{
+    background-color: aqua !important;
+    color: #52282A !important;
+}
+
+.tab-btn {
+    border: 2px solid #FDC607 !important;
+    color: #FDC607 !important;
+    background-color: transparent !important;
+    font-weight: 500 !important;
+}
+
+.tab-btn:hover {
+    background-color: #fde87a !important;
+    color: #52282A !important;
+}
+
+.tab-btn.active {
+    background-color: #52282A !important;
+    color: #FDC607 !important;
+    font-weight: bold !important;
+}
+
+.custombg {
+    background-color: #FFF2CC !important;
+}
+
+.custombg2 {
+    background-color: #FFFBEF !important;
+}
+
+.btn-outline-brown {
+    color: #52282A !important;
+    border: 2px solid #FDC607 !important;
+}
+
+.btn-outline-brown:hover {
+    background-color: #FDC607 !important;
+    color: #52282A !important;
+}
+
+.customtext {
+    color: #FDC607 !important;
+}

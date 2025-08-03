@@ -64,3 +64,8 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Google ID and Secret
+
+GOOGLE_CLIENT_ID="648085540473-nou4fv2c8v0f00h9hd9qfptmpcs2nfq4.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="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"

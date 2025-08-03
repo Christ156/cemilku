@@ -9,32 +9,8 @@ body {
 }
 
 
-.nav-link {
-    position: relative;
-    /* font-family: 'poppins';  */
-    font-style: semi-bold;
-}
-
-.nav-link::after {
-    transition: all 0.2s;
-    opacity: 0;
-}
-
-.nav-link:hover {
-    /* border-bottom:3px solid #52282a; */
-    text-decoration: 5px underline #52282a;
-}
-
-.navbar {
-    min-height: 70px;
-    height: 70px;
-    transition: height 0.3s ease;
-
-}
-
-
 .mt-custom {
-    margin-top: 10rem;
+    margin-top: 3rem;
 }
 
 .snack-card {
@@ -181,7 +157,7 @@ body {
 
 .product-title {
     font-size: 65px;
-    font-weight: bold;
+    font-weight: 800;
     color: #52282A;
     font-family: 'Poppins', sans-serif;
 }
@@ -216,7 +192,7 @@ body {
 }
 
 .product-info-left {
-    margin-right: 150px;
+    margin-right: 350px;
     margin-top: 100px;
     position: absolute;
 }
@@ -290,6 +266,10 @@ body {
     max-width: 500px;
 }
 
+.p-custom{
+    padding-left: 70px;
+    padding-right: 70px;
+}
 
 
 
@@ -314,58 +294,7 @@ body {
     }
 } */
 
-@media (min-width: 360px) and (max-width: 960px) {
-
-    .navbar {
-        height: auto !important;
-    }
-
-    .navbar-collapse {
-        display: block;
-        width: 100%;
-    }
-
-    .navbar-nav {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-left: 1rem;
-        padding-bottom: 1rem;
-        color: #52282A;
-    }
-
-
-    .offcanvas-start {
-        width: 80% !important;
-        max-width: 300px;
-    }
-
-    .offcanvas-backdrop.show {
-        background-color: rgba(0, 0, 0, 0.8);
-        transition: background-color 0.3s ease;
-    }
-
-    .sidebar {
-        background-color: #fffbef !important;
-    }
-
-    .logo-burger {
-        padding-left: 1rem;
-    }
-
-    .nav-link:hover {
-        /* border-bottom:3px solid #52282a; */
-        text-decoration: none;
-    }
-
-    .nav-link.active {
-        border: 2px solid #52282a;
-        border-radius: 10px;
-        padding: 5px 10px;
-        background-color: #fdc607;
-        color: #52282A !important;
-
-    }
+@media  (max-width: 960px) {
 
     .logo-cemilku {
         width: 250px;
@@ -373,9 +302,23 @@ body {
         top: 7px;
     }
 
+    .mt-custom{
+        margin: 0;
+    }
+
+    .margin-custom-mobile-card{
+        margin-left: 27px;
+        margin-right: 27px ;
+    }
+
+    .p-custom{
+    padding-left: 0;
+    padding-right: 0;
+}
 
     #banner {
         margin: 0 30px 0 30px;
+        /* height: 100px; */
     }
 
     .carousel-inner img {
@@ -444,6 +387,8 @@ body {
         font-weight: 600;
         margin-bottom: 4px;
         color: #3a1c1c;
+        display: block;
+        white-space: nowrap;
     }
 
     .product-price {
@@ -472,23 +417,24 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        padding: 10px 15px;
-        margin-left: 50px;
+        padding: 10px 5px;
+        /* margin-left: 50px; */
+        margin-bottom: 40px;
     }
 
     .product-card-right {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
-        padding: 10px 15px;
-        margin-right: 90px;
+        position: relative;
+        margin-bottom: 40px;
     }
 
     .product-info-right {
         flex: 1;
         padding: 0px;
-        margin: 0 0 0 10px;
+        margin: 0 0 0 40px;
         transform: none !important;
     }
 
@@ -497,6 +443,7 @@ body {
         padding: 0px;
         margin: 0 70px 0 0;
         transform: none !important;
+
     }
 
     .product-image {
@@ -508,7 +455,10 @@ body {
         width: auto;
         height: auto;
         display: block;
+        margin-left: 0;
     }
+
+
 
     .ps-5 {
         padding-left: 0 !important;

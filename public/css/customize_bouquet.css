@@ -1,0 +1,178 @@
+.list-snack{
+    height: 28rem;
+    padding-bottom: 2.5rem;
+}
+
+.progress-node{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    color: #52282A;
+    border: 2px solid #52282A;
+}
+
+.progress-node-done{
+    background: #FDC607;
+}
+
+#set-base{
+    width: 20%;
+}
+
+#set-layer{
+    width: 20%;
+}
+
+#set-snack{
+    width: 20%;
+}
+
+#set-decoration{
+    width: 20%;
+}
+
+#confirmation-customize{
+    width: 20%;
+}
+
+.wrapper-customize-menu{
+    width: 500%;
+}
+
+.floating-control-button{
+    position: absolute;
+    bottom: 3rem;
+    left: 0;
+    right: 0;
+    width: 100%/3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 2px solid #FDC607;
+    padding: 0.8rem 1rem;
+}
+
+.preview-bouquet-base{
+    width: 90%;
+}
+
+.preview-bouquet-base img{
+    width: 100%;
+}
+
+.preview-bouquet-1{
+    display: none;
+    width: 35%;
+    z-index: 4;
+    position: absolute;
+    top: 230px;
+}
+
+.preview-bouquet-1 img{
+    width: 100%;
+}
+
+.preview-bouquet-2{
+    display: none;
+    width: 40%;
+    z-index: 3;
+    position: absolute;
+    top: 165px;
+}
+
+.preview-bouquet-2 img{
+    width: 100%;
+}
+
+.preview-bouquet-3{
+    display: none;
+    width: 50%;
+    z-index: 2;
+    position: absolute;
+    top: 90px;
+}
+
+.preview-bouquet-3 img{
+    width: 100%;
+}
+
+.preview-bouquet-4{
+    display: none;
+    width: 60%;
+    z-index: 1;
+    position: absolute;
+    top: 30px;
+}
+
+.preview-bouquet-4 img{
+    width: 100%;
+}
+
+.preview-bouquet-1:active, .preview-bouquet-2:active, .preview-bouquet-3:active, .preview-bouquet-4:active{
+    transition: 0.3 linear;
+    transform: scale(1.05);
+}
+
+@media only screen and (max-width: 400px) {
+    .preview-bouquet-base{
+        width: 100%;
+    }
+
+    .preview-bouquet-base img{
+        width: 100%;
+    }
+
+    .preview-bouquet-1{
+        display: none;
+        width: 35%;
+        z-index: 4;
+        position: absolute;
+        top: 145px;
+    }
+
+    .preview-bouquet-1 img{
+        width: 100%;
+    }
+
+    .preview-bouquet-2{
+        display: none;
+        width: 40%;
+        z-index: 3;
+        position: absolute;
+        top: 105px;
+    }
+
+    .preview-bouquet-2 img{
+        width: 100%;
+    }
+
+    .preview-bouquet-3{
+        display: none;
+        width: 50%;
+        z-index: 2;
+        position: absolute;
+        top: 70px;
+    }
+
+    .preview-bouquet-3 img{
+        width: 100%;
+    }
+
+    .preview-bouquet-4{
+        display: none;
+        width: 60%;
+        z-index: 1;
+        position: absolute;
+        top: 30px;
+    }
+
+    .preview-bouquet-4 img{
+        width: 100%;
+    }
+}

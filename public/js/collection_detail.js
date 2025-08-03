@@ -1,102 +1,119 @@
+function setQuantity(action, maxStock) {
+    const quantityInput = document.getElementById("value_quantity");
+    let currentQuantityValue = parseInt(quantityInput.value);
+
+    if (isNaN(currentQuantityValue)) {
+        currentQuantityValue = 1;
+    }
+
+    if (action == 'add') {
+        currentQuantityValue = currentQuantityValue + 1;
+    } else {
+        currentQuantityValue = currentQuantityValue - 1;
+    }
+
+    checkQuantityValid(maxStock, currentQuantityValue);
+}
+
+function checkQuantityValid(max_quantity, value_from_input_or_set_quantity = null) {
+    const quantityInput = document.getElementById("value_quantity");
+    let currentQuantity = value_from_input_or_set_quantity !== null ? value_from_input_or_set_quantity : parseInt(quantityInput.value);
+
+    if (isNaN(currentQuantity) || currentQuantity < 1) {
+        currentQuantity = 1;
+        showAlert("Quantity must be at least 1 pc!");
+    } else if (currentQuantity > max_quantity) {
+        currentQuantity = max_quantity;
+        showAlert(`Oops! Only ${max_quantity} items left in stock.`);
+    }
+    quantityInput.value = currentQuantity;
+}
+
+function showAlert(message) {
+    const alertContainer = document.getElementById("topAlertContainer");
+    const alertMessage = document.getElementById("topAlertMessage");
+
+    if (alertContainer && alertMessage) {
+        alertMessage.textContent = message;
+        alertContainer.classList.add("show");
+
+        setTimeout(() => {
+            alertContainer.classList.remove("show");
+        }, 5000);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    const minusBtn = document.getElementById("minus");
-    const plusBtn = document.getElementById("plus");
-    const valueInput = document.getElementById("value");
-    const stock = parseInt(document.getElementById("stock").value);
+    const addToCartButton = document.getElementById('add-to-cart-detail-btn');
+    const addToCartForm = document.getElementById('addToCartForm');
+    const quantityInput = document.getElementById('value_quantity');
+    const itemId = document.getElementById('item-id').value;
+    const itemStock = parseInt(document.getElementById('stock').value);
 
-    const alertBox = document.getElementById("alertBox");
-    const alertMessage = document.getElementById("alertMessage");
-    const toast = document.getElementById("toastAlert");
-    const toastMessage = document.getElementById("toastMessage");
+    const successModal = new bootstrap.Modal(document.getElementById('successAddToCartModal'));
 
-    let alertTimeout;
+    checkQuantityValid(itemStock);
 
-    const form = document.querySelector("form");
+    if (addToCartButton && addToCartForm) {
+        addToCartButton.addEventListener('click', function() {
+            checkQuantityValid(itemStock);
+            const quantity = quantityInput.value;
 
-    form.addEventListener("submit", function (e) {
-        let currentValue = parseInt(valueInput.value);
+            if (parseInt(quantity) < 1 || isNaN(parseInt(quantity))) {
+                showAlert('Quantity must be at least 1.');
+                return;
+            }
+            if (parseInt(quantity) > itemStock) {
+                showAlert(`Quantity exceeds available stock (${itemStock}).`);
+                return;
+            }
 
-        if (isNaN(currentValue) || currentValue < 1) {
-            e.preventDefault();
-            showAlert("Minimum quantity is 1!");
-            valueInput.value = 1;
-            return;
-        }
+            const url = `/collection/${itemId}/add-to-cart/${quantity}`;
 
-        if (currentValue > stock) {
-            e.preventDefault();
-            showAlert("Oops! Maximum stock limit reached.");
-            valueInput.value = stock;
-            return;
-        }
-    });
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    function isMobileView() {
-        return window.matchMedia("(max-width: 430px)").matches;
+            const formData = new FormData();
+            formData.append('_token', csrfToken);
+            formData.append('collection_id', itemId);
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json();
+                } else {
+                    return response.text().then(text => {
+                        throw new Error('Server response was not JSON: ' + text);
+                    });
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    successModal.show();
+                } else {
+                    console.error('Error adding to cart:', data.message);
+                    showAlert(data.message || 'Failed to add product to cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('A network or server error occurred. Please try again.');
+            });
+        });
     }
 
-    function showToast(message) {
-        toastMessage.textContent = message;
-        toast.classList.add("show");
-
-        clearTimeout(alertTimeout);
-        alertTimeout = setTimeout(() => {
-            toast.classList.remove("show");
-        }, 3000);
+    if (quantityInput) {
+        quantityInput.addEventListener('input', function() {
+            checkQuantityValid(itemStock);
+        });
+        quantityInput.addEventListener('blur', function() {
+            checkQuantityValid(itemStock);
+        });
+    } else {
+        console.error("ERROR: Quantity input element with ID 'value_quantity' not found!");
     }
-
-    function showAlert(message) {
-        if (isMobileView()) {
-            showToast(message);
-        } else {
-            alertMessage.textContent = message;
-            alertBox.classList.add("active");
-
-            clearTimeout(alertTimeout);
-        }
-    }
-
-    minusBtn.onclick = function () {
-        let value = parseInt(valueInput.value);
-        if (isNaN(value)) value = 1;
-
-        if (value > 1) value--;
-        valueInput.value = value;
-    };
-
-    plusBtn.onclick = function () {
-        let value = parseInt(valueInput.value);
-        if (isNaN(value)) value = 1;
-
-        if (value < stock) {
-            value++;
-            valueInput.value = value;
-        } else {
-            showAlert("Oops! Maximum stock limit reached.");
-            valueInput.value = stock;
-        }
-    };
-
-    valueInput.addEventListener("input", function () {
-        let value = parseInt(valueInput.value);
-
-        if (isNaN(value) || value < 1) {
-            return;
-        } else if (value > stock) {
-            showAlert("Oops! Maximum stock limit reached.");
-            valueInput.value = stock;
-        }
-    });
-
-    valueInput.addEventListener("blur", function () {
-        if (valueInput.value === "") {
-            valueInput.value = 1;
-        }
-    });
-
-    valueInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-        }
-    });
 });
+

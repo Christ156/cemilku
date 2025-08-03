@@ -1,17 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    margin-top: 10.5vh;
-}
-
 .back-button {
-    padding-top: 15px;
+    padding-top: 1px;
     padding-left: 5vh;
 }
 
 .collections_img {
-    padding-top: 25px;
+    padding-top: 30px;
     padding-right: 50px;
 }
 
@@ -31,7 +26,7 @@ body {
 }
 
 .subtitle {
-    padding-top: 20px;
+    padding-top: 30px;
     padding-bottom: 0.5vh;
     color: #747474;
     font-size: 1.3rem;
@@ -52,7 +47,7 @@ body {
     height: 40px;
     line-height: 35px;
     font-size: 25px;
-    font-weight: 700;
+    font-weight: bold;
     margin-bottom: 1vh;
     border: 1.5px solid #522;
 }
@@ -63,9 +58,18 @@ body {
 }
 
 .size-label {
+    display: flex;
     font-weight: 600;
     padding-top: 1.8vh;
     font-size: 1.1rem;
+    align-items: center;
+}
+
+.qty-label {
+    display: flex;
+    font-weight: 600;
+    font-size: 1.1rem;
+    align-items: center;
 }
 
 .size-value {
@@ -78,7 +82,20 @@ body {
     align-items: center;
     color: #52282A;
     gap: 20px;
-    padding-top: 9vh;
+    padding-top: 10.5vh;
+    margin-bottom: 3vh;
+}
+
+.add-to-cart-fixed-position {
+    padding-top: 0;
+    position: static;
+    left: auto;
+    bottom: auto;
+    z-index: auto;
+}
+
+.addcart {
+    font-size: 16px;
 }
 
 .quantity-label {
@@ -123,28 +140,45 @@ input::-webkit-inner-spin-button {
 }
 
 .button-container {
-    align-items: center;
-    gap: 40px;
-    padding-top: 6px;
+    margin-top: 4.8vh;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#alertBox {
+    display: none;
+}
+
+#topAlertContainer {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(500%);
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 16px;
+    z-index: 9999;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease-in-out;
+}
+
+#topAlertContainer.show {
+    transform: translateX(-50%) translateY(0);
 }
 
 .btn {
     width: 250px;
-    height: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-}
-
-#alertBox {
-    min-height: 50px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    color: #ff0019;
-}
-
-#alertBox.active {
-    opacity: 1;
-    visibility: visible;
+    height: 48px;
+    font-size: 1rem;
 }
 
 /* RESPONSIVE SETTINGS */
@@ -166,13 +200,19 @@ input::-webkit-inner-spin-button {
 
     .collections_img {
         width: 100%;
-        padding-right: 40 !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
         padding-top: 10px !important;
+        display: flex;
+        justify-content: center;
     }
 
     .collections_img img {
         max-height: 300px !important;
         width: auto !important;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .vertical-line {
@@ -180,7 +220,8 @@ input::-webkit-inner-spin-button {
     }
 
     .content-section {
-        padding-left: 0;
+        padding-left: 25px;
+        padding-right: 25px;
         margin-top: 20px;
     }
 
@@ -210,6 +251,10 @@ input::-webkit-inner-spin-button {
         padding-top: 10px;
     }
 
+    .qty-label {
+        font-size: 1rem;
+    }
+
     .size-value {
         font-size: 0.8rem;
         padding-bottom: 10px;
@@ -218,6 +263,9 @@ input::-webkit-inner-spin-button {
     .counter-container {
         flex-direction: row;
         padding-top: 10px;
+        margin-bottom: 1.5vh;
+        justify-content: flex-start;
+        gap: 20px;
     }
 
     .counter-box {
@@ -235,26 +283,50 @@ input::-webkit-inner-spin-button {
     }
 
     .button-container {
-        flex-direction: row;
         padding-top: 30px;
-        gap: 20px;
-        padding-bottom: 10px;
+        padding-bottom: 30px;
+        padding-right: 15px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .add-to-cart-fixed-position {
+        position: static;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     .btn {
-        width: 250px;
-        height: 45px;
-        font-size: 0.9rem;
+        width: 200px;
+        height: 42px;
+        font-size: 0.7rem;
+        left: 200px;
     }
 
-    #alertBox {
-        display: none !important;
+    .addcart {
+        font-size: 12px;
+    }
+
+    #topAlertContainer {
+        font-size: 12px;
+        bottom: 80px;
+        white-space: nowrap;
     }
 }
 
 .toast-alert {
     position: fixed;
-    bottom: -100px;
+    bottom: -200px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #dc3545;
@@ -272,3 +344,27 @@ input::-webkit-inner-spin-button {
 .toast-alert.show {
     bottom: 90px;
 }
+
+#successAddToCartModal .modal-body {
+    padding: 1rem
+}
+
+#successAddToCartModal .modal-body .btn.btn-warning {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    font-size: 1rem;
+    padding: 8px 15px;
+    box-sizing: border-box;
+}
+
+#successAddToCartModal .modal-body > div:last-of-type {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+

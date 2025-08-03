@@ -13,17 +13,17 @@
     <div class="container mt-custom col-12">
         <div class="d-flex align-items-center text-center justify-content-center flex-column flex-md-row ">
             <h1 class="titleSearch d-flex justify-content-center align-items-center">CemilKu!</h1>
-            <form class="d-flex" role="search">
-                <input class=" search-bar form-control rounded-5" type="search" placeholder="Search Collection..."
-                    aria-label="Search" />
-                {{-- <button></button> --}}
+            <form class="d-flex" method="POST" action="{{ route('collection.search') }}">
+                @csrf
+                <input class="custom_search form-control rounded-5" type="search" name="search_bar" placeholder="{{__('collection.searchCollection')}}"
+                    aria-label="Search" value="{{ $old_search }}" oninput="this.form.submit();"/>
             </form>
         </div>
 
         {{-- DIVIDER CNY --}}
         <div class="d-flex align-items-center my-4">
             <hr class="flex-grow-1" style="border-color: #52282A;">
-            <span class="mx-3 fs-3" style="color: #52282A">Chinese New Year Edition</span>
+            <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.cnyEdition')}}</span>
             <hr class="flex-grow-1">
         </div>
 
@@ -35,15 +35,14 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="{{ $item->name }}" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/'.$item->image) }}" alt="{{ $item->name }}" />
+                                    <h4 class="custom-card-title pe-2"> {{ Str::limit($item->name, 15, '...') }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
                                                 style="width: 50px; height: 50px;"
                                                 onclick="event.stopPropagation();">+</button>
 
@@ -59,7 +58,7 @@
                 {{-- DIVIDER VALENTINE --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Valentine Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.valEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -69,17 +68,15 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
+                                    <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -92,7 +89,7 @@
                 {{-- DIVIDER RAMADHAN --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Ramadhan Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.ramadhanEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -102,17 +99,15 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
+                                    <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -126,7 +121,7 @@
                 {{-- DIVIDER CHRISTMAS --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Christmas Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.christmasEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -136,17 +131,15 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
+                                    <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
 
                                         </div>
                                     </div>
@@ -159,7 +152,7 @@
                 {{-- DIVIDER BIRTHDAY --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Birthday Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.birthdayEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -169,18 +162,15 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
+                                    <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
-
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +183,7 @@
                 {{-- DIVIDER GRADUATION --}}
                 <div class="d-flex align-items-center my-4">
                     <hr class="flex-grow-1" style="border-color: #52282A;">
-                    <span class="mx-3 fs-3" style="color: #52282A">Graduation Edition</span>
+                    <span class="mx-3 fs-3" style="color: #52282A">{{__('collection.graduationEdition')}}</span>
                     <hr class="flex-grow-1">
                 </div>
 
@@ -203,17 +193,16 @@
                     <div class="col-md-3 pb-3 col-6">
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('collections.show', $item->id) }}" style="text-decoration: none;">
-                                <div class="card text-white bg-light p-1">
-                                    <img class="card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}"
-                                        alt="Title" />
-                                    <h4 class="card-title pe-2">{{ $item->name }}</h4>
-                                    <p class="card-subtitle">Snack {{ $item->type }}</p>
+                                <div class="custom-card text-white bg-light p-1">
+                                    <img class="custom-card-img-top p-2" src="{{ asset('assets/collections/' . $item->image) }}" alt="Title" />
+                                    <h4 class="custom-card-title pe-2">{{ $item->name }}</h4>
+                                    <p class="custom-card-subtitle">Snack {{ $item->type }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
+                                        <h5 class="custom-card-price">Rp {{ number_format($item->price, 0, ',', '.') }}</h5>
                                         <div>
-                                            <button class="btn btn-custom rounded-circle fw-bold fs-4 d-none d-sm-inline"
-                                                style="width: 50px; height: 50px;"
-                                                onclick="event.stopPropagation();">+</button>
+                                            <button class="button_customs rounded-circle fw-bold fs-4 d-none d-sm-inline"
+                                                style="width: 50px; height: 50px;" onclick="event.stopPropagation();">+</button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -223,5 +212,6 @@
                 @endforeach
             </div>
         </div>
+
     </div>
 @endsection

@@ -92,7 +92,6 @@
 .floating-control-button{
     position: absolute;
     bottom: 3rem;
-    bottom: 0;
     left: 0;
     right: 0;
     width: 100%/3;

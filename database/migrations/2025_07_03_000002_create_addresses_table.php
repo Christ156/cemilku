@@ -26,8 +26,8 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false); // alamat utama
             $table->timestamps();
             $table->softDeletes();
-            $table->string('receiver_name')->nullable();
-            $table->string('phone_number')->nullable();
+            $table->string('receiver_name');
+            $table->string('phone_number');
         });
     }
 

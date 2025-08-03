@@ -8,12 +8,12 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Trash - Deleted Snacks</h1>
+        <h1>{{__('adminSnack.trash')}}</h1>
     </div>
 
 
-    <a href="{{ route('admin.snack.index') }}" class="btn btn-yellowbrown mb-3">
-        <i class="fas fa-arrow-left "></i> Back to List
+    <a href="{{ route('adminsnack.index') }}" class="btn btn-yellowbrown mb-3">
+        <i class="fas fa-arrow-left "></i> {{__('adminSnack.backToList')}}
     </a>
 
     <table class="table table-bordered">
@@ -32,31 +32,31 @@
                     <td>{{ $snack->name }}</td>
                     <td>{{ $snack->deleted_at }}</td>
                     <td>
-                        <form action="{{ route('admin.snack.restore', $snack->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('adminsnack.restore', $snack->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('PUT')
-                            <button class="btn btn-add btn-sm" onclick="return confirm('Restore snack ini?')">Restore</button>
+                            <button class="btn btn-add btn-sm" onclick="return confirm('{{__('adminSnack.restoreSnack')}}')">{{__('adminSnack.restore')}}</button>
                         </form>
-                        <form action="{{ route('admin.snack.force-delete', $snack->id) }}" method="POST" style="display:inline-block;">
+                        <form action="{{ route('adminsnack.force-delete', $snack->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-delete btn-sm" onclick="return confirm('Hapus permanen snack ini?')">Delete Permanently</button>
+                            <button class="btn btn-delete btn-sm" onclick="return confirm('{{__('adminSnack.deletePermanent')}}')">{{__('adminSnack.deletePermanently')}}</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">Tidak ada snack yang terhapus.</td>
+                    <td colspan="4" class="text-center">{{__('adminSnack.noSnackDeleted')}}</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
-    <form action="{{ route('admin.snack.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Yakin ingin mengembalikan semua snack yang terhapus?')">
+    <form action="{{ route('adminsnack.restore-all') }}" method="POST" style="display: inline-block;" onsubmit="return confirm('{{__('adminSnack.areYouSureRestore')}}')">
     @csrf
     @method('PUT')
     <button type="submit" class="btn btn-export mb-3">
-        <i class="fas fa-undo"></i> Restore All
+        <i class="fas fa-undo"></i> {{__('adminSnack.restoreAll')}}
     </button>
     </form>
 @endsection

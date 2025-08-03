@@ -9,8 +9,17 @@
 @endsection
 
 @section('content')
+    {{-- ALERT --}}
+    <div id="topAlertContainer">
+        <span id="topAlertMessage"></span>
+    </div>
+
+    <div id="alertBox" class="alert-text mt-2" role="alert" style="margin-top: 100px;">
+        <span id="alertMessage">{{ __('collection.limit') }}</span>
+    </div>
+
     {{-- BACK BUTTON --}}
-    <div class="back-button d-flex w-100 justify-content-between align-items-center">
+    <div class="back-button d-flex w-100 justify-content-between align-items-center" style="margin-top: 30px">
         <a href="/collections" id="backBtn">
             <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
         </a>
@@ -34,56 +43,47 @@
                 <div class="description" style="text-align: justify;">
                     <p class="card-text">{{ $detail->description }} </p>
                 </div>
-                <div class="size-label">SIZE</div>
-                <div class="size-value">85,6 cm (H) x 25 cm (W)</div>
+                <div class="size-label">{{ __('collection.size') }}</div>
+                <div class="size-value">85,6 cm ({{ __('collection.height') }}) x 25 cm ({{ __('collection.width') }})</div>
 
                 {{-- FORM ADD TO CART --}}
-                <form action="{{ route('collections.store', $detail->id) }}" method="POST">
+                <form id="addToCartForm">
                     @csrf
                     <input type="hidden" name="collection_id" value="{{ $detail->id }}">
                     <input type="hidden" name="price" value="{{ $detail->price }}">
                     <input type="hidden" id="stock" value="{{ $detail->stock }}">
+                    <input type="hidden" id="item-id" value="{{ $detail->id }}">
+                    <input type="hidden" id="item-name" value="{{ $detail->name }}">
+                    <input type="hidden" id="item-price" value="{{ $detail->price }}">
+                    <input type="hidden" id="item-image" value="{{ asset('assets/collections/' . $detail->image) }}">
+                    <input type="hidden" id="item-description" value="{{ $detail->description }}">
 
                     {{-- BUTTON QUANTITY --}}
                     <div class="counter-container">
-                        <h6 style="font-weight:600; margin-bottom:0px;">QUANTITY</h6>
-                        <div class="counter-box">
-                            <button type="button" id="minus">-</button>
-                            <input type="number" id="value" class="counter-value" name="quantity" value="1"
-                                min="1" />
-                            <button type="button" id="plus">+</button>
+                        <div class="qty-label" style="font-weight:600; margin-bottom:0px;">QUANTITY</div>
+                        <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
+                            <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
+                            <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1" min="1"/>
+                            <button type="button" id="add_quantity" onclick="setQuantity('add', {{$detail->stock}})">+</button>
                         </div>
                     </div>
 
-                    {{-- ALERT QUANTITY MELEBIHI STOK --}}
-                    <div id="alertBox" class="alert-text mt-2" role="alert">
-                        <span id="alertMessage">Oops! Maximum stock limit reached.</span>
-                    </div>
-
-
-                    {{-- BUTTON ADD TO CART AND BUY NOW --}}
-                    <div class="button-container d-flex">
-                        <button type="submit" class="btn btn-warning d-flex align-items-center justify-content-center"
-                            style="color: #52282A">
+                    <div class="button-container d-flex add-to-cart-fixed-position">
+                        <button type="button" class="btn btn-warning d-flex align-items-center justify-content-center"
+                            style="color: #52282A; border: 1px solid #000000;" id="add-to-cart-detail-btn">
                             <i class="bi bi-cart"></i>
-                            Add To Cart
+                            <div class="addcart ms-2">{{ __('collection.addToCart') }}</div>
                         </button>
-                        <a href="#" class="btn btn-warning d-flex align-items-center justify-content-center"
-                            style="color: #52282A">
-                            Buy Now
-                        </a>
                     </div>
                 </form>
 
-                {{-- TOAST ALERT --}}
                 <div id="toastAlert" class="toast-alert">
-                    <span id="toastMessage">Oops! Maximum stock limit reached.</span>
+                    <span id="toastMessage">{{ __('collection.limit') }}</span>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Pop Up Success --}}
     <div class="modal fade" id="doneModal" tabindex="-1" aria-labelledby="doneModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 p-4 text-center">
@@ -95,25 +95,48 @@
                             d="M18 34l10 10 18-24" />
                     </svg>
                 </div>
-                <h4 class="fw-bold mb-2">Success</h4>
-                <p class="mb-4">Collections has been added to cart!</p>
+                <h4 class="fw-bold mb-2">{{ __('collection.success') }}</h4>
+                <p class="mb-4">{{ __('collection.collectionAdded') }}</p>
 
                 <div class="d-flex justify-content-center mb-3">
                     <button type="button" class="btn btn-success rounded-pill px-4" data-bs-dismiss="modal">
-                        Confirm
+                        {{ __('collection.confirm') }}
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Trigger Pop Up if Success Add To Cart --}}
-    @if (session('success'))
+    <div class="modal fade" id="successAddToCartModal" tabindex="-1" aria-labelledby="successAddToCartModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="successAddToCartModalLabel">Congratulations!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center"> {{-- Hapus justify-content-center dari sini --}}
+                    <div>
+                        <p class="text-center">
+                            Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center w-100">
+                        <a href="{{ route('cart.index', ['id_user' => Auth::id(), 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-warning">Lihat keranjang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Trigger Pop Up if Success Add To Cart (Dihapus karena diganti dengan JS Ajax, tapi saya kembalikan sesuai permintaan Anda untuk tidak mengubah yang tidak berhubungan. Namun, jika Anda menggunakan AJAX, bagian ini tidak akan terpicu oleh AJAX.) --}}
+    {{-- @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var doneModal = new bootstrap.Modal(document.getElementById('doneModal'));
                 doneModal.show();
             });
         </script>
-    @endif
+    @endif --}}
 @endsection

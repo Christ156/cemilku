@@ -1,0 +1,80 @@
+/* Pastikan ini ada dan z-index tinggi */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    /* Pastikan lebih tinggi dari navbar, misal navbar bootstrap z-index 1030 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    /* Menggunakan flexbox untuk centering */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* Tambahkan padding agar modal tidak terlalu mepet ke ujung layar */
+    box-sizing: border-box;
+    /* Pastikan padding tidak menambah lebar */
+}
+
+/* Untuk konten modal, atur max-height dan overflow jika kontennya panjang */
+.modal-content {
+    /* Background dan border-radius sudah ada di inline style Blade */
+    /* background-color: #52282A; border-radius: 15px; padding: 0; */
+
+    margin: auto;
+    /* Untuk centering horizontal dan vertikal default */
+    width: 90%;
+    /* Atau sesuaikan lebar maksimal */
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    /* Penting untuk positioning tombol Pilih Alamat */
+    max-height: 90vh;
+    /* Batasi tinggi modal agar tidak terlalu besar */
+    overflow-y: auto;
+    /* Aktifkan scroll jika kontennya melebihi max-height */
+    /* Menambahkan beberapa margin agar tidak terlalu dekat dengan tepi layar jika tidak di tengah */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Khusus untuk modal tambah alamat agar tidak tertutup navbar */
+#addAddressFormModal .modal-content {
+    /* Menyesuaikan margin-top agar tidak tertutup navbar */
+    /* Jika navbar Anda tinggi, Anda mungkin perlu menyesuaikan nilai ini */
+    /* Ini menimpa margin:auto; dari .modal-content */
+    margin-top: 80px;
+    /* Contoh: Beri margin atas 80px untuk menghindari navbar */
+    transform: none;
+    /* Pastikan tidak ada transform yang mengganggu */
+    top: auto;
+    /* Reset top */
+    margin-bottom: 20px;
+    /* Pertahankan margin bawah */
+}
+
+
+/* Styling untuk item alamat di dalam pop-up (jika ingin di CSS terpisah) */
+.address-item {
+    background-color: #F8F0E3;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    border: 1px solid transparent;
+    /* Default border */
+    transition: border-color 0.2s ease-in-out;
+    /* Animasi untuk border */
+}
+
+/* Gaya untuk item alamat yang terpilih */
+.address-item.selected {
+    border-color: #D1BB9E !important;
+    /* Pastikan ini menimpa gaya inline jika sudah ada */
+}

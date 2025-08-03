@@ -30,7 +30,7 @@ body{
 }
 
 .text-brown1{
-    color: #52282A;
+    color: #52282A !important;
     text-decoration: none;
 }
 
@@ -42,4 +42,8 @@ body{
 .text-yellow3{
     color: #FFFBEF;
     text-decoration: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar{
+    display: none;
 }

@@ -8,19 +8,19 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Decoration List</h1>
+        <h1>{{ __('adminDecoration.decorationList') }}</h1>
     </div>
 
     <x-adminlte-card>
 
         <div class="d-flex justify-content-between mb-3">
-            <a href="{{ route('admin.decoration.create') }}" class="btn btn-add">
-                <i class="fas fa-plus"></i> Add Decoration
+            <a href="{{ route('admindecoration.create') }}" class="btn btn-add">
+                <i class="fas fa-plus"></i> {{ __('adminDecoration.addDecoration') }}
             </a>
 
             {{-- Tombol ke halaman recycle bin --}}
-            <a href="{{ route('admin.decoration.trash') }}" class="btn btn-yellowbrown">
-                <i class="fas fa-trash-alt"></i> View Trash
+            <a href="{{ route('admindecoration.trash') }}" class="btn btn-yellowbrown">
+                <i class="fas fa-trash-alt"></i> {{ __('adminDecoration.viewTrash') }}
             </a>
         </div>
 
@@ -30,22 +30,26 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         @if ($decoration->image)
-                            <img src="{{ asset('storage/' . $decoration->image) }}" alt="Decoration Image" width="60" height="60" style="object-fit: cover; border-radius: 8px;">
+                            <img src="{{ asset('assets/decoration/' . $decoration->image) }}" alt="Decoration Image"
+                                width="60" height="60" style="object-fit: cover; border-radius: 8px;">
                         @else
-                            <span class="text-muted">No image</span>
+                            <span class="text-muted">{{ __('adminDecoration.noImage') }}</span>
                         @endif
                     </td>
                     <td>{{ $decoration->name }}</td>
                     <td>Rp{{ number_format($decoration->price, 0, ',', '.') }}</td>
                     <td>{{ $decoration->stock }}</td>
                     <td>
-                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm"
-                            title="Edit" label="Edit"
-                            onclick="location.href='{{ route('admin.decoration.edit', $decoration->id) }}'" />
-                        <form action="{{ route('admin.decoration.destroy', $decoration->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin hapus decoration ini?')">
+                        <x-adminlte-button class="btn-edit" icon="fas fa-edit" size="sm" title="Edit"
+                            label="{{ __('adminDecoration.edit') }}"
+                            onclick="location.href='{{ route('admindecoration.edit', $decoration->id) }}'" />
+                        <form action="{{ route('admindecoration.destroy', $decoration->id) }}" method="POST"
+                            style="display:inline-block;"
+                            onsubmit="return confirm('{{ __('adminDecoration.areYouSureYouWant') }}')">
                             @csrf
                             @method('DELETE')
-                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus" label="Hapus" type="submit"/>
+                            <x-adminlte-button class="btn-delete" icon="fas fa-trash" size="sm" title="Hapus"
+                                label="{{ __('adminDecoration.delete') }}" type="submit" />
                         </form>
                     </td>
                 </tr>
@@ -55,16 +59,23 @@
     </x-adminlte-card>
 
     {{-- Tombol Ekspor --}}
-    <a href="{{ route('admin.decoration.export') }}" class="btn btn-export mb-3">
-        Export to Excel
+    <a href="{{ route('admindecoration.export') }}" class="btn btn-export mb-3">
+        {{ __('adminDecoration.exportToExcel') }}
     </a>
 
     {{-- Form Impor --}}
-    <form action="{{ route('admin.decoration.import') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admindecoration.import') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="file" required>
-        <button type="submit" class="btn btn-add">Import Excel</button>
+        <button type="submit" class="btn btn-add">{{ __('adminDecoration.importExcel') }}</button>
     </form>
+
+    {{-- Tampilkan error validasi --}}
+    @if ($errors->has('file'))
+        <x-adminlte-alert theme="danger" title="Error" class="mt-2">
+            {{ $errors->first('file') }}
+        </x-adminlte-alert>
+    @endif
 
     {{-- Pesan Sukses --}}
     @if (session('success'))

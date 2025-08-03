@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ asset('assets/logo/logo_cemilku.png') }}" type="image/x-icon">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -21,19 +22,31 @@
         rel="stylesheet">
 
     {{-- Style --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        body,
+        html {
+            background-color: #fffbec;
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
     @yield('style')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Global JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     @yield('script')
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar fixed-top navbar-expand-sm navbar-light color_primary" style="height: 70px">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light color_primary">
             <div class="container-fluid px-3 flex-wrap align-items-center justify-content-between">
 
                 {{-- Toggler Kiri --}}
@@ -46,14 +59,14 @@
 
                     <!-- Logo (mobile) diluar burger -->
                     <div class="d-block mb-3 text-center ms-2">
-                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="55" height="42"
+                        <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="80" height="42"
                             style="display: block; position: relative; top:7px" />
                     </div>
                 </div>
 
                 {{-- Desktop Logo --}}
-                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="#">
-                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="65" height="50"
+                <a class="navbar-brand d-none d-sm-block m-4 p-2" href="{{ route('home') }}">
+                    <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="110"
                         class="d-inline-block align-text-top" />
                 </a>
 
@@ -62,26 +75,27 @@
                     <ul class="navbar-nav fs-5 flex-row gap-1">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                                href="{{ route('home') }}">Home</a>
+                                href="{{ route('home') }}">{{ __('navigation.home') }}</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
                                 href="{{ route('custom') }}">Custom</a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('collections.index') ? 'active' : '' }}"
-                                href="{{ route('collections.index') }}">Collections</a>
+                            <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
+                                href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs() ? 'active' : '' }}"
-                                href="">Order</a>
+                            <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}"
+                                href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                         </li>
                     </ul>
                 </div>
 
+
                 {{-- Burger Content --}}
                 <div class="offcanvas offcanvas-start sidebar d-block d-sm-none" tabindex="-1" id="offcanvasNav"
-                    aria-labelledby="offcanvasNavLabel" style="width: 50%; background-color: #fdc307;">
+                    aria-labelledby="offcanvasNavLabel" style="width: 50%;">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
@@ -91,100 +105,164 @@
 
                         <!-- Logo (mobile) dalem burger -->
                         <div class="logo-burger d-block d-sm-none mb-3 ">
-                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="60" height="45" />
+                            <img src="{{ asset('assets/logo/logo.png') }}" alt="Logo" width="100"
+                                height="60" />
                         </div>
 
                         <!-- Menu -->
                         <ul class="navbar-nav fs-5 flex-column gap-2">
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('homepage') ? 'active' : '' }}"
-                                    href="homepage">Home</a>
+                                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                    href="{{ route('home') }} ">{{ __('navigation.home') }}</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('custom') ? 'active' : '' }}"
                                     href="custom">Custom</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('collections*') ? 'active' : '' }}"
-                                    href="collections">Collections</a>
+                                    href="{{ route('collections.index') }}">{{ __('navigation.collections') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('order') ? 'active' : '' }}"
-                                    href="order">Order</a>
+                                <a class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}"
+                                    href="{{ route('orders.index') }}">{{ __('navigation.order') }}</a>
                             </li>
 
                             <!-- Language (Mobile) -->
-                            <li class="nav-item dropdown d-block d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown">
-                                    Language
+                            <li class="dropdown d-block d-sm-none pe-2">
+                                <a href="#" class="d-flex align-items-center gap-1 text-decoration-none"
+                                    data-bs-toggle="dropdown" role="button">
+                                    @php
+                                        $flagCodes = [
+                                            'id' => 'id.png',
+                                            'en' => 'gb.png',
+                                        ];
+                                        $flagFile = $flagCodes[app()->getLocale()] ?? 'gb.png';
+                                    @endphp
+
+                                    <img id="flag-icon" src="{{ asset('assets/flags/' . $flagFile) }}"
+                                        alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle"
+                                        width="30" height="30" />
+
+                                    <i class="bi bi-caret-down-fill fs-6 coklatbang"></i>
+
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('id')">Indonesia</a></li>
-                                    <li><a class="dropdown-item" href="#"
-                                            onclick="setLanguage('eng')">English</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="id">
+                                            <button type="submit" class="dropdown-item">
+                                                Indonesia
+                                                @if (app()->getLocale() == 'id')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form method="GET" action="{{ url()->current() }}">
+                                            <input type="hidden" name="lang" value="en">
+                                            <button type="submit" class="dropdown-item">
+                                                English
+                                                @if (app()->getLocale() == 'en')
+                                                @endif
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <hr style="border-top: 2px solid #341c02;">
                                     </li>
                                 </ul>
-                                <hr style="border-top: 2px solid #341c02;">
                             </li>
 
+
                             <li class="nav-item">
-                                <a class="nav-link" href="logout" style="color: red">
-                                    <i class="bi bi-box-arrow-right me-1"></i>Log out
-                                </a>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button class="nav-link" type="submit" style="color: red">
+                                        <i class="bi bi-box-arrow-right me-1"></i>{{ __('navigation.logout') }}
+                                    </button>
+                                </form>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                {{-- Language (Desktop) --}}
-                <div class="dropdown d-none d-sm-block pe-2">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img id="flag-icon" src="https://flagcdn.com/w20/id.png" alt="ID"
-                            class="rounded-circle" width="30" height="30" />
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('id')">Indonesia</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="setLanguage('eng')">English</a></li>
-                    </ul>
+                {{-- Language (Desktop only) --}}
+                <div class="d-none d-sm-block ms-auto pe-3 me-2">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center gap-1 text-decoration-none"
+                            data-bs-toggle="dropdown" role="button">
+                            @php
+                                $flagCodes = [
+                                    'id' => 'id.png',
+                                    'en' => 'gb.png',
+                                ];
+                                $flagFile = $flagCodes[app()->getLocale()] ?? 'gb.png';
+                            @endphp
+
+                            <img id="flag-icon" src="{{ asset('assets/flags/' . $flagFile) }}"
+                                alt="{{ strtoupper(app()->getLocale()) }}" class="rounded-circle" width="30"
+                                height="30" />
+
+                            <i class="bi bi-caret-down-fill fs-6 coklatbang"></i>
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <form method="GET" action="{{ url()->current() }}">
+                                    <input type="hidden" name="lang" value="id">
+                                    <button type="submit" class="dropdown-item">Indonesia</button>
+                                </form>
+                            </li>
+                            <li>
+                                <form method="GET" action="{{ url()->current() }}">
+                                    <input type="hidden" name="lang" value="en">
+                                    <button type="submit" class="dropdown-item">English</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                {{-- Cart + Profile (Always on right) --}}
-                <div class="d-flex align-items-center gap-2 ms-auto pe-2">
-                    <a class="nav-link" href="#">
+                {{-- Cart + Profile (Always visible) --}}
+                <div class="d-flex align-items-center gap-4 pe-2">
+                    {{-- Cart --}}
+                    <a class=""
+                        href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
                         <i class="bi bi-cart3 fs-2" style="color: #52282A;"></i>
                     </a>
-                    {{-- PROFILE BUAT DESKTOP --}}
-                    <div class="dropdown d-none d-sm-block ms-3">
-                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+
+                    {{-- Profile --}}
+                    <div class="dropdown">
+                        <a href=""
+                            class="" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">
-                                    <i class="bi bi-gear me-2"></i>Settings
-                                </a>
-                            </li>
+                            <li><a class="dropdown-item"
+                                    href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
+                                    <i class="bi bi-gear me-2"></i>Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Log out
-                                </a>
+                            <li>
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Log out
+                                    </button>
+                                </form>
                             </li>
-                    </div>
-
-                    {{-- PROFILE BUAT MOBILE --}}
-                    <div class="d-block d-sm-none ms-3">
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-person-circle fs-2" style="color: #341c02;"></i>
-                        </a>
+                        </ul>
                     </div>
                 </div>
+
+
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="content-box">
             @yield('content')
         </main>
     </div>

@@ -1,0 +1,154 @@
+.coklatbang{
+    color: #52282A !important;
+}
+/* Warna utama */
+.color_primary {
+    background-color: #fdc307;
+}
+
+body {
+    background-color: #fffbef !important;
+    text-align: justify;
+    font-family: 'poppins';
+}
+
+.color_secondary {
+    background-color: #fffbef !important;
+}
+
+.nav-link {
+    position: relative;
+    /* font-family: 'poppins';  */
+    font-style: semi-bold;
+}
+
+.nav-link.active {
+    color: #52282A !important;
+    border: none;
+    font-weight: bold;
+    /* text-decoration: underline; */
+    text-decoration-color: #52282A;
+}
+
+/* .nav-link::after {
+    transition: all 0.2s;
+    opacity: 0;
+} */
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 70%;
+    height: 3px;
+    background-color: #52282A;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    opacity: 1;
+}
+
+.nav-link:hover {
+    /* border-bottom:3px solid #52282a; */
+    /* text-decoration: 5px underline #52282a; */
+}
+
+.navbar {
+    min-height: 70px;
+    height: 70px;
+    transition: height 0.3s ease;
+
+}
+
+/* Logo */
+.logo-burger img,
+.navbar-brand img {
+    display: block;
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* top: 7px; */
+}
+
+
+
+/* Language flag icon */
+#flag-icon {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+/* Cart & Profile icon */
+.bi-cart3,
+.bi-person-circle {
+    color: #52282A;
+}
+
+.content-box {
+    background-color: #fffbec;
+    padding-top: 60px !important;
+}
+
+/* Responsive adjustment */
+@media (max-width: 576px) {
+
+    .navbar {
+        height: auto !important;
+    }
+
+    .navbar-collapse {
+        display: block;
+        width: 100%;
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 1rem;
+        padding-bottom: 1rem;
+        color: #52282A;
+    }
+
+
+    .offcanvas-start {
+        width: 80% !important;
+        max-width: 300px;
+    }
+
+    .offcanvas-backdrop.show {
+        background-color: rgba(0, 0, 0, 0.8);
+        transition: background-color 0.3s ease;
+    }
+
+    .sidebar {
+        background-color: #fffbef !important;
+    }
+
+    .logo-burger {
+        padding-left: 1rem;
+    }
+
+    .nav-link:hover {
+        /* border-bottom:3px solid #52282a; */
+        text-decoration: none;
+    }
+
+    .nav-link.active {
+        border: 2px solid #52282a !important;
+        border-radius: 10px;
+        padding: 5px 10px;
+        background-color: #fdc607;
+        color: #52282A !important;
+        text-decoration: none;
+        font-weight: normal;
+    }
+}

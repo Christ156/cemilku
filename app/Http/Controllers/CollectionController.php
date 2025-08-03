@@ -1,12 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Exports\CollectionExport;
+use App\Imports\CollectionImport;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CollectionController extends Controller
 {
@@ -15,14 +19,37 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        $cny = Collection::where('category', 'Chinese New Year')->get();
-        $ramadhan = Collection::where('category', 'Ramadhan')->get();
-        $valentine = Collection::where('category', 'Valentine')->get();
-        $christmas = Collection::where('category', 'Christmas')->get();
-        $birthday = Collection::where('category', 'Birthday')->get();
-        $graduation = Collection::where('category', 'Graduation')->get();
+        if (Auth::user()->role == "admin") {
+            $collections = Collection::with('snacks')->get();
+            return view('admin.collection.index', compact('collections'));
+        } else {
+            $cny        = Collection::where('category', 'Chinese New Year')->get();
+            $ramadhan   = Collection::where('category', 'Ramadhan')->get();
+            $valentine  = Collection::where('category', 'Valentine')->get();
+            $christmas  = Collection::where('category', 'Christmas')->get();
+            $birthday   = Collection::where('category', 'Birthday')->get();
+            $graduation = Collection::where('category', 'Graduation')->get();
 
-        return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+        }
+
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search_bar');
+        $old_search = $search;
+
+        if (Auth::user()->role == "user") {
+            $cny        = Collection::where('category', 'Chinese New Year')->where('name', 'like', '%' . $search . '%')->get();
+            $ramadhan   = Collection::where('category', 'Ramadhan')->where('name', 'like', '%' . $search . '%')->get();
+            $valentine  = Collection::where('category', 'Valentine')->where('name', 'like', '%' . $search . '%')->get();
+            $christmas  = Collection::where('category', 'Christmas')->where('name', 'like', '%' . $search . '%')->get();
+            $birthday   = Collection::where('category', 'Birthday')->where('name', 'like', '%' . $search . '%')->get();
+            $graduation = Collection::where('category', 'Graduation')->where('name', 'like', '%' . $search . '%')->get();
+
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation', 'old_search'));
+        }
     }
 
     /**
@@ -30,7 +57,9 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::user()->role == "admin") {
+            return view('admin.collection.create');
+        }
     }
 
     /**
@@ -38,41 +67,88 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'collection_id' => 'required|exists:collections,id',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-        ]);
 
-        $collection = Collection::findOrFail($request->collection_id);
+        if (Auth::user()->role == "admin") {
+            $validated = $request->validate([
+                'name'        => 'required|string|max:255|unique:collections,name',
+                'type'        => 'required|in:tower,bouquet',
+                'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
+                'description' => 'required|string',
+                'price'       => 'required|numeric|min:1',
+                'stock'       => 'required|integer|min:0',
+                'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
 
-        if ($request->quantity > $collection->stock) {
-            return redirect()->back()->with('error', 'Quantity melebihi stok yang tersedia.');
-        }
-
-        $userId = Auth::user()->id;
-
-        // Cari cart aktif milik user
-        $cart = Cart::where('user_id', $userId)->where('is_active', true)->first();
-
-        // Jika tidak ada, buat cart baru
-        if (!$cart) {
-            $cart = Cart::create([
-                'user_id' => $userId,
-                'is_active' => true,
+                // Snack dan quantity untuk 4 layer
+                'snack_id_1'  => 'required|exists:snacks,id',
+                'snack_id_2'  => 'required|exists:snacks,id',
+                'snack_id_3'  => 'required|exists:snacks,id',
+                'snack_id_4'  => 'required|exists:snacks,id',
             ]);
+
+            $defaultQuantities = [
+                'tower'   => [10, 12, 10, 8],
+                'bouquet' => [5, 5, 5, 3],
+            ];
+
+            $quantities = $defaultQuantities[$validated['type']];
+
+            $imageName = null;
+            if ($request->hasFile('image')) {
+                $imageName = $request->file('image')->getClientOriginalName();
+                $request->file('image')->move(public_path('assets/collections'), $imageName);
+            } else {
+                $imageName = $collection->image ?? null;
+            }
+
+            $collection = Collection::create([
+                'name'        => $validated['name'],
+                'type'        => $validated['type'],
+                'category'    => $validated['category'],
+                'description' => $validated['description'],
+                'layer'       => '4',
+                'price'       => $validated['price'],
+                'stock'       => $validated['stock'],
+                'image'       => $imageName,
+            ]);
+
+            for ($i = 1; $i <= 4; $i++) {
+                $collection->snacks()->attach($validated["snack_id_$i"], [
+                    'quantity' => $quantities[$i - 1],
+                ]);
+            }
+
+            return redirect()->route('admincollection.index')->with('success', 'Collection berhasil ditambahkan!');
+        } else {
+            $request->validate([
+                'collection_id' => 'required|exists:collections,id',
+                'quantity'      => 'required|integer|min:1',
+                'price'         => 'required|numeric|min:0',
+            ]);
+
+            $collection = Collection::findOrFail($request->collection_id);
+
+            if ($request->quantity > $collection->stock) {
+                return redirect()->back()->with('error', 'Quantity exceeds available stock.');
+            }
+
+            $userId = Auth::user()->id;
+
+            // Cari cart aktif milik user
+            $cart = Cart::where('user_id', $userId)->where('is_active', 1)->first();
+
+            // Jika tidak ada, buat cart baru
+            if (! $cart) {
+                $cart = Cart::create([
+                    'user_id'   => $userId,
+                    'is_active' => 1,
+                ]);
+            }
+
+            // Simpan item ke cart
+            $this->new_cart_item($cart->id, $request->collection_id, $request->quantity, $request->price, ($request->quantity * $request->price));
+
+            return redirect()->route('collections.show', ['id' => $request->collection_id])->with('success', true);
         }
-
-        // Simpan item ke cart
-        $cartItem = new CartItem();
-        $cartItem->cart_id = $cart->id;
-        $cartItem->collection_id = $request->collection_id;
-        $cartItem->quantity = $request->quantity;
-        $cartItem->price = $request->price;
-        $cartItem->total_price = $request->quantity * $request->price;
-        $cartItem->save();
-
-        return redirect()->route('collections.show', ['id' => $request->collection_id])->with('success', true);
     }
 
     /**
@@ -80,32 +156,245 @@ class CollectionController extends Controller
      */
     public function show(string $id)
     {
-        // return view('detail', compact('collection'));
-        $detail = Collection::findOrFail($id);
-        return view('collections.detail', compact('detail'));
+        if (Auth::user()->role == "admin") {
+            return redirect()->route('admin.collection.index');
+        } else {
+            $detail = Collection::findOrFail($id);
+            return view('collections.detail', compact('detail'));
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Collection $collection)
     {
-        //
+        if (Auth::user()->role == "admin") {
+            return view('admin.collection.edit', compact('collection'));
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Collection $collection)
     {
-        //
+        if (Auth::user()->role == "admin") {
+            $validated = $request->validate([
+                'name'        => 'required|string|max:255',
+                'type'        => 'required|in:tower,bouquet',
+                'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
+                'description' => 'required|string',
+                'price'       => 'required|numeric||min:1',
+                'stock'       => 'required|integer|min:0',
+                'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
+                'snack_id_1'  => 'required|exists:snacks,id',
+                'snack_id_2'  => 'required|exists:snacks,id',
+                'snack_id_3'  => 'required|exists:snacks,id',
+                'snack_id_4'  => 'required|exists:snacks,id',
+            ]);
+
+            // Simpan image baru jika ada
+            if ($request->hasFile('image')) {
+                if ($collection->image && file_exists(public_path('assets/collections/' . $collection->image))) {
+                    unlink(public_path('assets/collections/' . $collection->image));
+                }
+
+                $imageName = $request->file('image')->getClientOriginalName();
+                $request->file('image')->move(public_path('assets/collections'), $imageName);
+            } else {
+                $imageName = $collection->image;
+            }
+
+            $collection->update([
+                'name'        => $validated['name'],
+                'type'        => $validated['type'],
+                'category'    => $validated['category'],
+                'description' => $validated['description'],
+                'price'       => $validated['price'],
+                'stock'       => $validated['stock'],
+                'image'       => $imageName,
+            ]);
+
+            $defaultQuantities = [
+                'tower'   => [10, 12, 10, 8],
+                'bouquet' => [5, 5, 5, 3],
+            ];
+            $quantities = $defaultQuantities[$validated['type']];
+
+            $snackSync = [];
+            for ($i = 1; $i <= 4; $i++) {
+                $snackId             = $validated["snack_id_$i"];
+                $quantity            = $quantities[$i - 1];
+                $snackSync[$snackId] = ['quantity' => $quantity];
+            }
+
+            $collection->snacks()->sync($snackSync);
+
+            return redirect()->route('admincollection.index')->with('success', 'Collection updated successfully!');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Collection $collection)
     {
-        //
+        if (Auth::user()->role == "admin") {
+            $collection->delete();
+            return redirect()->route('admincollection.index')->with('success', 'Collection berhasil dihapus!');
+        }
+    }
+
+    private function new_cart_item($cart_id, $collection_id, $quantity, $price, $total_price)
+    {
+        $cart_items                = new CartItem();
+        $cart_items->cart_id       = $cart_id;
+        $cart_items->collection_id = $collection_id;
+        $cart_items->quantity      = $quantity;
+        $cart_items->price         = $price;
+        $cart_items->total_price   = $total_price;
+        $cart_items->created_at    = now();
+        $cart_items->save();
+        return 0;
+    }
+
+    public function add_to_cart(Request $request, $id_collection, $quantity)
+    {
+        try {
+            if (! Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda harus login untuk menambahkan item ke keranjang.',
+                ], 401);
+            }
+
+            $user          = Auth::user();
+            $product       = Collection::findOrFail($id_collection);
+            $quantityToAdd = (int) $quantity;
+
+            if ($quantityToAdd <= 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kuantitas harus lebih dari 0.',
+                ], 400);
+            }
+
+            if ($quantityToAdd > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kuantitas yang diminta melebihi stok yang tersedia (' . $product->stock . ' pcs).',
+                ], 400);
+            }
+
+            $cart = Cart::firstOrCreate(
+                ['user_id' => $user->id, 'is_active' => true],
+                []
+            );
+
+            $cartItem = CartItem::where('cart_id', $cart->id)
+                ->where('collection_id', $product->id)
+                ->first();
+
+            $newQuantity = ($cartItem ? $cartItem->quantity : 0) + $quantityToAdd;
+
+            if ($newQuantity > $product->stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Total quantity in cart exceeds available stock (' . $product->stock . ' pcs).',
+                ], 400);
+            }
+
+            if ($cartItem) {
+                $cartItem->quantity    = $newQuantity;
+                $cartItem->price       = $product->price;
+                $cartItem->total_price = $product->price * $newQuantity;
+                $cartItem->save();
+            } else {
+                CartItem::create([
+                    'cart_id'       => $cart->id,
+                    'collection_id' => $product->id,
+                    'quantity'      => $newQuantity,
+                    'price'         => $product->price,
+                    'total_price'   => $product->price * $newQuantity,
+                ]);
+            }
+
+            // Jika semua sukses, kembalikan respons JSON sukses
+            return response()->json([
+                'success'         => true,
+                'message'         => 'Produk berhasil ditambahkan ke keranjang!',
+                'cart_item_count' => CartItem::where('cart_id', $cart->id)->sum('quantity'), // Opsional: kirim jumlah total item di keranjang
+                'redirect_url'    => route('cart.index', ['id_user' => $user->id, 'slug' => Str::slug($user->name)]),
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Tangkap jika Collection tidak ditemukan
+            Log::error('Collection not found in add_to_cart: ' . $e->getMessage(), ['id_collection' => $id_collection]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Produk tidak ditemukan.',
+            ], 404); // Not Found
+        } catch (\Exception $e) {
+            // Tangkap semua exception lainnya
+            Log::error('Error in CollectionController@add_to_cart: ' . $e->getMessage(), [
+                'trace'         => $e->getTraceAsString(),
+                'id_collection' => $id_collection,
+                'quantity'      => $quantity,
+                'user_id'       => Auth::id(), // Pastikan Auth::id() aman di sini
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan server. Silakan coba lagi. Detail: ' . $e->getMessage(),
+            ], 500); // Internal Server Error
+        }
+    }
+
+    public function export()
+    {
+        return Excel::download(new CollectionExport, 'collection.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
+        ]);
+
+        try {
+            Excel::import(new CollectionImport, $request->file('file'));
+            return redirect()->route('admincollection.index')->with('success', 'Data collection berhasil diimpor!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+        }
+    }
+
+    public function trash()
+    {
+        $trashedCollections = Collection::onlyTrashed()->get();
+        return view('admin.collection.trash', compact('trashedCollections'));
+    }
+
+    public function restore($id)
+    {
+        $collection = Collection::withTrashed()->findOrFail($id);
+        $collection->restore();
+        return redirect()->route('admincollection.trash')->with('success', 'Collection berhasil dipulihkan.');
+    }
+
+    public function restoreAll()
+    {
+        Collection::onlyTrashed()->restore();
+        return redirect()->route('admincollection.trash')->with('success', 'Semua collection berhasil direstore.');
+    }
+
+    public function forceDelete($id)
+    {
+        $collection = Collection::withTrashed()->findOrFail($id);
+        $collection->forceDelete();
+        return redirect()->route('admincollection.trash')->with('success', 'Collection berhasil dihapus permanen.');
     }
 }

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 
 class Cart extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = ['user_id', 'is_active'];
 
-    public function items()
+    public function cartItems()
     {
         return $this->hasMany(CartItem::class);
     }
@@ -21,4 +21,5 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

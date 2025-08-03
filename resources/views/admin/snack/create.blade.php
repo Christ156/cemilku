@@ -8,20 +8,67 @@
 
 @section('content')
     <div class="content-header">
-        <h1>Add Snack</h1>
+        <h1>{{__('adminSnack.addSnack')}}</h1>
     </div>
 
     <x-adminlte-card>
-        <form action="{{ route('admin.snack.store') }}" method="POST" enctype="multipart/form-data">
+        {{-- Global error summary (opsional tapi membantu) --}}
+        @if ($errors->any())
+            <x-adminlte-alert theme="danger" title="Validation Error">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </x-adminlte-alert>
+        @endif
+
+        <form action="{{ route('adminsnack.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <x-adminlte-input name="name" label="Snack Name" placeholder="Enter snack name" required />
-            <x-adminlte-input name="price" label="Price (Rp)" type="number" required />
-            <x-adminlte-input name="stock" label="Stock" type="number" required />
-            <x-adminlte-input name="image" label="Snack Image" type="file" accept="image/*" />
+            {{-- Name --}}
+            <div class="form-group">
+                <label for="name">{{__('adminSnack.snackName')}}</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    class="form-control @error('name') is-invalid @enderror" placeholder="{{__('adminSnack.enterSnackName')}}" required>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
-            <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="Add" />
-            <a href="{{ route('admin.snack.index') }}" class="btn btn-secondary ml-2">Cancel</a>
+            {{-- Price --}}
+            <div class="form-group">
+                <label for="price">{{__('adminSnack.price')}} (Rp)</label>
+                <input type="number" id="price" name="price" value="{{ old('price') }}"
+                    class="form-control @error('price') is-invalid @enderror" required>
+                @error('price')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Stock --}}
+            <div class="form-group">
+                <label for="stock">{{__('adminSnack.stock')}}</label>
+                <input type="number" id="stock" name="stock" value="{{ old('stock') }}"
+                    class="form-control @error('stock') is-invalid @enderror" required>
+                @error('stock')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Image --}}
+            <div class="form-group">
+                <label for="image">{{__('adminSnack.snackImage')}}</label>
+                <input type="file" id="image" name="image"
+                    class="form-control-file @error('image') is-invalid @enderror" accept="image/*">
+                @error('image')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <x-adminlte-button type="submit" theme="primary" icon="fas fa-plus" label="{{__('adminSnack.add')}}" />
+            <a href="{{ route('adminsnack.index') }}" class="btn btn-secondary ml-2">{{__('adminSnack.cancel')}}</a>
         </form>
     </x-adminlte-card>
+
 @endsection

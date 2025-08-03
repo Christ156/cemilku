@@ -1,0 +1,61 @@
+<?php
+
+return[
+    //create collection
+    'addCollection' => 'Tambah Koleksi',
+    'collectionName' => 'Nama Koleksi',
+    'enterCollectionName' => 'Masukkan nama koleksi',
+    'category' => 'Kategori',
+    'chooseCategory' => 'Pilih Kategori',
+    'type' => 'Tipe',
+    'chooseType' => 'Pilih Tipe',
+    'tower' => 'Menara',
+    'bouquet' => 'Buket',
+    'description' => 'Deskripsi',
+    'enterDescription' => 'Masukkan Deskripsi',
+    'price' => 'Harga',
+    'stock' => 'Stok',
+    'collectionImage' => 'Gambar Koleksi',
+    'snackForEachLayer' => 'Snack untuk Setiap Lapisan (4 Lapisan)',
+    'chooseSnack' => 'Pilih Snack',
+    'cancel' => 'Batal',
+    'snackForLayer' => 'Snack untuk Layer',
+    'add' => 'Tambah',
+
+    //edit collection
+    'editCollection' => 'Ubah Koleksi',
+    'enterDescriptionOptional' => 'Masukkan deskripsi (opsional)',
+    'current' =>'Saat Ini',
+    'update' => 'Perbarui',
+
+    //index collection
+    'collectionList' => 'Daftar Koleksi',
+    'viewTrash' => 'Lihat Sampah',
+    'no' => 'No.',
+    'image' => 'Gambar',
+    'name' => 'Nama',
+    'type' => 'Tipe',
+    'category' => 'Kategori',
+    'snacks' => 'Snack',
+    'price' => 'Harga',
+    'stock' => 'Stok',
+    'action' => 'Aksi',
+    'noImage' => 'Tidak Ada Gambar',
+    'areYouSureYouWant' => 'Yakin ingin menghapus snack ini?',
+    'delete' => 'Hapus',
+    'exportToExcel' => 'Ekspor ke Excel',
+    'importExcel' => 'Impor dari Excel',
+    'edit' => 'Ubah',
+
+    //Trash
+    'trashDeletedCollections' => 'Sampah - Koleksi yang Dihapus',
+    'backToList' => 'Kembali ke Daftar',
+    'deletedAt' => 'Dihapus Pada',
+    'restore' => 'Pulihkan',
+    'restoreCollection' => 'Pulihkan koleksi ini?',
+    'qdeletedPermanently' => 'Hapus koleksi ini secara permanen?',
+    'deletedPermanently' => 'Hapus Permanen',
+    'noCollectionRemoved' => 'Tidak ada koleksi yang dihapus.',
+    'areYouSureDeleted' => 'Yakin ingin mengembalikan semua koleksi yang terhapus?',
+    'restoreAll' => 'Pulihkan Semua',
+];
