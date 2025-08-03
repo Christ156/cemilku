@@ -37,7 +37,6 @@ class OrderPageTest extends TestCase
         $this->actingAs($this->userToLogin);
     }
 
-    /** @test */
     public function tab_all_shows_all_orders()
     {
         $user = User::where('email', 'user2@example.com')->first();
@@ -57,7 +56,6 @@ class OrderPageTest extends TestCase
             ->assertSee('Kongkow Bouquet');
     }
 
-    /** @test */
     public function tab_pending_only_shows_pending_orders()
     {
         // Set the locale for this specific test

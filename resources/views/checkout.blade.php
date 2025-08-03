@@ -46,27 +46,27 @@
                 <div class="modal-body p-4">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
-                            <h5 class="fw-bold mb-1"><i class="bi bi-clock-fill text-warning me-2"></i>Bayar sebelum</h5>
+                            <h5 class="fw-bold mb-1"><i class="bi bi-clock-fill text-warning me-2"></i>{{__('checkout.payBefore')}}</h5>
                             <small class="text-muted" id="paymentDeadline"></small>
                         </div>
                         <div class="text-center d-flex" id="countdownContainer">
                             <div class="countdown-item bg-danger text-white rounded-pill px-3 py-2 text-center">
                                 <div class="countdown-value" id="countdownHour">--</div>
-                                <small>Jam</small>
+                                <small>{{__('checkout.hour')}}</small>
                             </div>
                             <div class="countdown-item bg-danger text-white rounded-pill px-3 py-2 text-center">
                                 <div class="countdown-value" id="countdownMinute">--</div>
-                                <small>Menit</small>
+                                <small>{{__('checkout.minutes')}}</small>
                             </div>
                             <div class="countdown-item bg-danger text-white rounded-pill px-3 py-2 text-center">
                                 <div class="countdown-value" id="countdownSecond">--</div>
-                                <small>Detik</small>
+                                <small>{{__('checkout.seconds')}}</small>
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <p class="mb-1 text-muted">Nomor Virtual Account</p>
+                        <p class="mb-1 text-muted">{{__('checkout.virtualAccount')}}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="fw-bold mb-0">1234135139348783</h5> {{-- Ini mungkin perlu dinamis juga nanti --}}
                             @if ($order->payment_method == 'BCA')
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <p class="mb-1 text-muted">Total Tagihan</p>
+                        <p class="mb-1 text-muted">{{__('checkout.totalPayment')}}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             {{-- Ganti hardcoded ini dengan nilai dari $order->total_price --}}
                             <h5 class="fw-bold text-dark mb-0">Rp{{ number_format($order->total_price, 0, ',', '.') }}</h5>
@@ -96,16 +96,15 @@
                     {{-- Form ini tidak perlu action POST, hanya link untuk melihat pesanan --}}
                     <form action="" method="get"> {{-- Ganti method="post" ke method="get" atau hapus saja form tag --}}
                         @csrf {{-- CSRF token tidak diperlukan untuk GET request --}}
-                        <a href="{{ route('orders.index') }}" id="confirmPaymentBtn" class="btn btn-bayar w-100 mt-3">Lihat
-                            Pesanan saya</a>
+                        <a href="{{ route('orders.index') }}" id="confirmPaymentBtn" class="btn btn-bayar w-100 mt-3">{{__('checkout.viewOrder')}}</a>
                     </form>
                 </div>
             </div>
         @else
             <div class="alert alert-info text-center">
-                Detail order tidak ditemukan. Silakan kembali ke keranjang untuk melakukan checkout.
+                {{__('checkout.backToCheckout')}}
                 <br>
-                <a href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-primary mt-3">Kembali ke Keranjang</a>
+                <a href="{{ route('cart.index', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}" class="btn btn-primary mt-3">{{__('checkout.returnToCart')}}</a>
             </div>
         @endif
 

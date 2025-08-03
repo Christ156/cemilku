@@ -338,18 +338,18 @@
 
             <div class="footer-info">
                 <p><strong>{{ __('navigation.contactUs') }}</strong></p>
-                <p>Email: <a href="mailto:cemilku@gmail.com">cemilku@gmail.com</a></p>
+                <p>Email: <a href="https://mail.google.com/">cemilku@gmail.com</a></p>
                 <p>{{ __('navigation.phone') }}: 555-567-8901</p>
             </div>
 
             <div class="footer-social">
-                <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/pptibca.17" target="_blank" rel="noopener noreferrer">
                     <img src="{{ asset('assets/social_media/ig.png') }}" alt="Instagram">
                 </a>
-                <a href="https://twitter.com/username" target="_blank" rel="noopener noreferrer">
+                <a href="https://x.com/jokowi" target="_blank" rel="noopener noreferrer">
                     <img src="{{ asset('assets/social_media/twit.png') }}" alt="Twitter">
                 </a>
-                <a href="https://facebook.com/username" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/christvaldo.kurniaputra.3" target="_blank" rel="noopener noreferrer">
                     <img src="{{ asset('assets/social_media/fb.png') }}" alt="Facebook">
                 </a>
             </div>

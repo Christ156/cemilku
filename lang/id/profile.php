@@ -76,5 +76,5 @@ return[
     'reciepentName' => 'Nama Penerima',
     'inputReciepentName' => 'Masukkan Nama Penerima...',
     'description' => 'Deskripsi',
-
+    'years' => ' tahun'
 ];

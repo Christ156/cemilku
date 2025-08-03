@@ -29,15 +29,17 @@ class CollectionController extends Controller
             $christmas  = Collection::where('category', 'Christmas')->get();
             $birthday   = Collection::where('category', 'Birthday')->get();
             $graduation = Collection::where('category', 'Graduation')->get();
+            $old_search = NULL;
 
-            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation', 'old_search'));
         }
 
     }
 
     public function search(Request $request)
     {
-        $search = $request->input('search');
+        $search = $request->input('search_bar');
+        $old_search = $search;
 
         if (Auth::user()->role == "user") {
             $cny        = Collection::where('category', 'Chinese New Year')->where('name', 'like', '%' . $search . '%')->get();
@@ -47,7 +49,11 @@ class CollectionController extends Controller
             $birthday   = Collection::where('category', 'Birthday')->where('name', 'like', '%' . $search . '%')->get();
             $graduation = Collection::where('category', 'Graduation')->where('name', 'like', '%' . $search . '%')->get();
 
-            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+            if($search == NULL){
+                return redirect()->route('collections.index');
+            }
+
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation', 'old_search'));
         }
     }
 

@@ -69,7 +69,7 @@
                                 id="email2" placeholder="Masukkan email">
                         </div>
                         <div class="mb-3">
-                            <label for="telepon" class="form-label">{{ __('profile.phoneNumber') }} (10 - 12 digits)</label>
+                            <label for="telepon" class="form-label">{{ __('profile.phoneNumber') }}</label>
                             <input type="number" value="{{ Auth::user()->phone_number }}" name="telepon"
                                 class="form-control" id="telepon" placeholder="{{ __('profile.inputPhoneNumber') }}">
                         </div>
@@ -119,17 +119,17 @@
                             id="kelurahan_desa" placeholder="{{ __('profile.inputVillage') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rt" class="form-label">{{ __('profile.rt') }} (3 digits)</label>
+                        <label for="rt" class="form-label">{{ __('profile.rt') }} (3 digit)</label>
                         <input type="text" value="" name="rt" class="form-control" id="rt"
                             placeholder="{{ __('profile.inputRT') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="rw" class="form-label">{{ __('profile.rw') }} (3 digits)</label>
+                        <label for="rw" class="form-label">{{ __('profile.rw') }} (3 digit)</label>
                         <input type="text" value="" name="rw" class="form-control" id="rw"
                             placeholder="{{ __('profile.inputRW') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="kode_pos" class="form-label">{{ __('profile.postalCode') }} (5 digits)</label>
+                        <label for="kode_pos" class="form-label">{{ __('profile.postalCode') }} (5 digit)</label>
                         <input type="text" value="" name="kode_pos" class="form-control" id="kode_pos"
                             placeholder="{{ __('profile.inputPostalCode') }}">
                     </div>
@@ -139,7 +139,7 @@
                             rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="nomor_telepon" class="form-label">{{ __('profile.phoneNumber') }} (10 - 12 digits)</label>
+                        <label for="nomor_telepon" class="form-label">{{ __('profile.phoneNumber') }} (10 - 12 digit)</label>
                         <input type="number" value="" name="nomor_telepon" class="form-control"
                             id="nomor_telepon" placeholder="{{ __('profile.inputPhoneNumber') }}">
                     </div>
@@ -255,7 +255,7 @@
                                             <div class="container-info-user">
                                                 <h4 class="info-user">
                                                     {{-- {{ substr(\Carbon\Carbon::parse(Auth::user()->date_of_birth)->diffForHumans(), 0, 2) }} --}}
-                                                    {{ Auth::user()->date_of_birth ? \Carbon\Carbon::parse(Auth::user()->date_of_birth)->age . ' years' : '-' }}
+                                                    {{ Auth::user()->date_of_birth ? \Carbon\Carbon::parse(Auth::user()->date_of_birth)->age . __('profile.years') : '-' }}
                                                 </h4>
                                             </div>
                                         </div>
@@ -326,12 +326,12 @@
                                                 <div class="d-flex">
                                                     <button type="button" class="btn btn-warning me-2"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#editAddress{{ $a->id }}">Edit</button>
+                                                        data-bs-target="#editAddress{{ $a->id }}">{{__('profile.edit')}}</button>
 
                                                     <!-- Modal trigger button -->
                                                     <button type="button" class="btn btn-danger btn-lg"
                                                         data-bs-toggle="modal" data-bs-target="#deleteConfirm">
-                                                        Delete
+                                                        {{__('profile.delete')}}
                                                     </button>
                                                 </div>
                                                 @if (!$a->is_primary)
@@ -400,21 +400,21 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="rt"
-                                                                class="form-label">{{ __('profile.rt') }} (3 digits)</label>
+                                                                class="form-label">{{ __('profile.rt') }}</label>
                                                             <input type="text" value="{{ $a->rt }}"
                                                                 name="rt" class="form-control" id="rt"
                                                                 placeholder="{{ __('profile.inputRT') }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="rw"
-                                                                class="form-label">{{ __('profile.rw') }} (3 digits)</label>
+                                                                class="form-label">{{ __('profile.rw') }}</label>
                                                             <input type="text" value="{{ $a->rw }}"
                                                                 name="rw" class="form-control" id="rw"
                                                                 placeholder="{{ __('profile.inputRW') }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="kode_pos"
-                                                                class="form-label">{{ __('profile.postalCode') }} (5 digits)</label>
+                                                                class="form-label">{{ __('profile.postalCode') }}</label>
                                                             <input type="text" value="{{ $a->kode_pos }}"
                                                                 name="kode_pos" class="form-control" id="kode_pos"
                                                                 placeholder="{{ __('profile.inputPostalCode') }}">
@@ -427,7 +427,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="nomor_telepon"
-                                                                class="form-label">{{ __('profile.phoneNumber') }} (10 - 12 digits)</label>
+                                                                class="form-label">{{ __('profile.phoneNumber') }}</label>
                                                             <input type="number" value="{{ $a->phone_number }}"
                                                                 name="nomor_telepon" class="form-control"
                                                                 id="nomor_telepon"

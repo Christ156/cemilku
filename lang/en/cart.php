@@ -36,6 +36,7 @@ return[
     'province' => 'Province',
     'postalCode' => 'Postal Code',
     'saveAddress' => 'Save Address',
-    
+    'free' => 'Free'
+
 
 ];

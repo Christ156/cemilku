@@ -117,7 +117,7 @@
 
 @section('content')
     <div class="container mt-5"
-        onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{ $count_address_active }})">
+        onchange="checkItemSelected({{ $carts->count() }}, {{ json_encode($carts->toArray()) }}, {{ $count_address_active }})" onload="checkQuantity({{ $carts->count() }}, {{ json_encode($carts->toArray()) }})">
         <div class="row">
             <form
                 action="{{ route('cart.destroy', ['id_user' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name ?? ''), 'count_items' => $carts->count()]) }}"
@@ -166,7 +166,8 @@
                         {{ __('cart.selectAll') }}
                     </label>
 
-                    <button type="submit" id="remove-btn" class="btn text-decoration-none fw-bold" style="display: none; color:#52282A;">
+                    <button type="submit" id="remove-btn" class="btn text-decoration-none fw-bold"
+                        style="display: none; color:#52282A;">
                         {{ __('cart.remove') }}
                     </button>
                 </div>
@@ -214,15 +215,15 @@
                                         <h6 class="fw-bold mb-0">{{ $c->mysteryBox->mood }} -
                                             {{ $c->mysteryBox->name }}</h6>
                                     @endif
-                                    <div class="d-flex quantity-cart">
-                                        <button type="button" class="btn quantity-btn"
+                                    <div class="d-flex quantity-cart" onchange="quantityCheck({{$carts->count()}}, {{json_encode($carts->toArray())}})">
+                                        <button type="button" id="subs_item_{{$c->id}}" class="btn quantity-btn"
                                             onclick="updateQuantity('subs', {{ $c->id }})">
                                             <i class="bi bi-dash"></i>
                                         </button>
                                         <input type="text" class="quantity-cart-field" name="quantity_cart"
                                             id="quantity_cart_{{ $c->id }}" value="{{ $c->quantity }}"
-                                            onchange="updateQuantityByField({{ $c->id }})">
-                                        <button type="button" class="btn quantity-btn"
+                                            oninput="updateQuantityByField({{ $c->id }})" minlength="0" maxlength="3">
+                                        <button type="button" id="add_item_{{$c->id}}" class="btn quantity-btn"
                                             onclick="updateQuantity('add', {{ $c->id }})">
                                             <i class="bi bi-plus"></i>
                                         </button>
@@ -289,8 +290,8 @@
                         <span>Rp<span id="total_price_cart">0</span></span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span>Shipping Regular</span>
-                        <span>Free</span>
+                        <span>{{__('cart.shippingRegular')}}</span>
+                        <span>{{__('cart.free')}}</span>
                     </div>
 
                     <hr style="border-top:2px solid #52282A;">
@@ -326,7 +327,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <a href="{{route('profile', ['id'=>Auth::user()->id, 'slug'=>Str::slug(Auth::user()->name)])}}"
+                        <a href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}"
                             class="w-100 card btn btn-outline-warning coklatbang p-2 mb-2">
                             <p class="m-0 fw-bold">{{ __('cart.addNewAddress') }}</p>
                         </a>
