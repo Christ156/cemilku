@@ -15,10 +15,9 @@
         <div class="container-fluid d-flex flex-column flex-md-row" data-mode="{{ $mode }}">
 
             {{-- LEFT SIDE --}}
-            <div class="left-section col-12 col-md-6 p-4 d-flex flex-column">
+            <div class="left-section col-12 col-md-6 p-2 d-flex flex-column">
                 {{-- Header --}}
                 <div class="d-flex w-100 justify-content-between align-items-center mb-3">
-                    {{-- PERUBAHAN DI SINI: Tambahkan data-home-url untuk digunakan di JS --}}
                     <a href="#" id="backBtn" data-home-url="{{ route('home') }}">
                         <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
                     </a>

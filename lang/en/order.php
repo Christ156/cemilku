@@ -23,7 +23,8 @@ return[
     'paymentDetails' => 'Payment Details',
     'paymentMethod' => 'Payment Method',
     'close' => 'Close',
-    'buyNow' => 'Buy Now',
-    'cancel' => 'Cancel'
+    'buyNow' => 'Pay Now',
+    'cancel' => 'Cancel',
+    'numberOfCollectionSold' => 'Number of Collections Sold'
 
 ];
