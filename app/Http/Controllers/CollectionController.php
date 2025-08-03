@@ -49,6 +49,10 @@ class CollectionController extends Controller
             $birthday   = Collection::where('category', 'Birthday')->where('name', 'like', '%' . $search . '%')->get();
             $graduation = Collection::where('category', 'Graduation')->where('name', 'like', '%' . $search . '%')->get();
 
+            if($search == NULL){
+                return redirect()->route('collections.index');
+            }
+
             return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation', 'old_search'));
         }
     }

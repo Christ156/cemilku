@@ -105,6 +105,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::resource('collections', CollectionController::class);
     Route::post('/collection/{id_collection}/add-to-cart/{quantity}', [CollectionController::class, 'add_to_cart'])->name('collection.to.cart');
+    Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
 
     Route::get('/{id_user}/{slug}/cart', [CartController::class, 'index'])->name('cart.index');
     Route::delete('/{id_user}/{slug}/cart/{count_items}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -112,7 +113,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('{id_user}/{slug}/cart/add-address', [CartController::class, 'store_address'])->name('cart.new.address');
     Route::put('{id_user}/{slug}/cart/set-primary-address', [CartController::class, 'set_primary_address'])->name('cart.primary.address');
     Route::put('{id_user}/{slug}/cart/update-quantity-item', [CartController::class, 'update_quantity_item'])->name('cart.update.quantity');
-    Route::post('collections/search', [CollectionController::class, 'search'])->name('collection.search');
 
     // baru dibuat ni bang -jason
     Route::get('/checkout/{order_id}/payment', [CheckoutController::class, 'index'])->name('checkout.index');
