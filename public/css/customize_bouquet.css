@@ -16,6 +16,26 @@
     border: 2px solid #52282A;
 }
 
+@media (max-width: 768px) {
+    .progress-node {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .progress-node:not(:last-child)::after {
+        width: calc(100% + 8px);
+        height: 3px;
+    }
+}
+
+.warnaCoklat{
+    color: #52282A !important;
+    font-size: 3rem !important;
+    font-weight: bolder Im !important;
+}
+
+
 .progress-node-done{
     background: #FDC607;
 }

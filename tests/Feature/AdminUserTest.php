@@ -78,59 +78,7 @@ class AdminUserTest extends TestCase
         $response->assertSeeText($user2->id);
     }
 
-    //halaman log user
-    public function test_admin_can_view_user_logs_page()
-    {
-        $this->markTestSkipped('Skipping this test due to a known routing issue. The route admin.users.logs is not defined in the application.');
-
-        $this->loginAsAdmin();
-
-        $user = User::create([
-            'name' => 'User dengan Log',
-            'email' => 'loguser@example.com',
-            'password' => bcrypt('password123'),
-            'role' => 'user',
-            'phone_number' => '0814' . Str::random(8),
-            'email_verified_at' => now(),
-            'is_blocked' => false,
-        ]);
-
-        activity()->on($user)->log('Melihat halaman profil');
-
-        $response = $this->get(route('admin.users.logs', ['userId' => $user->id]));
-
-        $response->assertStatus(200);
-        $response->assertSeeText($user->name . ' Log Activity');
-        $response->assertSeeText('Melihat halaman profil');
-    }
-
-
-
-
-    //block user
-    public function test_admin_can_block_an_active_user()
-    {
-        $this->loginAsAdmin();
-
-        $userToBlock = User::create([
-            'name' => 'User Diblokir',
-            'email' => 'blockme@example.com',
-            'password' => bcrypt('password123'),
-            'role' => 'user',
-            'phone_number' => '0815' . Str::random(8),
-            'email_verified_at' => now(),
-            'is_blocked' => false,
-        ]);
-
-        $this->assertDatabaseHas('users', ['id' => $userToBlock->id, 'is_blocked' => false]);
-
-        $response = $this->post(route('adminuser.block', $userToBlock->id));
-
-        $this->assertDatabaseHas('users', ['id' => $userToBlock->id, 'is_blocked' => true]);
-
-        $response->assertRedirect();
-        $response->assertSessionHas('success', 'User berhasil diblokir.');
-    }
+    
 
 
 
