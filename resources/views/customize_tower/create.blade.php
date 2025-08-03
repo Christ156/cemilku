@@ -13,29 +13,30 @@
         <div class="row d-flex">
             <div class="col-lg-6 col-12">
                 <div class="row d-flex">
-                    <a href="{{route('home')}}" class="d-lg-block d-none col-0 col-lg-2 d-flex align-items-center justify-content-center decoration-none"><i
-                            class="bi bi-arrow-left fw-bold fs-1"></i></a>
+                    <a href="{{ route('home') }}"
+                        class="d-lg-block d-none col-0 col-lg-2 d-flex align-items-center justify-content-center decoration-none">
+                        <i class="bi bi-arrow-left-circle-fill" style="color: #542828; font-size: 1.75rem;"></i></a>
                     <div class="col-lg-10 col-12 d-flex align-items-center justify-content-lg-start justify-content-center">
-                        <p class="fs-lg-1 fs-4 fw-bold m-0">{{ __('tower.createTower') }}</p>
+                        <p class="fs-lg-1 fs-4 fw-bold m-0"style="color: #542828;">{{ __('tower.createTower') }}</p>
                     </div>
                 </div>
 
                 <div class="position-relative d-flex flex-column align-items-center justify-content-center p-3">
                     <div class="preview-tower-1" id="tower-layer-1">
-                        <img class="w-100" src="{{ asset('assets/tower_layer_1/unselect_layer.png') }}"
-                            alt="" id="preview-tower-1" onclick="setCurrentLayer(1)">
+                        <img class="w-100" src="{{ asset('assets/tower_layer_1/unselect_layer.png') }}" alt=""
+                            id="preview-tower-1" onclick="setCurrentLayer(1)">
                     </div>
                     <div class="preview-tower-2" id="tower-layer-2">
-                        <img class="w-100" src="{{ asset('assets/tower_layer_2/unselect_layer.png') }}"
-                            alt="" id="preview-tower-2" onclick="setCurrentLayer(2)">
+                        <img class="w-100" src="{{ asset('assets/tower_layer_2/unselect_layer.png') }}" alt=""
+                            id="preview-tower-2" onclick="setCurrentLayer(2)">
                     </div>
                     <div class="preview-tower-3" id="tower-layer-3">
-                        <img class="w-100" src="{{ asset('assets/tower_layer_3/unselect_layer.png') }}"
-                            alt="" id="preview-tower-3" onclick="setCurrentLayer(3)">
+                        <img class="w-100" src="{{ asset('assets/tower_layer_3/unselect_layer.png') }}" alt=""
+                            id="preview-tower-3" onclick="setCurrentLayer(3)">
                     </div>
                     <div class="preview-tower-4" id="tower-layer-4">
-                        <img class="w-100" src="{{ asset('assets/tower_layer_4/unselect_layer.png') }}"
-                            alt="" id="preview-tower-4" onclick="setCurrentLayer(4)">
+                        <img class="w-100" src="{{ asset('assets/tower_layer_4/unselect_layer.png') }}" alt=""
+                            id="preview-tower-4" onclick="setCurrentLayer(4)">
                     </div>
                     <div class="decoration-tower" id="tower-decor">
                         <img class="w-100" src="{{ asset('assets/decoration/1.png') }}" alt=""
@@ -268,7 +269,8 @@
                                     <p class="m-0 fs-2 fw-bold">Rp<span id="temp_price1">0</span></p>
                                 </div>
                                 <div class="col d-flex align-items-center justify-content-end">
-                                    <button disabled id="next-progress-1" class="btn btn-warning px-3" onclick="controlProgress('next')">{{ __('tower.next') }}</button>
+                                    <button disabled id="next-progress-1" class="btn btn-warning px-3"
+                                        onclick="controlProgress('next')">{{ __('tower.next') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -286,16 +288,16 @@
                                         <div class="card ">
                                             <div class="card-img-top ratio ratio-1x1">
                                                 <img class="object-fit-scale"
-                                                    src="{{ asset('assets/decoration/not-use.png') }}"
-                                                    alt="Title" id="list-snack" />
+                                                    src="{{ asset('assets/decoration/not-use.png') }}" alt="Title"
+                                                    id="list-snack" />
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title m-0">{{ Str::limit("No decoration", 13, '...') }}</h5>
+                                                <h5 class="card-title m-0">{{ Str::limit('No decoration', 13, '...') }}
+                                                </h5>
                                                 <p class="card-text fs-bold m-0">Rp{{ Str::currency(0) }}</p>
                                             </div>
                                             <div class="card-footer d-flex justify-content-center">
-                                                <button class="btn btn-warning px-lg-5 px-2"
-                                                    id="add-snack--1"
+                                                <button class="btn btn-warning px-lg-5 px-2" id="add-snack--1"
                                                     onclick="previewDecoration('no decoration', 0, 0)">{{ __('tower.add') }}</button>
                                             </div>
                                         </div>
@@ -332,13 +334,14 @@
                                 <div class="col d-flex align-items-center justify-content-end">
                                     <button class="btn btn-warning px-3 me-2"
                                         onclick="controlProgress('prev')">{{ __('tower.back') }}</button>
-                                    <button class="btn btn-warning px-3" onclick="controlProgress('next')">{{ __('tower.next') }}</button>
+                                    <button class="btn btn-warning px-3"
+                                        onclick="controlProgress('next')">{{ __('tower.next') }}</button>
                                 </div>
                             </div>
                         </div>
 
-                        <form action="{{ route('customer-tower-bouquet.store', ['type' => 'tower']) }}" method="POST" class="position-relative py-3"
-                            id="confirmation-customize">
+                        <form action="{{ route('customer-tower-bouquet.store', ['type' => 'tower']) }}" method="POST"
+                            class="position-relative py-3" id="confirmation-customize">
                             @csrf
                             <div class="w-100 d-flex justify-content-center">
                                 <div href="" class="bg-warning p-2 w-50 rounded text-center">
@@ -378,8 +381,8 @@
                             </div>
 
                             {{-- MODAL CONFIRMATION --}}
-                            <div class="modal fade color_secondary" id="confirmationBouquet" tabindex="-1" aria-labelledby="confirmationBouquetLabel"
-                                aria-hidden="true">
+                            <div class="modal fade color_secondary" id="confirmationBouquet" tabindex="-1"
+                                aria-labelledby="confirmationBouquetLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -388,7 +391,8 @@
                                         <div class="modal-body d-flex flex-column justify-content-center">
                                             <div>
                                                 <p class="text-center">
-                                                    Horeyyy, Snack Tower kamu sudah berhasil dibuat dan masuk ke keranjang!!!
+                                                    Horeyyy, Snack Tower kamu sudah berhasil dibuat dan masuk ke
+                                                    keranjang!!!
                                                 </p>
                                             </div>
                                             <button type="submit" class="btn btn-warning">Lihat keranjang</button>

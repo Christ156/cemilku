@@ -15,13 +15,13 @@
         <div class="container-fluid d-flex flex-column flex-md-row" data-mode="{{ $mode }}">
 
             {{-- LEFT SIDE --}}
-            <div class="left-section col-12 col-md-6 p-2 d-flex flex-column">
+            <div class="left-section col-12 col-md-6 p-2 pt-5 d-flex flex-column">
                 {{-- Header --}}
                 <div class="d-flex w-100 justify-content-between align-items-center mb-3">
                     <a href="#" id="backBtn" data-home-url="{{ route('home') }}">
-                        <img src="{{ asset('assets/mystery_box/arrow_back.png') }}" alt="Back" style="height: 24px;" />
+                        <i class="bi bi-arrow-left-circle-fill" style="color: #542828; font-size: 1.75rem;"></i>
                     </a>
-                    <h2 class="fw-bold mb-0 text-center flex-grow-1">
+                    <h2 class="fw-bold mb-0 text-center flex-grow-1" style="color: #542828;">
                         @if ($mode == 'Budget')
                             {{ __('mysterybox.chooseYourBudget') }}
                         @elseif ($mode == 'Mood')
@@ -78,7 +78,7 @@
             </div>
 
             {{-- RIGHT SIDE --}}
-            <div class="right-section col-12 col-md-6 p-4 d-flex flex-column position-relative">
+            <div class="right-section col-12 col-md-6 p-4 pt-5 d-flex flex-column position-relative">
                 {{-- Progress Bar (desktop) --}}
                 <div class="d-none d-md-block">
                     <div class="d-flex justify-content-center align-items-center">
