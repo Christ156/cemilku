@@ -245,7 +245,11 @@
                                                 <h4 class="judul-info-user">{{ __('profile.gender') }}</h4>
                                             </div>
                                             <div class="container-info-user">
-                                                <h4 class="info-user">{{ Auth::user()->gender }}</h4>
+                                                @if (Auth::user()->gender == "Laki-laki")
+                                                <h4 class="info-user">{{ __('profile.male') }}</h4>
+                                                @else
+                                                <h4 class="info-user">{{ __('profile.female') }}</h4>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="container info-luar">
