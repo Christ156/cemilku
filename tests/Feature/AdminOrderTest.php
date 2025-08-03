@@ -77,7 +77,7 @@ class AdminOrderTest extends TestCase
     {
         $this->loginAsAdmin();
 
-        
+
         User::factory()->create(['name' => 'Adi']);
         Order::create([
             'user_id' => User::factory()->create(['name' => 'Joko'])->id,
@@ -121,18 +121,14 @@ class AdminOrderTest extends TestCase
             'status' => 'completed',
         ]);
 
-        // Simulasikan pencarian terlebih dahulu
         $this->get('/admin/order?search=Customer A')
             ->assertSee('Customer A')
             ->assertDontSee('Customer B');
 
-        // Skenario: Klik tombol 'X' (Clear).
-        // Dalam feature test, ini biasanya disimulasikan dengan request GET ke URL tanpa parameter search.
-        // Asumsi: Tombol 'X' akan mengarahkan ulang atau me-load ulang halaman tanpa parameter 'search'.
-        $response = $this->get('/admin/order'); // Mengakses halaman tanpa parameter search
+
+        $response = $this->get('/admin/order');
 
         $response->assertStatus(200);
-        // Pastikan semua data muncul kembali setelah "clear"
         $response->assertSee('Customer A');
         $response->assertSee('Customer B');
     }
@@ -259,7 +255,7 @@ class AdminOrderTest extends TestCase
         $user = User::factory()->create();
         $order = Order::create([
             'user_id' => $user->id,
-            'status' => 'paid', // Status awal harus 'paid'
+            'status' => 'paid', 
         ]);
 
         $response = $this->post(route('adminorder.ship', $order->id));

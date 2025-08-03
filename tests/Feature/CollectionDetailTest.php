@@ -23,7 +23,7 @@ class CollectionDetailTest extends TestCase
     {
         parent::setUp();
 
-        // Inisialisasi user di setUp
+
         $this->user = User::factory()->create([
             'name' => 'User Test',
             'email' => 'user@example.com',
@@ -36,7 +36,7 @@ class CollectionDetailTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    // search item ->depreceated
+    // search item
     /*
      * @return void
      */
@@ -92,7 +92,7 @@ class CollectionDetailTest extends TestCase
     }
 
 
-    //Tombol '+' (Link Kartu Koleksi) Mengarahkan ke Halaman Detail yang Benar.-> depreceated
+    //Tombol '+' (Link Kartu Koleksi) Mengarahkan ke Halaman Detail yang Benar.
 
     public function test_plus_button_redirects_to_correct_detail_page()
     {
@@ -129,9 +129,7 @@ class CollectionDetailTest extends TestCase
 
     }
 
-    //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
-
-    //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart-> depreceated
+    //Verifikasi Fungsionalitas Quantity Selector (+/-) dan Validasi Stok, item masuk ke cart
 
     public function test_add_to_cart_quantity_validation_and_stock_limit()
     {
@@ -172,7 +170,7 @@ class CollectionDetailTest extends TestCase
         ]);
 
         $response = $this->post(route('collection.to.cart', ['id_collection' => $collection->id, 'quantity' => 3]));
-        $response->assertStatus(400); // Controller mengembalikan 400 Bad Request untuk error stok
+        $response->assertStatus(400);
         $response->assertJson([
             'success' => false,
             'message' => 'Total quantity in cart exceeds available stock (' . $collection->stock . ' pcs).',
@@ -181,7 +179,7 @@ class CollectionDetailTest extends TestCase
         $this->assertDatabaseHas('cart_items', [
             'cart_id' => Cart::where('user_id', $this->user->id)->first()->id,
             'collection_id' => $collection->id,
-            'quantity' => 3, 
+            'quantity' => 3,
         ]);
     }
 }

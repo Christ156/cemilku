@@ -290,8 +290,8 @@
                         <span>Rp<span id="total_price_cart">0</span></span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span>Shipping Regular</span>
-                        <span>Free</span>
+                        <span>{{__('cart.shippingRegular')}}</span>
+                        <span>{{__('cart.free')}}</span>
                     </div>
 
                     <hr style="border-top:2px solid #52282A;">

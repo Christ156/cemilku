@@ -45,7 +45,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
-                    <div>
+                    <div>x
                         <div class="mb-3">
                             <label for="gender" class="form-label">{{ __('profile.gender') }}</label>
                             <select name="gender" class="form-select" id="gender">
@@ -245,7 +245,11 @@
                                                 <h4 class="judul-info-user">{{ __('profile.gender') }}</h4>
                                             </div>
                                             <div class="container-info-user">
-                                                <h4 class="info-user">{{ Auth::user()->gender }}</h4>
+                                                @if (Auth::user()->gender == "Laki-laki")
+                                                    <h4 class="info-user">{{ __('profile.male') }}</h4>
+                                                @else
+                                                    <h4 class="info-user">{{ __('profile.female') }}</h4>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="container info-luar">
@@ -326,12 +330,12 @@
                                                 <div class="d-flex">
                                                     <button type="button" class="btn btn-warning me-2"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#editAddress{{ $a->id }}">Edit</button>
+                                                        data-bs-target="#editAddress{{ $a->id }}">{{__('profile.edit')}}</button>
 
                                                     <!-- Modal trigger button -->
                                                     <button type="button" class="btn btn-danger btn-lg"
                                                         data-bs-toggle="modal" data-bs-target="#deleteConfirm">
-                                                        Delete
+                                                        {{__('profile.delete')}}
                                                     </button>
                                                 </div>
                                                 @if (!$a->is_primary)

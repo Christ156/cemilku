@@ -32,6 +32,6 @@ return[
     'province' => 'Provinsi',
     'postalCode' => 'Kode Pos',
     'saveAddress' => 'Simpan Alamat',
-
+   'free' => 'Gratis'
 
 ];

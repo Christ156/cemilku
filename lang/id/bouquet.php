@@ -17,5 +17,6 @@ return[
     'finish' => 'Selesai',
     'congratulations' => 'Selamat',
     'horey' => 'Horeyyy, Snack Bouquet kamu sudah berhasil dibuat dan masuk ke keranjang!!!',
-    'seeCart' => 'Lihat Keranjang'
+    'seeCart' => 'Lihat Keranjang',
+    'note' => 'Catatan: Harap isi semua lapisan dengan camilan sebelum melanjutkan!',
 ];

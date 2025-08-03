@@ -70,7 +70,7 @@ class AdminSnackPageTest extends TestCase
             'name' => '',
             'price' => 1000,
             'stock' => 10,
-            // 'image' is not required for validation error, so it's okay if it's missing here
+           
         ]);
 
         $response->assertSessionHasErrors('name');

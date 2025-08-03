@@ -60,7 +60,7 @@
 
                     {{-- BUTTON QUANTITY --}}
                     <div class="counter-container">
-                        <div class="qty-label" style="font-weight:600; margin-bottom:0px;">QUANTITY</div>
+                        <div class="qty-label" style="font-weight:600; margin-bottom:0px;">{{__('collection.qty')}}</div>
                         <div class="counter-box" onchange="checkQuantityValid({{$detail->stock}})">
                             <button type="button" id="subs_quantity" onclick="setQuantity('subs', {{$detail->stock}})">-</button>
                             <input type="number" id="value_quantity" class="counter-value" name="quantity" value="1" min="1"/>

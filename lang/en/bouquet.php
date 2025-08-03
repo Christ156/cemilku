@@ -17,5 +17,6 @@ return[
     'finish' => 'Finish',
     'congratulations' => 'Congratulations',
     'horey' => 'Hooray, your Snack Bouquet has been successfully created and added to your cart!!!',
-    'seeCart' => 'Check Cart'
+    'seeCart' => 'Check Cart',
+    'note' => 'Note: Please fill all layer with snack before continue!',
 ];

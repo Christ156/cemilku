@@ -83,43 +83,9 @@ class UserProfileTest extends TestCase
     }
 
 
-    // edit username-> deprecated
-    public function test_edit_user_name_valid()
-    {
-        $user = User::first() ?? User::factory()->create();
-        $newName = 'New Valid Name';
-
-        $response = $this->actingAs($user)
-            ->from('/profile/' . $user->id . '/' . Str::slug($user->name))
-            ->put('/user/' . $user->id, [
-                'name' => $newName,
-                '_token' => csrf_token(),
-            ]);
-
-        $user->refresh();
-        $newSlug = Str::slug($newName);
-
-        $response->assertRedirect('/profile/' . $user->id . '/' . $newSlug);
-        $redirectResponse = $this->get($response->headers->get('Location'));
-
-        try {
-            $redirectResponse->assertSessionHas('success', 'Profil berhasil diperbarui!');
-        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
-            $redirectResponse->assertSee('Profil berhasil diperbarui!');
-        }
-
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'name' => $newName,
-        ]);
-
-        $this->get('/profile/' . $user->id . '/' . $newSlug)
-            ->assertSee($newName);
-    }
 
 
-
-    // edit username-> depreceated
+    // edit username
     public function test_user_can_update_username()
     {
         if (!Schema::hasTable('users') || !Schema::hasColumn('users', 'name')) {
@@ -145,7 +111,7 @@ class UserProfileTest extends TestCase
     }
 
 
-    // edit info-> depreceated
+    // edit info
     public function test_user_can_update_profile_info()
     {
         Carbon::setTestNow(Carbon::create(2025, 7, 31, 9, 0, 0));
