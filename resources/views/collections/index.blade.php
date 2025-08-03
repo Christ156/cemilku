@@ -15,8 +15,8 @@
             <h1 class="titleSearch d-flex justify-content-center align-items-center">CemilKu!</h1>
             <form class="d-flex" method="POST" action="{{ route('collection.search') }}">
                 @csrf
-                <input class="custom_search form-control rounded-5" type="search" name="search" placeholder="{{__('collection.searchCollection')}}"
-                    aria-label="Search" />
+                <input class="custom_search form-control rounded-5" type="search" name="search_bar" placeholder="{{__('collection.searchCollection')}}"
+                    aria-label="Search" value="{{ $old_search }}" oninput="this.form.submit();"/>
             </form>
         </div>
 
