@@ -311,7 +311,7 @@
                                                     <h5 class="label-address">{{ $a->label }}</h5>
                                                     <span id="status-text-{{ $a->id }}"
                                                         class="badge {{ $a->is_primary ? 'bg-primary' : 'bg-secondary' }} badge-address">
-                                                        {{ $a->is_primary ? 'Utama' : 'Non-Utama' }}
+                                                        {{ $a->is_primary ? __('profile.main') : __('profile.nonMain') }}
                                                     </span>
                                                 </div>
                                                 <p class="m-0">{{ __('profile.reciepentName') }}:
@@ -340,7 +340,7 @@
                                                         data-address-id="{{ $a->id }}"
                                                         data-current-primary="{{ $a->is_primary ? 'primary' : 'not-primary' }}"
                                                         {{ $a->is_primary ? 'disabled' : '' }}>
-                                                        {{ $a->is_primary ? 'Utama Saat Ini' : 'Jadikan Utama' }}
+                                                        {{ $a->is_primary ? __('profile.currentMain') : __('profile.setMain') }}
                                                     </button>
                                                 @endif
                                             </div>
