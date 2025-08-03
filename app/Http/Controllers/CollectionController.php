@@ -29,8 +29,9 @@ class CollectionController extends Controller
             $christmas  = Collection::where('category', 'Christmas')->get();
             $birthday   = Collection::where('category', 'Birthday')->get();
             $graduation = Collection::where('category', 'Graduation')->get();
+            $old_search = NULL;
 
-            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation'));
+            return view('collections.index', compact('cny', 'ramadhan', 'valentine', 'christmas', 'birthday', 'graduation', 'old_search'));
         }
 
     }
