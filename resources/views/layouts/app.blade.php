@@ -242,7 +242,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item"
                                     href="{{ route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)]) }}">
-                                    <i class="bi bi-gear me-2"></i>Settings</a></li>
+                                    <i class="bi bi-gear me-2"></i>{{__('navigation.settings')}}</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -250,7 +250,7 @@
                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Log out
+                                        <i class="bi bi-box-arrow-right me-2"></i>{{__('navigation.logout')}}
                                     </button>
                                 </form>
                             </li>

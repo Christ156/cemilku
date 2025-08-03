@@ -47,5 +47,6 @@ return [
     'banner6_desktop' => 'Banner6_dekstop_En.png',
     'banner7_desktop' => 'Banner7_dekstop_En.png',
     'banner8_desktop' => 'Banner8_dekstop_En.png',
+    'Settings' => 'Settings'
 ];
 

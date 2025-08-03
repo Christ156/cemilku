@@ -386,16 +386,15 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Congratulations</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{__('bouquet.congratulations')}}</h1>
                                         </div>
                                         <div class="modal-body d-flex flex-column justify-content-center">
                                             <div>
                                                 <p class="text-center">
-                                                    Horeyyy, Snack Tower kamu sudah berhasil dibuat dan masuk ke
-                                                    keranjang!!!
+                                                    {{__('bouquet.horey')}}
                                                 </p>
                                             </div>
-                                            <button type="submit" class="btn btn-warning">Lihat keranjang</button>
+                                            <button type="submit" class="btn btn-warning">{{__('bouquet.seeCart')}}/button>
                                         </div>
                                     </div>
                                 </div>

@@ -48,4 +48,6 @@ return [
     'banner6_desktop' => 'Banner6_dekstop_Indo.png',
     'banner7_desktop' => 'Banner7_dekstop_Indo.png',
     'banner8_desktop' => 'Banner8_dekstop_Indo.png',
+    'Settings' => 'Pengaturan',
+    
 ];
