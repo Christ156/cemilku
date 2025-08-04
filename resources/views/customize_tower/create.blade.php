@@ -134,7 +134,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 1)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -168,7 +168,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 2)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -202,7 +202,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 3)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -236,7 +236,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 4)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -284,7 +284,7 @@
 
                             <div class="list-snack overflow-scroll overflow-x-hidden mt-3">
                                 <div class="row d-flex p-3">
-                                    <div class="col-4 p-2">
+                                    <div class="col-lg-4 col-6 p-2">
                                         <div class="card ">
                                             <div class="card-img-top ratio ratio-1x1">
                                                 <img class="object-fit-scale"
@@ -303,7 +303,7 @@
                                         </div>
                                     </div>
                                     @forelse ($decoration as $d)
-                                        <div class="col-4 p-2">
+                                        <div class="col-lg-4 col-6 p-2">
                                             <div class="card ">
                                                 <div class="card-img-top ratio ratio-1x1">
                                                     <img class="object-fit-scale"

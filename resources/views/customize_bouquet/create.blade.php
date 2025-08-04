@@ -98,7 +98,7 @@
 
                             <div class="w-100 p-5 row">
                                 @for ($i = 0; $i <= 3; $i++)
-                                    <div class="col-3 p-2">
+                                    <div class="col-lg-3 col-6 p-2">
                                         <?php $base_bouquet = ['Blue', 'Black', 'Red', 'Purple']; ?>
                                         <div class="card w-100 p-2"
                                             onclick="changePreview('{{ $base_bouquet[$i] }}', 0, 0, 0)">
@@ -137,7 +137,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 1)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -171,7 +171,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 2)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -205,7 +205,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 2)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
@@ -239,7 +239,7 @@
                                 <div class="row d-flex p-3">
                                     @forelse ($snack as $s)
                                         @if ($s->layer == 4)
-                                            <div class="col-4 p-2">
+                                            <div class="col-lg-4 col-6 p-2">
                                                 <div class="card">
                                                     <div class="card-img-top ratio ratio-1x1">
                                                         <img class="object-fit-scale"
