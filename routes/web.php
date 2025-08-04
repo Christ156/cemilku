@@ -79,8 +79,11 @@ Auth::routes(['verify' => true]);
 
 Route::get('/auth-google-redirect', [RegisterController::class, 'google_redirect'])->name('google-redirect');
 Route::get('/auth-google-callback', [RegisterController::class, 'google_callback'])->name('google-callback');
+Route::get('/account/suspend/token={token}', function(){
+    return view('auth.suspend');
+})->name('suspend');
 
-Route::middleware('auth', 'verified')->group(function () {
+Route::middleware('auth', 'verified', 'user_block')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Add this to your web.php routes

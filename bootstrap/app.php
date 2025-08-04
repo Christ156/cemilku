@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Session\Middleware\StartSession::class,
             \App\Http\Middleware\LanguageMiddleware::class,
         ]);
+        $middleware->alias([
+            'user_block' => \App\Http\Middleware\UserBlockedMiddleware::class,
+        ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
