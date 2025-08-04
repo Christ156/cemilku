@@ -86,19 +86,19 @@
         <div class="row text-center">
             <a href="{{ route('mysterybox') }}" class="col-lg-4">
                 <div class="snack-card" onmouseover="setActive(this)">
-                    <img src="{{ asset('assets/banner/bannerSM.png') }}" class="img-fluid" alt="snackMystery">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_mb_id'))}}" class="img-fluid" alt="snackMystery">
                     {{-- <button class="btn btn-primary image-button">Customize ></button> --}}
                 </div>
             </a>
             <a href="{{ route('customize-tower-bouquet.bouquet') }}" class="col-lg-4">
                 <div class="snack-card active" onmouseover="setActive(this)">
-                    <img src="{{ asset('assets/banner/bannerSB.png') }}" class="img-fluid" alt="snackBouquet">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_bouquet_id')) }}" class="img-fluid" alt="snackBouquet">
                 </div>
             </a>
 
             <a href="{{ route('customize-tower-bouquet.tower') }}" class="col-lg-4">
                 <div class="snack-card" onmouseover="setActive(this)">
-                    <img src="{{ asset('assets/banner/bannerST.png') }}" class="img-fluid" alt="snackTower">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_tower_id')) }}" class="img-fluid" alt="snackTower">
                 </div>
             </a>
 
@@ -114,7 +114,7 @@
             <a href="{{ route('mysterybox') }}">
                 <div class="card-body flex-shrink-0 me-1"
                     style="width: 47.5vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{ asset('assets/banner/bannerSM.png') }}" class="img-fluid rounded" alt="snackMystery">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_mb_id')) }}" class="img-fluid rounded" alt="snackMystery">
                 </div>
             </a>
 
@@ -123,14 +123,14 @@
             <a href="{{ route('customize-tower-bouquet.bouquet') }}">
                 <div class="card-body flex-shrink-0 me-1" id="second-card"
                     style="width: 47.8vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{ asset('assets/banner/bannerSB.png') }}" class="img-fluid rounded" alt="snackBouquet">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_bouquet_id')) }}" class="img-fluid rounded" alt="snackBouquet">
                 </div>
             </a>
 
             {{-- card 3 --}}
             <a href="{{ route('customize-tower-bouquet.tower') }}">
                 <div class="card-body flex-shrink-0 me-1" style="width: 47.1vw; max-width: 350px; scroll-snap-align:center">
-                    <img src="{{ asset('assets/banner/bannerST.png') }}" class="img-fluid rounded" alt="snackTower">
+                    <img src="{{ asset('assets/banner/'. __('navigation.banner_tower_id')) }}" class="img-fluid rounded" alt="snackTower">
                 </div>
             </a>
         </div>
@@ -142,12 +142,12 @@
     <div class="mt-5 container-lg ps-2">
         <div class="product-card-left d-flex justify-content-start align-items-center">
             <div class="product-image ps-1">
-                <img src="{{ asset('assets/banner/Group17_rev.png') }}">
+                <img src="{{ asset('assets/banner/'. __('navigation.group17')) }}">
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
                 <h3 class="product-title">Anniv Delight</h3>
-                <p class="product-price product-price-3">$ 200</p>
+                <p class="product-price product-price-3">Rp 223.000</p>
             </div>
         </div>
 
@@ -155,21 +155,21 @@
             <div class="product-info-left top-10 end-45 translate-middle ps-5">
                 <p class="product-category">snack bouquet</p>
                 <h3 class="product-title">Fest Celebration</h3>
-                <p class="product-price product-price-2">$ 100</p>
+                <p class="product-price product-price-2">Rp 162.200</p>
             </div>
             <div class="product-image">
-                <img src="{{ asset('assets/banner/Group18_rev.png') }}">
+                <img src="{{ asset('assets/banner/'. __('navigation.group18'))  }}">
             </div>
         </div>
 
         <div class="product-card-left d-flex justify-content-start align-items-center">
             <div class="product-image ps-1">
-                <img src="{{ asset('assets/banner/Group17_rev.png') }}">
+                <img src="{{ asset('assets/banner/'. __('navigation.group19')) }}">
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
                 <h3 class="product-title">Happy Combo</h3>
-                <p class="product-price product-price-3">$ 75</p>
+                <p class="product-price product-price-3">Rp 198.500 </p>
             </div>
         </div>
 
@@ -177,10 +177,10 @@
             <div class="product-info-left top-10 end-45 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
                 <h3 class="product-title">Ultimate Combo</h3>
-                <p class="product-price product-price-4">$ 175</p>
+                <p class="product-price product-price-4">Rp 299.000</p>
             </div>
             <div class="product-image">
-                <img src="{{ asset('assets/banner/Group20_rev.png') }}">
+                <img src="{{ asset('assets/banner/'. __('navigation.group20'))  }}">
             </div>
         </div>
     </div>

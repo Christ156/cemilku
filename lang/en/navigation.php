@@ -47,6 +47,13 @@ return [
     'banner6_desktop' => 'Banner6_dekstop_En.png',
     'banner7_desktop' => 'Banner7_dekstop_En.png',
     'banner8_desktop' => 'Banner8_dekstop_En.png',
-    'Settings' => 'Settings'
+    'Settings' => 'Settings',
+    'banner_tower_id' => 'bannerST.png',
+    'banner_bouquet_id' => 'bannerSB.png',
+    'banner_mb_id' => 'bannerSM.png',
+    'group17' => 'Group17_rev.png',
+    'group18' => 'Group18_rev.png',
+    'group19' => 'Group19_rev.png',
+    'group20' => 'Group20_rev.png',
 ];
 

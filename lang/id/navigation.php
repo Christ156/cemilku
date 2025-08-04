@@ -49,5 +49,11 @@ return [
     'banner7_desktop' => 'Banner7_dekstop_Indo.png',
     'banner8_desktop' => 'Banner8_dekstop_Indo.png',
     'Settings' => 'Pengaturan',
-    
+    'banner_tower_id' => 'Banner_tower_id.png',
+    'banner_bouquet_id' => 'Banner_bouquet_id.png',
+    'banner_mb_id' => 'Banner_mb_id.png',
+    'group17' => 'Group17_rev_indo.png',
+    'group18' => 'Group18_rev_indo.png',
+    'group19' => 'Group19_rev_indo.png',
+    'group20' => 'Group20_rev_indo.png',
 ];
