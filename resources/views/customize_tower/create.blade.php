@@ -394,7 +394,7 @@
                                                     {{__('bouquet.horey')}}
                                                 </p>
                                             </div>
-                                            <button type="submit" class="btn btn-warning">{{__('bouquet.seeCart')}}/button>
+                                            <button type="submit" class="btn btn-warning">{{__('bouquet.seeCart')}}</button>
                                         </div>
                                     </div>
                                 </div>

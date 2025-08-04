@@ -17,7 +17,7 @@ return [
     'mysterious' => 'Mysterious',
     'brave' => 'Brave',
     'happy' => 'Happy',
-    'chooseBudgetFirst' => 'Please choose your budget first!',
+    'chooseBudgetFirst' => 'Please choose your budget or mood first!',
     'failed' => 'Failed',
     'chooseOptionFirst'=> 'Please choose an option first!',
     'close' => 'Close',

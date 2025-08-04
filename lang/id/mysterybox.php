@@ -17,7 +17,7 @@ return [
     'mysterious' => 'Misterius',
     'brave' => 'Berani',
     'happy' => 'Bahagia',
-    'chooseBudgetFirst' => 'Silakan pilih budget Anda terlebih dahulu!',
+    'chooseBudgetFirst' => 'Silakan pilih budget atau mood Anda terlebih dahulu!',
     'failed' => 'Gagal',
     'chooseOptionFirst'=> 'Silakan pilih opsi terlebih dahulu!',
     'close' => 'Tutup',
