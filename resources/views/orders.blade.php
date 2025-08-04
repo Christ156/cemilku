@@ -109,11 +109,11 @@
                         <div>
                             <div class="fw-bold">{{ $name }}</div>
                             <div class="small">{{ $quantity }} {{__('order.product')}} x
-                                Rp{{ number_format($price, 0, ',', '.') }}</div>
+                                Rp{{ number_format($price / $quantity, 0, ',', '.') }}</div>
                         </div>
                         <div class="ms-auto text-end">
                             <div class="fw-bold">{{__('order.total')}}</div>
-                            <div>Rp{{ number_format($price * $quantity, 0, ',', '.') }}</div>
+                            <div>Rp{{ number_format($price, 0, ',', '.') }}</div>
                         </div>
                     </div>
                 @endforeach
@@ -208,7 +208,7 @@
                                         <div>
                                             <div class="fw-semibold">{{ $name }}</div>
                                             <div class="small">{{ $item->quantity }} x
-                                                Rp{{ number_format($item->price, 0, ',', '.') }}</div>
+                                                Rp{{ number_format($item->price / $item->quantity, 0, ',', '.') }}</div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -243,7 +243,7 @@
                             <div class="mb-4">
                                 <h6 class="fw-bold">{{__('order.paymentDetails')}}</h6>
                                  <div class="small">{{__('order.fee')}}:
-                                    <strong>Rp2.500</strong>
+                                    <strong>Rp15.000</strong>
                                 </div>
                                 <div class="small">{{__('order.paymentMethod')}}:
                                     <strong>{{ $order->payment_method }}</strong>

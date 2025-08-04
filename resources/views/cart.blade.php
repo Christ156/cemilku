@@ -217,6 +217,9 @@
                                         <h6 class="fw-bold mb-0">{{ $c->mysteryBox->mood }} -
                                             {{ $c->mysteryBox->name }}</h6>
                                     @endif
+                                    <div>
+                                        <p class="m-0">Rp{{ Str::currency($c->price) }}</p>
+                                    </div>
                                     <div class="d-flex quantity-cart" onchange="quantityCheck({{$carts->count()}}, {{json_encode($carts->toArray())}})">
                                         <button type="button" id="subs_item_{{$c->id}}" class="btn quantity-btn"
                                             onclick="updateQuantity('subs', {{ $c->id }})">
@@ -232,7 +235,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mb-0 me-3">Rp{{ Str::currency($c->total_price) }}</p>
+                            <p class="mb-0 me-3 fw-bold">Rp{{ Str::currency($c->total_price) }}</p>
                         </div>
                     @empty
                         <div class="product-item d-flex justify-content-center align-items-center mb-2">
