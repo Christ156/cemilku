@@ -86,9 +86,9 @@ return [
     'auth_logo'                               => [
         'enabled' => false,
         'img'     => [
-            'path'   => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path'   => 'assets/logo/logo_cemilku.png',
             'alt'    => 'Auth Logo',
-            'class'  => '',
+            'class'  => 'brand-image img-circle elevation-3',
             'width'  => 50,
             'height' => 50,
         ],
@@ -113,8 +113,8 @@ return [
         'enabled' => true,
         'mode'    => 'fullscreen',
         'img'     => [
-            'path'   => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt'    => 'AdminLTE Preloader Image',
+            'path'   => 'assets/logo/logo_cemilku.png',
+            'alt'    => 'CemilKu Preloader Image',
             'effect' => 'animation__shake',
             'width'  => 60,
             'height' => 60,

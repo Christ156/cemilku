@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="content-header">
-        <h1>{{__('adminCollection.trashDeletedColletions')}}</h1>
+        <h1>{{__('adminCollection.trashDeletedCollections')}}</h1>
     </div>
 
     <a href="{{ route('admincollection.index') }}" class="btn btn-yellowbrown mb-3">
