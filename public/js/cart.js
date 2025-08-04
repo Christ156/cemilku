@@ -8,7 +8,14 @@ var total_item_check = 0;
 var total_price_with_ship = 0; // Ini adalah total harga dari item yang dipilih + ongkir
 
 var allCheck = 0;
+var FEE_COST = 2500;
 const SHIPPING_COST = 0; // Define shipping cost here, MUST BE CONSISTENT WITH PHP CONTROLLER
+
+if(total_price_cart > 0){
+    FEE_COST = 2500;
+}else{
+    FEE_COST = 0;
+}
 
 // Fungsi untuk memperbarui hidden input total_price di form checkout
 function updateHiddenTotalPrice() {
@@ -75,9 +82,16 @@ function allCheckboxCheck(count, carts) {
         total_item_check = count; // Ensure count is correct
     }
 
-    removeSelected(total_item_check);
-    total_price_with_ship = total_price_cart + SHIPPING_COST; // Use the defined shipping cost
+    if(total_price_cart > 0){
+        FEE_COST = 2500;
+    }else{
+        FEE_COST = 0;
+    }
 
+    removeSelected(total_item_check);
+    total_price_with_ship = total_price_cart + SHIPPING_COST + FEE_COST; // Use the defined shipping cost
+
+    document.getElementById("total_fee").innerText = FEE_COST.toLocaleString("id-ID");
     document.getElementById("total_price_cart").innerText =
         total_price_cart.toLocaleString("id-ID");
     document.getElementById("total_price_with_ship").innerText =
@@ -102,9 +116,16 @@ function previewPrice(price, cart_item_id) {
         document.getElementById("item_cart_" + cart_item_id).value = "true";
     }
 
-    total_price_with_ship = total_price_cart + SHIPPING_COST; // Use the defined shipping cost
+    if(total_price_cart > 0){
+        FEE_COST = 2500;
+    }else{
+        FEE_COST = 0;
+    }
+
+    total_price_with_ship = total_price_cart + SHIPPING_COST + FEE_COST; // Use the defined shipping cost
 
     document.getElementById("product-count").innerText = total_item_check;
+    document.getElementById("total_fee").innerText = FEE_COST.toLocaleString("id-ID");
     document.getElementById("total_price_cart").innerText =
         total_price_cart.toLocaleString("id-ID");
     document.getElementById("total_price_with_ship").innerText =

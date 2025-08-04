@@ -159,6 +159,7 @@
                     @endif
                 </div>
 
+                @if ($carts->count() > 0)
                 <div class="select-all d-flex justify-content-between align-items-center">
                     <label class="mb-0">
                         <input type="checkbox" id="select_all"
@@ -171,6 +172,7 @@
                         {{ __('cart.remove') }}
                     </button>
                 </div>
+                @endif
 
                 <div class="product-list mt-3" id="cart-product-list" onchange="allCheckTrue({{ $carts->count() }})">
                     @forelse($carts as $c)
@@ -233,7 +235,9 @@
                             <p class="mb-0 me-3">Rp{{ Str::currency($c->total_price) }}</p>
                         </div>
                     @empty
-                        <p>{{ __('cart.yourCartIsEmpty') }}</p>
+                        <div class="product-item d-flex justify-content-center align-items-center mb-2">
+                            <p class="m-0 fw-bold">{{ __('cart.yourCartIsEmpty') }} </p>
+                        </div>
                     @endforelse
                 </div>
             </form>
@@ -288,6 +292,10 @@
                         <span>{{ __('cart.totalPrice') }} (<span id="product-count">0</span>
                             {{ __('cart.product') }})</span>
                         <span>Rp<span id="total_price_cart">0</span></span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>{{__('order.fee')}}</span>
+                        <span>Rp<span id="total_fee">0</span></span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>{{__('cart.shippingRegular')}}</span>

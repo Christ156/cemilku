@@ -25,6 +25,7 @@ return[
     'close' => 'Tutup',
     'buyNow' => 'Bayar Sekarang',
     'cancel' => 'Batalkan',
-    'numberOfCollectionSold' => 'Jumlah Koleksi Yang Terjual'
+    'numberOfCollectionSold' => 'Jumlah Koleksi Yang Terjual',
+    'fee' => 'Biaya Admin'
 
 ];
