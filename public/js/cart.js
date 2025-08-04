@@ -8,11 +8,11 @@ var total_item_check = 0;
 var total_price_with_ship = 0; // Ini adalah total harga dari item yang dipilih + ongkir
 
 var allCheck = 0;
-var FEE_COST = 2500;
+var FEE_COST = 15000;
 const SHIPPING_COST = 0; // Define shipping cost here, MUST BE CONSISTENT WITH PHP CONTROLLER
 
 if(total_price_cart > 0){
-    FEE_COST = 2500;
+    FEE_COST = 15000;
 }else{
     FEE_COST = 0;
 }
@@ -83,7 +83,7 @@ function allCheckboxCheck(count, carts) {
     }
 
     if(total_price_cart > 0){
-        FEE_COST = 2500;
+        FEE_COST = 15000;
     }else{
         FEE_COST = 0;
     }
@@ -117,7 +117,7 @@ function previewPrice(price, cart_item_id) {
     }
 
     if(total_price_cart > 0){
-        FEE_COST = 2500;
+        FEE_COST = 15000;
     }else{
         FEE_COST = 0;
     }

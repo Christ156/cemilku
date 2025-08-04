@@ -243,7 +243,7 @@
                             <div class="mb-4">
                                 <h6 class="fw-bold">{{__('order.paymentDetails')}}</h6>
                                  <div class="small">{{__('order.fee')}}:
-                                    <strong>Rp2.500</strong>
+                                    <strong>Rp15.000</strong>
                                 </div>
                                 <div class="small">{{__('order.paymentMethod')}}:
                                     <strong>{{ $order->payment_method }}</strong>
