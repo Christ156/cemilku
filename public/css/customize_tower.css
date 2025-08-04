@@ -16,21 +16,21 @@
     display: none;
     width: 28%;
     z-index: 3;
-    margin-top: -55px;
+    margin-top: -65px;
 }
 
 .preview-tower-3{
     display: none;
     width: 42%;
     z-index: 2;
-    margin-top: -68px;
+    margin-top: -75px;
 }
 
 .preview-tower-4{
     display: none;
     width: 55%;
     z-index: 1;
-    margin-top: -120px;
+    margin-top: -130px;
 }
 
 .decoration-tower{
@@ -38,7 +38,7 @@
     position: absolute;
     top: 0rem;
     z-index: 5;
-    width: 30%;
+    width: 20%;
 }
 
 .preview-tower-1:active, .preview-tower-2:active, .preview-tower-3:active, .preview-tower-4:active{
@@ -167,6 +167,10 @@
 
     .preview-tower-4{
         margin-top: -70px;
+    }
+
+    .decoration-tower{
+        width: 20%;
     }
 
     .card-title{
