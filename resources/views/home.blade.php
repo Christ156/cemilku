@@ -147,7 +147,7 @@
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
                 <h3 class="product-title">Anniv Delight</h3>
-                <p class="product-price product-price-3">Rp 223.000</p>
+                <p class="product-price product-price-1">Rp 223.000</p>
             </div>
         </div>
 
@@ -167,7 +167,7 @@
                 <img src="{{ asset('assets/banner/'. __('navigation.group19')) }}">
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
-                <p class="product-category">snack tower</p>
+                <p class="product-category">snack mystery</p>
                 <h3 class="product-title">Happy Combo</h3>
                 <p class="product-price product-price-3">Rp 198.500 </p>
             </div>
