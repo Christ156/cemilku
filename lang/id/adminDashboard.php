@@ -1,7 +1,7 @@
 <?php
 
 return[
-    'dashboard' => 'Dashboard',
+    'dashboard' => 'Dasbor',
     'sold' => 'Terjual',
     'thereAreNoSales' => 'Tidak Ada Penjualan di Minggu Ini.',
     'last7Days' => 'Penjualan 7 Hari Terakhir.',
