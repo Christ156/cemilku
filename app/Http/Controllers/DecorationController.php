@@ -47,8 +47,8 @@ class DecorationController extends Controller
         if (Auth::user()->role == "admin") {
             $validated = $request->validate([
                 'name'  => 'required|string|max:255|unique:decorations,name',
-                'price' => 'required|numeric|min:1',
-                'stock' => 'required|integer|min:0',
+                'price' => 'required|numeric|min:1|max:999999',
+                'stock' => 'required|integer|min:0|max:999999',
                 'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 

@@ -26,6 +26,6 @@ return[
     'buyNow' => 'Bayar Sekarang',
     'cancel' => 'Batalkan',
     'numberOfCollectionSold' => 'Jumlah Koleksi Yang Terjual',
-    'fee' => 'Biaya Admin'
-
+    'fee' => 'Biaya Admin',
+    'markAsCompleted' => 'Pesanan Selesai'
 ];

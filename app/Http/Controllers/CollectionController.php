@@ -79,8 +79,8 @@ class CollectionController extends Controller
                 'type'        => 'required|in:tower,bouquet',
                 'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
                 'description' => 'required|string',
-                'price'       => 'required|numeric|min:1',
-                'stock'       => 'required|integer|min:0',
+                'price'       => 'required|numeric|min:1|max:999999',
+                'stock'       => 'required|integer|min:0|max:999999',
                 'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048',
 
                 // Snack dan quantity untuk 4 layer
@@ -190,8 +190,8 @@ class CollectionController extends Controller
                 'type'        => 'required|in:tower,bouquet',
                 'category'    => 'required|in:Chinese New Year,Valentine,Ramadhan,Christmas,Birthday,Graduation',
                 'description' => 'required|string',
-                'price'       => 'required|numeric||min:1',
-                'stock'       => 'required|integer|min:0',
+                'price'       => 'required|numeric||min:1|max:999999',
+                'stock'       => 'required|integer|min:0|max:999999',
                 'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
                 'snack_id_1'  => 'required|exists:snacks,id',

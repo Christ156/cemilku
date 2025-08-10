@@ -26,5 +26,6 @@ return[
     'buyNow' => 'Pay Now',
     'cancel' => 'Cancel',
     'numberOfCollectionSold' => 'Number of Collections Sold',
-    'fee' => 'Admin Fee'
+    'fee' => 'Admin Fee',
+    'markAsCompleted' => 'Complete Order'
 ];

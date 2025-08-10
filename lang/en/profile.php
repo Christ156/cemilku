@@ -95,15 +95,13 @@ return[
     'inputReciepentName' => 'Input Recipient Name...',
     'description' => 'Description',
     'years' => ' years',
-    'main' => 'Main',
-    'setMain' => 'Set Main',
+    'main' => 'Primary',
+    'setMain' => 'Set Primary',
     'currentMain' => 'Current Main',
-    'nonMain' => 'Non-main',
     'deleteAddress' => 'Delete Address',
     'areYouSure' => 'Are you sure you want to delete this address ?',
     'profileSuccess' => 'Profile Update Successfully',
     'profileFailed' => 'Failed to update profile. Please check your input.',
-    'profileError' => 'Error occurred while updating profile: '
-
-
+    'profileError' => 'Error occurred while updating profile: ',
+    'nonMain' => 'Non-primary',
 ];

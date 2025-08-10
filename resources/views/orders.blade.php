@@ -33,9 +33,10 @@
             {{-- Search --}}
             <form class="d-flex mt-2 mt-lg-0" role="search" method="GET" action="{{ route('orders.index') }}">
                 <input type="hidden" name="status" value="{{ $activeStatus }}">
-                <input class="form-control border-warning me-2" type="search" name="search" placeholder="{{__('order.searchOrder')}}"
-                    value="{{ request('search') }}" aria-label="Search" style="background-color: #fffbe0;">
-                <button class="btn btn-outline-warning" type="submit">{{__('order.search')}}</button>
+                <input class="form-control border-warning me-2" type="search" name="search"
+                    placeholder="{{ __('order.searchOrder') }}" value="{{ request('search') }}" aria-label="Search"
+                    style="background-color: #fffbe0;">
+                <button class="btn btn-outline-warning" type="submit">{{ __('order.search') }}</button>
             </form>
         </div>
 
@@ -44,7 +45,7 @@
 
         @if ($orders->isEmpty())
             <div class="text-center py-5">
-                <h5>{{__('order.notOrder')}}.</h5>
+                <h5>{{ __('order.notOrder') }}.</h5>
             </div>
         @endif
 
@@ -108,11 +109,11 @@
                         </div>
                         <div>
                             <div class="fw-bold">{{ $name }}</div>
-                            <div class="small">{{ $quantity }} {{__('order.product')}} x
+                            <div class="small">{{ $quantity }} {{ __('order.product') }} x
                                 Rp{{ number_format($price / $quantity, 0, ',', '.') }}</div>
                         </div>
                         <div class="ms-auto text-end">
-                            <div class="fw-bold">{{__('order.total')}}</div>
+                            <div class="fw-bold">{{ __('order.total') }}</div>
                             <div>Rp{{ number_format($price, 0, ',', '.') }}</div>
                         </div>
                     </div>
@@ -126,7 +127,7 @@
                     <div class="d-flex align-items-center">
                         <button class="btn btn-outline-brown btn-sm me-2" data-bs-toggle="modal"
                             data-bs-target="#orderModal{{ $order->id }}">
-                            {{__('order.viewTransactionDetails')}}
+                            {{ __('order.viewTransactionDetails') }}
                         </button>
                     </div>
                 </div>
@@ -139,28 +140,30 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content rounded-4 custombg2 warnaCoklat">
                         <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold" id="orderModalLabel{{ $order->id }}">{{__('order.transactionDetails')}}</h5>
+                            <h5 class="modal-title fw-bold" id="orderModalLabel{{ $order->id }}">
+                                {{ __('order.transactionDetails') }}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
                             <!-- Status & Tanggal -->
                             <div class="mb-4">
-                                <h5 class="fw-bold customtext">{{__('order.order')}}
+                                <h5 class="fw-bold customtext">{{ __('order.order') }}
                                     {{ $statuses[$order->status] ?? ucfirst($order->status) }}</h5>
-                                <small class="d-block">{{__('order.orderNumbers')}}: <span class="customtext fw-semibold">
+                                <small class="d-block">{{ __('order.orderNumbers') }}: <span
+                                        class="customtext fw-semibold">
                                         INV/{{ $order->created_at->format('Ymd') }}/{{ sprintf('%05d', $order->id) }}
                                     </span>
                                 </small>
 
-                                <small>{{__('order.orderDate')}}: {{ $order->created_at->format('d M Y, H:i') }}</small>
+                                <small>{{ __('order.orderDate') }}: {{ $order->created_at->format('d M Y, H:i') }}</small>
                             </div>
 
                             <hr>
 
                             <!-- Detail Produk -->
                             <div class="mb-4">
-                                <h6 class="fw-bold">{{__('order.productDetail')}}</h6>
+                                <h6 class="fw-bold">{{ __('order.productDetail') }}</h6>
                                 @foreach ($order->orderDetails as $item)
                                     @php
                                         // Ambil relasi aktif
@@ -219,10 +222,10 @@
                             <!-- Info Pengiriman -->
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="fw-bold">{{__('order.deliveryInfo')}}</h6>
+                                    <h6 class="fw-bold">{{ __('order.deliveryInfo') }}</h6>
                                 </div>
                                 <div class="small">
-                                    <div class="mt-2">{{__('order.address')}}:</div>
+                                    <div class="mt-2">{{ __('order.address') }}:</div>
                                     <br>
                                     <div class="fw-semibold">{{ $order->address->receiver_name }}</div>
                                     <div>{{ $order->address->phone_number }}</div>
@@ -241,33 +244,46 @@
 
                             <!-- Rincian Pembayaran -->
                             <div class="mb-4">
-                                <h6 class="fw-bold">{{__('order.paymentDetails')}}</h6>
-                                 <div class="small">{{__('order.fee')}}:
+                                <h6 class="fw-bold">{{ __('order.paymentDetails') }}</h6>
+                                <div class="small">{{ __('order.fee') }}:
                                     <strong>Rp15.000</strong>
                                 </div>
-                                <div class="small">{{__('order.paymentMethod')}}:
+                                <div class="small">{{ __('order.paymentMethod') }}:
                                     <strong>{{ $order->payment_method }}</strong>
                                 </div>
-                                <div class="fw-bold mt-2 text-end">{{__('order.total')}}:
+                                <div class="fw-bold mt-2 text-end">{{ __('order.total') }}:
                                     Rp{{ number_format($order->total_price, 0, ',', '.') }}</div>
                             </div>
                         </div>
 
                         <div class="modal-footer border-0">
-                            <button class="btn btn-outline-brown me-2" data-bs-dismiss="modal">{{__('order.close')}}</button>
+                            <button class="btn btn-outline-brown me-2"
+                                data-bs-dismiss="modal">{{ __('order.close') }}</button>
 
                             @if ($order->status === 'pending')
                                 <form action="{{ route('orders.pay', $order->id) }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-warning">{{__('order.buyNow')}}</button>
+                                    <button type="submit" class="btn btn-warning">{{ __('order.buyNow') }}</button>
                                 </form>
 
                                 <form action="{{ route('orders.cancel', $order->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="btn btn-danger">{{__('order.cancel')}}</button>
+                                    <button type="submit" class="btn btn-danger">{{ __('order.cancel') }}</button>
                                 </form>
                             @endif
+
+                            @if ($order->status === 'shipped')
+                                <form action="{{ route('orders.complete', $order->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-success">
+                                        {{ __('order.markAsCompleted') }}
+                                    </button>
+                                </form>
+                            @endif
+
                         </div>
 
                     </div>

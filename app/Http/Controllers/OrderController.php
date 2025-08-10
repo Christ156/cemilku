@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -93,8 +92,6 @@ class OrderController extends Controller
             default => '#6c757d',     // Default abu-abu
         };
     }
-
-
 
     public function edit(Order $order)
     {
@@ -186,6 +183,12 @@ class OrderController extends Controller
         });
 
         return back()->with('success', 'Order berhasil dibatalkan dan stok dikembalikan.');
+    }
+
+    public function complete(Order $order)
+    {
+        $order->update(['status' => 'completed']);
+        return redirect()->back()->with('success', 'Order marked as completed.');
     }
 
 }

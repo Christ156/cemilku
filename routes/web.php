@@ -127,4 +127,7 @@ Route::middleware('auth', 'verified', 'user_block')->group(function () {
     Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout');
+
+    Route::patch('/orders/{order}/complete', [OrderController::class, 'complete'])->name('orders.complete');
+
 });
