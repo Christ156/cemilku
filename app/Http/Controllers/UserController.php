@@ -142,17 +142,17 @@ class UserController extends Controller
 
             // Redirect ke halaman profil dengan pesan sukses
             return redirect()->route('profile', ['id' => $user->id, 'slug' => Str::slug($user->name)])
-                ->with('success', 'Profil berhasil diperbarui!');
+                ->with('success', __('profile.profileSuccess'));
         } catch (ValidationException $e) {
             // Jika validasi gagal, redirect kembali dengan error dan input lama.
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput()
-                ->with('error', 'Gagal memperbarui profil. Mohon periksa kembali input Anda.');
+                ->with('error', __('profile.profileFailed'));
         } catch (\Exception $e) {
             // Tangani error lain yang tidak terkait validasi
             return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat memperbarui profil: ' . $e->getMessage());
+                ->with('error', __('profile.profileError') . $e->getMessage());
         }
     }
 

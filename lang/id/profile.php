@@ -80,5 +80,10 @@ return[
     'main' => 'Utama',
     'setMain' => 'Jadikan Utama',
     'currentMain' => 'Utama saat ini',
-    'nonMain' => 'Non-utama'
+    'nonMain' => 'Non-utama',
+    'deleteAddress' => 'Hapus Alamat',
+    'areYouSure' => 'Apakah kamu yakin ingin menghapus alamat ini ?',
+    'profileSuccess' => 'Profil berhasil diperbarui!',
+    'profileFailed' => 'Gagal memperbarui profil. Mohon periksa kembali input Anda.',
+    'profileError' => 'Terjadi kesalahan saat memperbarui profil: '
 ];

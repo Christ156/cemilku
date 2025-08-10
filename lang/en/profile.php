@@ -98,6 +98,12 @@ return[
     'main' => 'Main',
     'setMain' => 'Set Main',
     'currentMain' => 'Current Main',
-    'nonMain' => 'Non-main'
+    'nonMain' => 'Non-main',
+    'deleteAddress' => 'Delete Address',
+    'areYouSure' => 'Are you sure you want to delete this address ?',
+    'profileSuccess' => 'Profile Update Successfully',
+    'profileFailed' => 'Failed to update profile. Please check your input.',
+    'profileError' => 'Error occurred while updating profile: '
+
 
 ];

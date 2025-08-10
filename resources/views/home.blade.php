@@ -146,7 +146,7 @@
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
-                <h3 class="product-title">Anniv Delight</h3>
+                <h3 class="product-title">Anniv Tower</h3>
                 <p class="product-price product-price-1">Rp 223.000</p>
             </div>
         </div>
@@ -154,7 +154,7 @@
         <div class="product-card-right d-flex justify-content-end align-items-center">
             <div class="product-info-left top-10 end-45 translate-middle ps-5">
                 <p class="product-category">snack bouquet</p>
-                <h3 class="product-title">Fest Celebration</h3>
+                <h3 class="product-title">Romantic Bouquet</h3>
                 <p class="product-price product-price-2">Rp 162.200</p>
             </div>
             <div class="product-image">
@@ -168,7 +168,7 @@
             </div>
             <div class="product-info-right top-10 start-50 translate-middle ps-5">
                 <p class="product-category">snack mystery</p>
-                <h3 class="product-title">Happy Combo</h3>
+                <h3 class="product-title">Mystery Box</h3>
                 <p class="product-price product-price-3">Rp 198.500 </p>
             </div>
         </div>
@@ -176,7 +176,7 @@
         <div class="product-card-right d-flex justify-content-end align-items-center">
             <div class="product-info-left top-10 end-45 translate-middle ps-5">
                 <p class="product-category">snack tower</p>
-                <h3 class="product-title">Ultimate Combo</h3>
+                <h3 class="product-title">Congrats Tower</h3>
                 <p class="product-price product-price-4">Rp 299.000</p>
             </div>
             <div class="product-image">

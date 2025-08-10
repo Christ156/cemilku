@@ -467,15 +467,15 @@
                                                 <div class="modal-content" style="background-color: #fffbec">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalTitleId">
-                                                            Delete Address
+                                                            {{__('profile.deleteAddress')}}
                                                         </h5>
                                                     </div>
-                                                    <div class="modal-body">Are you sure you want to delete this address ?
+                                                    <div class="modal-body">{{__('profile.areYouSure')}}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-tutup"
                                                             data-bs-dismiss="modal">
-                                                            Close
+                                                            {{__('profile.close')}}
                                                         </button>
                                                         {{-- Delete Form --}}
                                                         <form action="{{ route('address.destroy', $a->id) }}"
