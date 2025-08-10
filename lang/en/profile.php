@@ -95,9 +95,9 @@ return[
     'inputReciepentName' => 'Input Recipient Name...',
     'description' => 'Description',
     'years' => ' years',
-    'main' => 'Main',
-    'setMain' => 'Set Main',
+    'main' => 'Primary',
+    'setMain' => 'Set Primary',
     'currentMain' => 'Current Main',
-    'nonMain' => 'Non-main'
+    'nonMain' => 'Non-primary'
 
 ];
