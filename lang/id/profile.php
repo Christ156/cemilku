@@ -85,5 +85,8 @@ return[
     'areYouSure' => 'Apakah kamu yakin ingin menghapus alamat ini ?',
     'profileSuccess' => 'Profil berhasil diperbarui!',
     'profileFailed' => 'Gagal memperbarui profil. Mohon periksa kembali input Anda.',
-    'profileError' => 'Terjadi kesalahan saat memperbarui profil: '
+    'profileError' => 'Terjadi kesalahan saat memperbarui profil: ',
+    'deleteAddressSuccess' => 'Alamat berhasil dihapus!',
+    'updateAddress' => 'Alamat berhasil diperbarui!',
+    'addAddressSuccess' => 'Alamat berhasil ditambahkan!'
 ];

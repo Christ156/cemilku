@@ -104,4 +104,7 @@ return[
     'profileFailed' => 'Failed to update profile. Please check your input.',
     'profileError' => 'Error occurred while updating profile: ',
     'nonMain' => 'Non-primary',
+    'deleteAddressSuccess' => 'Address deleted successfully!',
+    'updateAddress' => 'Address updated successfully!',
+    'addAddressSuccess' => 'Address has been successfully added!'
 ];

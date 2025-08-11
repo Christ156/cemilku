@@ -51,7 +51,7 @@ class AddressController extends Controller
             ]);
 
             return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-                ->with('success', 'Alamat berhasil ditambahkan!');
+                ->with('success', __('profile.addAddressSuccess'));
         } catch (ValidationException $e) {
             // Laravel akan otomatis redirect kembali dengan errors yang sudah di-flash.
             // Anda bisa menambahkan pesan error umum di sini jika mau,
@@ -101,7 +101,7 @@ class AddressController extends Controller
 
         // 3. Redirect back to the profile page with a success message
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-            ->with('success', 'Address updated successfully!');
+            ->with('success', __('profile.updateAddress'));
     }
 
     public function destroy(string $id)
@@ -116,7 +116,7 @@ class AddressController extends Controller
         $address->delete();
 
         return redirect()->route('profile', ['id' => Auth::user()->id, 'slug' => Str::slug(Auth::user()->name)])
-            ->with('success', 'Address deleted successfully!');
+            ->with('success', __('profile.deleteAddressSuccess'));
     }
 
     public function togglePrimary(Request $request, Address $address)
